@@ -1,4 +1,4 @@
-import Table from './Table/Table'
+import Table from './Table/Table.js'
 
 
-export { Table }
+export  { Table }
