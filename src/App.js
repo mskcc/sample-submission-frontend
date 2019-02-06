@@ -1,15 +1,14 @@
 import React, { Component } from 'react'
 import logo from './logo.svg'
-import './App.css'
-import { Table } from './comoponents'
+import './App.scss'
+import { Header, Table } from './comoponents'
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          
-        </header>
+      <div className="main">
+        <div className="mskcc-header" > REX V2</div>   
+        <Header />
 
         <Table />
       </div>

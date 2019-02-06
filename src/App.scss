@@ -1,0 +1,23 @@
+body {
+  font-size: 16px;
+}
+
+.main {
+  display: grid;
+  grid-template-areas:
+    'mskcc-header'
+    'header'
+    'table'
+    'footer';
+}
+
+.mskcc-header {
+  grid-area: mskcc-header;
+  font-size: 2em;
+  padding-top: 2em;
+  padding-bottom: 2em;
+  background-color: rgb(15, 127, 179);
+  color: white;
+  width: 100vw;
+  text-align: center;
+}
