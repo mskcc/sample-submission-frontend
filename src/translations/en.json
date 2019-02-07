@@ -1,0 +1,11 @@
+{
+  "header": {
+    "material_dropdown": "Select Material for Submission:",
+    "application_dropdown": "Select Application:",
+    "species_dropdown": "Select Species:",
+    "sample_number_input": "Number of Samples:",
+    "request_id_input": "IGO Request ID",
+    "container_dropdown": "Select Container",
+    "patient_id_format_dropdown": "Select Patient ID Format"
+  }
+}

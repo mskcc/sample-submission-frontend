@@ -1,13 +1,16 @@
 import React, { Component } from 'react'
-import './header.scss'
+
 import PropTypes from 'prop-types'
+
+import { Translate } from "react-localize-redux";
+
+import TextField from '@material-ui/core/TextField'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import Button from '@material-ui/core/Button'
 
 import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
-import TextField from '@material-ui/core/TextField'
-import InputAdornment from '@material-ui/core/InputAdornment'
-
-import Button from '@material-ui/core/Button'
+import './header.scss'
 
 class Header extends React.Component {
   state = {
@@ -25,50 +28,68 @@ class Header extends React.Component {
     const { classes } = this.props
     return (
       <header>
-        <div className="table-form">
-          <form>
-            <TextField
-              className={classes.textField}
-              margin="normal"
-              label=" Select Material for Submission:"
-            />
-            <TextField
-              className={classes.textField}
-              margin="normal"
-              label=" Application:"
-            />
-            <TextField
-              className={classes.textField}
-              margin="normal"
-              label=" Species:"
-            />
-            <TextField
-              className={classes.textField}
-              id="standard-number"
-              label="Number of Samples"
-              type="number"
-              margin="normal"
-            />
-            <TextField
-              className={classes.textField}
-              label=" Request ID:"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">IGO-</InputAdornment>
-                ),
-              }}
-            />
-          </form>
-          <Button
-            variant="contained"
-            type="submit"
-            form="my-form-id"
-            label="Submit"
-            className={classes.button}
-          >
-            Generate Table
-          </Button>
-        </div>
+        <Translate>
+          {({ translate }) => (
+            <div className="table-form">
+              <form>
+                <TextField
+                  className={classes.textField}
+                  margin="normal"
+                  label={translate('header.material_dropdown')}
+                />
+                <TextField
+                  className={classes.textField}
+                  margin="normal"
+                  label={translate('header.application_dropdown')}
+                />
+                <TextField
+                  className={classes.textField}
+                  margin="normal"
+                  label={translate('header.species_dropdown')}
+                />
+                <TextField
+                  className={classes.textField}
+                  id="standard-number"
+                  label={translate('header.sample_number_input')}
+                  type="number"
+                  margin="normal"
+                />
+                <TextField
+                  className={classes.textField}
+                  label={translate('header.request_id_input')}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">IGO-</InputAdornment>
+                    ),
+                  }}
+                />
+                <TextField
+                  className={classes.textField}
+                  id="standard-number"
+                  label={translate('header.container_dropdown')}
+                  type="number"
+                  margin="normal"
+                />
+                  <TextField
+                  className={classes.textField}
+                  id="standard-number"
+                  label={translate('header.patient_id_format_dropdown')}
+                  type="number"
+                  margin="normal"
+                />
+              </form>
+              <Button
+                variant="contained"
+                type="submit"
+                form="my-form-id"
+                label={translate('header.')}
+                className={classes.button}
+              >
+                Generate Table
+              </Button>
+            </div>
+          )}
+        </Translate>
       </header>
     )
   }
@@ -100,7 +121,6 @@ const styles = theme => ({
     backgroundColor: '#f26428',
     display: 'inline-block',
     width: 200,
-    
   },
 })
 
