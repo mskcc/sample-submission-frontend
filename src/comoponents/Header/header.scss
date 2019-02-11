@@ -1,15 +1,15 @@
 header {
   grid-area: header;
-  display: grid;
-  margin-bottom: 3em;
-  width: 80vw;
-  align-items: start;
-  justify-items: start;
 
+  padding-left: 3em;
   form {
+    width: 800px;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    
+    align-items: start;
+    justify-items: start;
+    justify-content: start;
+    grid-column-gap: 3em;
 
     input {
       width: 200px;

@@ -1,3 +1,27 @@
+// colors
+$mskcc-blue: #007CBA;
+$mskcc-orange:#DF4602;
+$mskcc-dark-blue:#006098;
+$mskcc-medium-blue:#40B4E5;
+$mskcc-light-blue:#8FC7E8;
+$mskcc-dark-orange:#C24D00;
+$mskcc-medium-orange:#F29934;
+$mskcc-light-orange:#F6C65B;
+$mskcc-dark-violet:#83276B;
+$mskcc-light-violet:#B687B8;
+$mskcc-dark-magenta:#E92076;
+$mskcc-light-magenta:#EFB3CB;
+$mskcc-red:#B1132D;
+$mskcc-dark-green:#4C8B2B;
+$mskcc-light-green:#A6CE39;
+$mskcc-dark-turquoise:#006C68;
+$mskcc-light-turquoise:#009490;
+$mskcc-dark-yellow:#FFC20E;
+$mskcc-light-yellow:#FFE100;
+$mskcc-dark-gray:#9E9E98;
+$mskcc-light-gray:#D5D4C7;
+
+
 body {
   font-size: 16px;
 }
@@ -9,6 +33,8 @@ body {
     'header'
     'table'
     'footer';
+
+    grid-row-gap: 4em;
 }
 
 .mskcc-header {
@@ -16,7 +42,7 @@ body {
   font-size: 2em;
   padding-top: 2em;
   padding-bottom: 2em;
-  background-color: rgb(15, 127, 179);
+  background-color: $mskcc-blue;
   color: white;
   width: 100vw;
   text-align: center;

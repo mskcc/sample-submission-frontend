@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import PropTypes from 'prop-types'
 
-import { Translate } from "react-localize-redux";
+import { Translate } from 'react-localize-redux'
 
 import TextField from '@material-ui/core/TextField'
 import InputAdornment from '@material-ui/core/InputAdornment'
@@ -35,27 +35,55 @@ class Header extends React.Component {
                 <TextField
                   className={classes.textField}
                   margin="normal"
+                  select
+                  required
                   label={translate('header.material_dropdown')}
                 />
                 <TextField
                   className={classes.textField}
                   margin="normal"
+                  select
+                  required
                   label={translate('header.application_dropdown')}
                 />
                 <TextField
                   className={classes.textField}
                   margin="normal"
+                  select
+                  required
                   label={translate('header.species_dropdown')}
                 />
                 <TextField
                   className={classes.textField}
                   id="standard-number"
+                  required
                   label={translate('header.sample_number_input')}
+                  type="number"
+                  margin="normal"
+                />
+
+                <TextField
+                  className={classes.textField}
+                  id="standard-number"
+                  select
+                  required
+                  label={translate('header.container_dropdown')}
                   type="number"
                   margin="normal"
                 />
                 <TextField
                   className={classes.textField}
+                  id="standard-number"
+                  select
+                  required
+                  label={translate('header.patient_id_format_dropdown')}
+                  type="number"
+                  margin="normal"
+                />
+
+                <TextField
+                  className={classes.textField}
+                  required
                   label={translate('header.request_id_input')}
                   InputProps={{
                     startAdornment: (
@@ -63,30 +91,17 @@ class Header extends React.Component {
                     ),
                   }}
                 />
-                <TextField
-                  className={classes.textField}
-                  id="standard-number"
-                  label={translate('header.container_dropdown')}
-                  type="number"
-                  margin="normal"
-                />
-                  <TextField
-                  className={classes.textField}
-                  id="standard-number"
-                  label={translate('header.patient_id_format_dropdown')}
-                  type="number"
-                  margin="normal"
-                />
+               
               </form>
-              <Button
-                variant="contained"
-                type="submit"
-                form="my-form-id"
-                label={translate('header.')}
-                className={classes.button}
-              >
-                Generate Table
-              </Button>
+               <Button
+                  variant="contained"
+                  type="submit"
+                  form="my-form-id"
+                  className={classes.button}
+                  color='secondary'
+                >
+                  {translate('header.generate_button')}
+                </Button>
             </div>
           )}
         </Translate>
@@ -116,11 +131,10 @@ const styles = theme => ({
     width: 200,
   },
   button: {
-    color: 'white',
     margin: theme.spacing.unit,
-    backgroundColor: '#f26428',
+    marginTop: '3em',
     display: 'inline-block',
-    width: 200,
+    width: 350,
   },
 })
 
