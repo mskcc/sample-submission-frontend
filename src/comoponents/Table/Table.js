@@ -5,12 +5,9 @@ import { Editors } from 'react-data-grid-addons'
 import axios from 'axios'
 
 import './table.scss'
-import {columns} from './sampledata.js'
+import { columns } from './sampledata.js'
 
 // import './styles.css'
-
-
-
 
 const { DropDownEditor } = Editors
 const issueTypes = [
@@ -92,16 +89,14 @@ class Table extends React.Component {
 
   render() {
     return (
-      <div>
-        <ReactDataGrid
-          columns={this.state.columns}
-          rowGetter={i => this.state.rows[i]}
-          rowsCount={3}
-          onGridRowsUpdated={this.onGridRowsUpdated}
-          enableCellSelect={true}
-          width="100%"
-        />
-      </div>
+      <ReactDataGrid
+        columns={this.state.columns}
+        rowGetter={i => this.state.rows[i]}
+        rowsCount={3}
+        onGridRowsUpdated={this.onGridRowsUpdated}
+        enableCellSelect={true}
+        width="100%"
+      />
     )
   }
 }

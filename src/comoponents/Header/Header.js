@@ -27,28 +27,25 @@ class Header extends React.Component {
   render() {
     const { classes } = this.props
     return (
-      <header>
+      <header className={classes.header}>
         <Translate>
           {({ translate }) => (
-            <div className="table-form">
-              <form>
+            <React.Fragment>
+              <form className={classes.container}>
                 <TextField
                   className={classes.textField}
-                  margin="normal"
                   select
                   required
                   label={translate('header.material_dropdown')}
                 />
                 <TextField
                   className={classes.textField}
-                  margin="normal"
                   select
                   required
                   label={translate('header.application_dropdown')}
                 />
                 <TextField
                   className={classes.textField}
-                  margin="normal"
                   select
                   required
                   label={translate('header.species_dropdown')}
@@ -59,7 +56,6 @@ class Header extends React.Component {
                   required
                   label={translate('header.sample_number_input')}
                   type="number"
-                  margin="normal"
                 />
 
                 <TextField
@@ -69,8 +65,8 @@ class Header extends React.Component {
                   required
                   label={translate('header.container_dropdown')}
                   type="number"
-                  margin="normal"
                 />
+
                 <TextField
                   className={classes.textField}
                   id="standard-number"
@@ -78,31 +74,32 @@ class Header extends React.Component {
                   required
                   label={translate('header.patient_id_format_dropdown')}
                   type="number"
-                  margin="normal"
                 />
-
                 <TextField
                   className={classes.textField}
+                  id="standard-number"
+                  // select
                   required
-                  label={translate('header.request_id_input')}
+                  label={translate('header.igo_request_id_input')}
+                  type="number"
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">IGO-</InputAdornment>
                     ),
                   }}
                 />
-               
               </form>
-               <Button
-                  variant="contained"
-                  type="submit"
-                  form="my-form-id"
-                  className={classes.button}
-                  color='secondary'
-                >
-                  {translate('header.generate_button')}
-                </Button>
-            </div>
+
+              <Button
+                variant="contained"
+                type="submit"
+                form="my-form-id"
+                className={classes.button}
+                color="secondary"
+              >
+                {translate('header.generate_button')} 
+              </Button>
+            </React.Fragment>
           )}
         </Translate>
       </header>
@@ -118,10 +115,17 @@ const styles = theme => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
+    width: '70%',
+  },
+  header: {
+    // backgroundColor: theme.palette.primary.light,
+    gridArea: 'header',
+    display: 'grid',
+    justifyItems: 'center',
   },
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
+    margin: theme.spacing.unit,
+    
     minWidth: 350,
   },
   dense: {

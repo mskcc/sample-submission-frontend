@@ -6,7 +6,6 @@ import enTranslations from './translations/en.json'
 
 import { Header, Table } from './comoponents'
 
-import './Main.scss'
 
 class Main extends Component {
   constructor(props) {

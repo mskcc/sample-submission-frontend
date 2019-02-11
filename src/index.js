@@ -8,6 +8,9 @@ import { LocalizeProvider } from 'react-localize-redux'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import './Main.scss'
+
+
 
 const theme = createMuiTheme({
   palette: {
