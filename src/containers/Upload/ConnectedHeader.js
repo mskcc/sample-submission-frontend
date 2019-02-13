@@ -3,50 +3,67 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import { Translate } from 'react-localize-redux'
+import { connect } from 'react-redux'
 
 import TextField from '@material-ui/core/TextField'
+import MenuItem from '@material-ui/core/MenuItem'
+import Select from 'react-select'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Button from '@material-ui/core/Button'
 
+import { fetchMaterialsAndApplications } from '../../actions/actions'
+
 import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
-import './header.scss'
 
-class Header extends React.Component {
-  state = {
-    name: 'Cat in the Hat',
-    age: '',
-    multiline: 'Controlled',
-    currency: 'EUR',
+class ConnectedHeader extends React.Component {
+  constructor(props) {
+    super(props)
   }
 
-  handleChange = name => event => {
-    this.setState({ [name]: event.target.value })
+  componentDidMount() {
+    this.props.fetchMaterialsAndApplications()
   }
 
   render() {
-    const { classes } = this.props
+    const { classes, form } = this.props
     return (
       <header className={classes.header}>
         <Translate>
           {({ translate }) => (
             <React.Fragment>
               <form className={classes.container}>
+                {form.materials && (
+                  <TextField
+                    className={classes.textField}
+                    select
+                    value={form.material}
+                    required
+                    label={translate('header.material_dropdown')}
+                  >
+                    {form.materials.map(material => (
+                      <MenuItem key={material.id} value={material.id}>
+                        {material.value}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                )}
                 <TextField
                   className={classes.textField}
                   select
                   required
-                  label={translate('header.material_dropdown')}
-                />
-                <TextField
-                  className={classes.textField}
-                  select
-                  required
+                  value={form.application}
                   label={translate('header.application_dropdown')}
-                />
+                >
+                  {form.applications &&
+                    form.applications.map(application => (
+                      <MenuItem key={application.id} value={application.id}>
+                        {application.value}
+                      </MenuItem>
+                    ))}
+                </TextField>
                 <TextField
                   className={classes.textField}
-                  select
                   required
                   label={translate('header.species_dropdown')}
                 />
@@ -61,7 +78,6 @@ class Header extends React.Component {
                 <TextField
                   className={classes.textField}
                   id="standard-number"
-                  select
                   required
                   label={translate('header.container_dropdown')}
                   type="number"
@@ -70,7 +86,6 @@ class Header extends React.Component {
                 <TextField
                   className={classes.textField}
                   id="standard-number"
-                  select
                   required
                   label={translate('header.patient_id_format_dropdown')}
                   type="number"
@@ -97,19 +112,21 @@ class Header extends React.Component {
                 className={classes.button}
                 color="secondary"
               >
-                {translate('header.generate_button')} 
+                {translate('header.generate_button')}
               </Button>
             </React.Fragment>
           )}
         </Translate>
+        )
       </header>
     )
   }
 }
 
-Header.propTypes = {
-  classes: PropTypes.object.isRequired,
-}
+const mapStateToProps = state => ({
+  form: state.form,
+
+})
 
 const styles = theme => ({
   container: {
@@ -125,7 +142,7 @@ const styles = theme => ({
   },
   textField: {
     margin: theme.spacing.unit,
-    
+
     minWidth: 350,
   },
   dense: {
@@ -142,4 +159,10 @@ const styles = theme => ({
   },
 })
 
-export default withStyles(styles)(Header)
+const StyledHeader = withStyles(styles)(ConnectedHeader)
+export default connect(
+  mapStateToProps,
+  {
+    fetchMaterialsAndApplications,
+  }
+)(StyledHeader)

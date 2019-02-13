@@ -1,44 +1,25 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './index.css'
-import Main from './Main'
+
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { LocalizeProvider } from 'react-localize-redux'
+
+import configureStore from './store/configureStore'
+
+import Root from './containers/Root'
+
 import * as serviceWorker from './serviceWorker'
 
-import { LocalizeProvider } from 'react-localize-redux'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import './App.scss'
 
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
-import './Main.scss'
-
-
-
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      light: '#8FC7E8',
-      main: '#007CBA',
-      dark: '#006098',
-
-      // dark: will be calculated from palette.primary.main,
-      // contrastText: will be calculated to contrast with palette.primary.main
-    },
-    secondary: {
-      light: '#F6C65B',
-      main: '#DF4602',
-      dark: '#C24D00',
-    },
-    // error: will use the default color
-  },
-})
+const store = configureStore
 
 const App = props => (
-  <LocalizeProvider>
-    <MuiThemeProvider theme={theme}>
-      <Router>
-        <Route path="/" component={Main} />
-      </Router>
-    </MuiThemeProvider>
-  </LocalizeProvider>
+  <Router>
+    <LocalizeProvider store={store}>
+      <Root store={store} />
+    </LocalizeProvider>
+  </Router>
 )
 
 ReactDOM.render(<App />, document.getElementById('root'))
