@@ -1,12 +1,14 @@
 {
   "header": {
-    "material_dropdown": "Select Material for Submission:",
-    "application_dropdown": "Select Application:",
-    "species_dropdown": "Select Species:",
+    "material_label": "Material",
+    "material_placeholder": "Select Material for Submission:",
+    "application_label": "Application",
+    "application_placeholder": "Select Application:",
+    "species_label": "Select Species:",
     "sample_number_input": "Number of Samples:",
     "igo_request_id_input": "IGO Request ID:",
-    "container_dropdown": "Select Container:",
-    "patient_id_format_dropdown": "Select Patient ID Format:",
+    "container_label": "Select Container:",
+    "patient_id_format_label": "Select Patient ID Format:",
     "generate_button": "Generate Table"
   }
 }

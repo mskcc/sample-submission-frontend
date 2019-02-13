@@ -80,7 +80,7 @@ class Table extends React.Component {
     //    ...column,
     //    ...defaultColumnProperties,
     //  }))
-    console.log(this.state.columns)
+    // console.log(this.state.columns)
 
     //   this.setState({ columns: columns })
 

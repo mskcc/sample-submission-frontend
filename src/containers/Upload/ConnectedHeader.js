@@ -16,6 +16,8 @@ import { fetchMaterialsAndApplications } from '../../actions/actions'
 import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
 
+import { DropdownInputField } from '../../components'
+
 class ConnectedHeader extends React.Component {
   constructor(props) {
     super(props)
@@ -33,40 +35,23 @@ class ConnectedHeader extends React.Component {
           {({ translate }) => (
             <React.Fragment>
               <form className={classes.container}>
-                {form.materials && (
-                  <TextField
-                    className={classes.textField}
-                    select
-                    value={form.material}
-                    required
-                    label={translate('header.material_dropdown')}
-                  >
-                    {form.materials.map(material => (
-                      <MenuItem key={material.id} value={material.id}>
-                        {material.value}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                )}
-                <TextField
-                  className={classes.textField}
-                  select
-                  required
-                  value={form.application}
-                  label={translate('header.application_dropdown')}
-                >
-                  {form.applications &&
-                    form.applications.map(application => (
-                      <MenuItem key={application.id} value={application.id}>
-                        {application.value}
-                      </MenuItem>
-                    ))}
-                </TextField>
-                <TextField
-                  className={classes.textField}
-                  required
-                  label={translate('header.species_dropdown')}
+                <DropdownInputField
+                  options={form.materials}
+                  label={translate('header.material_label')}
+                  placeholder={translate('header.material_placeholder')}
                 />
+                <DropdownInputField
+                  options={form.applications}
+                  label={translate('header.application_label')}
+                  placeholder={translate('header.application_placeholder')}
+                />
+                 <DropdownInputField
+                  options={form.materials}
+                  label={translate('header.species_label')}
+                  placeholder={translate('header.species_placeholder')}
+                />
+               
+               
                 <TextField
                   className={classes.textField}
                   id="standard-number"
@@ -79,15 +64,20 @@ class ConnectedHeader extends React.Component {
                   className={classes.textField}
                   id="standard-number"
                   required
-                  label={translate('header.container_dropdown')}
+                  label={translate('header.container_label')}
                   type="number"
+                />
+                 <DropdownInputField
+                  options={form.materials}
+                  label={translate('header.container_label')}
+                  placeholder={translate('header.application_placeholder')}
                 />
 
                 <TextField
                   className={classes.textField}
                   id="standard-number"
                   required
-                  label={translate('header.patient_id_format_dropdown')}
+                  label={translate('header.patient_id_format_label')}
                   type="number"
                 />
                 <TextField
@@ -125,7 +115,6 @@ class ConnectedHeader extends React.Component {
 
 const mapStateToProps = state => ({
   form: state.form,
-
 })
 
 const styles = theme => ({
