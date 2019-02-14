@@ -1,6 +1,5 @@
 //TODO ERROR HANDLING
-import fetch from 'cross-fetch'
-import 'babel-polyfill'
+import axios from 'axios'
 
 const API_ROOT = 'http://localhost:9004/'
 
@@ -10,17 +9,17 @@ export const RECEIVE_MATERIALS_AND_APPLICATIONS =
   'RECEIVE_MATERIALS_AND_APPLICATIONS'
 export const SELECT_MATERIAL = 'SELECT_MATERIAL'
 export const SELECT_APPLICATION = 'SELECT_APPLICATION'
-export const REQUEST_MATERIALS = 'REQUEST_MATERIALS'
+
 export const REQUEST_APPLICATIONS = 'REQUEST_APPLICATIONS'
 
-export function selectMaterial(material) {
+export function selectMaterial(selectedMaterial) {
   return {
     type: SELECT_MATERIAL,
-    selecteMaterial,
+    selectedMaterial,
   }
 }
 
-export function selectApplication(application) {
+export function selectApplication(selectedApplication) {
   return {
     type: SELECT_APPLICATION,
     selectedApplication,
@@ -33,44 +32,100 @@ function requestMaterialsAndApplications() {
   }
 }
 
-function receiveMaterialsAndApplications(json) {
+function receiveMaterialsAndApplications(response) {
   return {
     type: RECEIVE_MATERIALS_AND_APPLICATIONS,
-    materials: json.samples,
-    applications: json.sequencing,
+    materials: response.samples,
+    applications: response.sequencing,
   }
 }
 
-// fetch materials that can be combined with application
-function requestMaterials(application) {
+// get materials that can be combined with application
+export const REQUEST_MATERIALS_FOR_APPLICATION =
+  'REQUEST_MATERIALS_FOR_APPLICATION'
+function requestMaterialsForApplication(application) {
   return {
-    type: REQUEST_MATERIALS,
+    type: REQUEST_MATERIALS_FOR_APPLICATION,
     application,
   }
 }
 
-// fetch applications that can be combined with material
-function requestApplications(material) {
+// get applications that can be combined with material
+function requestApplicationsForMaterial(material) {
   return {
-    type: REQUEST_APPLICATIONS,
+    type: REQUEST_APPLICATIONS_FOR_MATERIAL,
     material,
   }
 }
 
-export function fetchMaterialsAndApplications() {
-  return dispatch => {
-    dispatch(requestMaterialsAndApplications())
-    return fetch(API_ROOT + '/sequencingAndSampleTypes')
-      .then(response => response.json())
-      .then(json => dispatch(receiveMaterialsAndApplications(json)))
+export const RECEIVE_MATERIALS_FOR_APPLICATION =
+  'RECEIVE_MATERIALS_FOR_APPLICATION'
+function receiveMaterialsForApplication(response) {
+  return {
+    type: RECEIVE_MATERIALS_FOR_APPLICATION,
+    materials: response.data.choices,
   }
 }
 
+function receiveApplicationsForMaterial(response) {
+  return {
+    type: RECEIVE_APPLICATIONS_FOR_MATERIAL,
+    applications: response.applications,
+  }
+}
 
+export function getMaterialsForApplication(selectedApplication) {
+  return dispatch => {
+    dispatch(selectApplication(selectedApplication))
+
+    dispatch(requestMaterialsForApplication())
+    return axios
+      .get(API_ROOT + '/columnDefinition', {
+        params: {
+          recipe: selectedApplication,
+        },
+      })
+      .then(response => dispatch(receiveMaterialsForApplication(response)))
+      .catch(function(error) {
+        console.log(error)
+      })
+  }
+}
+
+export function getApplicationsForMaterial(selectedMaterial) {
+  return dispatch => {
+    dispatch(selectMaterial(selectedMaterial))
+    dispatch(requestApplicationsForMaterial())
+    return axios
+      .get(API_ROOT + '/columnDefinition', {
+        params: {
+          type: selectedMaterial,
+        },
+      })
+      .then(response => dispatch(receiveApplicationsForMaterial(response.data.choices)))
+      .catch(function(error) {
+        console.log(error)
+      })
+  }
+}
+
+export function getMaterialsAndApplications() {
+  return dispatch => {
+    dispatch(requestMaterialsAndApplications())
+    return axios
+      .get(API_ROOT + '/sequencingAndSampleTypes')
+      .then(response =>
+        dispatch(receiveMaterialsAndApplications(response.data))
+      )
+      .catch(function(error) {
+        console.log(error)
+      })
+  }
+}
 
 export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE'
 
 // Resets the currently visible error message.
 export const resetErrorMessage = () => ({
-    type: RESET_ERROR_MESSAGE
+  type: RESET_ERROR_MESSAGE,
 })

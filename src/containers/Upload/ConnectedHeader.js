@@ -11,20 +11,37 @@ import Select from 'react-select'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Button from '@material-ui/core/Button'
 
-import { fetchMaterialsAndApplications } from '../../actions/actions'
+import {
+  getMaterialsAndApplications,
+  getApplicationsForMaterial,
+  getMaterialsForApplication
+} from '../../actions/actions'
 
 import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
 
-import { DropdownInputField } from '../../components'
+import { DropdownField } from '../../components'
 
 class ConnectedHeader extends React.Component {
   constructor(props) {
     super(props)
+
+    this.state = {
+      title: '',
+    }
+    this.handleMaterialChange = this.handleMaterialChange.bind(this)
+    this.handleApplicationChange = this.handleApplicationChange.bind(this)
   }
 
   componentDidMount() {
-    this.props.fetchMaterialsAndApplications()
+    this.props.getMaterialsAndApplications()
+  }
+
+  handleMaterialChange = selectedMaterial => {
+    this.props.getApplicationsForMaterial(selectedMaterial)
+  }
+  handleApplicationChange = selectedApplication => {
+    this.props.getMaterialsForApplication(selectedApplication)
   }
 
   render() {
@@ -35,58 +52,69 @@ class ConnectedHeader extends React.Component {
           {({ translate }) => (
             <React.Fragment>
               <form className={classes.container}>
-                <DropdownInputField
-                  options={form.materials}
+                <DropdownField
+                  onChange={this.handleMaterialChange}
+                  items={form.materials.map(option => ({
+                    value: option.id,
+                    label: option.value,
+                  }))}
                   label={translate('header.material_label')}
-                  placeholder={translate('header.material_placeholder')}
+                  helptext={translate('header.material_helptext')}
                 />
-                <DropdownInputField
-                  options={form.applications}
+                <DropdownField
+                  onChange={this.handleApplicationChange}
+                  items={form.applications.map(option => ({
+                    value: option.id,
+                    label: option.value,
+                  }))}
                   label={translate('header.application_label')}
-                  placeholder={translate('header.application_placeholder')}
+                  helptext={translate('header.application_helptext')}
                 />
-                 <DropdownInputField
-                  options={form.materials}
+
+                <DropdownField
+                  onChange={this.handleChange}
+                  items={form.materials.map(option => ({
+                    value: option.id,
+                    label: option.value,
+                  }))}
                   label={translate('header.species_label')}
-                  placeholder={translate('header.species_placeholder')}
-                />
-               
-               
-                <TextField
-                  className={classes.textField}
-                  id="standard-number"
-                  required
-                  label={translate('header.sample_number_input')}
-                  type="number"
+                  helptext={translate('header.species_helptext')}
                 />
 
-                <TextField
-                  className={classes.textField}
-                  id="standard-number"
+                <DropdownField
+                  onChange={this.handleChange}
                   required
-                  label={translate('header.container_label')}
-                  type="number"
-                />
-                 <DropdownInputField
-                  options={form.materials}
-                  label={translate('header.container_label')}
-                  placeholder={translate('header.application_placeholder')}
-                />
-
-                <TextField
-                  className={classes.textField}
-                  id="standard-number"
-                  required
+                  items={form.materials.map(option => ({
+                    value: option.id,
+                    label: option.value,
+                  }))}
                   label={translate('header.patient_id_format_label')}
-                  type="number"
+                  helptext={translate('header.patient_id_format_helptext')}
+                />
+
+                <DropdownField
+                  onChange={this.handleChange}
+                  items={form.materials.map(option => ({
+                    value: option.id,
+                    label: option.value,
+                  }))}
+                  required
+                  label={translate('header.container_label')}
+                  helptext={translate('header.container_helptext')}
                 />
                 <TextField
                   className={classes.textField}
-                  id="standard-number"
+                  required
+                  label={translate('header.sample_number_label')}
+                  helperText={translate('header.sample_number_helptext')}
+                  type="number"
+                />
+
+                <TextField
+                  className={classes.textField}
                   // select
                   required
-                  label={translate('header.igo_request_id_input')}
-                  type="number"
+                  label={translate('header.igo_request_id_label')}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">IGO-</InputAdornment>
@@ -107,7 +135,6 @@ class ConnectedHeader extends React.Component {
             </React.Fragment>
           )}
         </Translate>
-        )
       </header>
     )
   }
@@ -130,7 +157,7 @@ const styles = theme => ({
     justifyItems: 'center',
   },
   textField: {
-    margin: theme.spacing.unit,
+    margin: 2 * theme.spacing.unit,
 
     minWidth: 350,
   },
@@ -152,6 +179,7 @@ const StyledHeader = withStyles(styles)(ConnectedHeader)
 export default connect(
   mapStateToProps,
   {
-    fetchMaterialsAndApplications,
+    getMaterialsAndApplications,
+    getMaterialsForApplication,
   }
 )(StyledHeader)

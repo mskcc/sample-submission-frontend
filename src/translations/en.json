@@ -1,14 +1,18 @@
 {
   "header": {
     "material_label": "Material",
-    "material_placeholder": "Select Material for Submission:",
+    "material_helptext": "Select Material for Submission",
     "application_label": "Application",
-    "application_placeholder": "Select Application:",
-    "species_label": "Select Species:",
-    "sample_number_input": "Number of Samples:",
-    "igo_request_id_input": "IGO Request ID:",
-    "container_label": "Select Container:",
-    "patient_id_format_label": "Select Patient ID Format:",
+    "application_helptext": "Select Application",
+    "species_label": "Species",
+    "species_helptext": "Select Species",
+    "sample_number_label": "# Samples",
+    "sample_number_helptext": "Number of Samples",
+    "igo_request_id_label": "IGO Request ID",
+    "container_label": "Container",
+    "container_helptext": "Select Container",
+    "patient_id_format_label": "Patient ID Format",
+    "patient_id_format_helptext": "Select Patient ID Format",
     "generate_button": "Generate Table"
   }
 }

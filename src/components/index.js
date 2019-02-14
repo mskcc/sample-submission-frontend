@@ -1,4 +1,4 @@
 import Table from './Table/Table.js'
-import DropdownInputField from './Header/DropdownInputField.js'
+import DropdownField from './Header/DropdownField.js'
 
-export  {  DropdownInputField, Table }
+export  {  DropdownField, Table }
