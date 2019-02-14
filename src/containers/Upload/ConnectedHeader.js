@@ -86,7 +86,7 @@ class ConnectedHeader extends React.Component {
 
                 <DropdownField
                   onChange={this.handleChange}
-                  items={form.picklists.species.map(option => ({
+                  items={form.picklists.Species.map(option => ({
                     value: option.id,
                     label: option.value,
                   }))}

@@ -11,7 +11,7 @@ function form(
     allApplications: [],
     selectedMaterial: '',
     selectApplication: '',
-    picklists: {species:[]},
+    picklists: {Species:[]},
   },
   action
 ) {
@@ -78,7 +78,7 @@ function form(
         picklists: {
           ...state.picklists,
 
-          species: action.picklist.values,
+          [action.picklist.listname]: action.picklist.values,
         },
       }
 
