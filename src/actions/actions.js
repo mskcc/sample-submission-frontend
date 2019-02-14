@@ -127,6 +127,15 @@ export function getMaterialsAndApplications() {
   }
 }
 
+
+export const RESET_MATERIALS_AND_APPLICATION = 'RESET_MATERIALS_AND_APPLICATION'
+
+// Resets the currently visible error message.
+export const resetMaterialsAndApplications = () => ({
+  type: RESET_MATERIALS_AND_APPLICATION,
+})
+
+
 export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE'
 
 // Resets the currently visible error message.

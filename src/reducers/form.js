@@ -7,6 +7,8 @@ function form(
     material: '',
     materials: [],
     applications: [],
+    allMaterials: [],
+    allApplications: [],
     selectedMaterial: '',
     selectApplication: '',
   },
@@ -25,6 +27,8 @@ function form(
         isFetching: false,
         materials: action.materials,
         applications: action.applications,
+        allMaterials: action.materials,
+        allApplications: action.applications,
       }
 
     case ActionTypes.SELECT_MATERIAL:
@@ -60,6 +64,13 @@ function form(
         ...state,
         isFetching: false,
         applications: action.applications,
+      }
+
+       case ActionTypes.RESET_MATERIALS_AND_APPLICATION:
+      return {
+        ...state,
+        applications: state.allApplications,
+        materials: state.allMaterials
       }
 
     default:

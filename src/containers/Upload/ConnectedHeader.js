@@ -14,7 +14,8 @@ import Button from '@material-ui/core/Button'
 import {
   getMaterialsAndApplications,
   getApplicationsForMaterial,
-  getMaterialsForApplication
+  getMaterialsForApplication,
+  resetMaterialsAndApplications
 } from '../../actions/actions'
 
 import classNames from 'classnames'
@@ -38,10 +39,18 @@ class ConnectedHeader extends React.Component {
   }
 
   handleMaterialChange = selectedMaterial => {
-    this.props.getApplicationsForMaterial(selectedMaterial)
+    if (selectedMaterial === '') {
+      this.props.resetMaterialsAndApplications()
+    } else {
+      this.props.getApplicationsForMaterial(selectedMaterial)
+    }
   }
   handleApplicationChange = selectedApplication => {
-    this.props.getMaterialsForApplication(selectedApplication)
+    if (selectedApplication === '') {
+      this.props.resetMaterialsAndApplications()
+    } else {
+      this.props.getMaterialsForApplication(selectedApplication)
+    }
   }
 
   render() {
@@ -182,5 +191,6 @@ export default connect(
     getMaterialsAndApplications,
     getMaterialsForApplication,
     getApplicationsForMaterial,
+    resetMaterialsAndApplications,
   }
 )(StyledHeader)
