@@ -2,7 +2,7 @@ import * as ActionTypes from '../actions/actions'
 
 function form(
   state = {
-    isFetching: false,
+    isLoading: false,
     application: '',
     material: '',
     materials: [],
@@ -18,13 +18,13 @@ function form(
     case ActionTypes.REQUEST_MATERIALS_AND_APPLICATIONS:
       return {
         ...state,
-        isFetching: true,
+        isLoading: true,
       }
 
     case ActionTypes.RECEIVE_MATERIALS_AND_APPLICATIONS:
       return {
         ...state,
-        isFetching: false,
+        isLoading: false,
         materials: action.materials,
         applications: action.applications,
         allMaterials: action.materials,
@@ -45,24 +45,24 @@ function form(
     case ActionTypes.REQUEST_MATERIALS_FOR_APPLICATION:
       return {
         ...state,
-        isFetching: true,
+        isLoading: true,
       }
     case ActionTypes.RECEIVE_MATERIALS_FOR_APPLICATION:
       return {
         ...state,
-        isFetching: false,
+        isLoading: false,
         materials: action.materials,
       }
 
     case ActionTypes.REQUEST_APPLICATIONS_FOR_MATERIAL:
       return {
         ...state,
-        isFetching: true,
+        isLoading: true,
       }
     case ActionTypes.RECEIVE_APPLICATIONS_FOR_MATERIAL:
       return {
         ...state,
-        isFetching: false,
+        isLoading: false,
         applications: action.applications,
       }
 

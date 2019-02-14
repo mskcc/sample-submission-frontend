@@ -8,10 +8,12 @@ import { withStyles } from '@material-ui/core/styles'
 
 class DropdownField extends Component {
   render() {
-    const { label, helptext, value, onChange, items, classes } = this.props
+    const { label, helptext, value, onChange, items, classes, loading } = this.props
     return (
       <div className={classes.textField}>
         <MuiDownshift
+          includeFooter={loading}
+          loading={loading}
           menuItemCount={10}
           getInputProps={({}) => ({
             label: label,

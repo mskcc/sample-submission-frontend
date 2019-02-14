@@ -69,6 +69,7 @@ class ConnectedHeader extends React.Component {
                   }))}
                   label={translate('header.material_label')}
                   helptext={translate('header.material_helptext')}
+                  loading={form.isFetching}
                 />
                 <DropdownField
                   onChange={this.handleApplicationChange}
@@ -78,6 +79,7 @@ class ConnectedHeader extends React.Component {
                   }))}
                   label={translate('header.application_label')}
                   helptext={translate('header.application_helptext')}
+                  loading={form.isFetching}
                 />
 
                 <DropdownField

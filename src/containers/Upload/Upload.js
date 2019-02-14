@@ -25,11 +25,11 @@ class Upload extends Component {
   render() {
     return (
       <React.Fragment>
-        {!this.props.isFetching && (
+        {!this.props.isLoading && (
           <ConnectedHeader
             materials={this.props.materials}
             applications={this.props.applications}
-            isFetching={this.props.isFetching}
+            isLoading={this.props.isLoading}
           />
         )}
         <Table />
@@ -40,7 +40,7 @@ class Upload extends Component {
 
 const mapStateToProps = state => ({
   errorMessage: state.errorMessage,
-  isFetching: state.isFetching,
+  isLoading: state.isLoading,
 })
 
 // function mapDispatchToProps(dispatch) {
