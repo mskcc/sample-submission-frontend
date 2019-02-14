@@ -181,5 +181,6 @@ export default connect(
   {
     getMaterialsAndApplications,
     getMaterialsForApplication,
+    getApplicationsForMaterial,
   }
 )(StyledHeader)

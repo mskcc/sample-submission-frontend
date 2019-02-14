@@ -10,7 +10,7 @@ export const RECEIVE_MATERIALS_AND_APPLICATIONS =
 export const SELECT_MATERIAL = 'SELECT_MATERIAL'
 export const SELECT_APPLICATION = 'SELECT_APPLICATION'
 
-export const REQUEST_APPLICATIONS = 'REQUEST_APPLICATIONS'
+
 
 export function selectMaterial(selectedMaterial) {
   return {
@@ -50,6 +50,7 @@ function requestMaterialsForApplication(application) {
   }
 }
 
+export const REQUEST_APPLICATIONS_FOR_MATERIAL = 'REQUEST_APPLICATIONS_FOR_MATERIAL'
 // get applications that can be combined with material
 function requestApplicationsForMaterial(material) {
   return {
@@ -63,14 +64,17 @@ export const RECEIVE_MATERIALS_FOR_APPLICATION =
 function receiveMaterialsForApplication(response) {
   return {
     type: RECEIVE_MATERIALS_FOR_APPLICATION,
-    materials: response.data.choices,
+    materials: response.choices,
   }
 }
 
+
+export const RECEIVE_APPLICATIONS_FOR_MATERIAL =
+  'RECEIVE_APPLICATIONS_FOR_MATERIAL'
 function receiveApplicationsForMaterial(response) {
   return {
     type: RECEIVE_APPLICATIONS_FOR_MATERIAL,
-    applications: response.applications,
+    applications: response.choices,
   }
 }
 
@@ -85,7 +89,7 @@ export function getMaterialsForApplication(selectedApplication) {
           recipe: selectedApplication,
         },
       })
-      .then(response => dispatch(receiveMaterialsForApplication(response)))
+      .then(response => dispatch(receiveMaterialsForApplication(response.data)))
       .catch(function(error) {
         console.log(error)
       })
@@ -102,7 +106,7 @@ export function getApplicationsForMaterial(selectedMaterial) {
           type: selectedMaterial,
         },
       })
-      .then(response => dispatch(receiveApplicationsForMaterial(response.data.choices)))
+      .then(response => dispatch(receiveApplicationsForMaterial(response.data)))
       .catch(function(error) {
         console.log(error)
       })

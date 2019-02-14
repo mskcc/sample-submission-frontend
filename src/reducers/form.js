@@ -50,6 +50,18 @@ function form(
         materials: action.materials,
       }
 
+    case ActionTypes.REQUEST_APPLICATIONS_FOR_MATERIAL:
+      return {
+        ...state,
+        isFetching: true,
+      }
+    case ActionTypes.RECEIVE_APPLICATIONS_FOR_MATERIAL:
+      return {
+        ...state,
+        isFetching: false,
+        applications: action.applications,
+      }
+
     default:
       return state
   }

@@ -15,7 +15,7 @@ class DropdownField extends Component {
           menuItemCount={10}
           getInputProps={({}) => ({
             label: label,
-            helperText: helptext,
+            helperText: helptext + ' (' + items.length + ' choices)',
             required: true,
           })}
           items={items}
