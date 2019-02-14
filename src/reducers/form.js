@@ -11,6 +11,7 @@ function form(
     allApplications: [],
     selectedMaterial: '',
     selectApplication: '',
+    picklists: {species:[]},
   },
   action
 ) {
@@ -65,12 +66,27 @@ function form(
         isLoading: false,
         applications: action.applications,
       }
+    case ActionTypes.REQUEST_PICKLIST:
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case ActionTypes.RECEIVE_PICKLIST:
+      return {
+        ...state,
+        isLoading: false,
+        picklists: {
+          ...state.picklists,
 
-       case ActionTypes.RESET_MATERIALS_AND_APPLICATION:
+          species: action.picklist.values,
+        },
+      }
+
+    case ActionTypes.RESET_MATERIALS_AND_APPLICATION:
       return {
         ...state,
         applications: state.allApplications,
-        materials: state.allMaterials
+        materials: state.allMaterials,
       }
 
     default:

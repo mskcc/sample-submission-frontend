@@ -13,9 +13,10 @@ import Button from '@material-ui/core/Button'
 
 import {
   getMaterialsAndApplications,
+  getPicklist,
   getApplicationsForMaterial,
   getMaterialsForApplication,
-  resetMaterialsAndApplications
+  resetMaterialsAndApplications,
 } from '../../actions/actions'
 
 import classNames from 'classnames'
@@ -36,6 +37,7 @@ class ConnectedHeader extends React.Component {
 
   componentDidMount() {
     this.props.getMaterialsAndApplications()
+    this.props.getPicklist('Species')
   }
 
   handleMaterialChange = selectedMaterial => {
@@ -69,7 +71,7 @@ class ConnectedHeader extends React.Component {
                   }))}
                   label={translate('header.material_label')}
                   helptext={translate('header.material_helptext')}
-                  loading={form.isFetching}
+                  loading={form.isLoading}
                 />
                 <DropdownField
                   onChange={this.handleApplicationChange}
@@ -79,12 +81,12 @@ class ConnectedHeader extends React.Component {
                   }))}
                   label={translate('header.application_label')}
                   helptext={translate('header.application_helptext')}
-                  loading={form.isFetching}
+                  loading={form.isLoading}
                 />
 
                 <DropdownField
                   onChange={this.handleChange}
-                  items={form.materials.map(option => ({
+                  items={form.picklists.species.map(option => ({
                     value: option.id,
                     label: option.value,
                   }))}
@@ -190,6 +192,7 @@ const StyledHeader = withStyles(styles)(ConnectedHeader)
 export default connect(
   mapStateToProps,
   {
+    getPicklist,
     getMaterialsAndApplications,
     getMaterialsForApplication,
     getApplicationsForMaterial,
