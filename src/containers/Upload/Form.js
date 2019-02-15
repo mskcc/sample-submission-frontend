@@ -29,9 +29,6 @@ class Form extends React.Component {
   constructor(props) {
     super(props)
 
-    this.state = {
-      title: '',
-    }
     this.handleMaterialChange = this.handleMaterialChange.bind(this)
     this.handleApplicationChange = this.handleApplicationChange.bind(this)
   }
@@ -42,18 +39,15 @@ class Form extends React.Component {
   }
 
   handleMaterialChange = selectedMaterial => {
-    if (selectedMaterial === '') {
-      this.props.resetMaterialsAndApplications()
-    } else {
+    console.log("onselect")
+    if (selectedMaterial) {
       this.props.getApplicationsForMaterial(selectedMaterial)
-    }
+    } else this.props.resetMaterialsAndApplications()
   }
   handleApplicationChange = selectedApplication => {
-    if (selectedApplication === '') {
-      this.props.resetMaterialsAndApplications()
-    } else {
+    if (selectedApplication) {
       this.props.getMaterialsForApplication(selectedApplication)
-    }
+    } else this.props.resetMaterialsAndApplications()
   }
 
   render() {
@@ -65,7 +59,7 @@ class Form extends React.Component {
             <React.Fragment>
               <form className={classes.container} onSubmit={handleSubmit}>
                 <DropdownField
-                  // onChange={this.handleMaterialChange}
+                  onSelect={this.handleMaterialChange}
                   name="material"
                   items={form.materials.map(option => ({
                     value: option.id,
@@ -76,8 +70,8 @@ class Form extends React.Component {
                   loading={form.isLoading}
                 />
                 <DropdownField
-                name='application'
-                  onChange={this.handleApplicationChange}
+                  name="application"
+                  onSelect={this.handleApplicationChange}
                   items={form.applications.map(option => ({
                     value: option.id,
                     label: option.value,
@@ -88,7 +82,7 @@ class Form extends React.Component {
                 />
 
                 <DropdownField
-                name='species'
+                  name="species"
                   onChange={this.handleChange}
                   items={form.picklists.Species.map(option => ({
                     value: option.id,
@@ -99,7 +93,7 @@ class Form extends React.Component {
                 />
 
                 <DropdownField
-                name='patient_id_format'
+                  name="patient_id_format"
                   onChange={this.handleChange}
                   required
                   items={form.materials.map(option => ({
@@ -111,7 +105,7 @@ class Form extends React.Component {
                 />
 
                 <DropdownField
-                name='container'
+                  name="container"
                   onChange={this.handleChange}
                   items={form.materials.map(option => ({
                     value: option.id,

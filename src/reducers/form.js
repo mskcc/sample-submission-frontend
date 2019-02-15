@@ -32,16 +32,16 @@ function form(
         allApplications: action.applications,
       }
 
-    case ActionTypes.SELECT_MATERIAL:
-      return {
-        ...state,
-        selectedMaterial: action.selectedMaterial,
-      }
-    case ActionTypes.SELECT_APPLICATION:
-      return {
-        ...state,
-        selectedMaterial: action.selectedApplication,
-      }
+    // case ActionTypes.SELECT_MATERIAL:
+    //   return {
+    //     ...state,
+    //     selectedMaterial: action.selectedMaterial,
+    //   }
+    // case ActionTypes.SELECT_APPLICATION:
+    //   return {
+    //     ...state,
+    //     selectedMaterial: action.selectedApplication,
+    //   }
 
     case ActionTypes.REQUEST_MATERIALS_FOR_APPLICATION:
       return {

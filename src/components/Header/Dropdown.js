@@ -10,6 +10,7 @@ import { withStyles } from '@material-ui/core/styles'
 class Dropdown extends Component {
   render() {
     const {
+      onSelect,
       label,
       helptext,
       onChange,
@@ -35,6 +36,7 @@ class Dropdown extends Component {
           })}
           items={items}
           focusOnClear
+          onSelect={e => onSelect(this.input.value)}
           onChange={e => onChange(this.input.value)}
           inputRef={node => {
             this.input = node
