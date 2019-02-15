@@ -8,7 +8,7 @@ import { withStyles } from '@material-ui/core/styles'
 
 class DropdownField extends Component {
   render() {
-    const { label, helptext, value, onChange, items, classes, loading } = this.props
+    const { label, helptext, onChange, items, classes, loading } = this.props
     return (
       <div className={classes.textField}>
         <MuiDownshift
@@ -32,13 +32,26 @@ class DropdownField extends Component {
   }
 }
 
+DropdownField.defaultProps = {
+  label: 'label',
+  helptext: 'helptext',
+  items: [
+    { label: 'itemId', value: 'itemValue' },
+    { label: 'itemId1', value: 'itemValue1' },
+  ],
+  loading: false,
+  onChange: function() {
+    e => onChange(this.input.value)
+  },
+}
+
 DropdownField.propTypes = {
   items: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
   label: PropTypes.string.isRequired,
   helptext: PropTypes.string.isRequired,
-
+  loading: PropTypes.bool.isRequired,
+  onChange: PropTypes.func.isRequired,
   // value: PropTypes.string.isRequired,
-  // onChange: PropTypes.func.isRequired,
 }
 
 const styles = theme => ({

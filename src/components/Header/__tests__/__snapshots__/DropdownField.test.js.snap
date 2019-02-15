@@ -1,0 +1,107 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Render DropdownField render DropdownField correctly 1`] = `
+<div
+  className="DropdownField-textField-1"
+>
+  <div
+    aria-expanded={false}
+    aria-haspopup="listbox"
+    aria-labelledby="downshift-0-label"
+    aria-owns={null}
+    role="combobox"
+  >
+    <div
+      className="MuiFormControl-root-2 MuiFormControl-fullWidth-5"
+    >
+      <label
+        className="MuiFormLabel-root-17 MuiFormLabel-required-22 MuiInputLabel-required-10 MuiInputLabel-root-6 MuiInputLabel-formControl-11 MuiInputLabel-animated-14"
+        data-shrink={false}
+        htmlFor="downshift-0-input"
+        id="downshift-0-label"
+      >
+        label
+        <span
+          className="MuiFormLabel-asterisk-23"
+        >
+           *
+        </span>
+      </label>
+      <div
+        aria-activedescendant={null}
+        aria-autocomplete="list"
+        aria-controls={null}
+        aria-labelledby="downshift-0-label"
+        className="MuiInputBase-root-37 MuiInput-root-24 MuiInput-underline-28 MuiInputBase-formControl-38 MuiInput-formControl-25 MuiInputBase-adornedEnd-42"
+        onClick={[Function]}
+      >
+        <input
+          aria-invalid={false}
+          autoComplete="off"
+          className="MuiInputBase-input-47 MuiInput-input-32 MuiInputBase-inputAdornedEnd-53"
+          disabled={false}
+          id="downshift-0-input"
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          required={true}
+          type="text"
+          value=""
+        />
+        <div
+          className="MuiInputAdornment-root-54 MuiInputAdornment-positionEnd-57"
+        >
+          <button
+            aria-label="Toggle menu open"
+            className="MuiButtonBase-root-65 MuiIconButton-root-59"
+            disabled={false}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onContextMenu={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            tabIndex="0"
+            type="button"
+          >
+            <span
+              className="MuiIconButton-label-64"
+            >
+              <svg
+                aria-hidden="true"
+                className="MuiSvgIcon-root-68"
+                focusable="false"
+                role="presentation"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M7 10l5 5 5-5z"
+                />
+                <path
+                  d="M0 0h24v24H0z"
+                  fill="none"
+                />
+              </svg>
+            </span>
+            <span
+              className="MuiTouchRipple-root-86"
+            />
+          </button>
+        </div>
+      </div>
+      <p
+        className="MuiFormHelperText-root-77 MuiFormHelperText-required-84"
+      >
+        helptext (2 choices)
+      </p>
+    </div>
+  </div>
+</div>
+`;

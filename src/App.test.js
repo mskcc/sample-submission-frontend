@@ -1,9 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import DropdownField from './components/Header/DropdownField'
 
 it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<App />, div);
-  ReactDOM.unmountComponentAtNode(div);
-});
+  const div = document.createElement('div')
+  ReactDOM.render(<DropdownField />, div)
+  ReactDOM.unmountComponentAtNode(div)
+})
