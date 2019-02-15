@@ -25,7 +25,7 @@ import { withStyles } from '@material-ui/core/styles'
 
 import { DropdownField } from '../../components'
 
-class ConnectedHeader extends React.Component {
+class Form extends React.Component {
   constructor(props) {
     super(props)
 
@@ -57,13 +57,13 @@ class ConnectedHeader extends React.Component {
   }
 
   render() {
-    const { classes, form } = this.props
+    const { classes, form, handleSubmit } = this.props
     return (
-      <header className={classes.header}>
+      <div className={classes.form}>
         <Translate>
           {({ translate }) => (
             <React.Fragment>
-              <form className={classes.container}>
+              <form className={classes.container} onSubmit={handleSubmit}>
                 <DropdownField
                   // onChange={this.handleMaterialChange}
                   name="material"
@@ -154,7 +154,7 @@ class ConnectedHeader extends React.Component {
             </React.Fragment>
           )}
         </Translate>
-      </header>
+      </div>
     )
   }
 }
@@ -169,9 +169,9 @@ const styles = theme => ({
     flexWrap: 'wrap',
     width: '70%',
   },
-  header: {
+  form: {
     // backgroundColor: theme.palette.primary.light,
-    gridArea: 'header',
+    gridArea: 'form',
     display: 'grid',
     justifyItems: 'center',
   },
@@ -194,7 +194,7 @@ const styles = theme => ({
   },
 })
 
-const StyledHeader = withStyles(styles)(ConnectedHeader)
+const StyledHeader = withStyles(styles)(Form)
 const StyledHeaderWithRedux = connect(
   mapStateToProps,
   {

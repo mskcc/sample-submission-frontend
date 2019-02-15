@@ -6,24 +6,18 @@ import { connect } from 'react-redux'
 import { resetErrorMessage } from '../../actions/actions'
 
 import { Table } from '../../components'
-import ConnectedHeader from './ConnectedHeader'
+import Form from './Form'
 
 class Upload extends Component {
-  static propTypes = {
-    // Injected by React Redux
-    // errorMessage: PropTypes.string,
-    resetErrorMessage: PropTypes.func.isRequired,
-    // Injected by React Router
-    children: PropTypes.node,
-  }
-  constructor(props) {
-    super(props)
+  submit = values => {
+    // print the form values to the console
+    console.log(values)
   }
 
   render() {
     return (
       <React.Fragment>
-        <ConnectedHeader />
+        <Form onSubmit={this.submit} />
         <Table />
       </React.Fragment>
     )
