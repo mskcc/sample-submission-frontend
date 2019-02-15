@@ -6,18 +6,18 @@ import { connect } from 'react-redux'
 import { resetErrorMessage } from '../../actions/actions'
 
 import { Table } from '../../components'
-import Form from './Form'
+import FormContainer from './FormContainer'
 
 class Upload extends Component {
   submit = values => {
-    // print the form values to the console
+    // print the FormContainer values to the console
     console.log(values)
   }
 
   render() {
     return (
       <React.Fragment>
-        <Form onSubmit={this.submit} />
+        <FormContainer onSubmit={this.submit} />
         <Table />
       </React.Fragment>
     )

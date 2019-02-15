@@ -99,7 +99,7 @@ exports[`Render Dropdown render Dropdown correctly 1`] = `
       <p
         className="MuiFormHelperText-root-77 MuiFormHelperText-required-84"
       >
-        helptext (2 choices)
+        helptext
       </p>
     </div>
   </div>

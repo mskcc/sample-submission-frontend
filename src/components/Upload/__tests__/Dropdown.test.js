@@ -12,7 +12,7 @@ describe('Render Dropdown', () => {
   })
 
   it('render Dropdown correctly with loading animation', () => {
-    const wrapper = mount(<Dropdown loading={true} />)
+    const wrapper = mount(<Dropdown dynamic loading={true} />)
     const progress = wrapper.find('LinearProgress').first()
     expect(progress.exists()).toBe(true)
   })
