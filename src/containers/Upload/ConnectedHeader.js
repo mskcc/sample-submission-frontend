@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 
 import { Translate } from 'react-localize-redux'
 import { connect } from 'react-redux'
+import { reduxForm } from 'redux-form'
 
 import TextField from '@material-ui/core/TextField'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -64,7 +65,8 @@ class ConnectedHeader extends React.Component {
             <React.Fragment>
               <form className={classes.container}>
                 <DropdownField
-                  onChange={this.handleMaterialChange}
+                  // onChange={this.handleMaterialChange}
+                  name="material"
                   items={form.materials.map(option => ({
                     value: option.id,
                     label: option.value,
@@ -74,6 +76,7 @@ class ConnectedHeader extends React.Component {
                   loading={form.isLoading}
                 />
                 <DropdownField
+                name='application'
                   onChange={this.handleApplicationChange}
                   items={form.applications.map(option => ({
                     value: option.id,
@@ -85,6 +88,7 @@ class ConnectedHeader extends React.Component {
                 />
 
                 <DropdownField
+                name='species'
                   onChange={this.handleChange}
                   items={form.picklists.Species.map(option => ({
                     value: option.id,
@@ -95,6 +99,7 @@ class ConnectedHeader extends React.Component {
                 />
 
                 <DropdownField
+                name='patient_id_format'
                   onChange={this.handleChange}
                   required
                   items={form.materials.map(option => ({
@@ -106,6 +111,7 @@ class ConnectedHeader extends React.Component {
                 />
 
                 <DropdownField
+                name='container'
                   onChange={this.handleChange}
                   items={form.materials.map(option => ({
                     value: option.id,
@@ -189,7 +195,7 @@ const styles = theme => ({
 })
 
 const StyledHeader = withStyles(styles)(ConnectedHeader)
-export default connect(
+const StyledHeaderWithRedux = connect(
   mapStateToProps,
   {
     getPicklist,
@@ -199,3 +205,4 @@ export default connect(
     resetMaterialsAndApplications,
   }
 )(StyledHeader)
+export default reduxForm({ form: 'generateTable' })(StyledHeaderWithRedux)

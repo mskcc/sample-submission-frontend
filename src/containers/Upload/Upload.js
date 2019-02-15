@@ -3,9 +3,7 @@ import PropTypes from 'prop-types'
 
 import { withLocalize } from 'react-localize-redux'
 import { connect } from 'react-redux'
-import {
-  resetErrorMessage,
-} from '../../actions/actions'
+import { resetErrorMessage } from '../../actions/actions'
 
 import { Table } from '../../components'
 import ConnectedHeader from './ConnectedHeader'
@@ -25,13 +23,7 @@ class Upload extends Component {
   render() {
     return (
       <React.Fragment>
-        {!this.props.isLoading && (
-          <ConnectedHeader
-            materials={this.props.materials}
-            applications={this.props.applications}
-            isLoading={this.props.isLoading}
-          />
-        )}
+        <ConnectedHeader />
         <Table />
       </React.Fragment>
     )
@@ -40,7 +32,6 @@ class Upload extends Component {
 
 const mapStateToProps = state => ({
   errorMessage: state.errorMessage,
-  isLoading: state.isLoading,
 })
 
 // function mapDispatchToProps(dispatch) {

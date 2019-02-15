@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Render DropdownField render DropdownField correctly 1`] = `
+exports[`Render Dropdown render Dropdown correctly 1`] = `
 <div
-  className="DropdownField-textField-1"
+  className="Dropdown-textField-1"
 >
   <div
     aria-expanded={false}
