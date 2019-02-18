@@ -10,7 +10,9 @@ import enTranslations from '../translations/en.json'
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 
+import Header from '../components/Shared/Header'
 import Upload from './Upload/Upload'
+import Promote from './Promote/Promote'
 
 class Root extends Component {
   constructor(props) {
@@ -33,8 +35,9 @@ class Root extends Component {
       <MuiThemeProvider theme={theme}>
           <Provider store={store}>
             <div className="app">
-              <div className="mskcc-header"> REX V2</div>
-              <Route path="/" component={Upload} />
+              <Header/>
+              <Route path="/upload" component={Upload} />
+              <Route path="/promote" component={Promote} />
               <DevTools />
             </div>
           </Provider>
