@@ -55,10 +55,10 @@ export function getMaterialsAndApplications() {
 // get materials that can be combined with application
 export const REQUEST_MATERIALS_FOR_APPLICATION =
   'REQUEST_MATERIALS_FOR_APPLICATION'
-function requestMaterialsForApplication(application) {
+function requestMaterialsForApplication() {
   return {
     type: REQUEST_MATERIALS_FOR_APPLICATION,
-    application,
+    
   }
 }
 
@@ -74,7 +74,6 @@ function receiveMaterialsForApplication(response) {
 export function getMaterialsForApplication(selectedApplication) {
   return dispatch => {
     dispatch(selectApplication(selectedApplication))
-
     dispatch(requestMaterialsForApplication())
     return axios
       .get(API_ROOT + '/columnDefinition', {
@@ -92,10 +91,10 @@ export function getMaterialsForApplication(selectedApplication) {
 export const REQUEST_APPLICATIONS_FOR_MATERIAL =
   'REQUEST_APPLICATIONS_FOR_MATERIAL'
 // get applications that can be combined with material
-function requestApplicationsForMaterial(material) {
+function requestApplicationsForMaterial(selectedMaterial) {
   return {
     type: REQUEST_APPLICATIONS_FOR_MATERIAL,
-    material,
+    selectMaterial,
   }
 }
 
@@ -178,11 +177,16 @@ export function getPicklist(picklist) {
   }
 }
 
-export const RESET_MATERIALS_AND_APPLICATION = 'RESET_MATERIALS_AND_APPLICATION'
+export const CLEAR_MATERIALS = 'CLEAR_MATERIALS'
 
-// Resets the currently visible error message.
-export const resetMaterialsAndApplications = () => ({
-  type: RESET_MATERIALS_AND_APPLICATION,
+export const clearMaterial = () => ({
+  type: CLEAR_MATERIALS,
+})
+
+export const CLEAR_APPLICATION = 'CLEAR_APPLICATION'
+
+export const clearApplication = () => ({
+  type: CLEAR_APPLICATION,
 })
 
 export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE'

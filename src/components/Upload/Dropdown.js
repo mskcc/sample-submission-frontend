@@ -44,6 +44,7 @@ class Dropdown extends Component {
             items={filteredItems}
             focusOnClear
             onSelect={e => this.props.onSelect(this.input.value)}
+            onChange={e => onChange(this.input)}
             inputRef={node => {
               this.input = node
             }}

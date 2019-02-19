@@ -1,7 +1,7 @@
 export const initialFormState = {
   isLoading: false,
   selectedMaterial: '',
-  selectApplication: '',
+  selectedApplication: '',
   materials: [],
   applications: [],
   containers: ['Plates', 'Micronic Barcoded Tubes'],

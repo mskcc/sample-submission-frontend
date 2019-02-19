@@ -10,7 +10,8 @@ import {
   showAllContainers,
   getApplicationsForMaterial,
   getMaterialsForApplication,
-  resetMaterialsAndApplications,
+  clearMaterial,
+  clearApplication,
 } from '../../actions/actions'
 
 import { FormComponent } from '../../components/Upload'
@@ -27,16 +28,6 @@ const BSTMaterials = [
 class FormContainer extends React.Component {
   constructor(props) {
     super(props)
-
-    this.state = {
-      material: '',
-      application: '',
-      igo_request_id: '',
-      number_of_samples: '',
-      species: '',
-      container: '',
-      patient_id_format: '',
-    }
 
     this.handleSubmit = this.handleSubmit.bind(this)
 
@@ -55,14 +46,13 @@ class FormContainer extends React.Component {
     this.props.getPicklist('Species')
   }
   handleSubmit = () => {
-    // print the FormContainer values to the console
     console.log(this.state)
   }
 
   handleMaterialChange = selectedMaterial => {
     if (selectedMaterial) {
       this.props.getApplicationsForMaterial(selectedMaterial)
-    } else this.setState({ material: selectedMaterial })
+    } else this.props.clearMaterial()
 
     this.props.showAllContainers(
       BSTMaterials.includes(selectedMaterial.toLowerCase())
@@ -72,8 +62,7 @@ class FormContainer extends React.Component {
   handleApplicationChange = selectedApplication => {
     if (selectedApplication) {
       this.props.getMaterialsForApplication(selectedApplication)
-    } else this.props.resetMaterialsAndApplications()
-    this.setState({ application: selectedApplication })
+    } else this.props.clearApplication()
   }
 
   handleDropdownChange = event => {
@@ -111,6 +100,7 @@ export default connect(
     getMaterialsAndApplications,
     getMaterialsForApplication,
     getApplicationsForMaterial,
-    resetMaterialsAndApplications,
+    clearMaterial,
+    clearApplication,
   }
 )(FormContainer)

@@ -1,5 +1,5 @@
 import * as ActionTypes from '../actions/actions'
-import {initialFormState} from './initialState'
+import { initialFormState } from './initialState'
 
 function form(state = initialFormState, action) {
   switch (action.type) {
@@ -30,7 +30,7 @@ function form(state = initialFormState, action) {
         ...state,
         containers: state.picklists.FilteredContainers,
       }
-      case ActionTypes.SHOW_ALL_CONTAINERS:
+    case ActionTypes.SHOW_ALL_CONTAINERS:
       return {
         ...state,
         containers: state.picklists.Containers,
@@ -38,7 +38,7 @@ function form(state = initialFormState, action) {
     case ActionTypes.SELECT_APPLICATION:
       return {
         ...state,
-        selectedMaterial: action.selectedApplication,
+        selectedApplication: action.selectedApplication,
       }
 
     case ActionTypes.REQUEST_MATERIALS_FOR_APPLICATION:
@@ -80,11 +80,19 @@ function form(state = initialFormState, action) {
         },
       }
 
-    case ActionTypes.RESET_MATERIALS_AND_APPLICATION:
+    case ActionTypes.CLEAR_MATERIALS:
       return {
         ...state,
         applications: state.allApplications,
         materials: state.allMaterials,
+        selectedMaterial: '',
+      }
+    case ActionTypes.CLEAR_APPLICATION:
+      return {
+        ...state,
+        materials: state.allMaterials,
+        applications: state.allApplications,
+        selectedApplication: '',
       }
 
     default:
