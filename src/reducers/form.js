@@ -1,20 +1,7 @@
 import * as ActionTypes from '../actions/actions'
+import {initialFormState} from './initialState'
 
-function form(
-  state = {
-    isLoading: false,
-    application: '',
-    material: '',
-    materials: [],
-    applications: [],
-    allMaterials: [],
-    allApplications: [],
-    selectedMaterial: '',
-    selectApplication: '',
-    picklists: {Species:[]},
-  },
-  action
-) {
+function form(state = initialFormState, action) {
   switch (action.type) {
     case ActionTypes.REQUEST_MATERIALS_AND_APPLICATIONS:
       return {
