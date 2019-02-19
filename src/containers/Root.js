@@ -33,14 +33,14 @@ class Root extends Component {
     const { store } = this.props
     return (
       <MuiThemeProvider theme={theme}>
-          <Provider store={store}>
-            <div className="app">
-              <Header/>
-              <Route path="/upload" component={Upload} />
-              <Route path="/promote" component={Promote} />
-              <DevTools />
-            </div>
-          </Provider>
+        <Provider store={store}>
+          <div className="app">
+            <Header />
+            <Route path="/upload" component={Upload} />
+            <Route path="/promote" component={Promote} />
+            <DevTools />
+          </div>
+        </Provider>
       </MuiThemeProvider>
     )
   }

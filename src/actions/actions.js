@@ -108,6 +108,7 @@ function receiveApplicationsForMaterial(response) {
   }
 }
 
+// SelectedMaterial impacts applications and containers, containers are filtered in FormContainer
 export function getApplicationsForMaterial(selectedMaterial) {
   return dispatch => {
     dispatch(selectMaterial(selectedMaterial))
@@ -132,6 +133,19 @@ function requestPicklist(picklist) {
     type: REQUEST_PICKLIST,
     picklist,
   }
+}
+
+export const FILTER_CONTAINERS = 'FILTER_CONTAINERS'
+export const SHOW_ALL_CONTAINERS = 'SHOW_ALL_CONTAINERS'
+export function showAllContainers(show) {
+  if (show) {
+    return {
+      type: SHOW_ALL_CONTAINERS,
+    }
+  } else
+    return {
+      type: FILTER_CONTAINERS,
+    }
 }
 
 export const RECEIVE_PICKLIST = 'RECEIVE_PICKLIST'

@@ -4,12 +4,15 @@ export const initialFormState = {
   selectApplication: '',
   materials: [],
   applications: [],
+  containers: ['Plates', 'Micronic Barcoded Tubes'],
   allMaterials: [],
   allApplications: [],
 
   picklists: {
     Species: [],
+
     Containers: ['Plates', 'Micronic Barcoded Tubes', 'Blocks/Slides/Tubes'],
+    FilteredContainers: ['Plates', 'Micronic Barcoded Tubes'],
     'Patient ID Format': [
       'MRN',
       'User Provided Patient ID',

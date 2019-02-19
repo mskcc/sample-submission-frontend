@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux'
 import { LocalizeProvider, localizeReducer } from 'react-localize-redux'
-import { reducer as formReducer } from 'redux-form'
 
 
 import form from './form'
@@ -22,7 +21,6 @@ const errorMessage = (state = null, action) => {
 
 const rootReducer = combineReducers({
   form,
-  formReducer,
   errorMessage,
   localize: localizeReducer,
 })

@@ -19,16 +19,27 @@ function form(state = initialFormState, action) {
         allApplications: action.applications,
       }
 
-    // case ActionTypes.SELECT_MATERIAL:
-    //   return {
-    //     ...state,
-    //     selectedMaterial: action.selectedMaterial,
-    //   }
-    // case ActionTypes.SELECT_APPLICATION:
-    //   return {
-    //     ...state,
-    //     selectedMaterial: action.selectedApplication,
-    //   }
+    case ActionTypes.SELECT_MATERIAL:
+      return {
+        ...state,
+        selectedMaterial: action.selectedMaterial,
+      }
+
+    case ActionTypes.FILTER_CONTAINERS:
+      return {
+        ...state,
+        containers: state.picklists.FilteredContainers,
+      }
+      case ActionTypes.SHOW_ALL_CONTAINERS:
+      return {
+        ...state,
+        containers: state.picklists.Containers,
+      }
+    case ActionTypes.SELECT_APPLICATION:
+      return {
+        ...state,
+        selectedMaterial: action.selectedApplication,
+      }
 
     case ActionTypes.REQUEST_MATERIALS_FOR_APPLICATION:
       return {

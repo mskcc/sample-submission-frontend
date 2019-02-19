@@ -1,4 +1,3 @@
-import { Field } from 'redux-form'
 import React, { Component } from 'react'
 
 import PropTypes from 'prop-types'
@@ -8,59 +7,58 @@ import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
 
 class Dropdown extends Component {
-  render() {
-    const {
-      label,
-      dynamic,
-      helptext,
-      onChange,
-      input,
-      items,
-      loading,
-      classes,
-    } = this.props
+  state = {
+    filteredItems: this.props.items,
+  }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.items !== prevProps.items) {
+      this.setState({ filteredItems: this.props.items })
+    }
+  }
+
+  handleStateChange = changes => {
+    if (typeof changes.inputValue === 'string') {
+      const filteredItems = this.props.items.filter(item =>
+        item.label.toLowerCase().includes(changes.inputValue.toLowerCase())
+      )
+      this.setState({ filteredItems })
+    }
+    if (this.input && this.props.blurOnSelect) {
+      this.input.blur()
+    }
+  }
+  render() {
+    const { dynamic, onChange, onSelect, input, loading, classes } = this.props
+    const { filteredItems } = this.state
     return (
       <div className={classes.textField}>
         {dynamic ? (
           <MuiDownshift
+            onStateChange={this.handleStateChange}
             includeFooter={loading}
             {...input}
-            onStateChange={({ inputValue }) => {
-              return input.onChange(inputValue)
-            }}
+            {...this.props}
             loading={loading}
             menuItemCount={10}
-            getInputProps={({}) => ({
-              label: label,
-              helperText: helptext + ' (' + items.length + ' choices)',
-              required: true,
-            })}
-            items={items}
+            items={filteredItems}
             focusOnClear
-            onSelect={
-              dynamic ? e => this.props.onSelect(this.input.value) : undefined
-            }
-            onChange={e => onChange(this.input.value)}
+            onSelect={e => this.props.onSelect(this.input.value)}
             inputRef={node => {
               this.input = node
             }}
           />
         ) : (
           <MuiDownshift
+            onStateChange={this.handleStateChange}
+            includeFooter={loading}
             {...input}
-            onStateChange={({ inputValue }) => {
-              return input.onChange(inputValue)
-            }}
+            {...this.props}
+            loading={loading}
             menuItemCount={10}
-            getInputProps={({}) => ({
-              label: label,
-              helperText: helptext,
-              required: true,
-            })}
-            items={items}
+            items={filteredItems}
             focusOnClear
-            onChange={e => onChange(this.input.value)}
+            onChange={e => onChange(this.input)}
             inputRef={node => {
               this.input = node
             }}

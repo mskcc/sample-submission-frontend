@@ -1,25 +1,24 @@
 import React from 'react'
-import { Field } from 'redux-form'
-
 import { Translate } from 'react-localize-redux'
 
 import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
 
 import TextField from '@material-ui/core/TextField'
-import MenuItem from '@material-ui/core/MenuItem'
-import Select from 'react-select'
+
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Button from '@material-ui/core/Button'
-import DropdownField from './DropdownField'
+import Dropdown from './Dropdown'
 
 export const FormComponent = (
   {
     handleSubmit,
-    handleChange,
+    handleInputChange,
+    handleDropdownChange,
     handleApplicationChange,
     handleMaterialChange,
     onSubmit,
+    onSelect,
     classes,
     form,
   },
@@ -30,76 +29,113 @@ export const FormComponent = (
       {({ translate }) => (
         <div className={classes.form}>
           <form className={classes.container} onSubmit={handleSubmit}>
-            <DropdownField
-              dynamic
+            <Dropdown
               onSelect={handleMaterialChange}
-              name="material"
               items={form.materials.map(option => ({
                 value: option.id,
                 label: option.value,
               }))}
-              label={translate('header.material_label')}
-              helptext={translate('header.material_helptext')}
               loading={form.isLoading}
-            />
-            <DropdownField
-              name="application"
               dynamic
+              getInputProps={() => ({
+                id: 'material',
+
+                label: translate('header.material_label'),
+                helperText:
+                  translate('header.material_helptext') +
+                  ' (' +
+                  form.materials.length +
+                  ' choices)',
+                required: true,
+              })}
+            />
+
+            <Dropdown
               onSelect={handleApplicationChange}
               items={form.applications.map(option => ({
                 value: option.id,
                 label: option.value,
               }))}
-              label={translate('header.application_label')}
-              helptext={translate('header.application_helptext')}
               loading={form.isLoading}
+              dynamic
+              getInputProps={() => ({
+                id: 'application',
+
+                label: translate('header.application_label'),
+                helperText:
+                  translate('header.application_helptext') +
+                  ' (' +
+                  form.materials.length +
+                  ' choices)',
+                required: true,
+              })}
             />
 
-            <DropdownField
-              name="species"
+            <Dropdown
+              loading={form.isLoading}
+              onChange={handleDropdownChange}
+              items={form.containers.map(option => ({
+                value: option,
+                label: option,
+              }))}
+              required
+              getInputProps={() => ({
+                id: 'container',
+                label: translate('header.container_label'),
+                helperText:
+                  translate('header.container_helptext') +
+                  ' (' +
+                  form.containers.length +
+                  ' choices)',
+                required: true,
+              })}
+            />
+
+            <Dropdown
               items={form.picklists.Species.map(option => ({
                 value: option.id,
                 label: option.value,
               }))}
-              label={translate('header.species_label')}
-              helptext={translate('header.species_helptext')}
+              onChange={handleDropdownChange}
+              getInputProps={() => ({
+                id: 'species',
+                label: translate('header.species_label'),
+                helperText: translate('header.species_helptext'),
+                required: true,
+              })}
             />
 
-            <DropdownField
-              name="patient_id_format"
-              onChange={handleChange}
+            <Dropdown
               required
-              items={form.materials.map(option => ({
-                value: option.id,
-                label: option.value,
+              items={form.picklists['Patient ID Format'].map(option => ({
+                value: option,
+                label: option,
               }))}
-              label={translate('header.patient_id_format_label')}
-              helptext={translate('header.patient_id_format_helptext')}
+              onChange={handleDropdownChange}
+              getInputProps={() => ({
+                id: 'patient_id_format',
+                label: translate('header.patient_id_format_label'),
+                helperText: translate('header.patient_id_format_helptext'),
+                required: true,
+              })}
             />
 
-            <DropdownField
-              name="container"
-              onChange={handleChange}
-              items={form.materials.map(option => ({
-                value: option.id,
-                label: option.value,
-              }))}
-              required
-              label={translate('header.container_label')}
-              helptext={translate('header.container_helptext')}
-            />
             <TextField
+              id="number_of_samples"
               className={classes.textField}
               required
+              type="number"
               label={translate('header.sample_number_label')}
               helperText={translate('header.sample_number_helptext')}
-              type="number"
+              onChange={handleInputChange('number_of_samples')}
             />
 
             <TextField
+              id="igo_request_id"
               className={classes.textField}
               // select
               required
+              onChange={handleInputChange('igo_request_id')}
               label={translate('header.igo_request_id_label')}
               InputProps={{
                 startAdornment: (
@@ -107,17 +143,17 @@ export const FormComponent = (
                 ),
               }}
             />
-
-            <Button
-              variant="contained"
-              type="submit"
-              form="my-form-id"
-              className={classes.button}
-              color="secondary"
-            >
-              {translate('header.generate_button')}
-            </Button>
           </form>
+          <Button
+            variant="contained"
+            type="submit"
+            form="my-form-id"
+            onClick={handleSubmit}
+            className={classes.button}
+            color="secondary"
+          >
+            {translate('header.generate_button')}
+          </Button>
         </div>
       )}
     </Translate>
