@@ -1,4 +1,4 @@
-import * as ActionTypes from '../actions/actions'
+import { uploadFormActions as ActionTypes } from '../../actions'
 import { initialFormState } from './initialState'
 
 function form(state = initialFormState, action) {
@@ -9,7 +9,7 @@ function form(state = initialFormState, action) {
         isLoading: true,
       }
 
-    case ActionTypes.RECEIVE_MATERIALS_AND_APPLICATIONS:
+    case ActionTypes.RECEIVE_MATERIALS_AND_APPLICATIONS_SUCCESS:
       return {
         ...state,
         isLoading: false,
@@ -17,6 +17,13 @@ function form(state = initialFormState, action) {
         applications: action.applications,
         allMaterials: action.materials,
         allApplications: action.applications,
+      }
+
+    case ActionTypes.RECEIVE_MATERIALS_AND_APPLICATIONS_FAIL:
+      return {
+        ...state,
+        error: action.error,
+        isLoading: false,
       }
 
     case ActionTypes.SELECT_MATERIAL:
@@ -46,11 +53,17 @@ function form(state = initialFormState, action) {
         ...state,
         isLoading: true,
       }
-    case ActionTypes.RECEIVE_MATERIALS_FOR_APPLICATION:
+    case ActionTypes.RECEIVE_MATERIALS_FOR_APPLICATION_SUCCESS:
       return {
         ...state,
         isLoading: false,
         materials: action.materials,
+      }
+    case ActionTypes.RECEIVE_MATERIALS_FOR_APPLICATION_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.error,
       }
 
     case ActionTypes.REQUEST_APPLICATIONS_FOR_MATERIAL:
@@ -58,18 +71,24 @@ function form(state = initialFormState, action) {
         ...state,
         isLoading: true,
       }
-    case ActionTypes.RECEIVE_APPLICATIONS_FOR_MATERIAL:
+    case ActionTypes.RECEIVE_APPLICATIONS_FOR_MATERIAL_SUCCESS:
       return {
         ...state,
         isLoading: false,
         applications: action.applications,
+      }
+    case ActionTypes.RECEIVE_APPLICATIONS_FOR_MATERIAL_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.error,
       }
     case ActionTypes.REQUEST_PICKLIST:
       return {
         ...state,
         isLoading: true,
       }
-    case ActionTypes.RECEIVE_PICKLIST:
+    case ActionTypes.RECEIVE_PICKLIST_SUCCESS:
       return {
         ...state,
         isLoading: false,
@@ -80,7 +99,14 @@ function form(state = initialFormState, action) {
         },
       }
 
-    case ActionTypes.CLEAR_MATERIALS:
+    case ActionTypes.RECEIVE_PICKLIST_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.error,
+      }
+
+    case ActionTypes.CLEAR_MATERIAL:
       return {
         ...state,
         applications: state.allApplications,
@@ -93,6 +119,12 @@ function form(state = initialFormState, action) {
         materials: state.allMaterials,
         applications: state.allApplications,
         selectedApplication: '',
+        isLoading: true,
+      }
+    case ActionTypes.CLEARED:
+      return {
+        ...state,
+        isLoading: false,
       }
 
     default:

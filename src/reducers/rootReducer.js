@@ -1,16 +1,15 @@
 import { combineReducers } from 'redux'
 import { LocalizeProvider, localizeReducer } from 'react-localize-redux'
 
+import uploadReducer from './upload/uploadReducer'
 
-import form from './form'
-
-import { RESET_ERROR_MESSAGE } from '../actions/actions'
+import {commonActions} from '../actions'
 
 // Updates error message to notify about the failed fetches.
 const errorMessage = (state = null, action) => {
   const { type, error } = action
 
-  if (type === RESET_ERROR_MESSAGE) {
+  if (type === commonActions.RESET_ERROR_MESSAGE) {
     return null
   } else if (error) {
     return error
@@ -20,7 +19,13 @@ const errorMessage = (state = null, action) => {
 }
 
 const rootReducer = combineReducers({
-  form,
+  upload: uploadReducer,
+
+  // uploadGridReducer,
+  // promoteReducer,
+  // receiptReducer,
+  // loginReducer,
+
   errorMessage,
   localize: localizeReducer,
 })

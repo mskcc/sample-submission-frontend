@@ -3,19 +3,11 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import { connect } from 'react-redux'
-
-import {
-  getMaterialsAndApplications,
-  getPicklist,
-  showAllContainers,
-  getApplicationsForMaterial,
-  getMaterialsForApplication,
-  clearMaterial,
-  clearApplication,
-} from '../../actions/actions'
+import { uploadFormActions } from '../../actions'
 
 import { FormComponent } from '../../components/Upload'
 
+// materials that be combined with a Blocks/Slides/Tubes container
 const BSTMaterials = [
   'tissue',
   'cells',
@@ -28,15 +20,6 @@ const BSTMaterials = [
 class FormContainer extends React.Component {
   constructor(props) {
     super(props)
-
-    this.handleSubmit = this.handleSubmit.bind(this)
-
-    this.handleMaterialChange = this.handleMaterialChange.bind(this)
-    this.handleApplicationChange = this.handleApplicationChange.bind(this)
-
-    this.handleDropdownChange = this.handleDropdownChange.bind(this)
-    this.handleInputChange = this.handleInputChange.bind(this)
-    // this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   componentDidUpdate(prevProps, prevState) {}
@@ -51,9 +34,11 @@ class FormContainer extends React.Component {
 
   handleMaterialChange = selectedMaterial => {
     if (selectedMaterial) {
+      // get possible applications for this material
       this.props.getApplicationsForMaterial(selectedMaterial)
     } else this.props.clearMaterial()
 
+    // show containers depending on material combination
     this.props.showAllContainers(
       BSTMaterials.includes(selectedMaterial.toLowerCase())
     )
@@ -61,16 +46,9 @@ class FormContainer extends React.Component {
 
   handleApplicationChange = selectedApplication => {
     if (selectedApplication) {
+      // get possible ,materials for this application
       this.props.getMaterialsForApplication(selectedApplication)
     } else this.props.clearApplication()
-  }
-
-  handleDropdownChange = event => {
-    this.setState({ [event.id]: event.value })
-  }
-
-  handleInputChange = name => event => {
-    this.setState({ [name]: event.target.value })
   }
 
   render() {
@@ -79,8 +57,6 @@ class FormContainer extends React.Component {
       <FormComponent
         form={form}
         handleSubmit={this.handleSubmit}
-        handleInputChange={this.handleInputChange}
-        handleDropdownChange={this.handleDropdownChange}
         handleMaterialChange={this.handleMaterialChange}
         handleApplicationChange={this.handleApplicationChange}
       />
@@ -89,18 +65,14 @@ class FormContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  form: state.form,
+  form: state.upload.form,
 })
+
+const mapDispatchToProps = {
+  ...uploadFormActions,
+}
 
 export default connect(
   mapStateToProps,
-  {
-    getPicklist,
-    showAllContainers,
-    getMaterialsAndApplications,
-    getMaterialsForApplication,
-    getApplicationsForMaterial,
-    clearMaterial,
-    clearApplication,
-  }
+  mapDispatchToProps
 )(FormContainer)

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { withLocalize } from 'react-localize-redux'
 import { connect } from 'react-redux'
-import { resetErrorMessage } from '../../actions/actions'
+import { resetErrorMessage } from '../../actions/commonActions'
 
 import { Table } from '../../components'
 import FormContainer from './FormContainer'
@@ -27,14 +27,6 @@ class Upload extends Component {
 const mapStateToProps = state => ({
   errorMessage: state.errorMessage,
 })
-
-// function mapDispatchToProps(dispatch) {
-//   return {
-//     fetchMaterialsAndApplications: article =>
-//       dispatch(fetchMaterialsAndApplications()),
-//       resetErrorMessage
-//   }
-// }
 
 export default withLocalize(
   connect(

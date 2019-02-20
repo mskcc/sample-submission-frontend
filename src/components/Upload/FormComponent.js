@@ -32,9 +32,6 @@ class FormComponent extends React.Component {
         patient_id_format: '',
       },
     }
-
-    this.handleDropdownChange = this.handleDropdownChange.bind(this)
-    this.handleInputChange = this.handleInputChange.bind(this)
   }
   componentDidUpdate(prevProps, prevState) {
     console.log('prevState')
@@ -49,69 +46,69 @@ class FormComponent extends React.Component {
 
   handleInputChange = name => event => {
     this.setState({ [name]: event.target.value })
+    console.log(this.state)
   }
 
   render() {
     const {
+      classes,
+      form,
       handleSubmit,
       handleApplicationChange,
       handleMaterialChange,
-      onSelect,
-      classes,
     } = this.props
+
     return (
       <Translate>
         {({ translate }) => (
           <div className={classes.form}>
             <form className={classes.container} onSubmit={handleSubmit}>
               <Dropdown
+                dynamic={true}
+                loading={form.isLoading}
                 onSelect={handleMaterialChange}
                 onChange={this.handleDropdownChange}
-                items={this.props.form.materials.map(option => ({
+                items={form.materials.map(option => ({
                   value: option.id,
                   label: option.value,
                 }))}
-                loading={this.props.form.isLoading}
-                dynamic
                 getInputProps={() => ({
                   id: 'material',
-
                   label: translate('header.material_label'),
                   helperText:
                     translate('header.material_helptext') +
                     ' (' +
-                    this.props.form.materials.length +
+                    form.materials.length +
                     ' choices)',
                   required: true,
                 })}
               />
 
               <Dropdown
+                dynamic={true}
+                loading={form.isLoading}
                 onSelect={handleApplicationChange}
                 onChange={this.handleDropdownChange}
-                items={this.props.form.applications.map(option => ({
+                items={form.applications.map(option => ({
                   value: option.id,
                   label: option.value,
                 }))}
-                loading={this.props.form.isLoading}
-                dynamic
                 getInputProps={() => ({
                   id: 'application',
-
                   label: translate('header.application_label'),
                   helperText:
                     translate('header.application_helptext') +
                     ' (' +
-                    this.props.form.applications.length +
+                    form.applications.length +
                     ' choices)',
                   required: true,
                 })}
               />
 
               <Dropdown
-                loading={this.props.form.isLoading}
+                loading={form.isLoading}
                 onChange={this.handleDropdownChange}
-                items={this.props.form.containers.map(option => ({
+                items={form.containers.map(option => ({
                   value: option,
                   label: option,
                 }))}
@@ -122,14 +119,14 @@ class FormComponent extends React.Component {
                   helperText:
                     translate('header.container_helptext') +
                     ' (' +
-                    this.props.form.containers.length +
+                    form.containers.length +
                     ' choices)',
                   required: true,
                 })}
               />
 
               <Dropdown
-                items={this.props.form.picklists.Species.map(option => ({
+                items={form.picklists.Species.map(option => ({
                   value: option.id,
                   label: option.value,
                 }))}
@@ -144,7 +141,7 @@ class FormComponent extends React.Component {
 
               <Dropdown
                 required
-                items={this.props.form.picklists['Patient ID Format'].map(option => ({
+                items={form.picklists['Patient ID Format'].map(option => ({
                   value: option,
                   label: option,
                 }))}

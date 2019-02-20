@@ -17,6 +17,7 @@ class Dropdown extends Component {
     }
   }
 
+  // limit items to those user input
   handleStateChange = changes => {
     if (typeof changes.inputValue === 'string') {
       const filteredItems = this.props.items.filter(item =>
@@ -31,40 +32,26 @@ class Dropdown extends Component {
   render() {
     const { dynamic, onChange, onSelect, input, loading, classes } = this.props
     const { filteredItems } = this.state
+
     return (
       <div className={classes.textField}>
-        {dynamic ? (
-          <MuiDownshift
-            onStateChange={this.handleStateChange}
-            includeFooter={loading}
-            {...input}
-            {...this.props}
-            loading={loading}
-            menuItemCount={10}
-            items={filteredItems}
-            focusOnClear
-            onSelect={e => this.props.onSelect(this.input.value)}
-            onChange={e => onChange(this.input)}
-            inputRef={node => {
-              this.input = node
-            }}
-          />
-        ) : (
-          <MuiDownshift
-            onStateChange={this.handleStateChange}
-            includeFooter={loading}
-            {...input}
-            {...this.props}
-            loading={loading}
-            menuItemCount={10}
-            items={filteredItems}
-            focusOnClear
-            onChange={e => onChange(this.input)}
-            inputRef={node => {
-              this.input = node
-            }}
-          />
-        )}
+        <MuiDownshift
+          onStateChange={this.handleStateChange}
+          includeFooter={loading}
+          {...input}
+          {...this.props}
+          loading={loading}
+          items={filteredItems}
+          focusOnClear
+          onSelect={
+            dynamic ? e => onSelect(this.input.value) : undefined
+          }
+          onChange={e => onChange(this.input)}
+          inputRef={node => {
+            this.input = node
+          }}
+          menuItemCount={10}
+        />
       </div>
     )
   }
