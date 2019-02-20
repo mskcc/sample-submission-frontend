@@ -1,7 +1,7 @@
 import { uploadFormActions as ActionTypes } from '../../actions'
 import { initialFormState } from './initialState'
 
-function form(state = initialFormState, action) {
+function uploadFormReducer(state = initialFormState, action) {
   switch (action.type) {
     case ActionTypes.REQUEST_MATERIALS_AND_APPLICATIONS:
       return {
@@ -112,6 +112,7 @@ function form(state = initialFormState, action) {
         applications: state.allApplications,
         materials: state.allMaterials,
         selectedMaterial: '',
+        isLoading: true,
       }
     case ActionTypes.CLEAR_APPLICATION:
       return {
@@ -132,4 +133,4 @@ function form(state = initialFormState, action) {
   }
 }
 
-export default form
+export default uploadFormReducer

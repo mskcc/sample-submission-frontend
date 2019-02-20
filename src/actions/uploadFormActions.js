@@ -56,18 +56,20 @@ export function getMaterialsForApplication(selectedApplication) {
           recipe: selectedApplication.replace('/', '_PIPI_SLASH_'),
         },
       })
-      .then(response =>
+      .then(response => {
         dispatch({
           type: RECEIVE_MATERIALS_FOR_APPLICATION_SUCCESS,
           materials: response.data.choices,
         })
-      )
-      .catch(error =>
+        return response
+      })
+      .catch(error => {
         dispatch({
           type: RECEIVE_MATERIALS_FOR_APPLICATION_FAIL,
-          error: error,
+          error: error.message,
         })
-      )
+        return error
+      })
   }
 }
 
@@ -94,18 +96,20 @@ export function getApplicationsForMaterial(selectedMaterial) {
           type: selectedMaterial.replace('/', '_PIPI_SLASH_'),
         },
       })
-      .then(response =>
+      .then(response => {
         dispatch({
           type: RECEIVE_APPLICATIONS_FOR_MATERIAL_SUCCESS,
           applications: response.data.choices,
         })
-      )
-      .catch(error =>
+        return response
+      })
+      .catch(error => {
         dispatch({
           type: RECEIVE_APPLICATIONS_FOR_MATERIAL_FAIL,
-          error: error,
+          error: error.message,
         })
-      )
+        return error
+      })
   }
 }
 
@@ -147,10 +151,7 @@ export function getPicklist(picklist) {
 export const CLEAR_MATERIAL = 'CLEAR_MATERIAL'
 
 export const clearMaterial = () => {
-  return dispatch => {
-    dispatch({ type: CLEAR_MATERIAL })
-    dispatch(cleared())
-  }
+  return [{ type: CLEAR_MATERIAL }, { type: CLEARED }]
 }
 
 export const CLEAR_APPLICATION = 'CLEAR_APPLICATION'
@@ -158,7 +159,7 @@ export const CLEAR_APPLICATION = 'CLEAR_APPLICATION'
 export const clearApplication = () => {
   return dispatch => {
     dispatch({ type: CLEAR_APPLICATION })
-    dispatch(cleared())
+    return dispatch(cleared())
   }
 }
 
@@ -166,7 +167,7 @@ export const CLEARED = 'CLEARED'
 // timeout for CLEARED to show user loading animation to indicate change
 export const cleared = () => {
   return dispatch => {
-    setTimeout(() => {
+    return setTimeout(() => {
       dispatch({ type: CLEARED })
     }, 500)
   }

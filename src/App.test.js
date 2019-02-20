@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Dropdown from './components/Header/Dropdown'
+import Dropdown from './components/Upload/Dropdown'
 
 it('renders without crashing', () => {
   const div = document.createElement('div')

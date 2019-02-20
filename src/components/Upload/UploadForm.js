@@ -4,13 +4,12 @@ import { Translate } from 'react-localize-redux'
 import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
 
-import TextField from '@material-ui/core/TextField'
-
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Button from '@material-ui/core/Button'
 import Dropdown from './Dropdown'
+import Input from './Input'
 
-class FormComponent extends React.Component {
+class UploadForm extends React.Component {
   constructor(props) {
     super(props)
 
@@ -154,29 +153,30 @@ class FormComponent extends React.Component {
                 })}
               />
 
-              <TextField
+              <Input
                 id="number_of_samples"
-                className={classes.textField}
-                required
+                classes={classes.textField}
                 type="number"
                 label={translate('header.sample_number_label')}
                 helperText={translate('header.sample_number_helptext')}
                 onChange={this.handleInputChange('number_of_samples')}
               />
 
-              <TextField
+              <Input
                 id="igo_request_id"
-                className={classes.textField}
+                classes={classes.textField}
                 // select
-                required
+
                 onChange={this.handleInputChange('igo_request_id')}
                 label={translate('header.igo_request_id_label')}
-                InputProps={{
+                inputProps={{
                   startAdornment: (
                     <InputAdornment position="start">IGO-</InputAdornment>
                   ),
                 }}
               />
+
+              <Input/>
               <Button
                 variant="contained"
                 type="submit"
@@ -225,4 +225,4 @@ const styles = theme => ({
   },
 })
 
-export default withStyles(styles)(FormComponent)
+export default withStyles(styles)(UploadForm)

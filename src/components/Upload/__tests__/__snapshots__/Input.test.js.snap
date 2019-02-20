@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Render Input render Input correctly 1`] = `
+<div
+  className="MuiFormControl-root-1"
+>
+  <label
+    className="MuiFormLabel-root-16 MuiFormLabel-required-21 MuiInputLabel-required-9 MuiInputLabel-root-5 MuiInputLabel-formControl-10 MuiInputLabel-animated-13"
+    data-shrink={false}
+  >
+    label
+    <span
+      className="MuiFormLabel-asterisk-22"
+    >
+       *
+    </span>
+  </label>
+  <div
+    className="MuiInputBase-root-36 MuiInput-root-23 MuiInput-underline-27 MuiInputBase-formControl-37 MuiInput-formControl-24"
+    onClick={[Function]}
+  >
+    <input
+      aria-invalid={false}
+      className="MuiInputBase-input-46 MuiInput-input-31"
+      disabled={false}
+      onBlur={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
+      required={true}
+      type="text"
+    />
+  </div>
+  <p
+    className="MuiFormHelperText-root-53 MuiFormHelperText-required-60"
+  >
+    helptext
+  </p>
+</div>
+`;

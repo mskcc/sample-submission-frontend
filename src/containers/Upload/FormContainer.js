@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { uploadFormActions } from '../../actions'
 
-import { FormComponent } from '../../components/Upload'
+import { UploadForm } from '../../components/Upload'
 
 // materials that be combined with a Blocks/Slides/Tubes container
 const BSTMaterials = [
@@ -36,8 +36,12 @@ class FormContainer extends React.Component {
     if (selectedMaterial) {
       // get possible applications for this material
       this.props.getApplicationsForMaterial(selectedMaterial)
-    } else this.props.clearMaterial()
-
+    } else {
+      this.props.clearMaterial()
+      setTimeout(() => {
+        this.props.cleared
+      }, 500)
+    }
     // show containers depending on material combination
     this.props.showAllContainers(
       BSTMaterials.includes(selectedMaterial.toLowerCase())
@@ -48,13 +52,18 @@ class FormContainer extends React.Component {
     if (selectedApplication) {
       // get possible ,materials for this application
       this.props.getMaterialsForApplication(selectedApplication)
-    } else this.props.clearApplication()
+    } else {
+      this.props.clearApplication()
+      setTimeout(() => {
+        this.props.cleared
+      }, 500)
+    }
   }
 
   render() {
     const { classes, form } = this.props
     return (
-      <FormComponent
+      <UploadForm
         form={form}
         handleSubmit={this.handleSubmit}
         handleMaterialChange={this.handleMaterialChange}

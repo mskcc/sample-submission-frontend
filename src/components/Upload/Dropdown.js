@@ -43,9 +43,7 @@ class Dropdown extends Component {
           loading={loading}
           items={filteredItems}
           focusOnClear
-          onSelect={
-            dynamic ? e => onSelect(this.input.value) : undefined
-          }
+          onSelect={dynamic ? e => onSelect(this.input.value) : undefined}
           onChange={e => onChange(this.input)}
           inputRef={node => {
             this.input = node
@@ -64,17 +62,14 @@ Dropdown.defaultProps = {
     { label: 'itemId1', value: 'itemValue1' },
   ],
   loading: false,
-  onChange: function() {
-    e => onChange(this.input.value)
-  },
 }
 
 Dropdown.propTypes = {
   items: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
   label: PropTypes.string.isRequired,
   helptext: PropTypes.string.isRequired,
-  loading: PropTypes.bool.isRequired,
-  onChange: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
+  onChange: PropTypes.func,
   // value: PropTypes.string.isRequired,
 }
 

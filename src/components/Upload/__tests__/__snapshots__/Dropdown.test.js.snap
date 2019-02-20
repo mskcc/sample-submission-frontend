@@ -14,47 +14,34 @@ exports[`Render Dropdown render Dropdown correctly 1`] = `
     <div
       className="MuiFormControl-root-2 MuiFormControl-fullWidth-5"
     >
-      <label
-        className="MuiFormLabel-root-17 MuiFormLabel-required-22 MuiInputLabel-required-10 MuiInputLabel-root-6 MuiInputLabel-formControl-11 MuiInputLabel-animated-14"
-        data-shrink={false}
-        htmlFor="downshift-0-input"
-        id="downshift-0-label"
-      >
-        label
-        <span
-          className="MuiFormLabel-asterisk-23"
-        >
-           *
-        </span>
-      </label>
       <div
         aria-activedescendant={null}
         aria-autocomplete="list"
         aria-controls={null}
         aria-labelledby="downshift-0-label"
-        className="MuiInputBase-root-37 MuiInput-root-24 MuiInput-underline-28 MuiInputBase-formControl-38 MuiInput-formControl-25 MuiInputBase-adornedEnd-42"
+        className="MuiInputBase-root-19 MuiInput-root-6 MuiInput-underline-10 MuiInputBase-formControl-20 MuiInput-formControl-7 MuiInputBase-adornedEnd-24"
         onClick={[Function]}
       >
         <input
           aria-invalid={false}
           autoComplete="off"
-          className="MuiInputBase-input-47 MuiInput-input-32 MuiInputBase-inputAdornedEnd-53"
+          className="MuiInputBase-input-29 MuiInput-input-14 MuiInputBase-inputAdornedEnd-35"
           disabled={false}
           id="downshift-0-input"
           onBlur={[Function]}
           onChange={[Function]}
           onFocus={[Function]}
           onKeyDown={[Function]}
-          required={true}
+          required={false}
           type="text"
           value=""
         />
         <div
-          className="MuiInputAdornment-root-54 MuiInputAdornment-positionEnd-57"
+          className="MuiInputAdornment-root-36 MuiInputAdornment-positionEnd-39"
         >
           <button
             aria-label="Toggle menu open"
-            className="MuiButtonBase-root-65 MuiIconButton-root-59"
+            className="MuiButtonBase-root-47 MuiIconButton-root-41"
             disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
@@ -72,11 +59,11 @@ exports[`Render Dropdown render Dropdown correctly 1`] = `
             type="button"
           >
             <span
-              className="MuiIconButton-label-64"
+              className="MuiIconButton-label-46"
             >
               <svg
                 aria-hidden="true"
-                className="MuiSvgIcon-root-68"
+                className="MuiSvgIcon-root-50"
                 focusable="false"
                 role="presentation"
                 viewBox="0 0 24 24"
@@ -91,16 +78,11 @@ exports[`Render Dropdown render Dropdown correctly 1`] = `
               </svg>
             </span>
             <span
-              className="MuiTouchRipple-root-86"
+              className="MuiTouchRipple-root-60"
             />
           </button>
         </div>
       </div>
-      <p
-        className="MuiFormHelperText-root-77 MuiFormHelperText-required-84"
-      >
-        helptext
-      </p>
     </div>
   </div>
 </div>
