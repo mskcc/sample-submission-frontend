@@ -1,10 +1,9 @@
 //TODO ERROR HANDLING
 import axios from 'axios'
 
+let API_ROOT = 'http://localhost:9004/'
 if (process.env.NODE_ENV === 'production') {
-  const API_ROOT = 'https://rex.mskcc.org/apps/auth/'
-} else {
-  const API_ROOT = 'http://localhost:9004/'
+  API_ROOT = 'https://rex.mskcc.org/apps/auth/'
 }
 
 export const REQUEST_MATERIALS_AND_APPLICATIONS =

@@ -2,7 +2,7 @@
   "name": "REX",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://l-wagner.github.io/sample-intake-v2-frontend/"
+  "homepage": "https://l-wagner.github.io/sample-intake-v2-frontend/",
 
   "dependencies": {
     "@babel/core": "7.1.6",
