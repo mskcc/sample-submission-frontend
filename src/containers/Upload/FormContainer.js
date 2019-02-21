@@ -28,8 +28,8 @@ class FormContainer extends React.Component {
     this.props.getMaterialsAndApplications()
     this.props.getPicklist('Species')
   }
-  handleSubmit = () => {
-    console.log(this.state)
+  handleSubmit = formContent => {
+    console.log(formContent)
   }
 
   handleMaterialChange = selectedMaterial => {

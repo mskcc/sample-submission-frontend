@@ -615,6 +615,7 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
     disabled={false}
     form="my-form-id"
     onBlur={[Function]}
+    onClick={[Function]}
     onContextMenu={[Function]}
     onFocus={[Function]}
     onKeyDown={[Function]}
