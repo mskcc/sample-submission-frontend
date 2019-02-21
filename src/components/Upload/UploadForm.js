@@ -1,5 +1,6 @@
 import React from 'react'
 import { Translate } from 'react-localize-redux'
+import PropTypes from 'prop-types'
 
 import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
@@ -190,6 +191,23 @@ class UploadForm extends React.Component {
       </Translate>
     )
   }
+}
+
+// classes,
+//       form,
+//       handleSubmit,
+//       handleApplicationChange,
+//       handleMaterialChange,
+
+UploadForm.defaultProps = {
+  form: {},
+}
+
+UploadForm.propTypes = {
+  form: PropTypes.object.isRequired,
+  handleSubmit: PropTypes.func,
+  handleApplicationChange: PropTypes.func,
+  handleMaterialChange: PropTypes.func,
 }
 
 const styles = theme => ({
