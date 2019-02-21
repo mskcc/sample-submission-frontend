@@ -175,18 +175,16 @@ class UploadForm extends React.Component {
                   ),
                 }}
               />
-
-              <Input/>
-              <Button
-                variant="contained"
-                type="submit"
-                form="my-form-id"
-                className={classes.button}
-                color="secondary"
-              >
-                {translate('header.generate_button')}
-              </Button>
             </form>
+            <Button
+              variant="contained"
+              type="submit"
+              form="my-form-id"
+              className={classes.button}
+              color="secondary"
+            >
+              {translate('header.generate_button')}
+            </Button>
           </div>
         )}
       </Translate>

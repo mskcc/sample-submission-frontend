@@ -38,7 +38,7 @@ class Root extends Component {
             <Header />
             <Route path="/upload" component={Upload} />
             <Route path="/promote" component={Promote} />
-            <DevTools />
+            {process.env.NODE_ENV !== 'production' ? <DevTools /> : <div />}
           </div>
         </Provider>
       </MuiThemeProvider>
@@ -62,6 +62,7 @@ const theme = createMuiTheme({
   },
   palette: {
     primary: {
+      logo: '#319ae8',
       light: '#8FC7E8',
       main: '#007CBA',
       dark: '#006098',

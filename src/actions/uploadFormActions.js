@@ -3,7 +3,8 @@ import axios from 'axios'
 
 let API_ROOT = 'http://localhost:9004/'
 if (process.env.NODE_ENV === 'production') {
-  API_ROOT = 'https://rex.mskcc.org/apps/auth/'
+  API_ROOT = '/apps/auth/'
+  // API_ROOT = 'https://rex.mskcc.org/apps/auth/'
 }
 
 export const REQUEST_MATERIALS_AND_APPLICATIONS =
