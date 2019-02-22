@@ -54,20 +54,23 @@ class UploadForm extends React.Component {
   }
 
   handleDropdownChange = event => {
-    this.setState(
-      { values: { ...this.state.values, [event.id]: event.value } },
-      () => {
-        // this.validate(event.id, event.value)
-      }
-    )
+    this.setState({
+      values: {
+        ...this.state.values,
+        [event.id]: event.value,
+      },
+      formValid: { ...this.state.formValid, [event.id]: true },
+    })
   }
 
   handleInputChange = name => event => {
     const fieldName = name
     const value = event.target.value
 
+    // reset error
     this.setState({
       values: { ...this.state.values, [name]: value },
+      formValid: { ...this.state.formValid, [name]: true },
     })
   }
 
@@ -281,14 +284,8 @@ class UploadForm extends React.Component {
                 id="igo_request_id"
                 classes={classes.textField}
                 type="number"
-                // onBlur={this.validate('igo_request_id')}
                 onChange={this.handleInputChange('igo_request_id')}
                 label={translate('header.igo_request_id_label')}
-                // helperText={
-                //   this.state.formErrors.igo_request_id.length > 1
-                //     ? this.state.formErrors.igo_request_id
-                //     : translate('header.sample_number_helptext')
-                // }
                 helperText={translate('header.igo_request_id_helptext')}
                 inputProps={{
                   startAdornment: (
@@ -314,12 +311,6 @@ class UploadForm extends React.Component {
     )
   }
 }
-
-// classes,
-//       form,
-//       handleSubmit,
-//       handleApplicationChange,
-//       handleMaterialChange,
 
 UploadForm.defaultProps = {
   form: {},
