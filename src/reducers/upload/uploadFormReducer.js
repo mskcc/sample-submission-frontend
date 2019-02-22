@@ -37,6 +37,12 @@ function uploadFormReducer(state = initialFormState, action) {
         ...state,
         containers: state.picklists.FilteredContainers,
       }
+
+    case ActionTypes.FILTER_CONTAINERS_FOR_BS:
+      return {
+        ...state,
+        containers: state.picklists.FilteredContainersForBS,
+      }
     case ActionTypes.SHOW_ALL_CONTAINERS:
       return {
         ...state,

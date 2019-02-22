@@ -13,6 +13,7 @@ export const initialFormState = {
 
     Containers: ['Plates', 'Micronic Barcoded Tubes', 'Blocks/Slides/Tubes'],
     FilteredContainers: ['Plates', 'Micronic Barcoded Tubes'],
+    FilteredContainersForBS: ['Blocks/Slides/Tubes'],
     'Patient ID Format': [
       'MRN',
       'User Provided Patient ID',

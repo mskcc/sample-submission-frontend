@@ -1,5 +1,6 @@
 import React from 'react'
 import { Translate } from 'react-localize-redux'
+import PropTypes from 'prop-types'
 
 import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
@@ -14,13 +15,15 @@ class UploadForm extends React.Component {
     super(props)
 
     this.state = {
-      material: '',
-      application: '',
-      igo_request_id: '',
-      number_of_samples: '',
-      species: '',
-      container: '',
-      patient_id_format: '',
+      values: {
+        material: '',
+        application: '',
+        igo_request_id: '',
+        number_of_samples: '',
+        species: '',
+        container: '',
+        patient_id_format: '',
+      },
       formErrors: {
         material: '',
         application: '',
@@ -30,22 +33,32 @@ class UploadForm extends React.Component {
         container: '',
         patient_id_format: '',
       },
+      formValid: {
+        material_valid: false,
+        application_valid: false,
+        igo_request_id_valid: false,
+        number_of_samples_valid: false,
+        species_valid: false,
+        container_valid: false,
+        patient_id_format_valid: false,
+      },
     }
   }
   componentDidUpdate(prevProps, prevState) {
-    console.log('prevState')
-    console.log(prevState)
-    console.log('state')
-    console.log(this.state)
+    // console.log('prevState')
+    // console.log(prevState)
+    // console.log('state')
+    // console.log(this.state)
   }
 
   handleDropdownChange = event => {
-    this.setState({ [event.id]: event.value })
+    this.setState({ values: { ...this.state.values, [event.id]: event.value } })
   }
 
   handleInputChange = name => event => {
-    this.setState({ [name]: event.target.value })
-    console.log(this.state)
+    this.setState({
+      values: { ...this.state.values, [name]: event.target.value },
+    })
   }
 
   render() {
@@ -182,6 +195,7 @@ class UploadForm extends React.Component {
               form="my-form-id"
               className={classes.button}
               color="secondary"
+              onClick={e => handleSubmit(this.state)}
             >
               {translate('header.generate_button')}
             </Button>
@@ -190,6 +204,23 @@ class UploadForm extends React.Component {
       </Translate>
     )
   }
+}
+
+// classes,
+//       form,
+//       handleSubmit,
+//       handleApplicationChange,
+//       handleMaterialChange,
+
+UploadForm.defaultProps = {
+  form: {},
+}
+
+UploadForm.propTypes = {
+  form: PropTypes.object.isRequired,
+  handleSubmit: PropTypes.func,
+  handleApplicationChange: PropTypes.func,
+  handleMaterialChange: PropTypes.func,
 }
 
 const styles = theme => ({
