@@ -6,19 +6,18 @@ import { connect } from 'react-redux'
 import { resetErrorMessage } from '../../actions/commonActions'
 
 import { Table } from '../../components'
-import FormContainer from './FormContainer'
+import UploadFormContainer from './UploadFormContainer'
 
-class Upload extends Component {
+class UploadPage extends Component {
   submit = values => {
-    // print the FormContainer values to the console
+    // print the UploadFormContainer values to the console
     console.log(values)
   }
 
   render() {
     return (
       <React.Fragment>
-        <FormContainer onSubmit={this.submit} />
-        
+        <UploadFormContainer onSubmit={this.submit} />
       </React.Fragment>
     )
   }
@@ -34,5 +33,5 @@ export default withLocalize(
     {
       resetErrorMessage,
     }
-  )(Upload)
+  )(UploadPage)
 )

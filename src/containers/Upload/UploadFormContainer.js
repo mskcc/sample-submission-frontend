@@ -10,7 +10,7 @@ import { UploadForm } from '../../components/Upload'
 // materials that be combined with a Blocks/Slides/Tubes container
 const BSTMaterials = ['tissue', 'cells', 'blood', 'buffy coat', 'other']
 
-class FormContainer extends React.Component {
+class UploadFormContainer extends React.Component {
   constructor(props) {
     super(props)
   }
@@ -83,4 +83,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(FormContainer)
+)(UploadFormContainer)
