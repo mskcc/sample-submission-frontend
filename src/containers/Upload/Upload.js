@@ -18,7 +18,7 @@ class Upload extends Component {
     return (
       <React.Fragment>
         <FormContainer onSubmit={this.submit} />
-        <Table />
+        
       </React.Fragment>
     )
   }

@@ -30,15 +30,15 @@ class Dropdown extends Component {
     }
   }
   render() {
-    const { dynamic, onChange, onSelect, input, loading, classes } = this.props
+    const { dynamic, error, onChange, onSelect, loading, classes } = this.props
     const { filteredItems } = this.state
 
     return (
       <div className={classes.textField}>
         <MuiDownshift
+          error={error}
           onStateChange={this.handleStateChange}
           includeFooter={loading}
-          {...input}
           {...this.props}
           loading={loading}
           items={filteredItems}
@@ -69,7 +69,10 @@ Dropdown.propTypes = {
   label: PropTypes.string.isRequired,
   helptext: PropTypes.string.isRequired,
   loading: PropTypes.bool,
+  error: PropTypes.bool,
+  dynamic: PropTypes.bool,
   onChange: PropTypes.func,
+  onSelect: PropTypes.func,
   // value: PropTypes.string.isRequired,
 }
 

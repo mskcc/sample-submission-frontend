@@ -6,6 +6,7 @@ import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
 
 import InputAdornment from '@material-ui/core/InputAdornment'
+
 import Button from '@material-ui/core/Button'
 import Dropdown from './Dropdown'
 import Input from './Input'
@@ -34,30 +35,110 @@ class UploadForm extends React.Component {
         patient_id_format: '',
       },
       formValid: {
-        material_valid: false,
-        application_valid: false,
-        igo_request_id_valid: false,
-        number_of_samples_valid: false,
-        species_valid: false,
-        container_valid: false,
-        patient_id_format_valid: false,
+        form: true,
+        material: true,
+        application: true,
+        igo_request_id: true,
+        number_of_samples: true,
+        species: true,
+        container: true,
+        patient_id_format: true,
       },
     }
   }
   componentDidUpdate(prevProps, prevState) {
-    // console.log('prevState')
-    // console.log(prevState)
-    // console.log('state')
-    // console.log(this.state)
+    console.log('prevState')
+    console.log(prevState)
+    console.log('state')
+    console.log(this.state)
   }
 
   handleDropdownChange = event => {
-    this.setState({ values: { ...this.state.values, [event.id]: event.value } })
+    this.setState(
+      { values: { ...this.state.values, [event.id]: event.value } },
+      () => {
+        // this.validate(event.id, event.value)
+      }
+    )
   }
 
   handleInputChange = name => event => {
+    const fieldName = name
+    const value = event.target.value
+
     this.setState({
-      values: { ...this.state.values, [name]: event.target.value },
+      values: { ...this.state.values, [name]: value },
+    })
+  }
+
+  handleSubmit = (e, handleParentSubmit) => {
+    e.preventDefault()
+    e.stopPropagation()
+    console.log(e)
+    this.validate()
+    if (this.state.formValid.form) {
+      handleParentSubmit(this.state)
+    } else alert('error')
+  }
+
+  validate() {
+    // let formErrors = this.state.formErrors
+    let formValid = this.state.formValid
+    let valid
+    let error
+    let values = this.state.values
+    for (let value in values) {
+      console.log(value)
+
+      switch (value) {
+        // only field needing actual validation so far
+        case 'igo_request_id':
+          formValid.igo_request_id =
+            /\d{6}/g.test(values[value]) && values[value].length === 6
+          // formErrors.igo_request_id = valid ? '' : ' is invalid'
+
+          break
+
+        // all others just have to be filled out
+        case 'material':
+        case 'application':
+        case 'number_of_samples':
+        case 'species':
+        case 'container':
+        case 'patient_id_format':
+          formValid[value] = values[value].length > 0
+          // error = valid ? '' : 'Please fill out this field'
+          break
+
+        default:
+          break
+      }
+    }
+
+    this.setState({
+      formValid: {
+        ...this.state.formValid,
+        formValid,
+      },
+    })
+    // checked all fields, now check form
+    this.validateForm()
+  }
+
+  validateForm() {
+    this.setState({
+      formValid: {
+        ...this.state.formValid,
+        form:
+          this.state.formValid.igo_request_id &&
+          this.state.formValid.material &&
+          this.state.formValid.application &&
+          this.state.formValid.igo_request_id &&
+          this.state.formValid.number_of_samples &&
+          this.state.formValid.species &&
+          this.state.formValid.container &&
+          this.state.formValid.patient_id_format,
+      },
     })
   }
 
@@ -70,11 +151,17 @@ class UploadForm extends React.Component {
       handleMaterialChange,
     } = this.props
 
+    const { formErrors, values, formValid } = this.state
+
     return (
       <Translate>
         {({ translate }) => (
           <div className={classes.form}>
-            <form className={classes.container} onSubmit={handleSubmit}>
+            <form
+              id="upload-form"
+              className={classes.container}
+              onSubmit={e => this.handleSubmit(e, handleSubmit)}
+            >
               <Dropdown
                 dynamic={true}
                 loading={form.isLoading}
@@ -86,13 +173,14 @@ class UploadForm extends React.Component {
                 }))}
                 getInputProps={() => ({
                   id: 'material',
+                  error: !this.state.formValid.material,
+
                   label: translate('header.material_label'),
                   helperText:
                     translate('header.material_helptext') +
                     ' (' +
                     form.materials.length +
                     ' choices)',
-                  required: true,
                 })}
               />
 
@@ -107,13 +195,14 @@ class UploadForm extends React.Component {
                 }))}
                 getInputProps={() => ({
                   id: 'application',
+                  error: !this.state.formValid.application,
+
                   label: translate('header.application_label'),
                   helperText:
                     translate('header.application_helptext') +
                     ' (' +
                     form.applications.length +
                     ' choices)',
-                  required: true,
                 })}
               />
 
@@ -127,13 +216,15 @@ class UploadForm extends React.Component {
                 required
                 getInputProps={() => ({
                   id: 'container',
-                  label: translate('header.container_label'),
+                  error: !this.state.formValid.container,
+                  label: this.state.formValid.container
+                    ? translate('header.container_label')
+                    : translate('header.fill_me'),
                   helperText:
                     translate('header.container_helptext') +
                     ' (' +
                     form.containers.length +
                     ' choices)',
-                  required: true,
                 })}
               />
 
@@ -145,14 +236,14 @@ class UploadForm extends React.Component {
                 onChange={this.handleDropdownChange}
                 getInputProps={() => ({
                   id: 'species',
+                  error: !this.state.formValid.species,
+
                   label: translate('header.species_label'),
                   helperText: translate('header.species_helptext'),
-                  required: true,
                 })}
               />
 
               <Dropdown
-                required
                 items={form.picklists['Patient ID Format'].map(option => ({
                   value: option,
                   label: option,
@@ -160,28 +251,45 @@ class UploadForm extends React.Component {
                 onChange={this.handleDropdownChange}
                 getInputProps={() => ({
                   id: 'patient_id_format',
+                  error: !this.state.formValid.patient_id_format,
+
                   label: translate('header.patient_id_format_label'),
                   helperText: translate('header.patient_id_format_helptext'),
-                  required: true,
                 })}
               />
 
               <Input
+                error={!this.state.formValid.number_of_samples}
+                // error={!this.state.formValid.number_of_samples}
                 id="number_of_samples"
                 classes={classes.textField}
                 type="number"
+                inputProps={{
+                  inputProps: { min: 0 },
+                }}
                 label={translate('header.sample_number_label')}
-                helperText={translate('header.sample_number_helptext')}
+                helperText={
+                  this.state.formErrors.number_of_samples.length > 1
+                    ? formErrors.number_of_samples
+                    : translate('header.sample_number_helptext')
+                }
                 onChange={this.handleInputChange('number_of_samples')}
               />
 
               <Input
+                error={!this.state.formValid.igo_request_id}
                 id="igo_request_id"
                 classes={classes.textField}
-                // select
-
+                type="number"
+                // onBlur={this.validate('igo_request_id')}
                 onChange={this.handleInputChange('igo_request_id')}
                 label={translate('header.igo_request_id_label')}
+                // helperText={
+                //   this.state.formErrors.igo_request_id.length > 1
+                //     ? this.state.formErrors.igo_request_id
+                //     : translate('header.sample_number_helptext')
+                // }
+                helperText={translate('header.igo_request_id_helptext')}
                 inputProps={{
                   startAdornment: (
                     <InputAdornment position="start">IGO-</InputAdornment>
@@ -189,13 +297,14 @@ class UploadForm extends React.Component {
                 }}
               />
             </form>
+
             <Button
               variant="contained"
               type="submit"
-              form="my-form-id"
+              form="upload-form"
               className={classes.button}
               color="secondary"
-              onClick={e => handleSubmit(this.state)}
+              // disabled={!this.state.formValid.form}
             >
               {translate('header.generate_button')}
             </Button>
