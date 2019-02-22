@@ -6,6 +6,8 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
 >
   <form
     className="UploadForm-container-1"
+    id="upload-form"
+    onSubmit={[Function]}
   >
     <div
       className="Dropdown-textField-7"
@@ -21,17 +23,12 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
           className="MuiFormControl-root-8 MuiFormControl-fullWidth-11"
         >
           <label
-            className="MuiFormLabel-root-23 MuiFormLabel-required-28 MuiInputLabel-required-16 MuiInputLabel-root-12 MuiInputLabel-formControl-17 MuiInputLabel-animated-20"
+            className="MuiFormLabel-root-23 MuiInputLabel-root-12 MuiInputLabel-formControl-17 MuiInputLabel-animated-20"
             data-shrink={false}
             htmlFor="downshift-0-input"
             id="downshift-0-label"
           >
             Missing translationId: header.material_label for language: \${ languageCode }
-            <span
-              className="MuiFormLabel-asterisk-29"
-            >
-               *
-            </span>
           </label>
           <div
             aria-activedescendant={null}
@@ -51,7 +48,7 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
               onChange={[Function]}
               onFocus={[Function]}
               onKeyDown={[Function]}
-              required={true}
+              required={false}
               type="text"
               value=""
             />
@@ -103,7 +100,7 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
             </div>
           </div>
           <p
-            className="MuiFormHelperText-root-83 MuiFormHelperText-required-90"
+            className="MuiFormHelperText-root-83"
           >
             Missing translationId: header.material_helptext for language: \${ languageCode } (0 choices)
           </p>
@@ -124,17 +121,12 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
           className="MuiFormControl-root-8 MuiFormControl-fullWidth-11"
         >
           <label
-            className="MuiFormLabel-root-23 MuiFormLabel-required-28 MuiInputLabel-required-16 MuiInputLabel-root-12 MuiInputLabel-formControl-17 MuiInputLabel-animated-20"
+            className="MuiFormLabel-root-23 MuiInputLabel-root-12 MuiInputLabel-formControl-17 MuiInputLabel-animated-20"
             data-shrink={false}
             htmlFor="downshift-1-input"
             id="downshift-1-label"
           >
             Missing translationId: header.application_label for language: \${ languageCode }
-            <span
-              className="MuiFormLabel-asterisk-29"
-            >
-               *
-            </span>
           </label>
           <div
             aria-activedescendant={null}
@@ -154,7 +146,7 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
               onChange={[Function]}
               onFocus={[Function]}
               onKeyDown={[Function]}
-              required={true}
+              required={false}
               type="text"
               value=""
             />
@@ -206,7 +198,7 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
             </div>
           </div>
           <p
-            className="MuiFormHelperText-root-83 MuiFormHelperText-required-90"
+            className="MuiFormHelperText-root-83"
           >
             Missing translationId: header.application_helptext for language: \${ languageCode } (0 choices)
           </p>
@@ -227,17 +219,12 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
           className="MuiFormControl-root-8 MuiFormControl-fullWidth-11"
         >
           <label
-            className="MuiFormLabel-root-23 MuiFormLabel-required-28 MuiInputLabel-required-16 MuiInputLabel-root-12 MuiInputLabel-formControl-17 MuiInputLabel-animated-20"
+            className="MuiFormLabel-root-23 MuiInputLabel-root-12 MuiInputLabel-formControl-17 MuiInputLabel-animated-20"
             data-shrink={false}
             htmlFor="downshift-2-input"
             id="downshift-2-label"
           >
             Missing translationId: header.container_label for language: \${ languageCode }
-            <span
-              className="MuiFormLabel-asterisk-29"
-            >
-               *
-            </span>
           </label>
           <div
             aria-activedescendant={null}
@@ -257,7 +244,7 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
               onChange={[Function]}
               onFocus={[Function]}
               onKeyDown={[Function]}
-              required={true}
+              required={false}
               type="text"
               value=""
             />
@@ -309,7 +296,7 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
             </div>
           </div>
           <p
-            className="MuiFormHelperText-root-83 MuiFormHelperText-required-90"
+            className="MuiFormHelperText-root-83"
           >
             Missing translationId: header.container_helptext for language: \${ languageCode } (2 choices)
           </p>
@@ -330,17 +317,12 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
           className="MuiFormControl-root-8 MuiFormControl-fullWidth-11"
         >
           <label
-            className="MuiFormLabel-root-23 MuiFormLabel-required-28 MuiInputLabel-required-16 MuiInputLabel-root-12 MuiInputLabel-formControl-17 MuiInputLabel-animated-20"
+            className="MuiFormLabel-root-23 MuiInputLabel-root-12 MuiInputLabel-formControl-17 MuiInputLabel-animated-20"
             data-shrink={false}
             htmlFor="downshift-3-input"
             id="downshift-3-label"
           >
             Missing translationId: header.species_label for language: \${ languageCode }
-            <span
-              className="MuiFormLabel-asterisk-29"
-            >
-               *
-            </span>
           </label>
           <div
             aria-activedescendant={null}
@@ -360,7 +342,7 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
               onChange={[Function]}
               onFocus={[Function]}
               onKeyDown={[Function]}
-              required={true}
+              required={false}
               type="text"
               value=""
             />
@@ -412,7 +394,7 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
             </div>
           </div>
           <p
-            className="MuiFormHelperText-root-83 MuiFormHelperText-required-90"
+            className="MuiFormHelperText-root-83"
           >
             Missing translationId: header.species_helptext for language: \${ languageCode }
           </p>
@@ -433,17 +415,12 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
           className="MuiFormControl-root-8 MuiFormControl-fullWidth-11"
         >
           <label
-            className="MuiFormLabel-root-23 MuiFormLabel-required-28 MuiInputLabel-required-16 MuiInputLabel-root-12 MuiInputLabel-formControl-17 MuiInputLabel-animated-20"
+            className="MuiFormLabel-root-23 MuiInputLabel-root-12 MuiInputLabel-formControl-17 MuiInputLabel-animated-20"
             data-shrink={false}
             htmlFor="downshift-4-input"
             id="downshift-4-label"
           >
             Missing translationId: header.patient_id_format_label for language: \${ languageCode }
-            <span
-              className="MuiFormLabel-asterisk-29"
-            >
-               *
-            </span>
           </label>
           <div
             aria-activedescendant={null}
@@ -463,7 +440,7 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
               onChange={[Function]}
               onFocus={[Function]}
               onKeyDown={[Function]}
-              required={true}
+              required={false}
               type="text"
               value=""
             />
@@ -515,7 +492,7 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
             </div>
           </div>
           <p
-            className="MuiFormHelperText-root-83 MuiFormHelperText-required-90"
+            className="MuiFormHelperText-root-83"
           >
             Missing translationId: header.patient_id_format_helptext for language: \${ languageCode }
           </p>
@@ -526,16 +503,11 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
       className="MuiFormControl-root-8 UploadForm-textField-3"
     >
       <label
-        className="MuiFormLabel-root-23 MuiFormLabel-required-28 MuiInputLabel-required-16 MuiInputLabel-root-12 MuiInputLabel-formControl-17 MuiInputLabel-animated-20"
+        className="MuiFormLabel-root-23 MuiInputLabel-root-12 MuiInputLabel-formControl-17 MuiInputLabel-animated-20"
         data-shrink={false}
         htmlFor="number_of_samples"
       >
         Missing translationId: header.sample_number_label for language: \${ languageCode }
-        <span
-          className="MuiFormLabel-asterisk-29"
-        >
-           *
-        </span>
       </label>
       <div
         className="MuiInputBase-root-43 MuiInput-root-30 MuiInput-underline-34 MuiInputBase-formControl-44 MuiInput-formControl-31"
@@ -547,15 +519,16 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
           className="MuiInputBase-input-53 MuiInput-input-38 MuiInputBase-inputType-56 MuiInput-inputType-41"
           disabled={false}
           id="number_of_samples"
+          min={0}
           onBlur={[Function]}
           onChange={[Function]}
           onFocus={[Function]}
-          required={true}
+          required={false}
           type="number"
         />
       </div>
       <p
-        className="MuiFormHelperText-root-83 MuiFormHelperText-required-90"
+        className="MuiFormHelperText-root-83"
         id="number_of_samples-helper-text"
       >
         Missing translationId: header.sample_number_helptext for language: \${ languageCode }
@@ -565,16 +538,11 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
       className="MuiFormControl-root-8 UploadForm-textField-3"
     >
       <label
-        className="MuiFormLabel-root-23 MuiFormLabel-required-28 MuiInputLabel-required-16 MuiInputLabel-root-12 MuiInputLabel-formControl-17 MuiInputLabel-animated-20 MuiInputLabel-shrink-19"
+        className="MuiFormLabel-root-23 MuiInputLabel-root-12 MuiInputLabel-formControl-17 MuiInputLabel-animated-20 MuiInputLabel-shrink-19"
         data-shrink={true}
         htmlFor="igo_request_id"
       >
         Missing translationId: header.igo_request_id_label for language: \${ languageCode }
-        <span
-          className="MuiFormLabel-asterisk-29"
-        >
-           *
-        </span>
       </label>
       <div
         className="MuiInputBase-root-43 MuiInput-root-30 MuiInput-underline-34 MuiInputBase-formControl-44 MuiInput-formControl-31 MuiInputBase-adornedStart-47"
@@ -592,30 +560,29 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
         <input
           aria-describedby="igo_request_id-helper-text"
           aria-invalid={false}
-          className="MuiInputBase-input-53 MuiInput-input-38 MuiInputBase-inputAdornedStart-58"
+          className="MuiInputBase-input-53 MuiInput-input-38 MuiInputBase-inputType-56 MuiInput-inputType-41 MuiInputBase-inputAdornedStart-58"
           disabled={false}
           id="igo_request_id"
           onBlur={[Function]}
           onChange={[Function]}
           onFocus={[Function]}
-          required={true}
-          type="text"
+          required={false}
+          type="number"
         />
       </div>
       <p
-        className="MuiFormHelperText-root-83 MuiFormHelperText-required-90"
+        className="MuiFormHelperText-root-83"
         id="igo_request_id-helper-text"
       >
-        helptext
+        Missing translationId: header.igo_request_id_helptext for language: \${ languageCode }
       </p>
     </div>
   </form>
   <button
     className="MuiButtonBase-root-71 MuiButton-root-128 MuiButton-contained-139 MuiButton-containedSecondary-141 MuiButton-raised-142 MuiButton-raisedSecondary-144 UploadForm-button-6"
     disabled={false}
-    form="my-form-id"
+    form="upload-form"
     onBlur={[Function]}
-    onClick={[Function]}
     onContextMenu={[Function]}
     onFocus={[Function]}
     onKeyDown={[Function]}

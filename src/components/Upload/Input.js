@@ -10,17 +10,20 @@ const Input = ({
   helperText,
   onChange,
   inputProps,
+  error,
 }) => (
-  <TextField
-    InputProps={inputProps}
-    id={id}
-    className={classes}
-    required
-    type={type}
-    label={label}
-    helperText={helperText}
-    onChange={onChange}
-  />
+  <React.Fragment>
+    <TextField
+      error={error}
+      InputProps={inputProps}
+      id={id}
+      className={classes}
+      type={type}
+      label={label}
+      helperText={helperText}
+      onChange={onChange}
+    />
+  </React.Fragment>
 )
 
 Input.propTypes = {
@@ -30,13 +33,13 @@ Input.propTypes = {
   required: PropTypes.bool,
   type: PropTypes.string,
   label: PropTypes.string.isRequired,
-  helperText: PropTypes.string.isRequired,
+  helperText: PropTypes.string,
   onChange: PropTypes.func,
 }
 
 Input.defaultProps = {
   label: 'label',
-  helperText: 'helptext',
+  helperText: '',
 }
 
 export default Input
