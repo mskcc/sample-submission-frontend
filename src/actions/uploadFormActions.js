@@ -118,16 +118,27 @@ export function getApplicationsForMaterial(selectedMaterial) {
 }
 
 export const FILTER_CONTAINERS = 'FILTER_CONTAINERS'
+export const FILTER_CONTAINERS_FOR_BS = 'FILTER_CONTAINERS_FOR_BS'
 export const SHOW_ALL_CONTAINERS = 'SHOW_ALL_CONTAINERS'
-export function showAllContainers(show) {
-  if (show) {
-    return {
-      type: SHOW_ALL_CONTAINERS,
-    }
-  } else
-    return {
-      type: FILTER_CONTAINERS,
-    }
+export function filterContainers(show) {
+  switch (show) {
+    // for materials in [  'tissue',  'cells',  'blood',  'buffy coat',  'other',],
+    // show all 3 container options
+    case 'all':
+      return {
+        type: SHOW_ALL_CONTAINERS,
+      }
+    // for Blocks/Slides
+    case 'b/s':
+      return {
+        type: FILTER_CONTAINERS_FOR_BS,
+      }
+    // for every other material show two container options
+    default:
+      return {
+        type: FILTER_CONTAINERS,
+      }
+  }
 }
 
 export const REQUEST_PICKLIST = 'REQUEST_PICKLIST'

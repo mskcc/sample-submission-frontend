@@ -8,14 +8,7 @@ import { uploadFormActions } from '../../actions'
 import { UploadForm } from '../../components/Upload'
 
 // materials that be combined with a Blocks/Slides/Tubes container
-const BSTMaterials = [
-  'tissue',
-  'cells',
-  'blood',
-  'blocks/slides',
-  'buffy coat',
-  'other',
-]
+const BSTMaterials = ['tissue', 'cells', 'blood', 'buffy coat', 'other']
 
 class FormContainer extends React.Component {
   constructor(props) {
@@ -43,11 +36,17 @@ class FormContainer extends React.Component {
       }, 500)
     }
     // show containers depending on material combination
-    this.props.showAllContainers(
-      BSTMaterials.includes(selectedMaterial.toLowerCase())
-    )
+    this.filterContainers(selectedMaterial)
   }
 
+  filterContainers = selectedMaterial => {
+    if (selectedMaterial === 'Blocks/Slides') {
+      this.props.filterContainers('all')
+    } else if (BSTMaterials.includes(selectedMaterial.toLowerCase())) {
+      this.props.filterContainers('b/s')
+    } else this.props.filterContainers()
+  }
+  
   handleApplicationChange = selectedApplication => {
     if (selectedApplication) {
       // get possible ,materials for this application
