@@ -17,17 +17,18 @@ const Input = ({
   <Translate>
     {({ translate }) => (
       <TextField
+        id={id}
         error={error}
         className={classes.textField}
-        InputProps={inputProps}
-        id={id}
-        type="number"
+        onChange={onChange}
         label={
           error
             ? translate('upload.form.fill_me')
             : translate('upload.form.' + id + '_label')
         }
         helperText={translate('upload.form.' + id + '_helptext')}
+        InputProps={inputProps}
+        type="number"
       />
     )}
   </Translate>

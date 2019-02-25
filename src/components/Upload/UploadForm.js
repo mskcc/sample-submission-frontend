@@ -27,15 +27,7 @@ class UploadForm extends React.Component {
         container: '',
         patient_id_format: '',
       },
-      formErrors: {
-        material: '',
-        application: '',
-        igo_request_id: '',
-        number_of_samples: '',
-        species: '',
-        container: '',
-        patient_id_format: '',
-      },
+      // formErrors: {},
       formValid: {
         form: true,
         material: true,
@@ -49,10 +41,10 @@ class UploadForm extends React.Component {
     }
   }
   componentDidUpdate(prevProps, prevState) {
-    console.log('prevState')
-    console.log(prevState)
-    console.log('state')
-    console.log(this.state)
+    // console.log('prevState')
+    // console.log(prevState)
+    // console.log('state')
+    // console.log(this.state)
   }
 
   handleDropdownChange = event => {
@@ -76,7 +68,6 @@ class UploadForm extends React.Component {
   handleSubmit = (e, handleParentSubmit) => {
     e.preventDefault()
     e.stopPropagation()
-    console.log(e)
     this.validate()
     if (this.state.formValid.form) {
       handleParentSubmit(this.state)
@@ -88,27 +79,50 @@ class UploadForm extends React.Component {
     let formValid = this.state.formValid
     let valid
     let error
+    let found
     let values = this.state.values
     for (let value in values) {
-      console.log(value)
-
+      if (
+        values[value].toUpperCase().includes('ERROR') ||
+        values[value].toUpperCase().includes('FAILURE')
+      ) {
+        formValid[value] = false
+        break
+      }
       switch (value) {
-        // only field needing actual validation so far
         case 'igo_request_id':
-          formValid.igo_request_id =
+          formValid[value] =
             /\d{6}/g.test(values[value]) && values[value].length === 6
           break
-        // all others just have to be filled out
         case 'material':
+          // validate whether selected value in dynamic fields is in controlled options
+          // (could fail if user was extremely quick to select
+          // invalid material/app combination)
+          found = this.props.form.materials.some(function(el) {
+            return el.value === values[value]
+          })
+          formValid[value] = found && values[value].length > 0
         case 'application':
-        case 'number_of_samples':
-        case 'species':
+          found = this.props.form.applications.some(function(el) {
+            return el.value === values[value]
+          })
+          formValid[value] = found && values[value].length > 0
         case 'container':
+          found = this.props.form.containers.some(function(el) {
+            return el.value === values[value]
+          })
+          formValid[value] = found && values[value].length > 0
+        case 'species':
+          formValid[value] =
+            this.props.form.picklists.Species.includes(value) &&
+            values[value].length > 0
         case 'patient_id_format':
-          formValid[value] = values[value].length > 0
-          // error = valid ? '' : 'Please fill out this field'
+          formValid[value] =
+            this.props.form.picklists['Patient ID Format'].includes(value) &&
+            values[value].length > 0
+        case 'number_of_samples':
+          formValid[value] = values[value] > 0
           break
-
         default:
           break
       }
@@ -149,8 +163,7 @@ class UploadForm extends React.Component {
       handleApplicationChange,
       handleMaterialChange,
     } = this.props
-
-    const { formErrors, values, formValid } = this.state
+    const { formValid } = this.state
 
     return (
       <Translate>
@@ -162,28 +175,22 @@ class UploadForm extends React.Component {
               onSubmit={e => this.handleSubmit(e, handleSubmit)}
             >
               <Dropdown
-                dynamic={true}
-                loading={form.isLoading}
+                id="material"
+                error={!formValid.material}
                 onSelect={handleMaterialChange}
                 onChange={this.handleDropdownChange}
                 items={form.materials.map(option => ({
                   value: option.id,
                   label: option.value,
                 }))}
-                getInputProps={() => ({
-                  id: 'material',
-                  error: !this.state.formValid.material,
-                  label: translate('upload.form.material_label'),
-                  helperText:
-                    translate('upload.form.material_helptext') +
-                    ' (' +
-                    form.materials.length +
-                    ' choices)',
-                })}
+                loading={form.isLoading}
+                dynamic
               />
 
               <Dropdown
-                dynamic={true}
+                id="application"
+                error={!formValid.application}
+                dynamic
                 loading={form.isLoading}
                 onSelect={handleApplicationChange}
                 onChange={this.handleDropdownChange}
@@ -191,67 +198,39 @@ class UploadForm extends React.Component {
                   value: option.id,
                   label: option.value,
                 }))}
-                getInputProps={() => ({
-                  id: 'application',
-                  error: !this.state.formValid.application,
-
-                  label: translate('upload.form.application_label'),
-                  helperText:
-                    translate('upload.form.application_helptext') +
-                    ' (' +
-                    form.applications.length +
-                    ' choices)',
-                })}
+                loading={form.isLoading}
+                dynamic
               />
 
               <Dropdown
-                loading={form.isLoading}
+                id="container"
+                error={!formValid.container}
                 onChange={this.handleDropdownChange}
                 items={form.containers.map(option => ({
                   value: option,
                   label: option,
                 }))}
-                required
-                getInputProps={() => ({
-                  id: 'container',
-                  error: !this.state.formValid.container,
-                  label: this.state.formValid.container
-                    ? translate('upload.form.container_label')
-                    : translate('upload.form.fill_me'),
-                  helperText:
-                    translate('upload.form.container_helptext') +
-                    ' (' +
-                    form.containers.length +
-                    ' choices)',
-                })}
+                loading={form.isLoading}
               />
 
               <Dropdown
+                id="species"
+                error={!formValid.species}
+                onChange={this.handleDropdownChange}
                 items={form.picklists.Species.map(option => ({
                   value: option.id,
                   label: option.value,
                 }))}
-                onChange={this.handleDropdownChange}
-                getInputProps={() => ({
-                  id: 'species',
-                  error: !this.state.formValid.species,
-                  label: translate('upload.form.species_label'),
-                  helperText: translate('upload.form.species_helptext'),
-                })}
               />
 
               <Dropdown
+                id="patient_id_format"
+                error={!formValid.patient_id_format}
+                onChange={this.handleDropdownChange}
                 items={form.picklists['Patient ID Format'].map(option => ({
                   value: option,
                   label: option,
                 }))}
-                onChange={this.handleDropdownChange}
-                getInputProps={() => ({
-                  id: 'patient_id_format',
-                  error: !this.state.formValid.patient_id_format,
-                  label: translate('upload.form.patient_id_format_label'),
-                  helperText: translate('upload.form.patient_id_format_helptext'),
-                })}
               />
 
               <Input

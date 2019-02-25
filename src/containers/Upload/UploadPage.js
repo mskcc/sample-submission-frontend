@@ -9,15 +9,10 @@ import { Table } from '../../components'
 import UploadFormContainer from './UploadFormContainer'
 
 class UploadPage extends Component {
-  submit = values => {
-    // print the UploadFormContainer values to the console
-    console.log(values)
-  }
-
   render() {
     return (
       <React.Fragment>
-        <UploadFormContainer onSubmit={this.submit} />
+        <UploadFormContainer />
       </React.Fragment>
     )
   }
