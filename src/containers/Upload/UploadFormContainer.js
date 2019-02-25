@@ -41,9 +41,9 @@ class UploadFormContainer extends React.Component {
 
   filterContainers = selectedMaterial => {
     if (selectedMaterial === 'Blocks/Slides') {
-      this.props.filterContainers('all')
-    } else if (BSTMaterials.includes(selectedMaterial.toLowerCase())) {
       this.props.filterContainers('b/s')
+    } else if (BSTMaterials.includes(selectedMaterial.toLowerCase())) {
+      this.props.filterContainers('all')
     } else this.props.filterContainers()
   }
   

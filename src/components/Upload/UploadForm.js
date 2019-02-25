@@ -190,8 +190,6 @@ class UploadForm extends React.Component {
               <Dropdown
                 id="application"
                 error={!formValid.application}
-                dynamic
-                loading={form.isLoading}
                 onSelect={handleApplicationChange}
                 onChange={this.handleDropdownChange}
                 items={form.applications.map(option => ({
