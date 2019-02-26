@@ -3,11 +3,14 @@ import renderer from 'react-test-renderer'
 import { mount } from 'enzyme'
 import TestDropdown from '../Dropdown'
 
-const Dropdown = props => <TestDropdown {...props} />
+const onChange = jest.fn()
+const Dropdown = props => <TestDropdown onChange={onChange} {...props} />
 
 describe('Render Dropdown', () => {
   it('render Dropdown correctly', () => {
-    const DropdownComponent = renderer.create(<Dropdown />).toJSON()
+    const DropdownComponent = renderer
+      .create(<Dropdown/>)
+      .toJSON()
     expect(DropdownComponent).toMatchSnapshot()
   })
 

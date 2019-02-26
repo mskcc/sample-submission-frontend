@@ -5,6 +5,9 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
 
+import FormControl from '@material-ui/core/FormControl'
+import Checkbox from './Checkbox'
+
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Button from '@material-ui/core/Button'
 import Dropdown from './Dropdown'
@@ -25,6 +28,7 @@ class UploadForm extends React.Component {
         patient_id_format: '',
       },
       // formErrors: {},
+      igo_alternative_id: false,
       formValid: {
         form: true,
         material: true,
@@ -63,6 +67,38 @@ class UploadForm extends React.Component {
       },
       formValid: { ...this.state.formValid, [event.target.id]: true },
     })
+  }
+
+  handleCheck = name => () => {
+    let date = this.getDate()
+
+    this.setState({
+      values: {
+        ...this.state.values,
+        igo_request_id: date,
+      },
+      [name]: event.target.checked,
+    })
+  }
+
+  getDate = () => {
+    let today = new Date()
+    let dd = today.getDate()
+    let mm = today.getMonth() + 1 //January is 0!
+    let yyyy = today
+      .getFullYear()
+      .toString()
+      .substr(-2)
+
+    if (dd < 10) {
+      dd = '0' + dd
+    }
+
+    if (mm < 10) {
+      mm = '0' + mm
+    }
+
+    return mm + dd + yyyy
   }
 
   handleSubmit = (e, handleParentSubmit) => {
@@ -170,7 +206,7 @@ class UploadForm extends React.Component {
       handleApplicationChange,
       handleMaterialChange,
     } = this.props
-    const { formValid} = this.state
+    const { formValid, values } = this.state
 
     return (
       <Translate>
@@ -246,16 +282,24 @@ class UploadForm extends React.Component {
                   inputProps: { min: 0 },
                 }}
               />
-              <Input
-                id="igo_request_id"
-                error={!formValid.igo_request_id}
-                onChange={this.handleChange}
-                inputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">IGO-</InputAdornment>
-                  ),
-                }}
-              />
+              <FormControl component="fieldset">
+                <Input
+                  id="igo_request_id"
+                  value={values.igo_request_id}
+                  error={!formValid.igo_request_id}
+                  onChange={this.handleChange}
+                  inputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">IGO-</InputAdornment>
+                    ),
+                  }}
+                />
+                <Checkbox
+                  id="igo_alternative_id"
+                  checked={this.state.igo_alternative_id}
+                  onChange={this.handleCheck}
+                />
+              </FormControl>
             </form>
 
             <Button
