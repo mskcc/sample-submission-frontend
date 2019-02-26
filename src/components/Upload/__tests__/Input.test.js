@@ -4,10 +4,12 @@ import { mount } from 'enzyme'
 import TestInput from '../Input'
 
 const Input = props => <TestInput {...props} />
+const onChange = jest.fn();
+
 
 describe('Render Input', () => {
   it('render Input correctly', () => {
-    const InputComponent = renderer.create(<Input />).toJSON()
+    const InputComponent = renderer.create(<Input onChange={onChange} />).toJSON()
     expect(InputComponent).toMatchSnapshot()
   })
 })

@@ -4,20 +4,12 @@ import { Translate } from 'react-localize-redux'
 import { withStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 
-const Input = ({
-  id,
-  classes,
-  type,
-  label,
-  helperText,
-  onChange,
-  inputProps,
-  error,
-}) => (
+const Input = ({ id, classes, type, value, onChange, inputProps, error }) => (
   <Translate>
     {({ translate }) => (
       <TextField
         id={id}
+        value={value}
         error={error}
         className={classes.textField}
         onChange={onChange}
@@ -36,17 +28,16 @@ const Input = ({
 
 Input.propTypes = {
   InputProps: PropTypes.object,
-  id: PropTypes.string,
+  id: PropTypes.string.isRequired,
   required: PropTypes.bool,
   type: PropTypes.string,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   helperText: PropTypes.string,
-  onChange: PropTypes.func,
+  onChange: PropTypes.func.isRequired,
 }
 
 Input.defaultProps = {
-  label: 'label',
-  helperText: '',
+  id: 'test_me',
 }
 
 const styles = theme => ({
