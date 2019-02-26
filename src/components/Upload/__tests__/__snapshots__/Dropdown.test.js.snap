@@ -20,7 +20,7 @@ exports[`Render Dropdown render Dropdown correctly 1`] = `
         htmlFor="downshift-0-input"
         id="downshift-0-label"
       >
-        Missing translationId: upload.form.undefined_label for language: \${ languageCode }
+        Missing translationId: upload.form.test_me_label for language: \${ languageCode }
       </label>
       <div
         aria-activedescendant={null}
@@ -35,6 +35,7 @@ exports[`Render Dropdown render Dropdown correctly 1`] = `
           autoComplete="off"
           className="MuiInputBase-input-47 MuiInput-input-32 MuiInputBase-inputAdornedEnd-53"
           disabled={false}
+          id="test_me"
           onBlur={[Function]}
           onChange={[Function]}
           onFocus={[Function]}
@@ -93,7 +94,7 @@ exports[`Render Dropdown render Dropdown correctly 1`] = `
       <p
         className="MuiFormHelperText-root-77"
       >
-        Missing translationId: upload.form.undefined_helptext for language: \${ languageCode }
+        Missing translationId: upload.form.test_me_helptext for language: \${ languageCode }
       </p>
     </div>
   </div>

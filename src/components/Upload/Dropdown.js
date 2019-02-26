@@ -81,23 +81,22 @@ class Dropdown extends Component {
   }
 }
 Dropdown.defaultProps = {
-  label: 'label',
-  helptext: 'helptext',
+  id: 'test_me',
   items: [
     { label: 'itemId', value: 'itemValue' },
     { label: 'itemId1', value: 'itemValue1' },
   ],
-  loading: false,
 }
 
 Dropdown.propTypes = {
   items: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
-  label: PropTypes.string.isRequired,
-  helptext: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  helptext: PropTypes.string,
   loading: PropTypes.bool,
   error: PropTypes.bool,
   dynamic: PropTypes.bool,
-  onChange: PropTypes.func,
+  onChange: PropTypes.func.isRequired,
   onSelect: PropTypes.func,
   // value: PropTypes.string.isRequired,
 }
