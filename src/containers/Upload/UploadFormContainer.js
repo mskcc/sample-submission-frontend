@@ -10,7 +10,7 @@ import { UploadForm } from '../../components/Upload'
 // materials that be combined with a Blocks/Slides/Tubes container
 const BSTMaterials = ['tissue', 'cells', 'blood', 'buffy coat', 'other']
 
-class FormContainer extends React.Component {
+class UploadFormContainer extends React.Component {
   constructor(props) {
     super(props)
   }
@@ -18,8 +18,10 @@ class FormContainer extends React.Component {
   componentDidUpdate(prevProps, prevState) {}
 
   componentDidMount() {
-    this.props.getMaterialsAndApplications()
-    this.props.getPicklist('Species')
+
+    this.props.getInitialState()
+    // this.props.getMaterialsAndApplications()
+    // this.props.getPicklist('Species')
   }
   handleSubmit = formContent => {
     console.log(formContent)
@@ -41,9 +43,9 @@ class FormContainer extends React.Component {
 
   filterContainers = selectedMaterial => {
     if (selectedMaterial === 'Blocks/Slides') {
-      this.props.filterContainers('all')
-    } else if (BSTMaterials.includes(selectedMaterial.toLowerCase())) {
       this.props.filterContainers('b/s')
+    } else if (BSTMaterials.includes(selectedMaterial.toLowerCase())) {
+      this.props.filterContainers('all')
     } else this.props.filterContainers()
   }
   
@@ -83,4 +85,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(FormContainer)
+)(UploadFormContainer)

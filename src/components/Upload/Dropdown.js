@@ -3,6 +3,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import MuiDownshift from 'mui-downshift'
 
+import { Translate } from 'react-localize-redux'
+
 import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
 
@@ -30,27 +32,51 @@ class Dropdown extends Component {
     }
   }
   render() {
-    const { dynamic, onChange, onSelect, input, loading, classes } = this.props
+    const {
+      id,
+      dynamic,
+      items,
+      error,
+      onChange,
+      onSelect,
+      loading,
+      classes,
+    } = this.props
     const { filteredItems } = this.state
 
     return (
-      <div className={classes.textField}>
-        <MuiDownshift
-          onStateChange={this.handleStateChange}
-          includeFooter={loading}
-          {...input}
-          {...this.props}
-          loading={loading}
-          items={filteredItems}
-          focusOnClear
-          onSelect={dynamic ? e => onSelect(this.input.value) : undefined}
-          onChange={e => onChange(this.input)}
-          inputRef={node => {
-            this.input = node
-          }}
-          menuItemCount={10}
-        />
-      </div>
+      <Translate>
+        {({ translate }) => (
+          <div className={classes.textField}>
+            <MuiDownshift
+              items={filteredItems}
+              onChange={e => onChange(this.input)}
+              onStateChange={this.handleStateChange}
+              onSelect={dynamic ? e => onSelect(this.input.value) : undefined}
+              inputRef={node => {
+                this.input = node
+              }}
+              getInputProps={() => ({
+                id: id,
+                error: error,
+                label: error
+                  ? translate('upload.form.fill_me')
+                  : translate('upload.form.' + id + '_label'),
+                helperText: dynamic
+                  ? translate('upload.form.' + id + '_helptext') +
+                    ' (' +
+                    items.length +
+                    ' choices)'
+                  : translate('upload.form.' + id + '_helptext'),
+              })}
+              loading={loading}
+              includeFooter={dynamic}
+              menuItemCount={10}
+              focusOnClear
+            />
+          </div>
+        )}
+      </Translate>
     )
   }
 }
@@ -69,7 +95,10 @@ Dropdown.propTypes = {
   label: PropTypes.string.isRequired,
   helptext: PropTypes.string.isRequired,
   loading: PropTypes.bool,
+  error: PropTypes.bool,
+  dynamic: PropTypes.bool,
   onChange: PropTypes.func,
+  onSelect: PropTypes.func,
   // value: PropTypes.string.isRequired,
 }
 

@@ -156,6 +156,13 @@ describe('upload form actions', () => {
         expect(actions).toEqual(expectedActions)
       })
   })
+
+  // TODO FORM SUBMIT/VALIDATION FAIL  case ActionTypes.RECEIVE_MATERIALS_FOR_APPLICATION_SUCCESS:
+  // return {
+  //   ...state,
+  //   isLoading: false,
+  //   materials: [{ id: 'error', value: 'error' }],
+  // }
 })
 
 describe('upload form reducers', () => {

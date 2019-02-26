@@ -1,5 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Translate } from 'react-localize-redux'
+import { withStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 
 const Input = ({
@@ -10,33 +12,48 @@ const Input = ({
   helperText,
   onChange,
   inputProps,
+  error,
 }) => (
-  <TextField
-    InputProps={inputProps}
-    id={id}
-    className={classes}
-    required
-    type={type}
-    label={label}
-    helperText={helperText}
-    onChange={onChange}
-  />
+  <Translate>
+    {({ translate }) => (
+      <TextField
+        id={id}
+        error={error}
+        className={classes.textField}
+        onChange={onChange}
+        label={
+          error
+            ? translate('upload.form.fill_me')
+            : translate('upload.form.' + id + '_label')
+        }
+        helperText={translate('upload.form.' + id + '_helptext')}
+        InputProps={inputProps}
+        type="number"
+      />
+    )}
+  </Translate>
 )
 
 Input.propTypes = {
   InputProps: PropTypes.object,
   id: PropTypes.string,
-  className: PropTypes.string,
   required: PropTypes.bool,
   type: PropTypes.string,
   label: PropTypes.string.isRequired,
-  helperText: PropTypes.string.isRequired,
+  helperText: PropTypes.string,
   onChange: PropTypes.func,
 }
 
 Input.defaultProps = {
   label: 'label',
-  helperText: 'helptext',
+  helperText: '',
 }
 
-export default Input
+const styles = theme => ({
+  textField: {
+    margin: 2 * theme.spacing.unit,
+    minWidth: 350,
+  },
+})
+
+export default withStyles(styles)(Input)

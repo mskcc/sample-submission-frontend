@@ -53,7 +53,7 @@ const styles = theme => ({
   },
   nav: { marginTop: '2em' },
   mskccLogo: {
-    display: 'inline-block',
+    position: 'absolute',
     float: 'left',
     height: 'auto',
     width: '10%',
