@@ -621,6 +621,7 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
                 />
               </svg>
               <input
+                checked={false}
                 className="MuiPrivateSwitchBase-input-145"
                 data-indeterminate={false}
                 disabled={false}
