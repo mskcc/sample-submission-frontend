@@ -1,5 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Translate } from 'react-localize-redux'
+import { withStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 
 const Input = ({
@@ -12,24 +14,29 @@ const Input = ({
   inputProps,
   error,
 }) => (
-  <React.Fragment>
-    <TextField
-      error={error}
-      InputProps={inputProps}
-      id={id}
-      className={classes}
-      type={type}
-      label={label}
-      helperText={helperText}
-      onChange={onChange}
-    />
-  </React.Fragment>
+  <Translate>
+    {({ translate }) => (
+      <TextField
+        id={id}
+        error={error}
+        className={classes.textField}
+        onChange={onChange}
+        label={
+          error
+            ? translate('upload.form.fill_me')
+            : translate('upload.form.' + id + '_label')
+        }
+        helperText={translate('upload.form.' + id + '_helptext')}
+        InputProps={inputProps}
+        type="number"
+      />
+    )}
+  </Translate>
 )
 
 Input.propTypes = {
   InputProps: PropTypes.object,
   id: PropTypes.string,
-  className: PropTypes.string,
   required: PropTypes.bool,
   type: PropTypes.string,
   label: PropTypes.string.isRequired,
@@ -42,4 +49,11 @@ Input.defaultProps = {
   helperText: '',
 }
 
-export default Input
+const styles = theme => ({
+  textField: {
+    margin: 2 * theme.spacing.unit,
+    minWidth: 350,
+  },
+})
+
+export default withStyles(styles)(Input)

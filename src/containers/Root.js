@@ -11,7 +11,7 @@ import enTranslations from '../translations/en.json'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 
 import Header from '../components/Shared/Header'
-import Upload from './Upload/Upload'
+import UploadPage from './Upload/UploadPage'
 import Promote from './Promote/Promote'
 
 class Root extends Component {
@@ -36,7 +36,7 @@ class Root extends Component {
         <Provider store={store}>
           <div className="app">
             <Header />
-            <Route path="/upload" component={Upload} />
+            <Route path="/upload" component={UploadPage} />
             <Route path="/promote" component={Promote} />
             {process.env.NODE_ENV !== 'production' ? <DevTools /> : <div />}
           </div>

@@ -3,6 +3,34 @@ import { initialFormState } from './initialState'
 
 function uploadFormReducer(state = initialFormState, action) {
   switch (action.type) {
+    case ActionTypes.REQUEST_INITIAL_STATE:
+      return {
+        ...state,
+        isLoading: true,
+      }
+
+    case ActionTypes.RECEIVE_INITIAL_STATE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        materials: action.data.materials,
+        applications: action.data.applications,
+        allMaterials: action.data.materials,
+        allApplications: action.data.applications,
+        species: action.data.species,
+        all_containers: action.data.containers,
+        containers: action.data.containers,
+        patient_id_formats: action.data.patient_id_formats
+      }
+
+    case ActionTypes.RECEIVE_INITIAL_STATE_FAIL:
+      return {
+        ...state,
+        error: action.error,
+        isLoading: false,
+      }  
+
+
     case ActionTypes.REQUEST_MATERIALS_AND_APPLICATIONS:
       return {
         ...state,
@@ -35,18 +63,18 @@ function uploadFormReducer(state = initialFormState, action) {
     case ActionTypes.FILTER_CONTAINERS:
       return {
         ...state,
-        containers: state.picklists.FilteredContainers,
+        containers: state.filtered_containers,
       }
 
     case ActionTypes.FILTER_CONTAINERS_FOR_BS:
       return {
         ...state,
-        containers: state.picklists.FilteredContainersForBS,
+        containers: state.filtered_containers_bs,
       }
     case ActionTypes.SHOW_ALL_CONTAINERS:
       return {
         ...state,
-        containers: state.picklists.Containers,
+        containers: state.all_containers,
       }
     case ActionTypes.SELECT_APPLICATION:
       return {

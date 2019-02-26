@@ -10,7 +10,7 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
     onSubmit={[Function]}
   >
     <div
-      className="Dropdown-textField-7"
+      className="Dropdown-textField-6"
     >
       <div
         aria-expanded={false}
@@ -20,28 +20,28 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
         role="combobox"
       >
         <div
-          className="MuiFormControl-root-8 MuiFormControl-fullWidth-11"
+          className="MuiFormControl-root-7 MuiFormControl-fullWidth-10"
         >
           <label
-            className="MuiFormLabel-root-23 MuiInputLabel-root-12 MuiInputLabel-formControl-17 MuiInputLabel-animated-20"
+            className="MuiFormLabel-root-22 MuiInputLabel-root-11 MuiInputLabel-formControl-16 MuiInputLabel-animated-19"
             data-shrink={false}
             htmlFor="downshift-0-input"
             id="downshift-0-label"
           >
-            Missing translationId: header.material_label for language: \${ languageCode }
+            Missing translationId: upload.form.material_label for language: \${ languageCode }
           </label>
           <div
             aria-activedescendant={null}
             aria-autocomplete="list"
             aria-controls={null}
             aria-labelledby="downshift-0-label"
-            className="MuiInputBase-root-43 MuiInput-root-30 MuiInput-underline-34 MuiInputBase-formControl-44 MuiInput-formControl-31 MuiInputBase-adornedEnd-48"
+            className="MuiInputBase-root-42 MuiInput-root-29 MuiInput-underline-33 MuiInputBase-formControl-43 MuiInput-formControl-30 MuiInputBase-adornedEnd-47"
             onClick={[Function]}
           >
             <input
               aria-invalid={false}
               autoComplete="off"
-              className="MuiInputBase-input-53 MuiInput-input-38 MuiInputBase-inputAdornedEnd-59"
+              className="MuiInputBase-input-52 MuiInput-input-37 MuiInputBase-inputAdornedEnd-58"
               disabled={false}
               id="material"
               onBlur={[Function]}
@@ -53,11 +53,11 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
               value=""
             />
             <div
-              className="MuiInputAdornment-root-60 MuiInputAdornment-positionEnd-63"
+              className="MuiInputAdornment-root-59 MuiInputAdornment-positionEnd-62"
             >
               <button
                 aria-label="Toggle menu open"
-                className="MuiButtonBase-root-71 MuiIconButton-root-65"
+                className="MuiButtonBase-root-70 MuiIconButton-root-64"
                 disabled={false}
                 onBlur={[Function]}
                 onClick={[Function]}
@@ -75,11 +75,11 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
                 type="button"
               >
                 <span
-                  className="MuiIconButton-label-70"
+                  className="MuiIconButton-label-69"
                 >
                   <svg
                     aria-hidden="true"
-                    className="MuiSvgIcon-root-74"
+                    className="MuiSvgIcon-root-73"
                     focusable="false"
                     role="presentation"
                     viewBox="0 0 24 24"
@@ -100,15 +100,15 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
             </div>
           </div>
           <p
-            className="MuiFormHelperText-root-83"
+            className="MuiFormHelperText-root-82"
           >
-            Missing translationId: header.material_helptext for language: \${ languageCode } (0 choices)
+            Missing translationId: upload.form.material_helptext for language: \${ languageCode } (0 choices)
           </p>
         </div>
       </div>
     </div>
     <div
-      className="Dropdown-textField-7"
+      className="Dropdown-textField-6"
     >
       <div
         aria-expanded={false}
@@ -118,28 +118,28 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
         role="combobox"
       >
         <div
-          className="MuiFormControl-root-8 MuiFormControl-fullWidth-11"
+          className="MuiFormControl-root-7 MuiFormControl-fullWidth-10"
         >
           <label
-            className="MuiFormLabel-root-23 MuiInputLabel-root-12 MuiInputLabel-formControl-17 MuiInputLabel-animated-20"
+            className="MuiFormLabel-root-22 MuiInputLabel-root-11 MuiInputLabel-formControl-16 MuiInputLabel-animated-19"
             data-shrink={false}
             htmlFor="downshift-1-input"
             id="downshift-1-label"
           >
-            Missing translationId: header.application_label for language: \${ languageCode }
+            Missing translationId: upload.form.application_label for language: \${ languageCode }
           </label>
           <div
             aria-activedescendant={null}
             aria-autocomplete="list"
             aria-controls={null}
             aria-labelledby="downshift-1-label"
-            className="MuiInputBase-root-43 MuiInput-root-30 MuiInput-underline-34 MuiInputBase-formControl-44 MuiInput-formControl-31 MuiInputBase-adornedEnd-48"
+            className="MuiInputBase-root-42 MuiInput-root-29 MuiInput-underline-33 MuiInputBase-formControl-43 MuiInput-formControl-30 MuiInputBase-adornedEnd-47"
             onClick={[Function]}
           >
             <input
               aria-invalid={false}
               autoComplete="off"
-              className="MuiInputBase-input-53 MuiInput-input-38 MuiInputBase-inputAdornedEnd-59"
+              className="MuiInputBase-input-52 MuiInput-input-37 MuiInputBase-inputAdornedEnd-58"
               disabled={false}
               id="application"
               onBlur={[Function]}
@@ -151,11 +151,11 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
               value=""
             />
             <div
-              className="MuiInputAdornment-root-60 MuiInputAdornment-positionEnd-63"
+              className="MuiInputAdornment-root-59 MuiInputAdornment-positionEnd-62"
             >
               <button
                 aria-label="Toggle menu open"
-                className="MuiButtonBase-root-71 MuiIconButton-root-65"
+                className="MuiButtonBase-root-70 MuiIconButton-root-64"
                 disabled={false}
                 onBlur={[Function]}
                 onClick={[Function]}
@@ -173,11 +173,11 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
                 type="button"
               >
                 <span
-                  className="MuiIconButton-label-70"
+                  className="MuiIconButton-label-69"
                 >
                   <svg
                     aria-hidden="true"
-                    className="MuiSvgIcon-root-74"
+                    className="MuiSvgIcon-root-73"
                     focusable="false"
                     role="presentation"
                     viewBox="0 0 24 24"
@@ -198,15 +198,15 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
             </div>
           </div>
           <p
-            className="MuiFormHelperText-root-83"
+            className="MuiFormHelperText-root-82"
           >
-            Missing translationId: header.application_helptext for language: \${ languageCode } (0 choices)
+            Missing translationId: upload.form.application_helptext for language: \${ languageCode } (0 choices)
           </p>
         </div>
       </div>
     </div>
     <div
-      className="Dropdown-textField-7"
+      className="Dropdown-textField-6"
     >
       <div
         aria-expanded={false}
@@ -216,28 +216,28 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
         role="combobox"
       >
         <div
-          className="MuiFormControl-root-8 MuiFormControl-fullWidth-11"
+          className="MuiFormControl-root-7 MuiFormControl-fullWidth-10"
         >
           <label
-            className="MuiFormLabel-root-23 MuiInputLabel-root-12 MuiInputLabel-formControl-17 MuiInputLabel-animated-20"
+            className="MuiFormLabel-root-22 MuiInputLabel-root-11 MuiInputLabel-formControl-16 MuiInputLabel-animated-19"
             data-shrink={false}
             htmlFor="downshift-2-input"
             id="downshift-2-label"
           >
-            Missing translationId: header.container_label for language: \${ languageCode }
+            Missing translationId: upload.form.container_label for language: \${ languageCode }
           </label>
           <div
             aria-activedescendant={null}
             aria-autocomplete="list"
             aria-controls={null}
             aria-labelledby="downshift-2-label"
-            className="MuiInputBase-root-43 MuiInput-root-30 MuiInput-underline-34 MuiInputBase-formControl-44 MuiInput-formControl-31 MuiInputBase-adornedEnd-48"
+            className="MuiInputBase-root-42 MuiInput-root-29 MuiInput-underline-33 MuiInputBase-formControl-43 MuiInput-formControl-30 MuiInputBase-adornedEnd-47"
             onClick={[Function]}
           >
             <input
               aria-invalid={false}
               autoComplete="off"
-              className="MuiInputBase-input-53 MuiInput-input-38 MuiInputBase-inputAdornedEnd-59"
+              className="MuiInputBase-input-52 MuiInput-input-37 MuiInputBase-inputAdornedEnd-58"
               disabled={false}
               id="container"
               onBlur={[Function]}
@@ -249,11 +249,11 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
               value=""
             />
             <div
-              className="MuiInputAdornment-root-60 MuiInputAdornment-positionEnd-63"
+              className="MuiInputAdornment-root-59 MuiInputAdornment-positionEnd-62"
             >
               <button
                 aria-label="Toggle menu open"
-                className="MuiButtonBase-root-71 MuiIconButton-root-65"
+                className="MuiButtonBase-root-70 MuiIconButton-root-64"
                 disabled={false}
                 onBlur={[Function]}
                 onClick={[Function]}
@@ -271,11 +271,11 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
                 type="button"
               >
                 <span
-                  className="MuiIconButton-label-70"
+                  className="MuiIconButton-label-69"
                 >
                   <svg
                     aria-hidden="true"
-                    className="MuiSvgIcon-root-74"
+                    className="MuiSvgIcon-root-73"
                     focusable="false"
                     role="presentation"
                     viewBox="0 0 24 24"
@@ -296,15 +296,15 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
             </div>
           </div>
           <p
-            className="MuiFormHelperText-root-83"
+            className="MuiFormHelperText-root-82"
           >
-            Missing translationId: header.container_helptext for language: \${ languageCode } (2 choices)
+            Missing translationId: upload.form.container_helptext for language: \${ languageCode }
           </p>
         </div>
       </div>
     </div>
     <div
-      className="Dropdown-textField-7"
+      className="Dropdown-textField-6"
     >
       <div
         aria-expanded={false}
@@ -314,28 +314,28 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
         role="combobox"
       >
         <div
-          className="MuiFormControl-root-8 MuiFormControl-fullWidth-11"
+          className="MuiFormControl-root-7 MuiFormControl-fullWidth-10"
         >
           <label
-            className="MuiFormLabel-root-23 MuiInputLabel-root-12 MuiInputLabel-formControl-17 MuiInputLabel-animated-20"
+            className="MuiFormLabel-root-22 MuiInputLabel-root-11 MuiInputLabel-formControl-16 MuiInputLabel-animated-19"
             data-shrink={false}
             htmlFor="downshift-3-input"
             id="downshift-3-label"
           >
-            Missing translationId: header.species_label for language: \${ languageCode }
+            Missing translationId: upload.form.species_label for language: \${ languageCode }
           </label>
           <div
             aria-activedescendant={null}
             aria-autocomplete="list"
             aria-controls={null}
             aria-labelledby="downshift-3-label"
-            className="MuiInputBase-root-43 MuiInput-root-30 MuiInput-underline-34 MuiInputBase-formControl-44 MuiInput-formControl-31 MuiInputBase-adornedEnd-48"
+            className="MuiInputBase-root-42 MuiInput-root-29 MuiInput-underline-33 MuiInputBase-formControl-43 MuiInput-formControl-30 MuiInputBase-adornedEnd-47"
             onClick={[Function]}
           >
             <input
               aria-invalid={false}
               autoComplete="off"
-              className="MuiInputBase-input-53 MuiInput-input-38 MuiInputBase-inputAdornedEnd-59"
+              className="MuiInputBase-input-52 MuiInput-input-37 MuiInputBase-inputAdornedEnd-58"
               disabled={false}
               id="species"
               onBlur={[Function]}
@@ -347,11 +347,11 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
               value=""
             />
             <div
-              className="MuiInputAdornment-root-60 MuiInputAdornment-positionEnd-63"
+              className="MuiInputAdornment-root-59 MuiInputAdornment-positionEnd-62"
             >
               <button
                 aria-label="Toggle menu open"
-                className="MuiButtonBase-root-71 MuiIconButton-root-65"
+                className="MuiButtonBase-root-70 MuiIconButton-root-64"
                 disabled={false}
                 onBlur={[Function]}
                 onClick={[Function]}
@@ -369,11 +369,11 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
                 type="button"
               >
                 <span
-                  className="MuiIconButton-label-70"
+                  className="MuiIconButton-label-69"
                 >
                   <svg
                     aria-hidden="true"
-                    className="MuiSvgIcon-root-74"
+                    className="MuiSvgIcon-root-73"
                     focusable="false"
                     role="presentation"
                     viewBox="0 0 24 24"
@@ -394,15 +394,15 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
             </div>
           </div>
           <p
-            className="MuiFormHelperText-root-83"
+            className="MuiFormHelperText-root-82"
           >
-            Missing translationId: header.species_helptext for language: \${ languageCode }
+            Missing translationId: upload.form.species_helptext for language: \${ languageCode }
           </p>
         </div>
       </div>
     </div>
     <div
-      className="Dropdown-textField-7"
+      className="Dropdown-textField-6"
     >
       <div
         aria-expanded={false}
@@ -412,28 +412,28 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
         role="combobox"
       >
         <div
-          className="MuiFormControl-root-8 MuiFormControl-fullWidth-11"
+          className="MuiFormControl-root-7 MuiFormControl-fullWidth-10"
         >
           <label
-            className="MuiFormLabel-root-23 MuiInputLabel-root-12 MuiInputLabel-formControl-17 MuiInputLabel-animated-20"
+            className="MuiFormLabel-root-22 MuiInputLabel-root-11 MuiInputLabel-formControl-16 MuiInputLabel-animated-19"
             data-shrink={false}
             htmlFor="downshift-4-input"
             id="downshift-4-label"
           >
-            Missing translationId: header.patient_id_format_label for language: \${ languageCode }
+            Missing translationId: upload.form.patient_id_format_label for language: \${ languageCode }
           </label>
           <div
             aria-activedescendant={null}
             aria-autocomplete="list"
             aria-controls={null}
             aria-labelledby="downshift-4-label"
-            className="MuiInputBase-root-43 MuiInput-root-30 MuiInput-underline-34 MuiInputBase-formControl-44 MuiInput-formControl-31 MuiInputBase-adornedEnd-48"
+            className="MuiInputBase-root-42 MuiInput-root-29 MuiInput-underline-33 MuiInputBase-formControl-43 MuiInput-formControl-30 MuiInputBase-adornedEnd-47"
             onClick={[Function]}
           >
             <input
               aria-invalid={false}
               autoComplete="off"
-              className="MuiInputBase-input-53 MuiInput-input-38 MuiInputBase-inputAdornedEnd-59"
+              className="MuiInputBase-input-52 MuiInput-input-37 MuiInputBase-inputAdornedEnd-58"
               disabled={false}
               id="patient_id_format"
               onBlur={[Function]}
@@ -445,11 +445,11 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
               value=""
             />
             <div
-              className="MuiInputAdornment-root-60 MuiInputAdornment-positionEnd-63"
+              className="MuiInputAdornment-root-59 MuiInputAdornment-positionEnd-62"
             >
               <button
                 aria-label="Toggle menu open"
-                className="MuiButtonBase-root-71 MuiIconButton-root-65"
+                className="MuiButtonBase-root-70 MuiIconButton-root-64"
                 disabled={false}
                 onBlur={[Function]}
                 onClick={[Function]}
@@ -467,11 +467,11 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
                 type="button"
               >
                 <span
-                  className="MuiIconButton-label-70"
+                  className="MuiIconButton-label-69"
                 >
                   <svg
                     aria-hidden="true"
-                    className="MuiSvgIcon-root-74"
+                    className="MuiSvgIcon-root-73"
                     focusable="false"
                     role="presentation"
                     viewBox="0 0 24 24"
@@ -492,31 +492,31 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
             </div>
           </div>
           <p
-            className="MuiFormHelperText-root-83"
+            className="MuiFormHelperText-root-82"
           >
-            Missing translationId: header.patient_id_format_helptext for language: \${ languageCode }
+            Missing translationId: upload.form.patient_id_format_helptext for language: \${ languageCode }
           </p>
         </div>
       </div>
     </div>
     <div
-      className="MuiFormControl-root-8 UploadForm-textField-3"
+      className="MuiFormControl-root-7 Input-textField-91"
     >
       <label
-        className="MuiFormLabel-root-23 MuiInputLabel-root-12 MuiInputLabel-formControl-17 MuiInputLabel-animated-20"
+        className="MuiFormLabel-root-22 MuiInputLabel-root-11 MuiInputLabel-formControl-16 MuiInputLabel-animated-19"
         data-shrink={false}
         htmlFor="number_of_samples"
       >
-        Missing translationId: header.sample_number_label for language: \${ languageCode }
+        Missing translationId: upload.form.number_of_samples_label for language: \${ languageCode }
       </label>
       <div
-        className="MuiInputBase-root-43 MuiInput-root-30 MuiInput-underline-34 MuiInputBase-formControl-44 MuiInput-formControl-31"
+        className="MuiInputBase-root-42 MuiInput-root-29 MuiInput-underline-33 MuiInputBase-formControl-43 MuiInput-formControl-30"
         onClick={[Function]}
       >
         <input
           aria-describedby="number_of_samples-helper-text"
           aria-invalid={false}
-          className="MuiInputBase-input-53 MuiInput-input-38 MuiInputBase-inputType-56 MuiInput-inputType-41"
+          className="MuiInputBase-input-52 MuiInput-input-37 MuiInputBase-inputType-55 MuiInput-inputType-40"
           disabled={false}
           id="number_of_samples"
           min={0}
@@ -528,28 +528,28 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
         />
       </div>
       <p
-        className="MuiFormHelperText-root-83"
+        className="MuiFormHelperText-root-82"
         id="number_of_samples-helper-text"
       >
-        Missing translationId: header.sample_number_helptext for language: \${ languageCode }
+        Missing translationId: upload.form.number_of_samples_helptext for language: \${ languageCode }
       </p>
     </div>
     <div
-      className="MuiFormControl-root-8 UploadForm-textField-3"
+      className="MuiFormControl-root-7 Input-textField-91"
     >
       <label
-        className="MuiFormLabel-root-23 MuiInputLabel-root-12 MuiInputLabel-formControl-17 MuiInputLabel-animated-20 MuiInputLabel-shrink-19"
+        className="MuiFormLabel-root-22 MuiInputLabel-root-11 MuiInputLabel-formControl-16 MuiInputLabel-animated-19 MuiInputLabel-shrink-18"
         data-shrink={true}
         htmlFor="igo_request_id"
       >
-        Missing translationId: header.igo_request_id_label for language: \${ languageCode }
+        Missing translationId: upload.form.igo_request_id_label for language: \${ languageCode }
       </label>
       <div
-        className="MuiInputBase-root-43 MuiInput-root-30 MuiInput-underline-34 MuiInputBase-formControl-44 MuiInput-formControl-31 MuiInputBase-adornedStart-47"
+        className="MuiInputBase-root-42 MuiInput-root-29 MuiInput-underline-33 MuiInputBase-formControl-43 MuiInput-formControl-30 MuiInputBase-adornedStart-46"
         onClick={[Function]}
       >
         <div
-          className="MuiInputAdornment-root-60 MuiInputAdornment-positionStart-62"
+          className="MuiInputAdornment-root-59 MuiInputAdornment-positionStart-61"
         >
           <p
             className="MuiTypography-root-92 MuiTypography-body1-101 MuiTypography-colorTextSecondary-125"
@@ -560,7 +560,7 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
         <input
           aria-describedby="igo_request_id-helper-text"
           aria-invalid={false}
-          className="MuiInputBase-input-53 MuiInput-input-38 MuiInputBase-inputType-56 MuiInput-inputType-41 MuiInputBase-inputAdornedStart-58"
+          className="MuiInputBase-input-52 MuiInput-input-37 MuiInputBase-inputType-55 MuiInput-inputType-40 MuiInputBase-inputAdornedStart-57"
           disabled={false}
           id="igo_request_id"
           onBlur={[Function]}
@@ -571,15 +571,15 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
         />
       </div>
       <p
-        className="MuiFormHelperText-root-83"
+        className="MuiFormHelperText-root-82"
         id="igo_request_id-helper-text"
       >
-        Missing translationId: header.igo_request_id_helptext for language: \${ languageCode }
+        Missing translationId: upload.form.igo_request_id_helptext for language: \${ languageCode }
       </p>
     </div>
   </form>
   <button
-    className="MuiButtonBase-root-71 MuiButton-root-128 MuiButton-contained-139 MuiButton-containedSecondary-141 MuiButton-raised-142 MuiButton-raisedSecondary-144 UploadForm-button-6"
+    className="MuiButtonBase-root-70 MuiButton-root-128 MuiButton-contained-139 MuiButton-containedSecondary-141 MuiButton-raised-142 MuiButton-raisedSecondary-144 UploadForm-button-5"
     disabled={false}
     form="upload-form"
     onBlur={[Function]}
@@ -599,7 +599,7 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
     <span
       className="MuiButton-label-129"
     >
-      Missing translationId: header.generate_button for language: \${ languageCode }
+      Missing translationId: upload.form.generate_button for language: \${ languageCode }
     </span>
     <span
       className="MuiTouchRipple-root-154"
