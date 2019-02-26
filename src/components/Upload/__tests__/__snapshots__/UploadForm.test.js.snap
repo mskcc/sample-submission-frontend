@@ -94,7 +94,7 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
                   </svg>
                 </span>
                 <span
-                  className="MuiTouchRipple-root-154"
+                  className="MuiTouchRipple-root-201"
                 />
               </button>
             </div>
@@ -192,7 +192,7 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
                   </svg>
                 </span>
                 <span
-                  className="MuiTouchRipple-root-154"
+                  className="MuiTouchRipple-root-201"
                 />
               </button>
             </div>
@@ -290,7 +290,7 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
                   </svg>
                 </span>
                 <span
-                  className="MuiTouchRipple-root-154"
+                  className="MuiTouchRipple-root-201"
                 />
               </button>
             </div>
@@ -388,7 +388,7 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
                   </svg>
                 </span>
                 <span
-                  className="MuiTouchRipple-root-154"
+                  className="MuiTouchRipple-root-201"
                 />
               </button>
             </div>
@@ -486,7 +486,7 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
                   </svg>
                 </span>
                 <span
-                  className="MuiTouchRipple-root-154"
+                  className="MuiTouchRipple-root-201"
                 />
               </button>
             </div>
@@ -534,52 +534,137 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
         Missing translationId: upload.form.number_of_samples_helptext for language: \${ languageCode }
       </p>
     </div>
-    <div
-      className="MuiFormControl-root-7 Input-textField-91"
+    <fieldset
+      className="MuiFormControl-root-7"
     >
-      <label
-        className="MuiFormLabel-root-22 MuiInputLabel-root-11 MuiInputLabel-formControl-16 MuiInputLabel-animated-19 MuiInputLabel-shrink-18"
-        data-shrink={true}
-        htmlFor="igo_request_id"
-      >
-        Missing translationId: upload.form.igo_request_id_label for language: \${ languageCode }
-      </label>
       <div
-        className="MuiInputBase-root-42 MuiInput-root-29 MuiInput-underline-33 MuiInputBase-formControl-43 MuiInput-formControl-30 MuiInputBase-adornedStart-46"
-        onClick={[Function]}
+        className="MuiFormControl-root-7 Input-textField-91"
       >
-        <div
-          className="MuiInputAdornment-root-59 MuiInputAdornment-positionStart-61"
+        <label
+          className="MuiFormLabel-root-22 MuiInputLabel-root-11 MuiInputLabel-formControl-16 MuiInputLabel-animated-19 MuiInputLabel-shrink-18"
+          data-shrink={true}
+          htmlFor="igo_request_id"
         >
-          <p
-            className="MuiTypography-root-92 MuiTypography-body1-101 MuiTypography-colorTextSecondary-125"
+          Missing translationId: upload.form.igo_request_id_label for language: \${ languageCode }
+        </label>
+        <div
+          className="MuiInputBase-root-42 MuiInput-root-29 MuiInput-underline-33 MuiInputBase-formControl-43 MuiInput-formControl-30 MuiInputBase-adornedStart-46"
+          onClick={[Function]}
+        >
+          <div
+            className="MuiInputAdornment-root-59 MuiInputAdornment-positionStart-61"
           >
-            IGO-
-          </p>
+            <p
+              className="MuiTypography-root-92 MuiTypography-body1-101 MuiTypography-colorTextSecondary-125"
+            >
+              IGO-
+            </p>
+          </div>
+          <input
+            aria-describedby="igo_request_id-helper-text"
+            aria-invalid={false}
+            className="MuiInputBase-input-52 MuiInput-input-37 MuiInputBase-inputType-55 MuiInput-inputType-40 MuiInputBase-inputAdornedStart-57"
+            disabled={false}
+            id="igo_request_id"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            required={false}
+            type="number"
+            value=""
+          />
         </div>
-        <input
-          aria-describedby="igo_request_id-helper-text"
-          aria-invalid={false}
-          className="MuiInputBase-input-52 MuiInput-input-37 MuiInputBase-inputType-55 MuiInput-inputType-40 MuiInputBase-inputAdornedStart-57"
-          disabled={false}
-          id="igo_request_id"
-          onBlur={[Function]}
-          onChange={[Function]}
-          onFocus={[Function]}
-          required={false}
-          type="number"
-        />
+        <p
+          className="MuiFormHelperText-root-82"
+          id="igo_request_id-helper-text"
+        >
+          Missing translationId: upload.form.igo_request_id_helptext for language: \${ languageCode }
+        </p>
       </div>
-      <p
-        className="MuiFormHelperText-root-82"
-        id="igo_request_id-helper-text"
+      <div
+        className="CheckboxComponent-container-128"
       >
-        Missing translationId: upload.form.igo_request_id_helptext for language: \${ languageCode }
-      </p>
-    </div>
+        <label
+          className="MuiFormControlLabel-root-130"
+        >
+          <span
+            className="MuiButtonBase-root-70 MuiIconButton-root-64 MuiPrivateSwitchBase-root-142 MuiCheckbox-root-136 MuiCheckbox-colorSecondary-141"
+            onBlur={[Function]}
+            onContextMenu={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            tabIndex={null}
+          >
+            <span
+              className="MuiIconButton-label-69"
+            >
+              <svg
+                aria-hidden="true"
+                className="MuiSvgIcon-root-73 MuiSvgIcon-fontSizeSmall-80"
+                focusable="false"
+                role="presentation"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                />
+                <path
+                  d="M0 0h24v24H0z"
+                  fill="none"
+                />
+              </svg>
+              <input
+                className="MuiPrivateSwitchBase-input-145"
+                data-indeterminate={false}
+                disabled={false}
+                onChange={[Function]}
+                type="checkbox"
+                value="igo_alternative_id"
+              />
+            </span>
+            <span
+              className="MuiTouchRipple-root-201"
+            />
+          </span>
+          <span
+            className="MuiTypography-root-92 MuiTypography-body1-101 MuiFormControlLabel-label-135"
+          >
+            Missing translationId: upload.form.igo_alternative_id_label for language: \${ languageCode }
+          </span>
+        </label>
+        <div>
+          <div
+            className="MuiPaper-root-147 MuiPaper-elevation1-150 MuiPaper-rounded-148 MuiCard-root-146 CheckboxComponent-card-129"
+            style={
+              Object {
+                "opacity": 0,
+              }
+            }
+          >
+            <div
+              className="MuiCardContent-root-174"
+            >
+              <p
+                className="MuiTypography-root-92 MuiTypography-body1-101 MuiTypography-colorTextSecondary-125"
+              >
+                Missing translationId: upload.form.igo_alternative_id_helptext for language: \${ languageCode }
+                 
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
   </form>
   <button
-    className="MuiButtonBase-root-70 MuiButton-root-128 MuiButton-contained-139 MuiButton-containedSecondary-141 MuiButton-raised-142 MuiButton-raisedSecondary-144 UploadForm-button-5"
+    className="MuiButtonBase-root-70 MuiButton-root-175 MuiButton-contained-186 MuiButton-containedSecondary-188 MuiButton-raised-189 MuiButton-raisedSecondary-191 UploadForm-button-5"
     disabled={false}
     form="upload-form"
     onBlur={[Function]}
@@ -597,12 +682,12 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
     type="submit"
   >
     <span
-      className="MuiButton-label-129"
+      className="MuiButton-label-176"
     >
       Missing translationId: upload.form.generate_button for language: \${ languageCode }
     </span>
     <span
-      className="MuiTouchRipple-root-154"
+      className="MuiTouchRipple-root-201"
     />
   </button>
 </div>
