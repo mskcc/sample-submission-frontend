@@ -6,12 +6,9 @@ import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
 
 import InputAdornment from '@material-ui/core/InputAdornment'
-
 import Button from '@material-ui/core/Button'
 import Dropdown from './Dropdown'
 import Input from './Input'
-
-const formInputs = []
 
 class UploadForm extends React.Component {
   constructor(props) {
@@ -57,10 +54,13 @@ class UploadForm extends React.Component {
     })
   }
 
-  handleInputChange = () => {
+  handleChange = () => {
     // reset error
     this.setState({
-      values: { ...this.state.values, [event.target.id]: event.target.value },
+      values: {
+        ...this.state.values,
+        [event.target.id]: event.target.value,
+      },
       formValid: { ...this.state.formValid, [event.target.id]: true },
     })
   }
@@ -82,13 +82,6 @@ class UploadForm extends React.Component {
     let found
     let values = this.state.values
     for (let value in values) {
-      if (
-        values[value].toUpperCase().includes('ERROR') ||
-        values[value].toUpperCase().includes('FAILURE')
-      ) {
-        formValid[value] = false
-        break
-      }
       switch (value) {
         case 'igo_request_id':
           formValid[value] =
@@ -101,25 +94,39 @@ class UploadForm extends React.Component {
           found = this.props.form.materials.some(function(el) {
             return el.value === values[value]
           })
+
           formValid[value] = found && values[value].length > 0
+          break
+
         case 'application':
           found = this.props.form.applications.some(function(el) {
             return el.value === values[value]
           })
+
           formValid[value] = found && values[value].length > 0
+          break
+
         case 'container':
           found = this.props.form.containers.some(function(el) {
             return el.value === values[value]
           })
           formValid[value] = found && values[value].length > 0
+          break
+
         case 'species':
-          formValid[value] =
-            this.props.form.picklists.Species.includes(value) &&
-            values[value].length > 0
+          found = this.props.form.species.some(function(el) {
+            return el.value === values[value]
+          })
+          formValid[value] = found && values[value].length > 0
+          break
+
         case 'patient_id_format':
-          formValid[value] =
-            this.props.form.picklists['Patient ID Format'].includes(value) &&
-            values[value].length > 0
+          found = this.props.form.patient_id_formats.some(function(el) {
+            return el.value === values[value]
+          })
+          formValid[value] = found && values[value].length > 0
+          break
+
         case 'number_of_samples':
           formValid[value] = values[value] > 0
           break
@@ -163,7 +170,7 @@ class UploadForm extends React.Component {
       handleApplicationChange,
       handleMaterialChange,
     } = this.props
-    const { formValid } = this.state
+    const { formValid} = this.state
 
     return (
       <Translate>
@@ -205,8 +212,8 @@ class UploadForm extends React.Component {
                 error={!formValid.container}
                 onChange={this.handleDropdownChange}
                 items={form.containers.map(option => ({
-                  value: option,
-                  label: option,
+                  value: option.id,
+                  label: option.value,
                 }))}
                 loading={form.isLoading}
               />
@@ -215,7 +222,7 @@ class UploadForm extends React.Component {
                 id="species"
                 error={!formValid.species}
                 onChange={this.handleDropdownChange}
-                items={form.picklists.Species.map(option => ({
+                items={form.species.map(option => ({
                   value: option.id,
                   label: option.value,
                 }))}
@@ -225,25 +232,24 @@ class UploadForm extends React.Component {
                 id="patient_id_format"
                 error={!formValid.patient_id_format}
                 onChange={this.handleDropdownChange}
-                items={form.picklists['Patient ID Format'].map(option => ({
-                  value: option,
-                  label: option,
+                items={form.patient_id_formats.map(option => ({
+                  value: option.id,
+                  label: option.value,
                 }))}
               />
 
               <Input
                 id="number_of_samples"
                 error={!formValid.number_of_samples}
-                onChange={this.handleInputChange}
+                onChange={this.handleChange}
                 inputProps={{
                   inputProps: { min: 0 },
                 }}
               />
-
               <Input
                 id="igo_request_id"
                 error={!formValid.igo_request_id}
-                onChange={this.handleInputChange}
+                onChange={this.handleChange}
                 inputProps={{
                   startAdornment: (
                     <InputAdornment position="start">IGO-</InputAdornment>

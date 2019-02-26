@@ -18,8 +18,10 @@ class UploadFormContainer extends React.Component {
   componentDidUpdate(prevProps, prevState) {}
 
   componentDidMount() {
-    this.props.getMaterialsAndApplications()
-    this.props.getPicklist('Species')
+
+    this.props.getInitialState()
+    // this.props.getMaterialsAndApplications()
+    // this.props.getPicklist('Species')
   }
   handleSubmit = formContent => {
     console.log(formContent)
