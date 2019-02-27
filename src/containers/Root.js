@@ -1,16 +1,20 @@
 import React, { Component } from 'react'
-
 import PropTypes from 'prop-types'
-import { Provider } from 'react-redux'
-import DevTools from './DevTools'
+
 import { Route } from 'react-router-dom'
 import { renderToStaticMarkup } from 'react-dom/server'
+
+import { connect } from 'react-redux'
+import { commonActions } from '../actions'
+import DevTools from './DevTools'
+
 import { LocalizeProvider, withLocalize } from 'react-localize-redux'
 import enTranslations from '../translations/en.json'
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 
 import Header from '../components/Shared/Header'
+import Message from '../components/Shared/Message'
 import UploadPage from './Upload/UploadPage'
 import Promote from './Promote/Promote'
 
@@ -29,28 +33,51 @@ class Root extends Component {
     })
   }
 
+  componentDidMount() {
+    this.props.checkVersion(this.props.version)
+    // this.props.getMaterialsAndApplications()
+    // this.props.getPicklist('Species')
+  }
+
   render() {
-    const { store } = this.props
     return (
       <MuiThemeProvider theme={theme}>
-        <Provider store={store}>
+        {this.props.error && !this.props.isLoading ? (
           <div className="app">
             <Header />
+            <Message msg={this.props.error} />
+            {process.env.NODE_ENV !== 'production' ? <DevTools /> : <div />}
+          </div>
+        ) : (
+          <div className="app">
+            <Header />
+
             <Route path="/upload" component={UploadPage} />
             <Route path="/promote" component={Promote} />
             {process.env.NODE_ENV !== 'production' ? <DevTools /> : <div />}
           </div>
-        </Provider>
+        )}
       </MuiThemeProvider>
     )
   }
 }
 
-Root.propTypes = {
-  store: PropTypes.object.isRequired,
+const mapStateToProps = state => ({
+  isLoading: state.common.isLoading,
+  version: state.common.version,
+  versionValid: state.common.versionValid,
+  error: state.common.error,
+})
+const mapDispatchToProps = {
+  ...commonActions,
 }
 
-export default withLocalize(Root)
+export default withLocalize(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Root)
+)
 // <Route path="/:login/:name"
 //              component={RepoPage} />
 //       <Route path="/:login"

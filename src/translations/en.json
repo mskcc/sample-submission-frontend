@@ -10,7 +10,7 @@
     "number_of_samples_helptext": "Number of Samples",
     "igo_request_id_label": "IGO Request ID*",
     "igo_alternative_id_label": "I don't have an IGO Request ID",
-    "igo_alternative_id_helptext": "Please make sure to get an IGO ID through iLabs. For now, we will use todays date (without delimeters).",
+    "igo_alternative_id_helptext": "Please make sure to get an IGO ID through iLabs. For now, we will use today's date (without delimeters).",
     "igo_request_id_helptext": "Enter your six digit IGO ID",
     "container_label": "Container*",
     "container_helptext": "Select Container",
