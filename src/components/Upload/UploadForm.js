@@ -30,7 +30,7 @@ class UploadForm extends React.Component {
       // formErrors: {},
       igo_alternative_id: false,
       formValid: {
-        form: true,
+        form: false,
         material: true,
         application: true,
         igo_request_id: true,
@@ -105,7 +105,7 @@ class UploadForm extends React.Component {
     e.preventDefault()
     e.stopPropagation()
     this.validate()
-    if (this.state.formValid.form) {
+    if (!this.state.formValid.form) {
       handleParentSubmit(this.state)
     } else alert('error')
   }

@@ -24,7 +24,8 @@ class UploadFormContainer extends React.Component {
     // this.props.getPicklist('Species')
   }
   handleSubmit = formContent => {
-    console.log(formContent)
+    // check for cache/existing columns in store
+    this.props.getInitialColumns('Cells','CustomCapture')
   }
 
   handleMaterialChange = selectedMaterial => {

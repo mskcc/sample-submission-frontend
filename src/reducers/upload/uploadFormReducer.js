@@ -20,7 +20,7 @@ function uploadFormReducer(state = initialFormState, action) {
         species: action.data.species,
         all_containers: action.data.containers,
         containers: action.data.containers,
-        patient_id_formats: action.data.patient_id_formats
+        patient_id_formats: action.data.patient_id_formats,
       }
 
     case ActionTypes.RECEIVE_INITIAL_STATE_FAIL:
@@ -28,8 +28,7 @@ function uploadFormReducer(state = initialFormState, action) {
         ...state,
         error: action.error,
         isLoading: false,
-      }  
-
+      }
 
     case ActionTypes.REQUEST_MATERIALS_AND_APPLICATIONS:
       return {
@@ -134,6 +133,29 @@ function uploadFormReducer(state = initialFormState, action) {
       }
 
     case ActionTypes.RECEIVE_PICKLIST_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.error,
+      }
+
+    case ActionTypes.REQUEST_COLUMNS:
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case ActionTypes.RECEIVE_COLUMNS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        columns: {
+          ...state.columns,
+
+          ...[action.columns],
+        },
+      }
+
+    case ActionTypes.RECEIVE_COLUMNS_FAIL:
       return {
         ...state,
         isLoading: false,
