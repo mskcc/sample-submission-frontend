@@ -20,16 +20,12 @@ class UploadFormContainer extends React.Component {
   componentDidMount() {
 
     this.props.getInitialState()
-    // this.props.getMaterialsAndApplications()
-    // this.props.getPicklist('Species')
   }
-  handleSubmit = formContent => {
-    // check for cache/existing columns in store
-    this.props.getInitialColumns('Cells','CustomCapture')
-  }
+  // handleSubmit = formContent => {
+  // this.props.handleSubmit(formContent)
+  // }
 
   handleMaterialChange = selectedMaterial => {
-    console.log(event.target.textContent)
     if (selectedMaterial) {
       // get possible applications for this material
       this.props.getApplicationsForMaterial(selectedMaterial)
@@ -64,11 +60,11 @@ class UploadFormContainer extends React.Component {
   }
 
   render() {
-    const { classes, form } = this.props
+    const { classes, form, handleSubmit } = this.props
     return (
       <UploadForm
         form={form}
-        handleSubmit={this.handleSubmit}
+        handleSubmit={handleSubmit}
         handleMaterialChange={this.handleMaterialChange}
         handleApplicationChange={this.handleApplicationChange}
       />

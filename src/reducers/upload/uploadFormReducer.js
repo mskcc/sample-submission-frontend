@@ -1,7 +1,7 @@
 import { uploadFormActions as ActionTypes } from '../../actions'
 import { initialFormState } from './initialState'
 
-function uploadFormReducer(state = initialFormState, action) {
+export default function uploadFormReducer(state = initialFormState, action) {
   switch (action.type) {
     case ActionTypes.REQUEST_INITIAL_STATE:
       return {
@@ -187,4 +187,4 @@ function uploadFormReducer(state = initialFormState, action) {
   }
 }
 
-export default uploadFormReducer
+
