@@ -29,6 +29,7 @@ class UploadFormContainer extends React.Component {
   }
 
   handleMaterialChange = selectedMaterial => {
+    console.log(event.target.textContent)
     if (selectedMaterial) {
       // get possible applications for this material
       this.props.getApplicationsForMaterial(selectedMaterial)

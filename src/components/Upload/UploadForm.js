@@ -13,7 +13,7 @@ import Button from '@material-ui/core/Button'
 import Dropdown from './Dropdown'
 import Input from './Input'
 
-class UploadForm extends React.Component {
+ class UploadForm extends React.Component {
   constructor(props) {
     super(props)
 
