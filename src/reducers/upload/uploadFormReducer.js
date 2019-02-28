@@ -6,13 +6,13 @@ function uploadFormReducer(state = initialFormState, action) {
     case ActionTypes.REQUEST_INITIAL_STATE:
       return {
         ...state,
-        isLoading: true,
+        formIsLoading: true,
       }
 
     case ActionTypes.RECEIVE_INITIAL_STATE_SUCCESS:
       return {
         ...state,
-        isLoading: false,
+        formIsLoading: false,
         materials: action.data.materials,
         applications: action.data.applications,
         allMaterials: action.data.materials,
@@ -27,19 +27,19 @@ function uploadFormReducer(state = initialFormState, action) {
       return {
         ...state,
         error: action.error,
-        isLoading: false,
+        formIsLoading: false,
       }
 
     case ActionTypes.REQUEST_MATERIALS_AND_APPLICATIONS:
       return {
         ...state,
-        isLoading: true,
+        formIsLoading: true,
       }
 
     case ActionTypes.RECEIVE_MATERIALS_AND_APPLICATIONS_SUCCESS:
       return {
         ...state,
-        isLoading: false,
+        formIsLoading: false,
         materials: action.materials,
         applications: action.applications,
         allMaterials: action.materials,
@@ -50,7 +50,7 @@ function uploadFormReducer(state = initialFormState, action) {
       return {
         ...state,
         error: action.error,
-        isLoading: false,
+        formIsLoading: false,
       }
 
     case ActionTypes.SELECT_MATERIAL:
@@ -84,47 +84,47 @@ function uploadFormReducer(state = initialFormState, action) {
     case ActionTypes.REQUEST_MATERIALS_FOR_APPLICATION:
       return {
         ...state,
-        isLoading: true,
+        formIsLoading: true,
       }
     case ActionTypes.RECEIVE_MATERIALS_FOR_APPLICATION_SUCCESS:
       return {
         ...state,
-        isLoading: false,
+        formIsLoading: false,
         materials: action.materials,
       }
     case ActionTypes.RECEIVE_MATERIALS_FOR_APPLICATION_FAIL:
       return {
         ...state,
-        isLoading: false,
+        formIsLoading: false,
         error: action.error,
       }
 
     case ActionTypes.REQUEST_APPLICATIONS_FOR_MATERIAL:
       return {
         ...state,
-        isLoading: true,
+        formIsLoading: true,
       }
     case ActionTypes.RECEIVE_APPLICATIONS_FOR_MATERIAL_SUCCESS:
       return {
         ...state,
-        isLoading: false,
+        formIsLoading: false,
         applications: action.applications,
       }
     case ActionTypes.RECEIVE_APPLICATIONS_FOR_MATERIAL_FAIL:
       return {
         ...state,
-        isLoading: false,
+        formIsLoading: false,
         error: action.error,
       }
     case ActionTypes.REQUEST_PICKLIST:
       return {
         ...state,
-        isLoading: true,
+        formIsLoading: true,
       }
     case ActionTypes.RECEIVE_PICKLIST_SUCCESS:
       return {
         ...state,
-        isLoading: false,
+        formIsLoading: false,
         picklists: {
           ...state.picklists,
 
@@ -135,19 +135,19 @@ function uploadFormReducer(state = initialFormState, action) {
     case ActionTypes.RECEIVE_PICKLIST_FAIL:
       return {
         ...state,
-        isLoading: false,
+        formIsLoading: false,
         error: action.error,
       }
 
     case ActionTypes.REQUEST_COLUMNS:
       return {
         ...state,
-        isLoading: true,
+        formIsLoading: true,
       }
     case ActionTypes.RECEIVE_COLUMNS_SUCCESS:
       return {
         ...state,
-        isLoading: false,
+        formIsLoading: false,
         columns: {
           ...state.columns,
 
@@ -158,7 +158,7 @@ function uploadFormReducer(state = initialFormState, action) {
     case ActionTypes.RECEIVE_COLUMNS_FAIL:
       return {
         ...state,
-        isLoading: false,
+        formIsLoading: false,
         error: action.error,
       }
 
@@ -167,19 +167,19 @@ function uploadFormReducer(state = initialFormState, action) {
         ...state,
         applications: state.allApplications,
         selectedMaterial: '',
-        isLoading: true,
+        formIsLoading: true,
       }
     case ActionTypes.CLEAR_APPLICATION:
       return {
         ...state,
         materials: state.allMaterials,
         selectedApplication: '',
-        isLoading: true,
+        formIsLoading: true,
       }
     case ActionTypes.CLEARED:
       return {
         ...state,
-        isLoading: false,
+        formIsLoading: false,
       }
 
     default:

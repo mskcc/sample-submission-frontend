@@ -145,7 +145,7 @@ describe('upload form actions', () => {
   // TODO FORM SUBMIT/VALIDATION FAIL  case ActionTypes.RECEIVE_MATERIALS_FOR_APPLICATION_SUCCESS:
   // return {
   //   ...state,
-  //   isLoading: false,
+  //   formIsLoading: false,
   //   materials: [{ id: 'error', value: 'error' }],
   // }
 })

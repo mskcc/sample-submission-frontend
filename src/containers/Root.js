@@ -42,7 +42,7 @@ class Root extends Component {
   render() {
     return (
       <MuiThemeProvider theme={theme}>
-        {this.props.error && !this.props.isLoading ? (
+        {this.props.error && !this.props.formIsLoading ? (
           <div className="app">
             <Header />
             <Message msg={this.props.error} />
@@ -63,7 +63,7 @@ class Root extends Component {
 }
 
 const mapStateToProps = state => ({
-  isLoading: state.common.isLoading,
+  formIsLoading: state.common.formIsLoading,
   version: state.common.version,
   versionValid: state.common.versionValid,
   error: state.common.error,

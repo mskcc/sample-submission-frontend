@@ -36,7 +36,7 @@ export const getChoicesForDNALibraryMock = {
   },
 }
 export const initialFormStateMock = {
-  isLoading: false,
+  formIsLoading: false,
   selectedMaterial: '',
   selectedApplication: '',
   materials: [],
@@ -59,7 +59,7 @@ export const initialFormStateMock = {
 export const initialFormContainerStateMock = {
   upload: {
     form: {
-      isLoading: false,
+      formIsLoading: false,
       selectedMaterial: '',
       selectedApplication: '',
       materials: [],

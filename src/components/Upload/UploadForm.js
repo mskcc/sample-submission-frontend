@@ -226,7 +226,7 @@ import Input from './Input'
                   value: option.id,
                   label: option.value,
                 }))}
-                loading={form.isLoading}
+                loading={form.formIsLoading}
                 dynamic
               />
 
@@ -239,7 +239,7 @@ import Input from './Input'
                   value: option.id,
                   label: option.value,
                 }))}
-                loading={form.isLoading}
+                loading={form.formIsLoading}
                 dynamic
               />
 
@@ -251,7 +251,7 @@ import Input from './Input'
                   value: option.id,
                   label: option.value,
                 }))}
-                loading={form.isLoading}
+                loading={form.formIsLoading}
               />
 
               <Dropdown

@@ -1,5 +1,5 @@
 export const initialFormState = {
-  isLoading: false,
+  formIsLoading: false,
   selectedMaterial: '',
   selectedApplication: '',
   materials: [],

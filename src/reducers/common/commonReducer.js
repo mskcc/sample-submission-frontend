@@ -4,7 +4,7 @@ const initialState = {
   version: '2.0',
   versionValid: false,
   error: null,
-  isLoading: true,
+  formIsLoading: true,
 }
 
 function commonReducer(state = initialState, action) {
@@ -24,13 +24,13 @@ function commonReducer(state = initialState, action) {
     case ActionTypes.REQUEST_CHECK_VERSION:
       return {
         ...state,
-        isLoading: true,
+        formIsLoading: true,
       }
 
     case ActionTypes.RECEIVE_CHECK_VERSION_SUCCESS:
       return {
         ...state,
-        isLoading: false,
+        formIsLoading: false,
         versionValid: true,
         error: null,
       }
@@ -39,7 +39,7 @@ function commonReducer(state = initialState, action) {
       return {
         ...state,
         error: action.error,
-        isLoading: false,
+        formIsLoading: false,
         versionValid: false,
       }
 
