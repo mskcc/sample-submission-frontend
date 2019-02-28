@@ -13,7 +13,9 @@ export const RECEIVE_COLUMNS_SUCCESS = 'RECEIVE_COLUMNS_SUCCESS'
 
 export const RECEIVE_COLUMNS_FAIL = 'RECEIVE_COLUMNS_FAIL'
 
-export function getInitialColumns(application, material) {
+export function getInitialColumns(formValues) {
+  let material = formValues.material
+  let application = formValues.application
   return dispatch => {
     dispatch({ type: REQUEST_COLUMNS })
     material = material.replace('/', '_PIPI_SLASH_')
@@ -22,7 +24,7 @@ export function getInitialColumns(application, material) {
       .get(API_ROOT + '/columnDefinition?', {
         params: {
           type: material,
-          recipe: application,
+          recipe: 'cells',
         },
       })
       .then(response => {
@@ -33,11 +35,23 @@ export function getInitialColumns(application, material) {
         console.log(response)
         return response
       })
-      .catch(error =>
+      .catch(error => {
         dispatch({
           type: RECEIVE_COLUMNS_FAIL,
-          error: error,
+          error: error.response.data,
+          application: application,
+          material: material,
         })
-      )
+        console.log(error)
+      })
   }
 }
+
+export const RESET_GRID_ERROR_MESSAGE = 'RESET_GRID_ERROR_MESSAGE'
+
+// Resets the currently visible error message.
+export const resetGridErrorMessage = () => ({
+  type: RESET_GRID_ERROR_MESSAGE,
+})
+
+

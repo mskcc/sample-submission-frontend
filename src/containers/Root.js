@@ -42,6 +42,7 @@ class Root extends Component {
   render() {
     return (
       <MuiThemeProvider theme={theme}>
+      
         {this.props.error && !this.props.formIsLoading ? (
           <div className="app">
             <Header />

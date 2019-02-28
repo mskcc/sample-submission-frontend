@@ -7,22 +7,30 @@ import { uploadGridActions } from '../../actions'
 import { resetErrorMessage } from '../../actions/commonActions'
 
 import { Table } from '../../components'
+import { Dialog } from '../../components/Upload'
 import UploadFormContainer from './UploadFormContainer'
 
 class UploadPage extends Component {
-  handleSubmit = formContent => {
-    if (this.props.columns.size > 0) {
+  handleSubmit = formValues => {
+    // this.props.resetErrorMessage()
+    if (this.props.grid.columns.size > 0) {
     } else {
-         this.props.getInitialColumns(formContent.material, formContent.application)
-
+      this.props.getInitialColumns(formValues)
     }
+  }
 
-    console.log(formContent)
+  handleDialogClose = () => {
+    this.props.resetGridErrorMessage()
   }
 
   render() {
     return (
       <React.Fragment>
+        <Dialog
+          open={this.props.grid.error.length > 0}
+          handleClose={this.handleDialogClose}
+          msg={this.props.grid.error}
+        />
         <UploadFormContainer handleSubmit={this.handleSubmit} />
       </React.Fragment>
     )
@@ -31,7 +39,7 @@ class UploadPage extends Component {
 
 const mapStateToProps = state => ({
   errorMessage: state.errorMessage,
-  columns: state.upload.grid.columns,
+  grid: state.upload.grid,
 })
 
 export default withLocalize(

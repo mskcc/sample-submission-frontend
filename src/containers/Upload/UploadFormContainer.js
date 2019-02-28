@@ -21,8 +21,8 @@ class UploadFormContainer extends React.Component {
 
     this.props.getInitialState()
   }
-  // handleSubmit = formContent => {
-  // this.props.handleSubmit(formContent)
+  // handleSubmit = formValues => {
+  // this.props.handleSubmit(formValues)
   // }
 
   handleMaterialChange = selectedMaterial => {
