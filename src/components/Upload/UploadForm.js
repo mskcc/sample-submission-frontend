@@ -13,7 +13,7 @@ import Button from '@material-ui/core/Button'
 import Dropdown from './Dropdown'
 import Input from './Input'
 
- class UploadForm extends React.Component {
+class UploadForm extends React.Component {
   constructor(props) {
     super(props)
 
@@ -30,7 +30,7 @@ import Input from './Input'
       // formErrors: {},
       igo_alternative_id: false,
       formValid: {
-        form: false,
+        // form: false,
         material: true,
         application: true,
         igo_request_id: true,
@@ -104,10 +104,11 @@ import Input from './Input'
   handleSubmit = (e, handleParentSubmit) => {
     e.preventDefault()
     e.stopPropagation()
-    this.validate()
-    if (!this.state.formValid.form) {
+
+    if (this.validate()) {
       handleParentSubmit(this.state)
-    } else alert('error')
+    }
+    // } else alert('error')
   }
 
   validate() {
@@ -178,24 +179,20 @@ import Input from './Input'
       },
     })
     // checked all fields, now check form
-    this.validateForm()
+    return this.validateForm()
   }
 
   validateForm() {
-    this.setState({
-      formValid: {
-        ...this.state.formValid,
-        form:
-          this.state.formValid.igo_request_id &&
-          this.state.formValid.material &&
-          this.state.formValid.application &&
-          this.state.formValid.igo_request_id &&
-          this.state.formValid.number_of_samples &&
-          this.state.formValid.species &&
-          this.state.formValid.container &&
-          this.state.formValid.patient_id_format,
-      },
-    })
+    return (
+      this.state.formValid.igo_request_id &&
+      this.state.formValid.material &&
+      this.state.formValid.application &&
+      this.state.formValid.igo_request_id &&
+      this.state.formValid.number_of_samples &&
+      this.state.formValid.species &&
+      this.state.formValid.container &&
+      this.state.formValid.patient_id_format
+    )
   }
 
   render() {
