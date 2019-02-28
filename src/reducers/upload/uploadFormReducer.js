@@ -166,7 +166,6 @@ function uploadFormReducer(state = initialFormState, action) {
       return {
         ...state,
         applications: state.allApplications,
-        materials: state.allMaterials,
         selectedMaterial: '',
         isLoading: true,
       }
@@ -174,7 +173,6 @@ function uploadFormReducer(state = initialFormState, action) {
       return {
         ...state,
         materials: state.allMaterials,
-        applications: state.allApplications,
         selectedApplication: '',
         isLoading: true,
       }
