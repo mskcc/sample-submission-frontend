@@ -5,7 +5,7 @@ if (process.env.NODE_ENV === 'production') {
   API_ROOT = '/apps/auth/'
   // API_ROOT = 'https://rex.mskcc.org/apps/auth/'
 }
-
+// TODO will this stay a grid action?
 export const REQUEST_COLUMNS = 'REQUEST_COLUMNS'
 
 export const RECEIVE_COLUMNS_SUCCESS = 'RECEIVE_COLUMNS_SUCCESS'
@@ -24,7 +24,7 @@ export function getInitialColumns(formValues) {
       .get(API_ROOT + '/columnDefinition?', {
         params: {
           type: material,
-          recipe: 'cells',
+          recipe: application,
         },
       })
       .then(response => {
@@ -42,7 +42,6 @@ export function getInitialColumns(formValues) {
           application: application,
           material: material,
         })
-        console.log(error)
       })
   }
 }

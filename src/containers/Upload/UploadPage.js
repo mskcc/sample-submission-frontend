@@ -9,15 +9,22 @@ import { resetErrorMessage } from '../../actions/commonActions'
 import { Table } from '../../components'
 import { Dialog } from '../../components/Upload'
 import UploadFormContainer from './UploadFormContainer'
+import UploadGridContainer from './UploadGridContainer'
 
 class UploadPage extends Component {
-  handleSubmit = formValues => {
+  handleFormSubmit = formValues => {
     // this.props.resetErrorMessage()
     if (this.props.grid.columns.size > 0) {
+      // TODO When do people update sample number?
     } else {
       this.props.getInitialColumns(formValues)
     }
   }
+
+  //  handleGridSubmit = formValues => {
+  //   // this.props.resetErrorMessage()
+
+  // }
 
   handleDialogClose = () => {
     this.props.resetGridErrorMessage()
@@ -31,7 +38,12 @@ class UploadPage extends Component {
           handleClose={this.handleDialogClose}
           msg={this.props.grid.error}
         />
-        <UploadFormContainer handleSubmit={this.handleSubmit} />
+        <UploadFormContainer handleSubmit={this.handleFormSubmit} />
+        {this.props.grid.columns.length > 0 ? (
+          <UploadGridContainer handleSubmit={this.handleGridSubmit} />
+        ) : (
+          <div />
+        )}
       </React.Fragment>
     )
   }

@@ -14,10 +14,17 @@ export default function uploadGridReducer(state = initialGridState, action) {
         ...state,
         gridIsLoading: true,
       }
+    case ActionTypes.RECEIVE_COLUMNS_SUCCESS:
+      return {
+        ...state,
+        gridIsLoading: false,
+        columns: action.data.columnDefs,
+      }
 
     case ActionTypes.RECEIVE_COLUMNS_FAIL:
       return {
         ...state,
+        gridIsLoading: false,
         error:
           action.error + ' ' + action.material + ' x ' + action.application,
       }

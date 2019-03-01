@@ -6,12 +6,11 @@ import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
 
 import FormControl from '@material-ui/core/FormControl'
-import Checkbox from './Checkbox'
+import { Checkbox, Dropdown, Input } from './index'
 
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Button from '@material-ui/core/Button'
-import Dropdown from './Dropdown'
-import Input from './Input'
+
 
 class UploadForm extends React.Component {
   constructor(props) {
@@ -27,7 +26,7 @@ class UploadForm extends React.Component {
       //   container: '',
       //   patient_id_format: '',
       // },
-       values: {
+      values: {
         material: 'Cells',
         application: 'CustomCapture',
         igo_request_id: '444444',
