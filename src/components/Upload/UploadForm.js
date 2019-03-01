@@ -340,6 +340,7 @@ const styles = theme => ({
     display: 'flex',
     flexWrap: 'wrap',
     width: '70%',
+    justifyContent: 'space-between',
   },
   form: {
     gridArea: 'form',
@@ -354,9 +355,9 @@ const styles = theme => ({
   },
   button: {
     margin: theme.spacing.unit,
-    marginTop: '3em',
+    height: 50,
     display: 'inline-block',
-    width: 350,
+    width: 300,
   },
 })
 
