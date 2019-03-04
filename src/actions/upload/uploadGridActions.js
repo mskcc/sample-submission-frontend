@@ -96,7 +96,11 @@ export const generateRows = (formValues, columns) => {
   let rows = []
   for (let i = 0; i < formValues.number_of_samples; i++) {
     for (let j = 0; j < columns.length; j++) {
-      rows[i] = { ...rows[i], [columns[j].key]: '' }
+      if (columns[j].key == 'species'||columns[j].key == 'organism') {
+        rows[i] = { ...rows[i], [columns[j].key]: formValues.species }
+      } else {
+        rows[i] = { ...rows[i], [columns[j].key]: '' }
+      }
     }
   }
   return rows
