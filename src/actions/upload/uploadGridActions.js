@@ -28,11 +28,15 @@ export function getInitialColumns(formValues) {
         },
       })
       .then(response => {
+        let rows = generateRows(formValues, response.data.columnDefs)
+
         dispatch({
           type: RECEIVE_COLUMNS_SUCCESS,
-          data: response.data,
+          columns: response.data.columnDefs,
+          rows: rows,
+          form: formValues,
         })
-        console.log(response)
+
         return response
       })
       .catch(error => {
@@ -42,6 +46,7 @@ export function getInitialColumns(formValues) {
           application: application,
           material: material,
         })
+        return error
       })
   }
 }
@@ -53,4 +58,15 @@ export const resetGridErrorMessage = () => ({
   type: RESET_GRID_ERROR_MESSAGE,
 })
 
-
+export const generateRows = (formValues, columns) => {
+  //  number of rows * columns
+  //  fill each row with column contents
+  let rows = []
+  for (let i = 0; i < formValues.number_of_samples; i++) {
+    for (let j = 0; j < columns.length; j++) {
+      rows[i] = { ...rows[i], [columns[j].key]: '' }
+  
+    }
+  }
+  return rows
+}

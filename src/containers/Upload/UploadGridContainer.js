@@ -12,9 +12,12 @@ class UploadGridContainer extends React.Component {
     super(props)
   }
 
-  componentDidUpdate(prevProps, prevState) {}
-
-  componentDidMount() {}
+  componentDidMount(prevProps, prevState) {
+    // console.log('prevState')
+    // console.log(prevState)
+    // console.log('state')
+    // console.log(this.state)
+  }
 
   render() {
     const { classes, grid, handleSubmit } = this.props

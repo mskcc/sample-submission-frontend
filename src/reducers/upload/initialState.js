@@ -21,7 +21,9 @@ export const initialFormState = {
 
 export const initialGridState = {
   columns: [],
+  rows: [],
   error: '',
+  form: [],
 }
 
 // picklists: {
