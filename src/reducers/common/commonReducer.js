@@ -4,7 +4,6 @@ const initialState = {
   version: '2.0',
   versionValid: false,
   error: null,
-  formIsLoading: true,
 }
 
 function commonReducer(state = initialState, action) {

@@ -4,7 +4,6 @@ import ReactDataGrid from 'react-data-grid'
 import { Editors } from 'react-data-grid-addons'
 import axios from 'axios'
 
-import './table.scss'
 import { columns } from './sampledata.js'
 
 // import './styles.css'
