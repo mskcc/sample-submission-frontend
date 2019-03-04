@@ -81,16 +81,12 @@ class Grid extends React.Component {
   }
 
   render() {
-    const {
-      classes,
-      form,
-      handleSubmit,
-    } = this.props
+    const { classes, form, handleSubmit } = this.props
     return (
       <ReactDataGrid
-        columns={this.state.columns}
-        rowGetter={i => this.state.rows[i]}
-        rowsCount={this.state.number_of_rows}
+        columns={this.props.grid.columns}
+        rowGetter={i => this.props.grid.rows[i]}
+        rowsCount={this.props.grid.rows.length}
         onGridRowsUpdated={this.onGridRowsUpdated}
         enableCellSelect={true}
         width="100%"

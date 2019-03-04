@@ -1,3 +1,4 @@
+// actions should not have this much BL, will change once it gets too convoluted
 import axios from 'axios'
 
 let API_ROOT = 'http://localhost:9004'
@@ -8,10 +9,41 @@ if (process.env.NODE_ENV === 'production') {
 // TODO will this stay a grid action?
 export const REQUEST_COLUMNS = 'REQUEST_COLUMNS'
 
+export const NO_CHANGE = 'NO_CHANGE'
+export const RECEIVE_COLUMNS_FROM_CACHE = 'RECEIVE_COLUMNS_FROM_CACHE'
+export const RECEIVE_COLUMNS_CHANGE_ROWS = 'RECEIVE_COLUMNS_CHANGE_ROWS'
+
 export const RECEIVE_COLUMNS_SUCCESS = 'RECEIVE_COLUMNS_SUCCESS'
 // export const RECEIVE_COLUMNS_INVALID_COMBINATION = 'RECEIVE_COLUMNS_INVALID_COMBINATION'
 
 export const RECEIVE_COLUMNS_FAIL = 'RECEIVE_COLUMNS_FAIL'
+
+export function getColumns(formValues) {
+  return (dispatch, getState) => {
+    dispatch({ type: REQUEST_COLUMNS })
+
+    if (getState().upload.grid.form.length == 0) {
+      this.getInitialColumns(formValues)
+    } else if (formValues === getState().upload.grid.form) {
+      dispatch({ type: NO_CHANGE })
+    } else if (
+      formValues.number_of_samples !==
+      getState().upload.grid.form.number_of_samples
+    ) {
+      dispatch({ type: RECEIVE_COLUMNS_CHANGE_ROWS })
+
+      let rows = generateRows(formValues, getState().upload.grid.columns)
+
+      dispatch({
+        type: RECEIVE_COLUMNS_CHANGE_ROWS,
+        rows: rows,
+        form: formValues,
+      })
+    } else {
+      this.getInitialColumns(formValues)
+    }
+  }
+}
 
 export function getInitialColumns(formValues) {
   let material = formValues.material
@@ -65,7 +97,6 @@ export const generateRows = (formValues, columns) => {
   for (let i = 0; i < formValues.number_of_samples; i++) {
     for (let j = 0; j < columns.length; j++) {
       rows[i] = { ...rows[i], [columns[j].key]: '' }
-  
     }
   }
   return rows

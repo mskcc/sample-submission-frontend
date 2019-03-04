@@ -14,6 +14,30 @@ export default function uploadGridReducer(state = initialGridState, action) {
         ...state,
         gridIsLoading: true,
       }
+    case ActionTypes.NO_CHANGE:
+      return {
+        ...state,
+        gridIsLoading: false,
+      }
+    case ActionTypes.RECEIVE_COLUMNS_CHANGE_ROWS:
+      return {
+        // ...state,
+        // gridIsLoading: false,
+        // form: {
+        //   ...state.form,
+        //   number_of_samples: action.payload.number_of_samples,
+        // },
+        ...state,
+        gridIsLoading: false,
+        rows: action.rows,
+        form: action.form,
+      }
+    case ActionTypes.RECEIVE_COLUMNS_FROM_CACHE:
+      return {
+        ...state,
+        gridIsLoading: false,
+      }
+
     case ActionTypes.RECEIVE_COLUMNS_SUCCESS:
       return {
         ...state,
