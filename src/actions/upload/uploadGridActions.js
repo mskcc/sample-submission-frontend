@@ -1,5 +1,6 @@
 // actions should not have this much BL, will change once it gets too convoluted
 import axios from 'axios'
+import { generateRows } from './helpers'
 
 let API_ROOT = 'http://localhost:9004'
 if (process.env.NODE_ENV === 'production') {
@@ -24,9 +25,12 @@ export function getColumns(formValues) {
 
     if (getState().upload.grid.form.length == 0) {
       this.getInitialColumns(formValues)
+
     } else if (formValues === getState().upload.grid.form) {
       dispatch({ type: NO_CHANGE })
-    } else if (
+    } 
+    //#samples -> #number rows, rest same
+    else if (
       formValues.number_of_samples !==
       getState().upload.grid.form.number_of_samples
     ) {
@@ -89,19 +93,3 @@ export const RESET_GRID_ERROR_MESSAGE = 'RESET_GRID_ERROR_MESSAGE'
 export const resetGridErrorMessage = () => ({
   type: RESET_GRID_ERROR_MESSAGE,
 })
-
-export const generateRows = (formValues, columns) => {
-  //  number of rows * columns
-  //  fill each row with column contents
-  let rows = []
-  for (let i = 0; i < formValues.number_of_samples; i++) {
-    for (let j = 0; j < columns.length; j++) {
-      if (columns[j].key == 'species'||columns[j].key == 'organism') {
-        rows[i] = { ...rows[i], [columns[j].key]: formValues.species }
-      } else {
-        rows[i] = { ...rows[i], [columns[j].key]: '' }
-      }
-    }
-  }
-  return rows
-}
