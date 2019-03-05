@@ -57,20 +57,47 @@ class Grid extends React.Component {
   state = {
     rows: this.props.grid.rows,
     columns: this.props.grid.columns,
-    number_of_rows: this.props.grid.rows.length,
   }
-  onGridRowsUpdated = ({ fromRow, toRow, updated }) => {
-    this.setState(state => {
-      const rows = state.rows.slice()
-      for (let i = fromRow; i <= toRow; i++) {
-        rows[i] = { ...rows[i], ...updated }
+
+  static getDerivedStateFromProps(props, state) {
+    // Store prevId in state so we can compare when props change.
+    // Clear out previously-loaded data (so we don't render stale stuff).
+    if (props.grid.rows !== state.rows) {
+      return {
+        rows: props.grid.rows,
       }
-      return { rows }
-    })
+    }
+
+  // No state update necessary
+    return null
   }
+
+  // onGridRowsUpdated = ({ fromRow, toRow, updated }) => {
+  //   this.setState(state => {
+  //     const rows = state.rows.slice()
+  //     for (let i = fromRow; i <= toRow; i++) {
+  //       rows[i] = { ...rows[i], ...updated }
+  //     }
+  //     console.log(rows)
+  //     return { rows }
+  //   })
+  // }
+
+  // onGridRowsUpdatedRedux = ({ fromRow, toRow, updated }) => {
+  //   const rows = this.props.grid.rows.slice()
+  //   for (let i = fromRow; i <= toRow; i++) {
+  //     rows[i] = { ...rows[i], ...updated }
+
+  //     console.log(rows)
+  //     this.props.updateRows(rows)
+  //   }
+  // }
 
   componentWillMount() {
     window.dispatchEvent(new Event('resize'))
+  }
+  componentDidMount() {
+    console.log(this.state)
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -78,21 +105,39 @@ class Grid extends React.Component {
     // console.log(prevState)
     // console.log('state')
     // console.log(this.state)
+    console.log(this.state)
   }
 
   render() {
     const { classes, form, handleSubmit } = this.props
     return (
-      <ReactDataGrid
-        columns={this.props.grid.columns}
-        rowGetter={i => this.props.grid.rows[i]}
-        rowsCount={this.props.grid.rows.length}
-        onGridRowsUpdated={this.onGridRowsUpdated}
-        enableCellSelect={true}
-        width="100%"
-      />
+      <div className={classes.container}>
+        <ReactDataGrid
+          columns={this.props.grid.columns}
+          rowGetter={i => this.state.rows[i]}
+          rowsCount={this.props.grid.rows.length}
+          // onGridRowsUpdated={this.onGridRowsUpdatedRedux}
+          // onGridRowsUpdated={this.onGridRowsUpdated}
+          onGridRowsUpdated={this.props.update}
+          enableCellSelect={true}
+          minColumnWidth={120}
+          // maxHeight={this.props.grid.rows.length * 35 + 50}
+          // height = rows.length for small #rows
+          minHeight={
+            this.props.grid.rows.length < 40
+              ? this.props.grid.rows.length * 35 + 50
+              : 40 * 35 + 50
+          }
+        />
+      </div>
     )
   }
 }
 
-export default Grid
+const styles = theme => ({
+  container: {
+    width: '95vw',
+  },
+})
+
+export default withStyles(styles)(Grid)

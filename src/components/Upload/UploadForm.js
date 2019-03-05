@@ -36,9 +36,9 @@ class UploadForm extends React.Component {
       // },
       values: {
         material: 'Tissue',
-        application: 'ImmunoSeq',
+        application: 'CustomCapture',
         igo_request_id: '444444',
-        number_of_samples: '4',
+        number_of_samples: '25',
         species: 'Tuberculosis',
         container: 'Plates',
         patient_id_format: '',
@@ -58,10 +58,10 @@ class UploadForm extends React.Component {
     }
   }
   componentDidUpdate(prevProps, prevState) {
-    console.log('prevState')
-    console.log(prevState)
-    console.log('state')
-    console.log(this.state)
+    // console.log('prevState')
+    // console.log(prevState)
+    // console.log('state')
+    // console.log(this.state)
   }
 
   handleDropdownChange = event => {

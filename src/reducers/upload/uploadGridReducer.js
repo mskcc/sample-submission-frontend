@@ -55,6 +55,12 @@ export default function uploadGridReducer(state = initialGridState, action) {
           action.error + ' ' + action.material + ' x ' + action.application,
       }
 
+    case ActionTypes.UPDATE_ROWS:
+      return {
+        ...state,
+        rows: action.rows,
+      }
+
     default:
       return state
   }

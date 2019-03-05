@@ -25,10 +25,9 @@ export function getColumns(formValues) {
 
     if (getState().upload.grid.form.length == 0) {
       this.getInitialColumns(formValues)
-
     } else if (formValues === getState().upload.grid.form) {
       dispatch({ type: NO_CHANGE })
-    } 
+    }
     //#samples -> #number rows, rest same
     else if (
       formValues.number_of_samples !==
@@ -84,6 +83,15 @@ export function getInitialColumns(formValues) {
         })
         return error
       })
+  }
+}
+
+export const UPDATE_ROWS = 'UPDATE_ROWS'
+export function updateRows(rows) {
+  console.log(rows)
+  return {
+    type: 'UPDATE_ROWS',
+    rows: rows,
   }
 }
 
