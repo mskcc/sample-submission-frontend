@@ -41,26 +41,26 @@ export const RECEIVE_MATERIALS_AND_APPLICATIONS_FAIL =
 //   }
 // }
 
-export function getMaterialsAndApplications() {
-  return dispatch => {
-    dispatch({ type: REQUEST_MATERIALS_AND_APPLICATIONS })
-    return axios
-      .get(API_ROOT + '/upload/initialState')
-      .then(response =>
-        dispatch({
-          type: RECEIVE_MATERIALS_AND_APPLICATIONS_SUCCESS,
-          materials: response.data.samples,
-          applications: response.data.sequencing,
-        })
-      )
-      .catch(error =>
-        dispatch({
-          type: RECEIVE_MATERIALS_AND_APPLICATIONS_FAIL,
-          error: error.message,
-        })
-      )
-  }
-}
+// export function getMaterialsAndApplications() {
+//   return dispatch => {
+//     dispatch({ type: REQUEST_MATERIALS_AND_APPLICATIONS })
+//     return axios
+//       .get(API_ROOT + '/upload/initialState')
+//       .then(response =>
+//         dispatch({
+//           type: RECEIVE_MATERIALS_AND_APPLICATIONS_SUCCESS,
+//           materials: response.data.samples,
+//           applications: response.data.sequencing,
+//         })
+//       )
+//       .catch(error =>
+//         dispatch({
+//           type: RECEIVE_MATERIALS_AND_APPLICATIONS_FAIL,
+//           error: error.message,
+//         })
+//       )
+//   }
+// }
 
 export const REQUEST_INITIAL_STATE = 'REQUEST_INITIAL_STATE'
 
@@ -187,12 +187,18 @@ export function filterContainers(selectedMaterial) {
     }
 }
 
-export const SELECT_SPECIES = 'SELECT_SPECIES'
+export const SELECT_SPECIES_WITH_FORMATTER = 'SELECT_SPECIES_WITH_FORMATTER'
+export const SELECT_SPECIES_WITHOUT_FORMATTER = 'SELECT_SPECIES_WITHOUT_FORMATTER'
 export const CLEAR_SPECIES = 'CLEAR_SPECIES'
 export function getFormatterForSpecies(selectedSpecies) {
-  return {
-    type: SELECT_SPECIES,
-    show: PatientIDSpecies.includes(selectedSpecies.toLowerCase()),
+  if (PatientIDSpecies.includes(selectedSpecies.toLowerCase())) {
+    return {
+      type: SELECT_SPECIES_WITH_FORMATTER,
+    }
+  } else {
+    return {
+      type: SELECT_SPECIES_WITHOUT_FORMATTER,
+    }
   }
 }
 

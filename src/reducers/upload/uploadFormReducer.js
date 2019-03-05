@@ -36,15 +36,15 @@ export default function uploadFormReducer(state = initialFormState, action) {
         formIsLoading: true,
       }
 
-    case ActionTypes.RECEIVE_MATERIALS_AND_APPLICATIONS_SUCCESS:
-      return {
-        ...state,
-        formIsLoading: false,
-        materials: action.materials,
-        applications: action.applications,
-        allMaterials: action.materials,
-        allApplications: action.applications,
-      }
+    // case ActionTypes.RECEIVE_MATERIALS_AND_APPLICATIONS_SUCCESS:
+    //   return {
+    //     ...state,
+    //     formIsLoading: false,
+    //     materials: action.materials,
+    //     applications: action.applications,
+    //     allMaterials: action.materials,
+    //     allApplications: action.applications,
+    //   }
 
     case ActionTypes.RECEIVE_MATERIALS_AND_APPLICATIONS_FAIL:
       return {
@@ -116,17 +116,21 @@ export default function uploadFormReducer(state = initialFormState, action) {
         formIsLoading: false,
         error: action.error,
       }
-    case ActionTypes.SELECT_SPECIES:
+    case ActionTypes.SELECT_SPECIES_WITH_FORMATTER:
       return {
         ...state,
-        show_patient_id_format: action.show,
+        patientIdNeedsFormatting: true,
       }
-      case ActionTypes.CLEAR_SPECIES:
+    case ActionTypes.SELECT_SPECIES_WITHOUT_FORMATTER:
       return {
         ...state,
-        show_patient_id_format: false,
+        patientIdNeedsFormatting: false,
       }
-
+    case ActionTypes.CLEAR_SPECIES:
+      return {
+        ...state,
+        patientIdNeedsFormatting: false,
+      }
     case ActionTypes.REQUEST_PICKLIST:
       return {
         ...state,

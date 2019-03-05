@@ -2,6 +2,7 @@ export const initialFormState = {
   allContainers: [],
   allApplications: [],
   allMaterials: [],
+  allPatientIdFormats: [],
   applications: [],
   containers: [],
   formIsLoading: false,
@@ -13,10 +14,10 @@ export const initialFormState = {
     { id: 'Blocks/Slides/Tubes', value: 'Blocks/Slides/Tubes' },
   ],
   materials: [],
-  patientIdFormats: [],
   selectedApplication: '',
   selectedMaterial: '',
   species: [],
+  patientIdNeedsFormatting: false,
 }
 
 export const initialGridState = {
