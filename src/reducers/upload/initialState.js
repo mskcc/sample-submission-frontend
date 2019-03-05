@@ -1,19 +1,19 @@
 export const initialFormState = {
-  all_containers: [],
+  allContainers: [],
   allApplications: [],
   allMaterials: [],
   applications: [],
   containers: [],
   formIsLoading: false,
-  filtered_containers: [
+  filteredContainers: [
     { id: 'Plates', value: 'Plates' },
     { id: 'Micronic Barcoded Tubes', value: 'Micronic Barcoded Tubes' },
   ],
-  filtered_containers_bs: [
+  filteredContainersBS: [
     { id: 'Blocks/Slides/Tubes', value: 'Blocks/Slides/Tubes' },
   ],
   materials: [],
-  patient_id_formats: [],
+  patientIdFormats: [],
   selectedApplication: '',
   selectedMaterial: '',
   species: [],

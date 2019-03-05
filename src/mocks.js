@@ -46,11 +46,11 @@ export const initialFormStateMock = {
   containers: [],
   all_containers: [],
   species: [],
-  filtered_containers: [
+  filteredContainers: [
     { id: 'Plates', value: 'Plates' },
     { id: 'Micronic Barcoded Tubes', value: 'Micronic Barcoded Tubes' },
   ],
-  filtered_containers_bs: [
+  filteredContainers_bs: [
     { id: 'Blocks/Slides/Tubes', value: 'Blocks/Slides/Tubes' },
   ],
   patient_id_formats: [],
@@ -69,11 +69,11 @@ export const initialFormContainerStateMock = {
       containers: [],
       all_containers: [],
       species: [],
-      filtered_containers: [
+      filteredContainers: [
         { id: 'Plates', value: 'Plates' },
         { id: 'Micronic Barcoded Tubes', value: 'Micronic Barcoded Tubes' },
       ],
-      filtered_containers_bs: [
+      filteredContainers_bs: [
         { id: 'Blocks/Slides/Tubes', value: 'Blocks/Slides/Tubes' },
       ],
       patient_id_formats: [],

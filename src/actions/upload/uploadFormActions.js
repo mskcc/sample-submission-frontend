@@ -7,6 +7,10 @@ if (process.env.NODE_ENV === 'production') {
   // API_ROOT = 'https://rex.mskcc.org/apps/auth/'
 }
 
+// materials that be combined with a Blocks/Slides/Tubes container
+const BSTMaterials = ['tissue', 'cells', 'blood', 'buffy coat', 'other']
+const PatientIDSpecies = ['human', 'mouse', 'mouse_geneticallymodified']
+
 export const REQUEST_MATERIALS_AND_APPLICATIONS =
   'REQUEST_MATERIALS_AND_APPLICATIONS'
 
@@ -159,7 +163,6 @@ export function getApplicationsForMaterial(selectedMaterial) {
         dispatch({
           type: RECEIVE_APPLICATIONS_FOR_MATERIAL_FAIL,
           error: error.message,
-          
         })
         return error
       })
@@ -168,26 +171,33 @@ export function getApplicationsForMaterial(selectedMaterial) {
 
 export const FILTER_CONTAINERS = 'FILTER_CONTAINERS'
 export const FILTER_CONTAINERS_FOR_BS = 'FILTER_CONTAINERS_FOR_BS'
-export const SHOW_ALL_CONTAINERS = 'SHOW_ALL_CONTAINERS'
-export function filterContainers(show) {
-  switch (show) {
-    // for materials in [  'tissue',  'cells',  'blood',  'buffy coat',  'other',],
-    // show all 3 container options
-    case 'all':
-      return {
-        type: SHOW_ALL_CONTAINERS,
-      }
-    // for Blocks/Slides
-    case 'b/s':
-      return {
-        type: FILTER_CONTAINERS_FOR_BS,
-      }
-    // for every other material show two container options
-    default:
-      return {
-        type: FILTER_CONTAINERS,
-      }
+export const SHOW_allContainers = 'SHOW_allContainers'
+export function filterContainers(selectedMaterial) {
+  if (selectedMaterial === 'Blocks/Slides') {
+    return {
+      type: FILTER_CONTAINERS_FOR_BS,
+    }
+  } else if (BSTMaterials.includes(selectedMaterial.toLowerCase())) {
+    return {
+      type: SHOW_allContainers,
+    }
+  } else
+    return {
+      type: FILTER_CONTAINERS,
+    }
+}
+
+export const SELECT_SPECIES = 'SELECT_SPECIES'
+export const CLEAR_SPECIES = 'CLEAR_SPECIES'
+export function getFormatterForSpecies(selectedSpecies) {
+  return {
+    type: SELECT_SPECIES,
+    show: PatientIDSpecies.includes(selectedSpecies.toLowerCase()),
   }
+}
+
+export const clearSpecies = () => {
+  return { type: CLEAR_SPECIES }
 }
 
 export const REQUEST_PICKLIST = 'REQUEST_PICKLIST'

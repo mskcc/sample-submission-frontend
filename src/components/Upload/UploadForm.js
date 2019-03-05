@@ -11,7 +11,6 @@ import { Checkbox, Dropdown, Input } from './index'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Button from '@material-ui/core/Button'
 
-
 class UploadForm extends React.Component {
   constructor(props) {
     super(props)
@@ -46,6 +45,7 @@ class UploadForm extends React.Component {
       },
       // formErrors: {},
       igo_alternative_id: false,
+      show_patient_id_format: this.props.form.show_patient_id_format,
       formValid: {
         // form: false,
         material: true,
@@ -59,10 +59,10 @@ class UploadForm extends React.Component {
     }
   }
   componentDidUpdate(prevProps, prevState) {
-    // console.log('prevState')
-    // console.log(prevState)
-    // console.log('state')
-    // console.log(this.state)
+    console.log('prevState')
+    console.log(prevState)
+    console.log('state')
+    console.log(this.state)
   }
 
   handleDropdownChange = event => {
@@ -71,7 +71,6 @@ class UploadForm extends React.Component {
         ...this.state.values,
         [event.id]: event.value,
       },
-      formValid: { ...this.state.formValid, [event.id]: true },
     })
   }
 
@@ -82,8 +81,26 @@ class UploadForm extends React.Component {
         ...this.state.values,
         [event.target.id]: event.target.value,
       },
-      formValid: { ...this.state.formValid, [event.target.id]: true },
     })
+  }
+
+  handleSpeciesChange = event => {
+    this.setState({
+      values: {
+        ...this.state.values,
+        [event.id]: event.value,
+      },
+    })
+    this.props.handleSpeciesChange(event.value)
+    if (!this.props.form.show_patient_id_format) {
+      this.setState({
+        values: {
+          ...this.state.values,
+          // doesn't clear enough
+          patient_id_format: '',
+        },
+      })
+    }
   }
 
   handleCheck = name => () => {
@@ -133,7 +150,7 @@ class UploadForm extends React.Component {
     let formValid = this.state.formValid
     let valid
     let error
-    let found
+    let isValidOption
     let values = this.state.values
     for (let value in values) {
       switch (value) {
@@ -145,41 +162,50 @@ class UploadForm extends React.Component {
           // validate whether selected value in dynamic fields is in controlled options
           // (could fail if user was extremely quick to select
           // invalid material/app combination)
-          found = this.props.form.materials.some(function(el) {
+          isValidOption = this.props.form.materials.some(function(el) {
             return el.value === values[value]
           })
 
-          formValid[value] = found && values[value].length > 0
+          formValid[value] = isValidOption && values[value].length > 0
           break
 
         case 'application':
-          found = this.props.form.applications.some(function(el) {
+          isValidOption = this.props.form.applications.some(function(el) {
             return el.value === values[value]
           })
 
-          formValid[value] = found && values[value].length > 0
+          formValid[value] = isValidOption && values[value].length > 0
           break
 
         case 'container':
-          found = this.props.form.containers.some(function(el) {
+          isValidOption = this.props.form.containers.some(function(el) {
             return el.value === values[value]
           })
-          formValid[value] = found && values[value].length > 0
+          formValid[value] = isValidOption && values[value].length > 0
           break
 
         case 'species':
-          found = this.props.form.species.some(function(el) {
+          isValidOption = this.props.form.species.some(function(el) {
             return el.value === values[value]
           })
-          formValid[value] = found && values[value].length > 0
+          formValid[value] = isValidOption && values[value].length > 0
           break
 
         case 'patient_id_format':
-          found = this.props.form.patient_id_formats.some(function(el) {
-            return el.value === values[value]
-          })
-          formValid[value] = found && values[value].length > 0
-          break
+          // only validate if species mandates a format, else value will be disregarded anyway
+          if (this.props.form.show_patient_id_format) {
+            isValidOption = this.props.form.patientIdFormats.some(function(
+              el
+            ) {
+              return el.value === values[value]
+            })
+            formValid[value] = isValidOption && values[value].length > 0
+            break
+          } else {
+            
+            formValid[value] = true
+            break
+          }
 
         case 'number_of_samples':
           formValid[value] = values[value] > 0
@@ -191,8 +217,7 @@ class UploadForm extends React.Component {
 
     this.setState({
       formValid: {
-        ...this.state.formValid,
-        formValid,
+        ...formValid,
       },
     })
     // checked all fields, now check form
@@ -219,6 +244,7 @@ class UploadForm extends React.Component {
       handleSubmit,
       handleApplicationChange,
       handleMaterialChange,
+      handleSpeciesChange,
     } = this.props
     const { formValid, values } = this.state
 
@@ -260,7 +286,7 @@ class UploadForm extends React.Component {
               <Dropdown
                 id="container"
                 error={!formValid.container}
-                onChange={this.handleDropdownChange}
+                onChange={this.handleSpeciesChange}
                 items={form.containers.map(option => ({
                   value: option.id,
                   label: option.value,
@@ -271,22 +297,23 @@ class UploadForm extends React.Component {
               <Dropdown
                 id="species"
                 error={!formValid.species}
-                onChange={this.handleDropdownChange}
+                onChange={this.handleSpeciesChange}
                 items={form.species.map(option => ({
                   value: option.id,
                   label: option.value,
                 }))}
               />
-
-              <Dropdown
-                id="patient_id_format"
-                error={!formValid.patient_id_format}
-                onChange={this.handleDropdownChange}
-                items={form.patient_id_formats.map(option => ({
-                  value: option.id,
-                  label: option.value,
-                }))}
-              />
+              {this.props.form.show_patient_id_format ? (
+                <Dropdown
+                  id="patient_id_format"
+                  error={!formValid.patient_id_format}
+                  onChange={this.handleDropdownChange}
+                  items={form.patientIdFormats.map(option => ({
+                    value: option.id,
+                    label: option.value,
+                  }))}
+                />
+              ) : null}
 
               <Input
                 id="number_of_samples"
