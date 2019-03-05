@@ -93,9 +93,9 @@ class Grid extends React.Component {
   //   }
   // }
 
-  componentWillMount() {
-    window.dispatchEvent(new Event('resize'))
-  }
+  // componentWillMount() {
+  //   window.dispatchEvent(new Event('resize'))
+  // }
   componentDidMount() {
     console.log(this.state)
   }

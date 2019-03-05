@@ -5,6 +5,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { uploadGridActions } from '../../actions'
 
+import CircularProgress from '@material-ui/core/CircularProgress'
+
 import { UploadGrid } from '../../components/Upload'
 
 class UploadGridContainer extends React.Component {
@@ -28,10 +30,17 @@ class UploadGridContainer extends React.Component {
     }
   }
 
-
   render() {
     const { classes, grid, handleSubmit } = this.props
-    return <UploadGrid update={this.updateRows} grid={grid} handleSubmit={handleSubmit} />
+    return grid.gridIsLoading  ? (
+      <CircularProgress  color="secondary" />
+    ) : (grid.columns.length > 0 ?  (
+          <UploadGrid
+            update={this.updateRows}
+            grid={grid}
+            handleSubmit={handleSubmit}
+          />
+        ): null)
   }
 }
 

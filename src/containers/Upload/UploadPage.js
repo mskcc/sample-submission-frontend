@@ -36,9 +36,7 @@ class UploadPage extends Component {
           msg={this.props.grid.error}
         />
         <UploadFormContainer handleSubmit={this.handleFormSubmit} />
-        {!this.props.grid.isLoading && this.props.grid.columns.length > 0 && (
           <UploadGridContainer handleSubmit={this.handleGridSubmit} />
-        )}
       </React.Fragment>
     )
   }
