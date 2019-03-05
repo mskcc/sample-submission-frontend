@@ -1,6 +1,6 @@
 // actions should not have this much BL, will change once it gets too convoluted
 import axios from 'axios'
-import { generateRows } from './helpers'
+import { generateRows, diff } from './helpers'
 
 let API_ROOT = 'http://localhost:9004'
 if (process.env.NODE_ENV === 'production') {
@@ -21,22 +21,19 @@ export const RECEIVE_COLUMNS_FAIL = 'RECEIVE_COLUMNS_FAIL'
 
 export function getColumns(formValues) {
   return (dispatch, getState) => {
+    let diffValues = diff(getState().upload.grid.form, formValues)
     dispatch({ type: REQUEST_COLUMNS })
-
     if (getState().upload.grid.form.length == 0) {
       this.getInitialColumns(formValues)
-    } else if (formValues === getState().upload.grid.form) {
+    } else if (diffValues === undefined) {
       dispatch({ type: NO_CHANGE })
     }
-    //#samples -> #number rows, rest same
+    //#samples -> #number rows, rest same, only update rows number
     else if (
-      formValues.number_of_samples !==
-      getState().upload.grid.form.number_of_samples
+      Object.keys(diffValues).length === 1 &&
+      'number_of_samples' in diffValues
     ) {
-      dispatch({ type: RECEIVE_COLUMNS_CHANGE_ROWS })
-
       let rows = generateRows(formValues, getState().upload.grid.columns)
-
       dispatch({
         type: RECEIVE_COLUMNS_CHANGE_ROWS,
         rows: rows,
