@@ -1,7 +1,7 @@
 //TODO ERROR HANDLING
 import axios from 'axios'
 
-let API_ROOT = 'http://localhost:9004/'
+let API_ROOT = 'http://localhost:9004'
 if (process.env.NODE_ENV === 'production') {
   API_ROOT = '/apps/auth/'
   // API_ROOT = 'https://rex.mskcc.org/apps/auth/'
@@ -52,7 +52,7 @@ export function getMaterialsAndApplications() {
       .catch(error =>
         dispatch({
           type: RECEIVE_MATERIALS_AND_APPLICATIONS_FAIL,
-          error: error,
+          error: error.message,
         })
       )
   }
@@ -79,7 +79,7 @@ export function getInitialState() {
       .catch(error =>
         dispatch({
           type: RECEIVE_INITIAL_STATE_FAIL,
-          error: error,
+          error: error.message,
         })
       )
   }
@@ -159,6 +159,7 @@ export function getApplicationsForMaterial(selectedMaterial) {
         dispatch({
           type: RECEIVE_APPLICATIONS_FOR_MATERIAL_FAIL,
           error: error.message,
+          
         })
         return error
       })
@@ -205,7 +206,7 @@ export function getPicklist(picklist) {
       .catch(error =>
         dispatch({
           type: RECEIVE_PICKLIST_FAIL,
-          error: error,
+          error: error.message,
         })
       )
   }

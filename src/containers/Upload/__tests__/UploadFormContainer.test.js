@@ -1,8 +1,15 @@
+import React, { Component } from 'react'
+
 import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import multi from 'redux-multi'
 import moxios from 'moxios'
 
+import renderer from 'react-test-renderer'
+import { mount } from 'enzyme'
+import TestUploadFormContainer from '../UploadFormContainer'
+
+import { Provider } from 'react-redux'
 import { uploadFormActions } from '../../../actions/'
 import uploadFormReducer from '../../../reducers/upload/uploadFormReducer'
 
@@ -11,32 +18,10 @@ import {
   initialFormStateMock,
 } from '../../../mocks'
 
+const testStore = initialFormStateMock
+
 const middlewares = [thunk, multi]
 const mockStore = configureStore(middlewares)
-
-const testStore = {
-  isLoading: false,
-  selectedMaterial: '',
-  selectedApplication: '',
-  materials: [],
-  applications: [],
-  containers: ['Plates', 'Micronic Barcoded Tubes'],
-  allMaterials: [],
-  allApplications: [],
-
-  picklists: {
-    Species: [],
-
-    Containers: ['Plates', 'Micronic Barcoded Tubes', 'Blocks/Slides/Tubes'],
-    FilteredContainers: ['Plates', 'Micronic Barcoded Tubes'],
-    'Patient ID Format': [
-      'MRN',
-      'User Provided Patient ID',
-      'Combination of MRN and User Provided',
-      'Mouse Parental Strain ID',
-    ],
-  },
-}
 
 describe('upload form actions', () => {
   beforeEach(function() {
@@ -160,7 +145,7 @@ describe('upload form actions', () => {
   // TODO FORM SUBMIT/VALIDATION FAIL  case ActionTypes.RECEIVE_MATERIALS_FOR_APPLICATION_SUCCESS:
   // return {
   //   ...state,
-  //   isLoading: false,
+  //   formIsLoading: false,
   //   materials: [{ id: 'error', value: 'error' }],
   // }
 })

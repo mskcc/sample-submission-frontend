@@ -39,7 +39,7 @@ const CheckboxComponent = ({ id, value, onChange, classes, checked }) => (
         <div>
           <Fade in={checked}>
             <Card className={classes.card}>
-              <CardContent>
+              <CardContent className={classes.content}>
                 <Typography color="textSecondary">
                   {translate('upload.form.' + id + '_helptext')}{' '}
                 </Typography>
@@ -67,12 +67,16 @@ const styles = theme => ({
     color: theme.palette.text.secondary,
     marginLeft: 2 * theme.spacing.unit,
     marginRight: 2 * theme.spacing.unit,
-    marginTop: -2 * theme.spacing.unit,
+    marginTop: -3 * theme.spacing.unit,
+
     minWidth: 350,
     fontSize: '.8em',
   },
   card: {
     maxWidth: 350,
+  },
+  content: {
+    padding: '5px !important',
   },
 })
 

@@ -20,12 +20,10 @@ class UploadFormContainer extends React.Component {
   componentDidMount() {
 
     this.props.getInitialState()
-    // this.props.getMaterialsAndApplications()
-    // this.props.getPicklist('Species')
   }
-  handleSubmit = formContent => {
-    console.log(formContent)
-  }
+  // handleSubmit = formValues => {
+  // this.props.handleSubmit(formValues)
+  // }
 
   handleMaterialChange = selectedMaterial => {
     if (selectedMaterial) {
@@ -62,11 +60,11 @@ class UploadFormContainer extends React.Component {
   }
 
   render() {
-    const { classes, form } = this.props
+    const { classes, form, handleSubmit } = this.props
     return (
       <UploadForm
         form={form}
-        handleSubmit={this.handleSubmit}
+        handleSubmit={handleSubmit}
         handleMaterialChange={this.handleMaterialChange}
         handleApplicationChange={this.handleApplicationChange}
       />

@@ -6,31 +6,48 @@ import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
 
 import FormControl from '@material-ui/core/FormControl'
-import Checkbox from './Checkbox'
+import { Checkbox, Dropdown, Input } from './index'
 
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Button from '@material-ui/core/Button'
-import Dropdown from './Dropdown'
-import Input from './Input'
+
 
 class UploadForm extends React.Component {
   constructor(props) {
     super(props)
 
     this.state = {
+      // values: {
+      //   material: '',
+      //   application: '',
+      //   igo_request_id: '',
+      //   number_of_samples: '',
+      //   species: '',
+      //   container: '',
+      //   patient_id_format: '',
+      // },
+      // values: {
+      //   material: 'Cells',
+      //   application: 'CustomCapture',
+      //   igo_request_id: '444444',
+      //   number_of_samples: '4',
+      //   species: 'Human',
+      //   container: 'Plates',
+      //   patient_id_format: 'MRN',
+      // },
       values: {
-        material: '',
-        application: '',
-        igo_request_id: '',
-        number_of_samples: '',
-        species: '',
-        container: '',
-        patient_id_format: '',
+        material: 'Tissue',
+        application: 'ImmunoSeq',
+        igo_request_id: '444444',
+        number_of_samples: '4',
+        species: 'Human',
+        container: 'Plates',
+        patient_id_format: 'MRN',
       },
       // formErrors: {},
       igo_alternative_id: false,
       formValid: {
-        form: true,
+        // form: false,
         material: true,
         application: true,
         igo_request_id: true,
@@ -104,10 +121,11 @@ class UploadForm extends React.Component {
   handleSubmit = (e, handleParentSubmit) => {
     e.preventDefault()
     e.stopPropagation()
-    this.validate()
-    if (this.state.formValid.form) {
-      handleParentSubmit(this.state)
-    } else alert('error')
+
+    if (this.validate()) {
+      handleParentSubmit(this.state.values)
+    }
+    // } else alert('error')
   }
 
   validate() {
@@ -178,24 +196,20 @@ class UploadForm extends React.Component {
       },
     })
     // checked all fields, now check form
-    this.validateForm()
+    return this.validateForm()
   }
 
   validateForm() {
-    this.setState({
-      formValid: {
-        ...this.state.formValid,
-        form:
-          this.state.formValid.igo_request_id &&
-          this.state.formValid.material &&
-          this.state.formValid.application &&
-          this.state.formValid.igo_request_id &&
-          this.state.formValid.number_of_samples &&
-          this.state.formValid.species &&
-          this.state.formValid.container &&
-          this.state.formValid.patient_id_format,
-      },
-    })
+    return (
+      this.state.formValid.igo_request_id &&
+      this.state.formValid.material &&
+      this.state.formValid.application &&
+      this.state.formValid.igo_request_id &&
+      this.state.formValid.number_of_samples &&
+      this.state.formValid.species &&
+      this.state.formValid.container &&
+      this.state.formValid.patient_id_format
+    )
   }
 
   render() {
@@ -226,7 +240,7 @@ class UploadForm extends React.Component {
                   value: option.id,
                   label: option.value,
                 }))}
-                loading={form.isLoading}
+                loading={form.formIsLoading}
                 dynamic
               />
 
@@ -239,7 +253,7 @@ class UploadForm extends React.Component {
                   value: option.id,
                   label: option.value,
                 }))}
-                loading={form.isLoading}
+                loading={form.formIsLoading}
                 dynamic
               />
 
@@ -251,7 +265,7 @@ class UploadForm extends React.Component {
                   value: option.id,
                   label: option.value,
                 }))}
-                loading={form.isLoading}
+                loading={form.formIsLoading}
               />
 
               <Dropdown
@@ -334,6 +348,7 @@ const styles = theme => ({
     display: 'flex',
     flexWrap: 'wrap',
     width: '70%',
+    justifyContent: 'space-between',
   },
   form: {
     gridArea: 'form',
@@ -348,9 +363,9 @@ const styles = theme => ({
   },
   button: {
     margin: theme.spacing.unit,
-    marginTop: '3em',
+    height: 50,
     display: 'inline-block',
-    width: 350,
+    width: 300,
   },
 })
 
