@@ -35,30 +35,28 @@ class Root extends Component {
 
   componentDidMount() {
     this.props.checkVersion(this.props.version)
-    // this.props.getMaterialsAndApplications()
-    // this.props.getPicklist('Species')
   }
 
   render() {
     return (
       <MuiThemeProvider theme={theme}>
-          <Router>
-            {this.props.error && !this.props.formIsLoading ? (
-              <div className="app">
-                <Header />
-                <Message msg={this.props.error} />
-                {process.env.NODE_ENV !== 'production' ? <DevTools /> : <div />}
-              </div>
-            ) : (
-              <div className="app">
-                <Header />
+        <Router>
+          {this.props.error ? (
+            <div className="app">
+              <Header />
+              <Message msg={this.props.errorMessage} />
+              {process.env.NODE_ENV !== 'production' ? <DevTools /> : <div />}
+            </div>
+          ) : this.props.versionValid ? (
+            <div className="app">
+              <Header />
 
-                <Route path="/upload" component={UploadPage} />
-                <Route path="/promote" component={Promote} />
-                {process.env.NODE_ENV !== 'production' ? <DevTools /> : <div />}
-              </div>
-            )}
-          </Router>
+              <Route path="/upload" component={UploadPage} />
+              <Route path="/promote" component={Promote} />
+              {process.env.NODE_ENV !== 'production' ? <DevTools /> : <div />}
+            </div>
+          ) : null}
+        </Router>
       </MuiThemeProvider>
     )
   }
@@ -69,6 +67,7 @@ const mapStateToProps = state => ({
   version: state.common.version,
   versionValid: state.common.versionValid,
   error: state.common.error,
+  errorMessage: state.common.errorMessage,
 })
 const mapDispatchToProps = {
   ...commonActions,
