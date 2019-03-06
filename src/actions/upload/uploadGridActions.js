@@ -11,12 +11,14 @@ if (process.env.NODE_ENV === 'production') {
 export const REQUEST_COLUMNS = 'REQUEST_COLUMNS'
 
 export const NO_CHANGE = 'NO_CHANGE'
-export const RECEIVE_COLUMNS_FROM_CACHE = 'RECEIVE_COLUMNS_FROM_CACHE'
-export const RECEIVE_COLUMNS_CHANGE_ROWS = 'RECEIVE_COLUMNS_CHANGE_ROWS'
+export const NO_CHANGE_RESET = 'NO_CHANGE_RESET'
 
+export const UPDATE_NUM_OF_ROWS = 'UPDATE_NUM_OF_ROWS'
+export const UPDATE_NUM_OF_ROWS_SUCCESS = 'UPDATE_NUM_OF_ROWS_SUCCESS'
+
+export const RECEIVE_COLUMNS_FROM_CACHE = 'RECEIVE_COLUMNS_FROM_CACHE'
 export const RECEIVE_COLUMNS_SUCCESS = 'RECEIVE_COLUMNS_SUCCESS'
 // export const RECEIVE_COLUMNS_INVALID_COMBINATION = 'RECEIVE_COLUMNS_INVALID_COMBINATION'
-
 export const RECEIVE_COLUMNS_FAIL = 'RECEIVE_COLUMNS_FAIL'
 
 export function getColumns(formValues) {
@@ -27,15 +29,19 @@ export function getColumns(formValues) {
       this.getInitialColumns(formValues)
     } else if (diffValues === undefined) {
       dispatch({ type: NO_CHANGE })
+      return setTimeout(() => {
+        dispatch({ type: NO_CHANGE_RESET })
+      }, 1000)
     }
     //#samples -> #number rows, rest same, only update rows number
     else if (
       Object.keys(diffValues).length === 1 &&
       'number_of_samples' in diffValues
     ) {
+      dispatch({ type: UPDATE_NUM_OF_ROWS })
       let rows = generateRows(formValues, getState().upload.grid.columns)
       dispatch({
-        type: RECEIVE_COLUMNS_CHANGE_ROWS,
+        type: UPDATE_NUM_OF_ROWS_SUCCESS,
         rows: rows,
         form: formValues,
       })
@@ -83,11 +89,11 @@ export function getInitialColumns(formValues) {
   }
 }
 
-export const UPDATE_ROWS = 'UPDATE_ROWS'
-export function updateRows(rows) {
+export const UPDATE_CELLS = 'UPDATE_CELLS'
+export function updateCells(rows) {
   console.log(rows)
   return {
-    type: 'UPDATE_ROWS',
+    type: 'UPDATE_CELLS',
     rows: rows,
   }
 }

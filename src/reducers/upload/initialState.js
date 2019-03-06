@@ -25,6 +25,8 @@ export const initialGridState = {
   rows: [],
   error: '',
   form: [],
+  gridIsLoading: false,
+  nothingToChange: false
 }
 
 // picklists: {

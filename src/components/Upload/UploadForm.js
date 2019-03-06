@@ -6,10 +6,9 @@ import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
 
 import FormControl from '@material-ui/core/FormControl'
-import { Checkbox, Dropdown, Input } from './index'
+import { Button, Checkbox, Dropdown, Input } from './index'
 
 import InputAdornment from '@material-ui/core/InputAdornment'
-import Button from '@material-ui/core/Button'
 
 class UploadForm extends React.Component {
   constructor(props) {
@@ -224,9 +223,13 @@ class UploadForm extends React.Component {
       handleApplicationChange,
       handleMaterialChange,
       handleSpeciesChange,
+      gridIsLoading,
+      nothingToChange,
     } = this.props
     const { formValid, values } = this.state
-
+    const buttonClassname = classNames({
+      [classes.buttonSuccess]: !this.props.gridIsLoading,
+    })
     return (
       <Translate>
         {({ translate }) => (
@@ -324,16 +327,7 @@ class UploadForm extends React.Component {
                 />
               </FormControl>
             </form>
-
-            <Button
-              variant="contained"
-              type="submit"
-              form="upload-form"
-              className={classes.button}
-              color="secondary"
-            >
-              {translate('upload.form.generate_button')}
-            </Button>
+            <Button formId="upload-form" gridIsLoading={gridIsLoading} handleSubmit={handleSubmit} nothingToChange={nothingToChange} />{' '}
           </div>
         )}
       </Translate>
@@ -375,6 +369,24 @@ const styles = theme => ({
     height: 50,
     display: 'inline-block',
     width: 300,
+  },
+  wrapper: {
+    margin: theme.spacing.unit,
+    position: 'relative',
+  },
+  buttonProgress: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: -12,
+    marginLeft: -12,
+  },
+  nothingToChange: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: -53,
+    marginLeft: -65,
   },
 })
 

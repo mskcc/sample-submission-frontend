@@ -35,8 +35,12 @@ class UploadPage extends Component {
           handleClose={this.handleDialogClose}
           msg={this.props.grid.error}
         />
-        <UploadFormContainer handleSubmit={this.handleFormSubmit} />
-          <UploadGridContainer handleSubmit={this.handleGridSubmit} />
+        <UploadFormContainer
+          handleSubmit={this.handleFormSubmit}
+          gridIsLoading={this.props.grid.gridIsLoading}
+          nothingToChange={this.props.grid.nothingToChange}
+        />
+        <UploadGridContainer handleSubmit={this.handleGridSubmit} />
       </React.Fragment>
     )
   }

@@ -54,10 +54,18 @@ class UploadFormContainer extends React.Component {
   }
 
   render() {
-    const { classes, form, handleSubmit } = this.props
+    const {
+      classes,
+      form,
+      handleSubmit,
+      gridIsLoading,
+      nothingToChange,
+    } = this.props
     return (
       <UploadForm
         form={form}
+        gridIsLoading={gridIsLoading}
+        nothingToChange={nothingToChange}
         handleSubmit={handleSubmit}
         handleMaterialChange={this.handleMaterialChange}
         handleApplicationChange={this.handleApplicationChange}

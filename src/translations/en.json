@@ -17,6 +17,7 @@
     "patient_id_format_label": "Patient ID Format*",
     "patient_id_format_helptext": "Select Patient ID Format",
     "generate_button": "Generate Table",
+    "nothing_to_change": "Nothing to change.",
     "fill_me": "Please fill out this field.",
     "test_me_label": "test me label",
     "test_me_helptext": "test me helptext"

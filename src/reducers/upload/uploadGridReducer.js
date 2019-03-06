@@ -18,15 +18,21 @@ export default function uploadGridReducer(state = initialGridState, action) {
       return {
         ...state,
         gridIsLoading: false,
+        nothingToChange: true,
       }
-    case ActionTypes.RECEIVE_COLUMNS_CHANGE_ROWS:
+    case ActionTypes.NO_CHANGE_RESET:
       return {
-        // ...state,
-        // gridIsLoading: false,
-        // form: {
-        //   ...state.form,
-        //   number_of_samples: action.payload.number_of_samples,
-        // },
+        ...state,
+
+        nothingToChange: false,
+      }
+    case ActionTypes.UPDATE_NUM_OF_ROWS:
+      return {
+        ...state,
+        gridIsLoading: true,
+      }
+    case ActionTypes.UPDATE_NUM_OF_ROWS_SUCCESS:
+      return {
         ...state,
         gridIsLoading: false,
         rows: action.rows,
@@ -55,7 +61,7 @@ export default function uploadGridReducer(state = initialGridState, action) {
           action.error + ' ' + action.material + ' x ' + action.application,
       }
 
-    case ActionTypes.UPDATE_ROWS:
+    case ActionTypes.UPDATE_CELLS:
       return {
         ...state,
         rows: action.rows,
