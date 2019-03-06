@@ -6,11 +6,9 @@ import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
 
 import FormControl from '@material-ui/core/FormControl'
-import { Checkbox, Dropdown, Input } from './index'
+import { Button, Checkbox, Dropdown, Input } from './index'
 
 import InputAdornment from '@material-ui/core/InputAdornment'
-import Button from '@material-ui/core/Button'
-
 
 class UploadForm extends React.Component {
   constructor(props) {
@@ -37,12 +35,12 @@ class UploadForm extends React.Component {
       // },
       values: {
         material: 'Tissue',
-        application: 'ImmunoSeq',
+        application: 'CustomCapture',
         igo_request_id: '444444',
-        number_of_samples: '4',
-        species: 'Human',
+        number_of_samples: '25',
+        species: 'Tuberculosis',
         container: 'Plates',
-        patient_id_format: 'MRN',
+        patient_id_format: '',
       },
       // formErrors: {},
       igo_alternative_id: false,
@@ -133,7 +131,7 @@ class UploadForm extends React.Component {
     let formValid = this.state.formValid
     let valid
     let error
-    let found
+    let isValidOption
     let values = this.state.values
     for (let value in values) {
       switch (value) {
@@ -145,41 +143,47 @@ class UploadForm extends React.Component {
           // validate whether selected value in dynamic fields is in controlled options
           // (could fail if user was extremely quick to select
           // invalid material/app combination)
-          found = this.props.form.materials.some(function(el) {
+          isValidOption = this.props.form.materials.some(function(el) {
             return el.value === values[value]
           })
 
-          formValid[value] = found && values[value].length > 0
+          formValid[value] = isValidOption && values[value].length > 0
           break
 
         case 'application':
-          found = this.props.form.applications.some(function(el) {
+          isValidOption = this.props.form.applications.some(function(el) {
             return el.value === values[value]
           })
 
-          formValid[value] = found && values[value].length > 0
+          formValid[value] = isValidOption && values[value].length > 0
           break
 
         case 'container':
-          found = this.props.form.containers.some(function(el) {
+          isValidOption = this.props.form.containers.some(function(el) {
             return el.value === values[value]
           })
-          formValid[value] = found && values[value].length > 0
+          formValid[value] = isValidOption && values[value].length > 0
           break
 
         case 'species':
-          found = this.props.form.species.some(function(el) {
+          isValidOption = this.props.form.species.some(function(el) {
             return el.value === values[value]
           })
-          formValid[value] = found && values[value].length > 0
+          formValid[value] = isValidOption && values[value].length > 0
           break
 
         case 'patient_id_format':
-          found = this.props.form.patient_id_formats.some(function(el) {
-            return el.value === values[value]
-          })
-          formValid[value] = found && values[value].length > 0
-          break
+          // only validate if species mandates a format, else value will be disregarded anyway
+          if (this.props.form.patientIdNeedsFormatting) {
+            isValidOption = this.props.form.patientIdFormats.some(function(el) {
+              return el.value === values[value]
+            })
+            formValid[value] = isValidOption && values[value].length > 0
+            break
+          } else {
+            formValid[value] = true
+            break
+          }
 
         case 'number_of_samples':
           formValid[value] = values[value] > 0
@@ -191,8 +195,7 @@ class UploadForm extends React.Component {
 
     this.setState({
       formValid: {
-        ...this.state.formValid,
-        formValid,
+        ...formValid,
       },
     })
     // checked all fields, now check form
@@ -219,9 +222,14 @@ class UploadForm extends React.Component {
       handleSubmit,
       handleApplicationChange,
       handleMaterialChange,
+      handleSpeciesChange,
+      gridIsLoading,
+      nothingToChange,
     } = this.props
     const { formValid, values } = this.state
-
+    const buttonClassname = classNames({
+      [classes.buttonSuccess]: !this.props.gridIsLoading,
+    })
     return (
       <Translate>
         {({ translate }) => (
@@ -271,22 +279,26 @@ class UploadForm extends React.Component {
               <Dropdown
                 id="species"
                 error={!formValid.species}
+                onSelect={handleSpeciesChange}
                 onChange={this.handleDropdownChange}
                 items={form.species.map(option => ({
                   value: option.id,
                   label: option.value,
                 }))}
+                dynamic
               />
-
-              <Dropdown
-                id="patient_id_format"
-                error={!formValid.patient_id_format}
-                onChange={this.handleDropdownChange}
-                items={form.patient_id_formats.map(option => ({
-                  value: option.id,
-                  label: option.value,
-                }))}
-              />
+              {this.props.form.patientIdNeedsFormatting ? (
+                <Dropdown
+                  id="patient_id_format"
+                  value={this.props.form.patientIdFormat}
+                  error={!formValid.patient_id_format}
+                  onChange={this.handleDropdownChange}
+                  items={form.patientIdFormats.map(option => ({
+                    value: option.id,
+                    label: option.value,
+                  }))}
+                />
+              ) : null}
 
               <Input
                 id="number_of_samples"
@@ -315,16 +327,7 @@ class UploadForm extends React.Component {
                 />
               </FormControl>
             </form>
-
-            <Button
-              variant="contained"
-              type="submit"
-              form="upload-form"
-              className={classes.button}
-              color="secondary"
-            >
-              {translate('upload.form.generate_button')}
-            </Button>
+            <Button formId="upload-form" gridIsLoading={gridIsLoading} handleSubmit={handleSubmit} nothingToChange={nothingToChange} />{' '}
           </div>
         )}
       </Translate>
@@ -366,6 +369,24 @@ const styles = theme => ({
     height: 50,
     display: 'inline-block',
     width: 300,
+  },
+  wrapper: {
+    margin: theme.spacing.unit,
+    position: 'relative',
+  },
+  buttonProgress: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: -12,
+    marginLeft: -12,
+  },
+  nothingToChange: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: -53,
+    marginLeft: -65,
   },
 })
 

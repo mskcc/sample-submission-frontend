@@ -14,13 +14,10 @@ import UploadGridContainer from './UploadGridContainer'
 class UploadPage extends Component {
   handleFormSubmit = formValues => {
     // this.props.resetErrorMessage()
-    if (this.props.grid.columns.size > 0) {
-      // TODO When do people update sample number?
-    } else {
-      this.props.getInitialColumns(formValues)
-    }
-  }
 
+    // TODO When do people update sample number?
+    this.props.getColumns(formValues)
+  }
   //  handleGridSubmit = formValues => {
   //   // this.props.resetErrorMessage()
 
@@ -38,10 +35,12 @@ class UploadPage extends Component {
           handleClose={this.handleDialogClose}
           msg={this.props.grid.error}
         />
-        <UploadFormContainer handleSubmit={this.handleFormSubmit} />
-        {!this.props.grid.isLoading && this.props.grid.columns.length > 0 && (
-          <UploadGridContainer handleSubmit={this.handleGridSubmit} />
-        )}
+        <UploadFormContainer
+          handleSubmit={this.handleFormSubmit}
+          gridIsLoading={this.props.grid.gridIsLoading}
+          nothingToChange={this.props.grid.nothingToChange}
+        />
+        <UploadGridContainer handleSubmit={this.handleGridSubmit} />
       </React.Fragment>
     )
   }

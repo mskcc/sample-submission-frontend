@@ -62,3 +62,6 @@ describe('responds to input', () => {
 
 // })
 // })
+
+// if species with formatter selected -> show -> validate
+// if species without formatter selected -> show = false -> skip validate

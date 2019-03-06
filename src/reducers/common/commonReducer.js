@@ -8,11 +8,12 @@ const initialState = {
 
 function commonReducer(state = initialState, action) {
   switch (action.type) {
-    // case ActionTypes.ERROR:
-    //   return {
-    //     ...state,
-    //     errorMessage: action.error,
-    //   }
+    case ActionTypes.SERVER_ERROR:
+      return {
+        ...state,
+        error: action.error,
+        errorMessage: 'Our backend is experiencing some downtime. Please check back later or message an admin.',
+      }
 
     case ActionTypes.RESET_ERROR_MESSAGE:
       return {
@@ -38,6 +39,7 @@ function commonReducer(state = initialState, action) {
       return {
         ...state,
         error: action.error,
+        errorMessage: action.errorMessage,
         formIsLoading: false,
         versionValid: false,
       }

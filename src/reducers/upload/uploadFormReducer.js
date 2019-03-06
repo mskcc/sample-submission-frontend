@@ -18,9 +18,9 @@ export default function uploadFormReducer(state = initialFormState, action) {
         allMaterials: action.data.materials,
         allApplications: action.data.applications,
         species: action.data.species,
-        all_containers: action.data.containers,
+        allContainers: action.data.containers,
         containers: action.data.containers,
-        patient_id_formats: action.data.patient_id_formats,
+        patientIdFormats: action.data.patientIdFormats,
       }
 
     case ActionTypes.RECEIVE_INITIAL_STATE_FAIL:
@@ -36,15 +36,15 @@ export default function uploadFormReducer(state = initialFormState, action) {
         formIsLoading: true,
       }
 
-    case ActionTypes.RECEIVE_MATERIALS_AND_APPLICATIONS_SUCCESS:
-      return {
-        ...state,
-        formIsLoading: false,
-        materials: action.materials,
-        applications: action.applications,
-        allMaterials: action.materials,
-        allApplications: action.applications,
-      }
+    // case ActionTypes.RECEIVE_MATERIALS_AND_APPLICATIONS_SUCCESS:
+    //   return {
+    //     ...state,
+    //     formIsLoading: false,
+    //     materials: action.materials,
+    //     applications: action.applications,
+    //     allMaterials: action.materials,
+    //     allApplications: action.applications,
+    //   }
 
     case ActionTypes.RECEIVE_MATERIALS_AND_APPLICATIONS_FAIL:
       return {
@@ -62,18 +62,18 @@ export default function uploadFormReducer(state = initialFormState, action) {
     case ActionTypes.FILTER_CONTAINERS:
       return {
         ...state,
-        containers: state.filtered_containers,
+        containers: state.filteredContainers,
       }
 
     case ActionTypes.FILTER_CONTAINERS_FOR_BS:
       return {
         ...state,
-        containers: state.filtered_containers_bs,
+        containers: state.filteredContainersBS,
       }
-    case ActionTypes.SHOW_ALL_CONTAINERS:
+    case ActionTypes.SHOW_allContainers:
       return {
         ...state,
-        containers: state.all_containers,
+        containers: state.allContainers,
       }
     case ActionTypes.SELECT_APPLICATION:
       return {
@@ -115,6 +115,21 @@ export default function uploadFormReducer(state = initialFormState, action) {
         ...state,
         formIsLoading: false,
         error: action.error,
+      }
+    case ActionTypes.SELECT_SPECIES_WITH_FORMATTER:
+      return {
+        ...state,
+        patientIdNeedsFormatting: true,
+      }
+    case ActionTypes.SELECT_SPECIES_WITHOUT_FORMATTER:
+      return {
+        ...state,
+        patientIdNeedsFormatting: false,
+      }
+    case ActionTypes.CLEAR_SPECIES:
+      return {
+        ...state,
+        patientIdNeedsFormatting: false,
       }
     case ActionTypes.REQUEST_PICKLIST:
       return {
@@ -186,5 +201,3 @@ export default function uploadFormReducer(state = initialFormState, action) {
       return state
   }
 }
-
-

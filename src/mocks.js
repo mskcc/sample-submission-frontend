@@ -44,16 +44,17 @@ export const initialFormStateMock = {
   allMaterials: [],
   allApplications: [],
   containers: [],
-  all_containers: [],
+  allContainers: [],
   species: [],
-  filtered_containers: [
+  filteredContainers: [
     { id: 'Plates', value: 'Plates' },
     { id: 'Micronic Barcoded Tubes', value: 'Micronic Barcoded Tubes' },
   ],
-  filtered_containers_bs: [
+  filteredContainersBS: [
     { id: 'Blocks/Slides/Tubes', value: 'Blocks/Slides/Tubes' },
   ],
-  patient_id_formats: [],
+  patientIdFormats: [],
+  patientIdNeedsFormatting: false,
 }
 
 export const initialFormContainerStateMock = {
@@ -67,16 +68,17 @@ export const initialFormContainerStateMock = {
       allMaterials: [],
       allApplications: [],
       containers: [],
-      all_containers: [],
+      allContainers: [],
       species: [],
-      filtered_containers: [
+      filteredContainers: [
         { id: 'Plates', value: 'Plates' },
         { id: 'Micronic Barcoded Tubes', value: 'Micronic Barcoded Tubes' },
       ],
-      filtered_containers_bs: [
+      filteredContainersBS: [
         { id: 'Blocks/Slides/Tubes', value: 'Blocks/Slides/Tubes' },
       ],
-      patient_id_formats: [],
+      patientIdFormats: [],
+      patientIdNeedsFormatting: false,
     },
   },
 }

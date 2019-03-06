@@ -7,9 +7,6 @@ import { uploadFormActions } from '../../actions'
 
 import { UploadForm } from '../../components/Upload'
 
-// materials that be combined with a Blocks/Slides/Tubes container
-const BSTMaterials = ['tissue', 'cells', 'blood', 'buffy coat', 'other']
-
 class UploadFormContainer extends React.Component {
   constructor(props) {
     super(props)
@@ -18,7 +15,6 @@ class UploadFormContainer extends React.Component {
   componentDidUpdate(prevProps, prevState) {}
 
   componentDidMount() {
-
     this.props.getInitialState()
   }
   // handleSubmit = formValues => {
@@ -36,17 +32,9 @@ class UploadFormContainer extends React.Component {
       }, 500)
     }
     // show containers depending on material combination
-    this.filterContainers(selectedMaterial)
+    this.props.filterContainers(selectedMaterial)
   }
 
-  filterContainers = selectedMaterial => {
-    if (selectedMaterial === 'Blocks/Slides') {
-      this.props.filterContainers('b/s')
-    } else if (BSTMaterials.includes(selectedMaterial.toLowerCase())) {
-      this.props.filterContainers('all')
-    } else this.props.filterContainers()
-  }
-  
   handleApplicationChange = selectedApplication => {
     if (selectedApplication) {
       // get possible ,materials for this application
@@ -59,14 +47,29 @@ class UploadFormContainer extends React.Component {
     }
   }
 
+  handleSpeciesChange = selectedSpecies => {
+    if (selectedSpecies) {
+      this.props.getFormatterForSpecies(selectedSpecies)
+    } else this.props.clearSpecies()
+  }
+
   render() {
-    const { classes, form, handleSubmit } = this.props
+    const {
+      classes,
+      form,
+      handleSubmit,
+      gridIsLoading,
+      nothingToChange,
+    } = this.props
     return (
       <UploadForm
         form={form}
+        gridIsLoading={gridIsLoading}
+        nothingToChange={nothingToChange}
         handleSubmit={handleSubmit}
         handleMaterialChange={this.handleMaterialChange}
         handleApplicationChange={this.handleApplicationChange}
+        handleSpeciesChange={this.handleSpeciesChange}
       />
     )
   }

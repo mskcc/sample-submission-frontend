@@ -1,22 +1,23 @@
 export const initialFormState = {
-  all_containers: [],
+  allContainers: [],
   allApplications: [],
   allMaterials: [],
+  allPatientIdFormats: [],
   applications: [],
   containers: [],
   formIsLoading: false,
-  filtered_containers: [
+  filteredContainers: [
     { id: 'Plates', value: 'Plates' },
     { id: 'Micronic Barcoded Tubes', value: 'Micronic Barcoded Tubes' },
   ],
-  filtered_containers_bs: [
+  filteredContainersBS: [
     { id: 'Blocks/Slides/Tubes', value: 'Blocks/Slides/Tubes' },
   ],
   materials: [],
-  patient_id_formats: [],
   selectedApplication: '',
   selectedMaterial: '',
   species: [],
+  patientIdNeedsFormatting: false,
 }
 
 export const initialGridState = {
@@ -24,6 +25,8 @@ export const initialGridState = {
   rows: [],
   error: '',
   form: [],
+  gridIsLoading: false,
+  nothingToChange: false
 }
 
 // picklists: {

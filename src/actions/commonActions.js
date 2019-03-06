@@ -4,9 +4,12 @@ let API_ROOT = 'http://localhost:9004'
 
 export const REQUEST_CHECK_VERSION = 'REQUEST_CHECK_VERSION'
 
+export const SERVER_ERROR = 'SERVER_ERROR'
+
 export const RECEIVE_CHECK_VERSION_SUCCESS = 'RECEIVE_CHECK_VERSION_SUCCESS'
 
 export const RECEIVE_CHECK_VERSION_FAIL = 'RECEIVE_CHECK_VERSION_FAIL'
+export const RECEIVE_SERVER_ERROR = 'RECEIVE_SERVER_ERROR'
 
 export function checkVersion(version) {
   return dispatch => {
@@ -24,12 +27,20 @@ export function checkVersion(version) {
         })
         return response
       })
-      
+
       .catch(error => {
-        dispatch({
-          type: RECEIVE_CHECK_VERSION_FAIL,
-          error: error.response.data.message,
-        })
+        if (error.response) {
+          dispatch({
+            type: RECEIVE_CHECK_VERSION_FAIL,
+            error: error,
+            errorMessage: error.response.data.message,
+          })
+        } else {
+          dispatch({
+            type: SERVER_ERROR,
+            error: error,
+          })
+        }
       })
   }
 }
@@ -40,5 +51,3 @@ export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE'
 export const resetErrorMessage = () => ({
   type: RESET_ERROR_MESSAGE,
 })
-
-
