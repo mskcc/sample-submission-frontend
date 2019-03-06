@@ -16,12 +16,12 @@ import 'bootstrap/dist/css/bootstrap.css'
 // import './styles.css'
 
 const { DropDownEditor } = Editors
-const issueTypes = [
-  { id: 'bug', value: 'Bug' },
-  { id: 'epic', value: 'Epic' },
-  { id: 'story', value: 'Story' },
-]
-const IssueTypeEditor = <DropDownEditor options={issueTypes} />
+// const issueTypes = [
+//   { id: 'bug', value: 'Bug' },
+//   { id: 'epic', value: 'Epic' },
+//   { id: 'story', value: 'Story' },
+// ]
+// const IssueTypeEditor = <DropDownEditor options={issueTypes} />
 
 // const rows = [
 //   {
@@ -55,21 +55,41 @@ const IssueTypeEditor = <DropDownEditor options={issueTypes} />
 
 class Grid extends React.Component {
   state = {
-    rows: this.props.grid.rows,
-    columns: this.props.grid.columns,
+    rows: [],
+    columns: [],
   }
 
   static getDerivedStateFromProps(props, state) {
+    let rowsToUse = state.rows
+    let columnsToUse = state.columns
     // Store prevId in state so we can compare when props change.
     // Clear out previously-loaded data (so we don't render stale stuff).
     if (props.grid.rows !== state.rows) {
-      return {
-        rows: props.grid.rows,
+      rowsToUse = props.grid.rows
+    }
+    if (props.grid.columns !== state.columns) {
+      let columns = props.grid.columns
+      for (let i = 0; i < columns.length; i++) {
+        if ('editor' in columns[i]) {
+          // if ('cancerType' in columns[i]) {
+            const dropdownEditor = (
+              <DropDownEditor options={columns[i].editDropdownOptionsArray} />
+            )
+
+            console.log(columns[i].editDropdownOptionsArray)
+            columns[i].editor = dropdownEditor
+            columns[i].cellClass = 'dropdown'
+          // }
+        }
       }
+      columnsToUse = columns
+      // No state update necessary
     }
 
-  // No state update necessary
-    return null
+    return {
+      rows: rowsToUse,
+      columns: columnsToUse,
+    }
   }
 
   // onGridRowsUpdated = ({ fromRow, toRow, updated }) => {

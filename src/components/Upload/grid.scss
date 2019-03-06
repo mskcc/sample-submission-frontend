@@ -4,5 +4,18 @@
 }
 
 .react-grid-Header {
-    font-size: 0.7em;
+  font-size: 0.7em;
+}
+
+.react-grid-HeaderCell.dropdown {
+  .widget-HeaderCell__value {
+    &::after {
+      content: '';
+      margin: 0 0.5em;
+      display: inline-block;
+      border: 4px solid transparent;
+      border-top: 5px solid gray;
+      border-bottom: 0 none;
+    }
+  }
 }

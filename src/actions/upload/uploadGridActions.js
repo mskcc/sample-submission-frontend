@@ -1,6 +1,6 @@
 // actions should not have this much BL, will change once it gets too convoluted
 import axios from 'axios'
-import { generateRows, diff } from './helpers'
+import { diff, generateRows } from './helpers'
 
 let API_ROOT = 'http://localhost:9004'
 if (process.env.NODE_ENV === 'production') {
@@ -66,11 +66,11 @@ export function getInitialColumns(formValues) {
         },
       })
       .then(response => {
-        let rows = generateRows(formValues, response.data.columnDefs)
-
+        let columnDefs = response.data.columnDefs
+        let rows = generateRows(formValues, columnDefs)
         dispatch({
           type: RECEIVE_COLUMNS_SUCCESS,
-          columns: response.data.columnDefs,
+          columns: columnDefs,
           rows: rows,
           form: formValues,
         })
@@ -89,9 +89,9 @@ export function getInitialColumns(formValues) {
   }
 }
 
+// todo: only if value actually changed?
 export const UPDATE_CELLS = 'UPDATE_CELLS'
 export function updateCells(rows) {
-  console.log(rows)
   return {
     type: 'UPDATE_CELLS',
     rows: rows,
