@@ -14,13 +14,12 @@ export const generateRows = (formValues, columns) => {
   return rows
 }
 
-
 // prep columns for agGrid
 export const generateAGColumns = columnDefs => {
   let columns = []
-  console.log(columnDefs[9].editDropdownOptionsArray)
-  console.log(extractValues(columnDefs[9].editDropdownOptionsArray))
-  console.log(columnDefs[9].editDropdownOptionsArray)
+  // console.log(columnDefs[9].editDropdownOptionsArray)
+  // console.log(extractValues(columnDefs[9].editDropdownOptionsArray))
+  // console.log(columnDefs[9].editDropdownOptionsArray)
   for (let i = 0; i < columnDefs.length; i++) {
     columns[i] = columnDefs[i]
     if ('editable' in columns[i]) {
@@ -36,9 +35,6 @@ export const generateAGColumns = columnDefs => {
       columns[i].field = columns[i].key
       columns[i].headerName = columns[i].displayName
       delete columns[i].displayName
-
-
-
     }
   }
   return columns
@@ -47,9 +43,50 @@ export const generateAGColumns = columnDefs => {
 function extractValues(mappings) {
   let result = mappings.map(a => a.value)
 
-  console.log(result)
+  // console.log(result)
 
   return result
+}
+
+// prep columns for HandsOnTable
+export const generateHotData = (columnDefs, formValues) => {
+  let columns = [{}]
+  // console.log(columnDefs[9].editDropdownOptionsArray)
+  // console.log(extractValues(columnDefs[9].editDropdownOptionsArray))
+  // console.log(columnDefs[9].editDropdownOptionsArray)
+  let rows = new Array(columnDefs.length)
+  let data = [[]]
+
+  // for (let i = 0; i < formValues.number_of_samples; i++) {
+
+  //     if (columns[j].key == 'species' || columns[j].key == 'organism') {
+  //       rows[i] = { ...rows[i], [columns[j].key]: formValues.species }
+  //     } else {
+  //       rows[i] = { ...rows[i], [columns[j].key]: '' }
+  //     }
+  //   }
+  // }
+  //  first element in data is array of column names
+  for (let i = 0; i < columnDefs.length; i++) {
+    columns[i] = {}
+    if ('editor' in columnDefs[i]) {
+      // if ('cancerType' in columns[i]) {
+      columns[i].editor = 'select'
+      columns[i].selectOptions = extractValues(
+        columnDefs[i].editDropdownOptionsArray
+      )
+    }
+  }
+  data[0] = columns
+  data[1] = columnDefs.map(a => a.key)
+
+  // append empty rows for however many samples are to be submitted
+  for (let i = 0; i < formValues.number_of_samples; i++) {
+    data[i + 2] = rows
+  }
+
+  console.log(data)
+  return data
 }
 
 // helper to compare header.formState and grid.formValues to see which columns need to be updated

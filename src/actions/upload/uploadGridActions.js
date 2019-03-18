@@ -1,6 +1,6 @@
 // actions should not have this much BL, will change once it gets too convoluted
 import axios from 'axios'
-import { diff, generateRows, generateAGColumns } from './helpers'
+import { diff, generateRows, generateAGColumns, generateHotData } from './helpers'
 
 let API_ROOT = 'http://localhost:9004'
 if (process.env.NODE_ENV === 'production') {
@@ -66,11 +66,20 @@ export function getInitialColumns(formValues) {
         },
       })
       .then(response => {
-        // agGrid TODO add tumor type formatter/lookup for select ids
-        let columnDefs = generateAGColumns(response.data.columnDefs)
+        // // agGrid TODO add tumor type formatter/lookup for select ids, copy        
+        // let columnDefs = generateAGColumns(response.data.columnDefs)
+         
+
+         // HandsOnTable
+         // Handsontable binds to your data source (list of arrays or list of objects) by reference. Therefore, all the data entered in the grid will alter the original data source.
+        let data = generateHotData(response.data.columnDefs, formValues)
+        let columnDefs = data
+        console.log(data)
+        // let rows = data.slice(1)
         // react-data-grid
-        // let columnDefs = response.data.columnDefs
-        let rows = generateRows(formValues, columnDefs)
+
+        // let columnDefs = response.data.columnDefs        
+        let rows = generateRows(formValues, response.data.columnDefs)
         dispatch({
           type: RECEIVE_COLUMNS_SUCCESS,
           columns: columnDefs,
