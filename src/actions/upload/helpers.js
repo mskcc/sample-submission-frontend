@@ -14,7 +14,9 @@ export const generateRows = (formValues, columns) => {
   return rows
 }
 
-export const generateColumns = columnDefs => {
+
+// prep columns for agGrid
+export const generateAGColumns = columnDefs => {
   let columns = []
   console.log(columnDefs[9].editDropdownOptionsArray)
   console.log(extractValues(columnDefs[9].editDropdownOptionsArray))
@@ -31,6 +33,12 @@ export const generateColumns = columnDefs => {
         values: extractValues(columns[i].editDropdownOptionsArray),
       }
       delete columns[i].editDropdownOptionsArray
+      columns[i].field = columns[i].key
+      columns[i].headerName = columns[i].displayName
+      delete columns[i].displayName
+
+
+
     }
   }
   return columns

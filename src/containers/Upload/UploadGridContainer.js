@@ -38,8 +38,7 @@ class UploadGridContainer extends React.Component {
     //     handleSubmit={handleSubmit}
     //   />
     // ) : null
-
-    return <UploadGridAG grid={grid}/>
+    return grid.rows.length > 0 ? <UploadGridAG grid={grid} /> : null
   }
 }
 

@@ -7,42 +7,13 @@ class UploadGridAG extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      columnDefs: [
-        {
-          headerName: 'Make',
-          field: 'make',
-        },
-        {
-          headerName: 'Model',
-          field: 'model',
-        },
-        {
-          headerName: 'Price',
-          field: 'price',
-        },
-      ],
-      rowData: [
-        {
-          make: 'Toyota',
-          model: 'Celica',
-          price: 35000,
-        },
-        {
-          make: 'Ford',
-          model: 'Mondeo',
-          price: 32000,
-        },
-        {
-          make: 'Porsche',
-          model: 'Boxter',
-          price: 72000,
-        },
-      ],
+      columnDefs: this.props.grid.columns,
+      rowData: this.props.grid.rows,
     }
   }
 
   render() {
-        console.log(this.props)
+    console.log(this.props)
 
     return (
       <div className="ag-theme-balham">
@@ -50,14 +21,13 @@ class UploadGridAG extends React.Component {
           defaultColDef={{
             sortable: true,
             editable: true,
-            
-            
+
             headerComponentParams: {
               menuIcon: 'fa-bars',
             },
           }}
-          columnDefs={this.props.grid.columns}
-          rowData={this.props.grid.rows}
+          columnDefs={this.state.columnDefs}
+          rowData={this.state.rowData}
         />
       </div>
     )

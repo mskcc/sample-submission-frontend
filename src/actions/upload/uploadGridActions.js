@@ -1,6 +1,6 @@
 // actions should not have this much BL, will change once it gets too convoluted
 import axios from 'axios'
-import { diff, generateRows, generateColumns } from './helpers'
+import { diff, generateRows, generateAGColumns } from './helpers'
 
 let API_ROOT = 'http://localhost:9004'
 if (process.env.NODE_ENV === 'production') {
@@ -66,8 +66,8 @@ export function getInitialColumns(formValues) {
         },
       })
       .then(response => {
-        // agGrid
-        let columnDefs = generateColumns(response.data.columnDefs)
+        // agGrid TODO add tumor type formatter/lookup for select ids
+        let columnDefs = generateAGColumns(response.data.columnDefs)
         // react-data-grid
         // let columnDefs = response.data.columnDefs
         let rows = generateRows(formValues, columnDefs)
