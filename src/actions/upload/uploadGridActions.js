@@ -1,6 +1,6 @@
 // actions should not have this much BL, will change once it gets too convoluted
 import axios from 'axios'
-import { diff, generateRows } from './helpers'
+import { diff, generateRows, generateColumns } from './helpers'
 
 let API_ROOT = 'http://localhost:9004'
 if (process.env.NODE_ENV === 'production') {
@@ -66,7 +66,10 @@ export function getInitialColumns(formValues) {
         },
       })
       .then(response => {
-        let columnDefs = response.data.columnDefs
+        // agGrid
+        let columnDefs = generateColumns(response.data.columnDefs)
+        // react-data-grid
+        // let columnDefs = response.data.columnDefs
         let rows = generateRows(formValues, columnDefs)
         dispatch({
           type: RECEIVE_COLUMNS_SUCCESS,
@@ -80,7 +83,7 @@ export function getInitialColumns(formValues) {
       .catch(error => {
         dispatch({
           type: RECEIVE_COLUMNS_FAIL,
-          error: error.response.data,
+          error: error,
           application: application,
           material: material,
         })

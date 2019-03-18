@@ -16,6 +16,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 // import './styles.css'
 
 const { DropDownEditor } = Editors
+
 // const issueTypes = [
 //   { id: 'bug', value: 'Bug' },
 //   { id: 'epic', value: 'Epic' },
@@ -69,19 +70,7 @@ class Grid extends React.Component {
     }
     if (props.grid.columns !== state.columns) {
       let columns = props.grid.columns
-      for (let i = 0; i < columns.length; i++) {
-        if ('editor' in columns[i]) {
-          // if ('cancerType' in columns[i]) {
-            const dropdownEditor = (
-              <DropDownEditor options={columns[i].editDropdownOptionsArray} />
-            )
 
-            console.log(columns[i].editDropdownOptionsArray)
-            columns[i].editor = dropdownEditor
-            columns[i].cellClass = 'dropdown'
-          // }
-        }
-      }
       columnsToUse = columns
       // No state update necessary
     }
@@ -118,6 +107,20 @@ class Grid extends React.Component {
   // }
   componentDidMount() {
     console.log(this.state)
+    // let cols = this.state.columns
+    // for (let i = 0; i < cols.length; i++) {
+    //   if ('editor' in cols[i]) {
+    //     // if ('cancerType' in cols[i]) {
+    //     const dropdownEditor = (
+    //       <DropDownEditor options={cols[i].editDropdownOptionsArray} />
+    //     )
+    //     cols[i].editor = dropdownEditor
+    //     cols[i].cellClass = 'dropdown'
+
+    //     // }
+    //   }
+    // }
+    // this.setState({ columns: cols })
   }
 
   componentDidUpdate(prevProps, prevState) {

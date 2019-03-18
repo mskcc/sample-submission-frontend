@@ -7,7 +7,7 @@ import { uploadGridActions } from '../../actions'
 
 import CircularProgress from '@material-ui/core/CircularProgress'
 
-import { UploadGrid } from '../../components/Upload'
+import { UploadGridRDG, UploadGridAG } from '../../components/Upload'
 
 class UploadGridContainer extends React.Component {
   constructor(props) {
@@ -31,13 +31,15 @@ class UploadGridContainer extends React.Component {
 
   render() {
     const { classes, grid, handleSubmit } = this.props
-    return grid.columns.length > 0 ? (
-      <UploadGrid
-        update={this.updateCells}
-        grid={grid}
-        handleSubmit={handleSubmit}
-      />
-    ) : null
+    // return grid.columns.length > 0 ? (
+    //   <UploadGridRDG
+    //     update={this.updateCells}
+    //     grid={grid}
+    //     handleSubmit={handleSubmit}
+    //   />
+    // ) : null
+
+    return <UploadGridAG grid={grid}/>
   }
 }
 

@@ -37,7 +37,7 @@ class UploadForm extends React.Component {
         material: 'Tissue',
         application: 'CustomCapture',
         igo_request_id: '444444',
-        number_of_samples: '25',
+        number_of_samples: '400',
         species: 'Tuberculosis',
         container: 'Plates',
         patient_id_format: '',
