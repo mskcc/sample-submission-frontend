@@ -66,7 +66,7 @@ export const initialGridStateMock = {
   nothingToChange: false,
 }
 
-export const initialFormContainerStateMock = {
+export const initialFullStateMock = {
   upload: {
     form: {
       allContainers: [],

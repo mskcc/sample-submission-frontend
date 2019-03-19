@@ -327,7 +327,7 @@ class UploadForm extends React.Component {
                 />
               </FormControl>
             </form>
-            <Button formId="upload-form" gridIsLoading={gridIsLoading} handleSubmit={handleSubmit} nothingToChange={nothingToChange} />{' '}
+            <Button id="upload-form-submit" formId="upload-form" gridIsLoading={gridIsLoading} handleSubmit={handleSubmit} nothingToChange={nothingToChange} />{' '}
           </div>
         )}
       </Translate>

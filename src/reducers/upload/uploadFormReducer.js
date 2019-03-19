@@ -60,7 +60,7 @@ export default function uploadFormReducer(state = initialFormState, action) {
         ...state,
         containers: state.filteredContainersBS,
       }
-    case ActionTypes.SHOW_allContainers:
+    case ActionTypes.SHOW_ALL_CONTAINERS:
       return {
         ...state,
         containers: state.allContainers,

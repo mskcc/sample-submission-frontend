@@ -16,9 +16,10 @@ import uploadFormReducer from '../../../reducers/upload/uploadFormReducer'
 import {
   getChoicesForDNALibraryMock,
   initialFormStateMock,
+  initialFullStateMock
 } from '../../../mocks'
 
-const testStore = initialFormStateMock
+const formTestStore = initialFormStateMock
 
 const middlewares = [thunk, multi]
 const mockStore = configureStore(middlewares)
@@ -32,7 +33,7 @@ describe('upload form actions', () => {
     moxios.uninstall()
   })
   it('should execute clearMaterial', () => {
-    const store = mockStore(testStore)
+    const store = mockStore(formTestStore)
 
     const expectedActions = [
       {
@@ -48,7 +49,7 @@ describe('upload form actions', () => {
   })
 
   it('creates GET_APPLICATIONS_FOR_MATERIALS_SUCCESS when getApplicationsForMaterial returns choices', () => {
-    const store = mockStore(testStore)
+    const store = mockStore(formTestStore)
     moxios.wait(() => {
       const request = moxios.requests.mostRecent()
       request.respondWith({
@@ -80,7 +81,7 @@ describe('upload form actions', () => {
   })
 
   it('creates GET_APPLICATIONS_FOR_MATERIAL_FAIL when getApplicationsForMaterial fails', () => {
-    const store = mockStore(testStore)
+    const store = mockStore(formTestStore)
     moxios.wait(() => {
       const request = moxios.requests.mostRecent()
       request.respondWith({
@@ -111,7 +112,7 @@ describe('upload form actions', () => {
       })
   })
   it('creates GET_MATERIALS_FOR_APPLICATION_FAIL when getMaterialsForApplication fails', () => {
-    const store = mockStore(testStore)
+    const store = mockStore(formTestStore)
     moxios.wait(() => {
       const request = moxios.requests.mostRecent()
       request.respondWith({
@@ -154,4 +155,39 @@ describe('upload form reducers', () => {
   it('should return the initial state', () => {
     expect(uploadFormReducer(undefined, {})).toEqual(initialFormStateMock)
   })
+
+  it('filters containers', () => {
+    const store = mockStore(formTestStore)
+
+    const action = { type: 'FILTER_CONTAINERS_FOR_BS' }
+
+    expect(uploadFormReducer(formTestStore, action)).toEqual({
+      ...formTestStore,
+      containers: [{ id: 'Blocks/Slides/Tubes', value: 'Blocks/Slides/Tubes' }],
+    })
+  })
+})
+
+const UploadFormContainer = props => (
+  <Provider store={mockStore(initialFullStateMock)}>
+    <TestUploadFormContainer />
+  </Provider>
+)
+
+describe('Render UploadFormContainer', () => {
+  it('render UploadFormContainer correctly', () => {
+    const UploadFormContainerComponent = renderer
+      .create(<UploadFormContainer />)
+      .toJSON()
+    expect(UploadFormContainerComponent).toMatchSnapshot()
+  })
+})
+
+describe('responds to input', () => {
+  it('has species field', () => {
+    const wrapper = mount(<UploadFormContainer />)
+    expect(wrapper.find('#material').exists()).toBe(true)
+  })
+
+
 })

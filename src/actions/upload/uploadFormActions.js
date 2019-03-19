@@ -129,7 +129,7 @@ export function getApplicationsForMaterial(selectedMaterial) {
 
 export const FILTER_CONTAINERS = 'FILTER_CONTAINERS'
 export const FILTER_CONTAINERS_FOR_BS = 'FILTER_CONTAINERS_FOR_BS'
-export const SHOW_allContainers = 'SHOW_allContainers'
+export const SHOW_ALL_CONTAINERS = 'SHOW_ALL_CONTAINERS'
 export function filterContainers(selectedMaterial) {
   if (selectedMaterial === 'Blocks/Slides') {
     return {
@@ -137,7 +137,7 @@ export function filterContainers(selectedMaterial) {
     }
   } else if (BSTMaterials.includes(selectedMaterial.toLowerCase())) {
     return {
-      type: SHOW_allContainers,
+      type: SHOW_ALL_CONTAINERS,
     }
   } else
     return {
