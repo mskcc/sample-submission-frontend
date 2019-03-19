@@ -9,6 +9,7 @@ import UploadForm from './UploadForm.js'
 import UploadGridRDG from './UploadGridRDG.js'
 import UploadGridAG from './gridComponents/UploadGridAG.js'
 import UploadGridHandsOn from './gridComponents/UploadGridHandsOn.js'
+import UploadGridRDS from './gridComponents/UploadGridRDS.js'
 // import DropdownReduxFormField from './Header/DropdownReduxFormField.js'
 
-export { Button, Checkbox, Dialog, Dropdown, Input, UploadForm, UploadGridRDG, UploadGridAG, UploadGridHandsOn }
+export { Button, Checkbox, Dialog, Dropdown, Input, UploadForm, UploadGridRDG, UploadGridAG, UploadGridHandsOn, UploadGridRDS }

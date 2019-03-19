@@ -3,6 +3,7 @@ import { HotTable } from '@handsontable/react'
 import Handsontable from 'handsontable'
 import 'handsontable/dist/handsontable.full.css'
 
+// after comparing agGrid, react-data-grid, canvas-datagrid 
 class UploadGridHandsOn extends React.Component {
   constructor(props) {
     super(props)
