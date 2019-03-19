@@ -36,16 +36,6 @@ export default function uploadFormReducer(state = initialFormState, action) {
         formIsLoading: true,
       }
 
-    // case ActionTypes.RECEIVE_MATERIALS_AND_APPLICATIONS_SUCCESS:
-    //   return {
-    //     ...state,
-    //     formIsLoading: false,
-    //     materials: action.materials,
-    //     applications: action.applications,
-    //     allMaterials: action.materials,
-    //     allApplications: action.applications,
-    //   }
-
     case ActionTypes.RECEIVE_MATERIALS_AND_APPLICATIONS_FAIL:
       return {
         ...state,

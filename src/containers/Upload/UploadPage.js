@@ -6,21 +6,18 @@ import { connect } from 'react-redux'
 import { uploadGridActions } from '../../actions'
 import { resetErrorMessage } from '../../actions/commonActions'
 
-import { Table } from '../../components'
 import { Dialog } from '../../components/Upload'
 import UploadFormContainer from './UploadFormContainer'
 import UploadGridContainer from './UploadGridContainer'
 
 class UploadPage extends Component {
   handleFormSubmit = formValues => {
-
     // TODO When do people update sample number?
     this.props.getColumns(formValues)
   }
-  //  handleGridSubmit = formValues => {
-  //   // this.props.resetErrorMessage()
-
-  // }
+  handleGridSubmit = formValues => {
+    // this.props.resetErrorMessage()
+  }
 
   handleDialogClose = () => {
     this.props.resetGridErrorMessage()

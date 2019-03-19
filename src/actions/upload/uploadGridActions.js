@@ -1,6 +1,6 @@
 // actions should not have this much BL, will change once it gets too convoluted
 import axios from 'axios'
-import { diff, generateRows, generateAGColumns, generateHotData } from './helpers'
+import { diff, generateRows, generateAGColumns, generateHotData, updateRows } from './helpers'
 
 let API_ROOT = 'http://localhost:9004'
 if (process.env.NODE_ENV === 'production') {
@@ -27,6 +27,7 @@ export function getColumns(formValues) {
     dispatch({ type: REQUEST_COLUMNS })
     if (getState().upload.grid.form.length == 0) {
       this.getInitialColumns(formValues)
+      // smells to have this in an action
     } else if (diffValues === undefined) {
       dispatch({ type: NO_CHANGE })
       return setTimeout(() => {
@@ -39,7 +40,9 @@ export function getColumns(formValues) {
       'number_of_samples' in diffValues
     ) {
       dispatch({ type: UPDATE_NUM_OF_ROWS })
-      let rows = generateRows(formValues, getState().upload.grid.columns)
+      // where exactly is the data?
+
+      let rows = updateRows(formValues.number_of_samples, getState().upload.grid.form.number_of_samples)
       dispatch({
         type: UPDATE_NUM_OF_ROWS_SUCCESS,
         rows: rows,
@@ -72,18 +75,18 @@ export function getInitialColumns(formValues) {
 
          // HandsOnTable
          // Handsontable binds to your data source (list of arrays or list of objects) by reference. Therefore, all the data entered in the grid will alter the original data source.
-        let data = generateHotData(response.data.columnDefs, formValues)
-        let columnDefs = data
-        console.log(data)
+        let grid = generateHotData(response.data.columnDefs, formValues)
+        // let columnDefs = data
+        // console.log(data)
         // let rows = data.slice(1)
         // react-data-grid
 
         // let columnDefs = response.data.columnDefs        
-        let rows = generateRows(formValues, response.data.columnDefs)
+        // let rows = generateRows(formValues, response.data.columnDefs)
         dispatch({
           type: RECEIVE_COLUMNS_SUCCESS,
-          columns: columnDefs,
-          rows: rows,
+          grid: grid,
+          // rows: rows,
           form: formValues,
         })
 

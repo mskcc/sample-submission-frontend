@@ -14,32 +14,6 @@ export const generateRows = (formValues, columns) => {
   return rows
 }
 
-// prep columns for agGrid
-export const generateAGColumns = columnDefs => {
-  let columns = []
-  // console.log(columnDefs[9].editDropdownOptionsArray)
-  // console.log(extractValues(columnDefs[9].editDropdownOptionsArray))
-  // console.log(columnDefs[9].editDropdownOptionsArray)
-  for (let i = 0; i < columnDefs.length; i++) {
-    columns[i] = columnDefs[i]
-    if ('editable' in columns[i]) {
-      delete columns[i].editable
-    }
-    if ('editor' in columns[i]) {
-      // if ('cancerType' in columns[i]) {
-      columns[i].cellEditor = 'agSelectCellEditor'
-      columns[i].cellEditorParams = {
-        values: extractValues(columns[i].editDropdownOptionsArray),
-      }
-      delete columns[i].editDropdownOptionsArray
-      columns[i].field = columns[i].key
-      columns[i].headerName = columns[i].displayName
-      delete columns[i].displayName
-    }
-  }
-  return columns
-}
-
 function extractValues(mappings) {
   let result = mappings.map(a => a.value)
 
@@ -48,24 +22,13 @@ function extractValues(mappings) {
   return result
 }
 
+export const updateRows = () => {}
 // prep columns for HandsOnTable
 export const generateHotData = (columnDefs, formValues) => {
+  let grid = { columnFeatures: [], columnNames: [], rows: [] }
   let columns = [{}]
-  // console.log(columnDefs[9].editDropdownOptionsArray)
-  // console.log(extractValues(columnDefs[9].editDropdownOptionsArray))
-  // console.log(columnDefs[9].editDropdownOptionsArray)
-  let rows = new Array(columnDefs.length)
+  let row = new Array(columnDefs.length)
   let data = [[]]
-
-  // for (let i = 0; i < formValues.number_of_samples; i++) {
-
-  //     if (columns[j].key == 'species' || columns[j].key == 'organism') {
-  //       rows[i] = { ...rows[i], [columns[j].key]: formValues.species }
-  //     } else {
-  //       rows[i] = { ...rows[i], [columns[j].key]: '' }
-  //     }
-  //   }
-  // }
   //  first element in data is array of column names
   for (let i = 0; i < columnDefs.length; i++) {
     columns[i] = {}
@@ -77,16 +40,21 @@ export const generateHotData = (columnDefs, formValues) => {
       )
     }
   }
+  grid.columnFeatures = columns
+  grid.columnNames = columnDefs.map(a => a.key)
+
   data[0] = columns
   data[1] = columnDefs.map(a => a.key)
 
-  // append empty rows for however many samples are to be submitted
+  // append empty row for however many samples are to be submitted
   for (let i = 0; i < formValues.number_of_samples; i++) {
-    data[i + 2] = rows
+    data[i + 2] = row
+    grid.rows.push(row)
   }
 
   console.log(data)
-  return data
+  console.log(grid)
+  return grid
 }
 
 // helper to compare header.formState and grid.formValues to see which columns need to be updated

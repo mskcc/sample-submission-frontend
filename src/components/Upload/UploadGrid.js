@@ -3,14 +3,13 @@ import { HotTable } from '@handsontable/react'
 import Handsontable from 'handsontable'
 import 'handsontable/dist/handsontable.full.css'
 
-// after comparing agGrid, react-data-grid, canvas-datagrid 
-class UploadGridHandsOn extends React.Component {
+// after comparing agGrid, react-data-grid, canvas-datagrid, react-data-sheet, ReactHandsOnTable won
+class UploadGrid extends React.Component {
   constructor(props) {
     super(props)
     this.handsontableData = this.props.grid.rows
-    this.handsontableCols = this.props.grid.columns[1]
-    this.handsontableColDefs = this.props.grid.columns[0]
-
+    this.handsontableCols = this.props.grid.columns
+    this.handsontableColFeatures = this.props.grid.columnFeatures
   }
 
   render() {
@@ -22,7 +21,7 @@ class UploadGridHandsOn extends React.Component {
           id="hot"
           data={this.handsontableData}
           colHeaders={this.handsontableCols}
-          columns= {this.handsontableColDefs}
+          columns={this.handsontableColFeatures}
           rowHeaders={true}
           // dropdownMenu= {true}
         />
@@ -31,4 +30,4 @@ class UploadGridHandsOn extends React.Component {
   }
 }
 
-export default UploadGridHandsOn
+export default UploadGrid
