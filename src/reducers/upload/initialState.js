@@ -29,16 +29,3 @@ export const initialGridState = {
   nothingToChange: false
 }
 
-// picklists: {
-//     Species: [],
-
-//     Containers: ['Plates', 'Micronic Barcoded Tubes', 'Blocks/Slides/Tubes'],
-//     FilteredContainers: ['Plates', 'Micronic Barcoded Tubes'],
-//     FilteredContainersForBS: ['Blocks/Slides/Tubes'],
-//     'Patient ID Format': [
-//       'MRN',
-//       'User Provided Patient ID',
-//       'Combination of MRN and User Provided',
-//       'Mouse Parental Strain ID',
-//     ],
-//   },
