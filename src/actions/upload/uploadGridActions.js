@@ -1,6 +1,12 @@
 // actions should not have this much BL, will change once it gets too convoluted
 import axios from 'axios'
-import { diff, generateRows, generateAGColumns, generateHotData, updateRows } from './helpers'
+import {
+  diff,
+  generateRows,
+  generateAGColumns,
+  generateHotData,
+  updateRows,
+} from './helpers'
 
 let API_ROOT = 'http://localhost:9004'
 if (process.env.NODE_ENV === 'production') {
@@ -42,10 +48,14 @@ export function getColumns(formValues) {
       dispatch({ type: UPDATE_NUM_OF_ROWS })
       // where exactly is the data?
 
-      let rows = updateRows(formValues.number_of_samples, getState().upload.grid.form.number_of_samples)
+      let grid = updateRows(
+        formValues.number_of_samples,
+        getState().upload.grid.form.number_of_samples,
+        getState().upload.grid
+      )
       dispatch({
         type: UPDATE_NUM_OF_ROWS_SUCCESS,
-        rows: rows,
+        rows: grid.rows,
         form: formValues,
       })
     } else {
@@ -69,19 +79,18 @@ export function getInitialColumns(formValues) {
         },
       })
       .then(response => {
-        // // agGrid TODO add tumor type formatter/lookup for select ids, copy        
+        // // agGrid TODO add tumor type formatter/lookup for select ids, copy
         // let columnDefs = generateAGColumns(response.data.columnDefs)
-         
 
-         // HandsOnTable
-         // Handsontable binds to your data source (list of arrays or list of objects) by reference. Therefore, all the data entered in the grid will alter the original data source.
+        // HandsOnTable
+        // Handsontable binds to your data source (list of arrays or list of objects) by reference. Therefore, all the data entered in the grid will alter the original data source.
         let grid = generateHotData(response.data.columnDefs, formValues)
         // let columnDefs = data
         // console.log(data)
         // let rows = data.slice(1)
         // react-data-grid
 
-        // let columnDefs = response.data.columnDefs        
+        // let columnDefs = response.data.columnDefs
         // let rows = generateRows(formValues, response.data.columnDefs)
         dispatch({
           type: RECEIVE_COLUMNS_SUCCESS,

@@ -22,7 +22,28 @@ function extractValues(mappings) {
   return result
 }
 
-export const updateRows = () => {}
+export const updateRows = (newNumberOfSamples, oldNumberOfSamples, grid) => {
+  console.log(newNumberOfSamples)
+  console.log(oldNumberOfSamples)
+  console.log(grid)
+  let row = new Array(grid.columns.length)
+
+  if (oldNumberOfSamples < newNumberOfSamples) {
+    let newRows = newNumberOfSamples - oldNumberOfSamples
+    // simply append empty rows for the difference
+    for (let i = 0; i < newRows; i++) {
+      grid.rows.push(row)
+      console.log('bigger')
+    }
+  } else {
+    grid.rows = []
+    for (let i = 0; i < newNumberOfSamples; i++) {
+      grid.rows.push(row)
+      console.log('smaller')
+    }
+  }
+  return grid
+}
 // prep columns for HandsOnTable
 export const generateHotData = (columnDefs, formValues) => {
   let grid = { columnFeatures: [], columnNames: [], rows: [] }

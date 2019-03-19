@@ -19,7 +19,7 @@ class UploadGrid extends React.Component {
         <HotTable
           licenseKey="non-commercial-and-evaluation"
           id="hot"
-          data={this.handsontableData}
+          data={this.props.grid.rows}
           colHeaders={this.handsontableCols}
           columns={this.handsontableColFeatures}
           rowHeaders={true}
