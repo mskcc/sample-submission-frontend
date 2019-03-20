@@ -5,7 +5,7 @@
 export const generateGridData = (responseColumns, formValues) => {
   let grid = { columnFeatures: [], columnHeaders: [], rows: [] }
   grid.columnFeatures = generateColumnFeatures(responseColumns)
-  grid.columnHeaders = columnFeatures.map(a => a.columnHeader)
+  grid.columnHeaders = grid.columnFeatures.map(a => a.columnHeader)
   grid.rows = generateRows(responseColumns, formValues)
   return grid
 }
@@ -31,14 +31,14 @@ function generateColumnFeatures(responseColumns) {
 function generateRows(columns, formValues) {
   let rows = []
   for (let i = 0; i < formValues.number_of_samples; i++) {
-    for (let j = 0; j < columnFeatures.length; j++) {
+    for (let j = 0; j < columns.length; j++) {
       if (
-        columnFeatures[j].data == 'species' ||
-        columnFeatures[j].data == 'organism'
+        columns[j].data == 'species' ||
+        columns[j].data == 'organism'
       ) {
-        rows[i] = { ...rows[i], [columnFeatures[j].data]: formValues.species }
+        rows[i] = { ...rows[i], [columns[j].data]: formValues.species }
       } else {
-        rows[i] = { ...rows[i], [columnFeatures[j].data]: '' }
+        rows[i] = { ...rows[i], [columns[j].data]: '' }
       }
     }
   }
