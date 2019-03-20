@@ -4,7 +4,7 @@ import {
   diff,
   generateRows,
   generateAGColumns,
-  generateHotData,
+  generateGridData,
   updateRows,
 } from './helpers'
 
@@ -50,7 +50,6 @@ export function getColumns(formValues) {
 
       let grid = updateRows(
         formValues.number_of_samples,
-        getState().upload.grid.form.number_of_samples,
         getState().upload.grid
       )
       dispatch({
@@ -79,26 +78,13 @@ export function getInitialColumns(formValues) {
         },
       })
       .then(response => {
-        // // agGrid TODO add tumor type formatter/lookup for select ids, copy
-        // let columnDefs = generateAGColumns(response.data.columnDefs)
-
-        // HandsOnTable
         // Handsontable binds to your data source (list of arrays or list of objects) by reference. Therefore, all the data entered in the grid will alter the original data source.
-        let grid = generateHotData(response.data.columnDefs, formValues)
-        // let columnDefs = data
-        // console.log(data)
-        // let rows = data.slice(1)
-        // react-data-grid
-
-        // let columnDefs = response.data.columnDefs
-        // let rows = generateRows(formValues, response.data.columnDefs)
+        let grid = generateGridData(response.data.columnDefs, formValues)
         dispatch({
           type: RECEIVE_COLUMNS_SUCCESS,
           grid: grid,
-          // rows: rows,
           form: formValues,
         })
-
         return response
       })
       .catch(error => {
