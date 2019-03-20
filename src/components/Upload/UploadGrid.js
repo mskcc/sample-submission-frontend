@@ -6,7 +6,9 @@ import 'handsontable/dist/handsontable.full.css'
 // after comparing agGrid, react-data-grid, canvas-datagrid, react-data-sheet, ReactHandsOnTable won
 class UploadGrid extends React.Component {
   constructor(props) {
+
     super(props)
+    console.log(this.props)
     this.handsontableData = this.props.grid.rows
     this.handsontableCols = this.props.grid.columns
     this.handsontableColFeatures = this.props.grid.columnFeatures

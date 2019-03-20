@@ -66,6 +66,7 @@ export const initialGridStateMock = {
   nothingToChange: false,
 }
 
+
 export const initialFullStateMock = {
   upload: {
     form: {
@@ -98,4 +99,137 @@ export const initialFullStateMock = {
       nothingToChange: false,
     },
   },
+}
+
+export const formValuesMock = {
+  application: 'CustomCapture',
+  container: 'Plates',
+  igo_request_id: '444444',
+  material: 'Tissue',
+  number_of_samples: '2',
+  patient_id_format: '',
+  species: 'Tuberculosis',
+}
+
+export const columnDefsResponseMock = {
+  columnDefs: [
+    {
+      columnHeader: 'Block/Slide/TubeID',
+      data: 'tubeId',
+      editableCellTemplate:
+        '<div><form name="inputForm"><input class="form-control inputheight" type="INPUT_TYPE" ng-class="\'colt\' + col.uid" ui-grid-editor ng-model="MODEL_COL_FIELD" ng-paste="grid.appScope.handleCellPaste($event)"></form></div>',
+      headerCellClass: 'required',
+      helpText:
+        'The identifier on your tube, block or slide.  You can paste in directly from excel, and there are no formatting rules.  Please be as correct as possible, and ensure your tubes, blocks and slides are labeled clearly.',
+      name: 'Block/Slide/TubeID',
+    },
+    {
+      columnHeader: 'Sample ID',
+      data: 'userId',
+      editableCellTemplate:
+        '<div><form name="inputForm"><input class="form-control inputheight" type="INPUT_TYPE" ng-class="\'colt\' + col.uid" ui-grid-editor ng-model="MODEL_COL_FIELD" ng-paste="grid.appScope.handleCellPaste($event)"></form></div>',
+      headerCellClass: 'required',
+      helpText:
+        'The Sample ID stays with your sample for its lifetime. Letters, numbers, dashes, and underscores only, three char min. You cannot have more than one underscore consecutively.',
+      name: 'Sample ID',
+    },
+    {
+      columnHeader: 'Species',
+      data: 'organism',
+      editableCellTemplate: 'ui-grid/dropdownEditor',
+      headerCellClass: 'required',
+      helpText:
+        'If your species is not available, please contact IGO immediately',
+      name: 'Species',
+      picklistName: 'Species',
+      source: [
+        { id: 'Human', value: 'Human' },
+        { id: 'Mouse', value: 'Mouse' },
+        { id: 'Mouse_GeneticallyModified', value: 'Mouse_GeneticallyModified' },
+        { id: 'Drosophilia', value: 'Drosophilia' },
+        { id: 'Zebrafish', value: 'Zebrafish' },
+        { id: 'Chicken', value: 'Chicken' },
+        { id: 'Bacteria', value: 'Bacteria' },
+        { id: 'S.Cerevisae', value: 'S.Cerevisae' },
+        { id: 'Tuberculosis', value: 'Tuberculosis' },
+        { id: 'E.Coli ', value: 'E.Coli ' },
+        { id: 'C.Elegans', value: 'C.Elegans' },
+        { id: 'S.Pombe', value: 'S.Pombe' },
+        { id: 'R.norvegicus', value: 'R.norvegicus' },
+        { id: 'R.rattus', value: 'R.rattus' },
+        { id: 'Plasmid', value: 'Plasmid' },
+        { id: 'Archaea', value: 'Archaea' },
+        { id: 'other', value: 'other' },
+      ],
+      type: 'dropdown',
+      trimDropdown: false,
+    },
+  ],
+}
+
+export const gridMock = {
+  columnFeatures: [
+    {
+      columnHeader: 'Block/Slide/TubeID',
+      data: 'tubeId',
+      editableCellTemplate: `<div><form name="inputForm"><input class="form-control inputheight" type="INPUT_TYPE" ng-class="'colt' + col.uid" ui-grid-editor ng-model="MODEL_COL_FIELD" ng-paste="grid.appScope.handleCellPaste($event)"></form></div>`,
+      headerCellClass: 'required',
+      helpText:
+        'The identifier on your tube, block or slide.  You can paste in directly from excel, and there are no formatting rules.  Please be as correct as possible, and ensure your tubes, blocks and slides are labeled clearly.',
+      name: 'Block/Slide/TubeID',
+    },
+    {
+      columnHeader: 'Sample ID',
+      data: 'userId',
+      editableCellTemplate: `<div><form name="inputForm"><input class="form-control inputheight" type="INPUT_TYPE" ng-class="'colt' + col.uid" ui-grid-editor ng-model="MODEL_COL_FIELD" ng-paste="grid.appScope.handleCellPaste($event)"></form></div>`,
+      headerCellClass: 'required',
+      helpText:
+        'The Sample ID stays with your sample for its lifetime. Letters, numbers, dashes, and underscores only, three char min. You cannot have more than one underscore consecutively.',
+      name: 'Sample ID',
+    },
+    {
+      columnHeader: 'Species',
+      data: 'organism',
+      editableCellTemplate: 'ui-grid/dropdownEditor',
+      headerCellClass: 'required',
+      helpText:
+        'If your species is not available, please contact IGO immediately',
+      name: 'Species',
+      picklistName: 'Species',
+      source: [
+        'Human',
+        'Mouse',
+        'Mouse_GeneticallyModified',
+        'Drosophilia',
+        'Zebrafish',
+        'Chicken',
+        'Bacteria',
+        'S.Cerevisae',
+        'Tuberculosis',
+        'E.Coli ',
+        'C.Elegans',
+        'S.Pombe',
+        'R.norvegicus',
+        'R.rattus',
+        'Plasmid',
+        'Archaea',
+        'other',
+      ],
+      type: 'dropdown',
+      trimDropdown: false,
+    },
+  ],
+  columnHeaders: ['Block/Slide/TubeID', 'Sample ID', 'Species'],
+  rows: [
+    {
+      tubeId: '',
+      userId: '',
+      organism: 'Tuberculosis',
+    },
+    {
+      tubeId: '',
+      userId: '',
+      organism: 'Tuberculosis',
+    },
+  ],
 }

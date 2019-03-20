@@ -60,7 +60,7 @@ export default function uploadGridReducer(state = initialGridState, action) {
         ...state,
         gridIsLoading: false,
         error:
-          action.error + ' ' + action.material + ' x ' + action.application,
+          action.error.response.data + ' ' + action.material + ' x ' + action.application,
       }
 
     case ActionTypes.UPDATE_CELLS:
@@ -70,6 +70,7 @@ export default function uploadGridReducer(state = initialGridState, action) {
       }
 
     default:
+    console.log(state)
       return state
   }
 }

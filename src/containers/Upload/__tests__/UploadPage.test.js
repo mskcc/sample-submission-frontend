@@ -70,15 +70,15 @@ describe('renders UploadPage', () => {
 
   
 
-    moxios.wait(() => {
-      const request = moxios.requests.mostRecent()
-      request.respondWith({
-        status: 200,
-        response: getChoicesForDNALibraryMock,
-      })
-      let actions = store.getActions()
-      console.log(actions)
-    })
+    // moxios.wait(() => {
+    //   const request = moxios.requests.mostRecent()
+    //   request.respondWith({
+    //     status: 200,
+    //     response: getChoicesForDNALibraryMock,
+    //   })
+    //   let actions = store.getActions()
+    //   console.log(actions)
+    // })
     // let actions = store.getActions()
     // console.log(actions)
     // await flushAllPromises()

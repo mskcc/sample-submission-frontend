@@ -21,16 +21,16 @@ class UploadGridContainer extends React.Component {
     // console.log(this.state)
   }
 
-  updateCells = ({ fromRow, toRow, updated }) => {
-    const rows = this.props.grid.rows.slice()
-    for (let i = fromRow; i <= toRow; i++) {
-      rows[i] = { ...rows[i], ...updated }
-      this.props.updateCells(rows)
-    }
-  }
+  // updateCells = ({ fromRow, toRow, updated }) => {
+  //   const rows = this.props.grid.rows.slice()
+  //   for (let i = fromRow; i <= toRow; i++) {
+  //     rows[i] = { ...rows[i], ...updated }
+  //     this.props.updateCells(rows)
+  //   }
+  // }
 
   render() {
-    const { classes, grid, handleSubmit } = this.props
+    const { grid, handleSubmit } = this.props
 
     return grid.rows.length > 0 ? <UploadGrid grid={grid} /> : null
   }
