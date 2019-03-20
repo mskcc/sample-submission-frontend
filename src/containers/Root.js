@@ -22,6 +22,7 @@ class Root extends Component {
   constructor(props) {
     super(props)
 
+    // basic init of localization component
     this.props.initialize({
       languages: [{ name: 'English', code: 'en' }],
       translation: enTranslations,
@@ -33,6 +34,7 @@ class Root extends Component {
     })
   }
 
+  // making sure BE and FE versions match - shows info message if not
   componentDidMount() {
     this.props.checkVersion(this.props.version)
   }
@@ -41,21 +43,22 @@ class Root extends Component {
     return (
       <MuiThemeProvider theme={theme}>
         <Router>
-          {this.props.error ? (
-            <div className="app">
-              <Header />
-              <Message msg={this.props.errorMessage} />
-              {process.env.NODE_ENV !== 'production' ? <DevTools /> : <div />}
-            </div>
-          ) : this.props.versionValid ? (
-            <div className="app">
-              <Header />
-
-              <Route path="/upload" component={UploadPage} />
-              <Route path="/promote" component={Promote} />
-              {process.env.NODE_ENV !== 'production' ? <DevTools /> : <div />}
-            </div>
-          ) : null}
+          <div className="app">
+            <Header />
+            {this.props.error ? (
+              <div>
+                <Message msg={this.props.errorMessage} />
+                {process.env.NODE_ENV !== 'production' ? <DevTools /> : <div />}
+              </div>
+            ) : this.props.versionValid ? (
+              <div>
+                <Route path="/" component={UploadPage} />
+                <Route path="/upload" component={UploadPage} />
+                <Route path="/promote" component={Promote} />
+                {process.env.NODE_ENV !== 'production' ? <DevTools /> : <div />}
+              </div>
+            ) : null}
+          </div>
         </Router>
       </MuiThemeProvider>
     )
@@ -79,10 +82,6 @@ export default withLocalize(
     mapDispatchToProps
   )(Root)
 )
-// <Route path="/:login/:name"
-//              component={RepoPage} />
-//       <Route path="/:login"
-//              component={UserPage} />
 
 const theme = createMuiTheme({
   typography: {
@@ -95,14 +94,12 @@ const theme = createMuiTheme({
       main: '#007CBA',
       dark: '#006098',
 
-      // dark: will be calculated from palette.primary.main,
-      // contrastText: will be calculated to contrast with palette.primary.main
+    
     },
     secondary: {
       light: '#F6C65B',
       main: '#DF4602',
       dark: '#C24D00',
     },
-    // error: will use the default color
   },
 })

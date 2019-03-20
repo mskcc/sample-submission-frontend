@@ -1,163 +1,122 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { HotTable } from '@handsontable/react'
+import Handsontable from 'handsontable'
+import 'handsontable/dist/handsontable.full.css'
 
-import classNames from 'classnames'
-import { withStyles } from '@material-ui/core/styles'
-
-import ReactDataGrid from 'react-data-grid'
-import { Editors } from 'react-data-grid-addons'
-
-// no better way of themeing react-data-grid at this time
-import './grid.scss'
-import 'bootstrap/dist/css/bootstrap.css'
-
-// import { columns } from './sampledata.js'
-
-// import './styles.css'
-
-const { DropDownEditor } = Editors
-// const issueTypes = [
-//   { id: 'bug', value: 'Bug' },
-//   { id: 'epic', value: 'Epic' },
-//   { id: 'story', value: 'Story' },
-// ]
-// const IssueTypeEditor = <DropDownEditor options={issueTypes} />
-
-// const rows = [
-//   {
-//     id: 0,
-//     serviceId: 'Task 1',
-//     micronicTubeBarcode: 'Bug',
-//     knownGeneticAlteration: 20,
-//     wellPosition: 20,
-//     tooltip:
-//       'Fill Plate by Column. It must have at least one letter followed by a number',
-//   },
-//   {
-//     id: 1,
-//     serviceId: 'Task 2',
-//     micronicTubeBarcode: 'Story',
-//     knownGeneticAlteration: 40,
-//     wellPosition: 40,
-//     tooltip:
-//       'Fill Plate by Column. It must have at least one letter followed by a number',
-//   },
-//   {
-//     id: 2,
-//     serviceId: 'Task 3',
-//     micronicTubeBarcode: 'Epic',
-//     knownGeneticAlteration: 60,
-//     wellPosition: 60,
-//     tooltip:
-//       'Fill Plate by Column. It must have at least one letter followed by a number',
-//   },
-// ]
-
-class Grid extends React.Component {
-  state = {
-    rows: [],
-    columns: [],
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    let rowsToUse = state.rows
-    let columnsToUse = state.columns
-    // Store prevId in state so we can compare when props change.
-    // Clear out previously-loaded data (so we don't render stale stuff).
-    if (props.grid.rows !== state.rows) {
-      rowsToUse = props.grid.rows
-    }
-    if (props.grid.columns !== state.columns) {
-      let columns = props.grid.columns
-      for (let i = 0; i < columns.length; i++) {
-        if ('editor' in columns[i]) {
-          // if ('cancerType' in columns[i]) {
-            const dropdownEditor = (
-              <DropDownEditor options={columns[i].editDropdownOptionsArray} />
-            )
-
-            console.log(columns[i].editDropdownOptionsArray)
-            columns[i].editor = dropdownEditor
-            columns[i].cellClass = 'dropdown'
-          // }
-        }
-      }
-      columnsToUse = columns
-      // No state update necessary
-    }
-
-    return {
-      rows: rowsToUse,
-      columns: columnsToUse,
-    }
-  }
-
-  // onGridRowsUpdated = ({ fromRow, toRow, updated }) => {
-  //   this.setState(state => {
-  //     const rows = state.rows.slice()
-  //     for (let i = fromRow; i <= toRow; i++) {
-  //       rows[i] = { ...rows[i], ...updated }
-  //     }
-  //     console.log(rows)
-  //     return { rows }
-  //   })
-  // }
-
-  // onGridRowsUpdatedRedux = ({ fromRow, toRow, updated }) => {
-  //   const rows = this.props.grid.rows.slice()
-  //   for (let i = fromRow; i <= toRow; i++) {
-  //     rows[i] = { ...rows[i], ...updated }
-
-  //     console.log(rows)
-  //     this.props.updateRows(rows)
-  //   }
-  // }
-
-  // componentWillMount() {
-  //   window.dispatchEvent(new Event('resize'))
-  // }
-  componentDidMount() {
-    console.log(this.state)
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    // console.log('prevState')
-    // console.log(prevState)
-    // console.log('state')
-    // console.log(this.state)
-    console.log(this.state)
+// after comparing agGrid, react-data-grid, canvas-datagrid, react-data-sheet, ReactHandsOnTable won
+class UploadGrid extends React.Component {
+  constructor(props) {
+    super(props)
+    this.handsontableData = this.props.grid.rows
+    this.handsontableCols = this.props.grid.columns
+    this.handsontableColFeatures = this.props.grid.columnFeatures
   }
 
   render() {
-    const { classes, form, handleSubmit } = this.props
+    console.log(this.props)
     return (
-      <div className={classes.container}>
-        <ReactDataGrid
-          columns={this.props.grid.columns}
-          rowGetter={i => this.state.rows[i]}
-          rowsCount={this.props.grid.rows.length}
-          // onGridRowsUpdated={this.onGridRowsUpdatedRedux}
-          // onGridRowsUpdated={this.onGridRowsUpdated}
-          onGridRowsUpdated={this.props.update}
-          enableCellSelect={true}
-          minColumnWidth={120}
-          // maxHeight={this.props.grid.rows.length * 35 + 50}
-          // height = rows.length for small #rows
-          minHeight={
-            this.props.grid.rows.length < 40
-              ? this.props.grid.rows.length * 35 + 50
-              : 40 * 35 + 50
-          }
+      <div>
+        <HotTable
+          licenseKey="non-commercial-and-evaluation"
+          id="hot"
+          data={this.handsontableData}
+          colHeaders={this.handsontableCols}
+          columns={this.handsontableColFeatures}
+          rowHeaders={true}
+          manualColumnResize={true}
+
+          // dropdownMenu= {true}
         />
       </div>
     )
   }
 }
 
-const styles = theme => ({
-  container: {
-    width: '95vw',
-  },
-})
+export default UploadGrid
 
-export default withStyles(styles)(Grid)
+// Syntax Examples
+// colHeaders: [
+//   'ID',
+//   'Country',
+//   'Code',
+//   'Currency',
+//   'Level',
+//   'Units',
+//   'Date',
+//   'Change'
+// ],
+
+// columns: [
+//    {
+//      data: 'id',
+//      type: 'numeric',
+//      width: 40
+//    },
+//    {
+//      data: 'flag',
+//      renderer: flagRenderer
+//    },
+//    {
+//      data: 'currencyCode',
+//      type: 'text'
+//    },
+//    {
+//      data: 'currency',
+//      type: 'text'
+//    },
+//    {
+//      data: 'level',
+//      type: 'numeric',
+//      numericFormat: {
+//        pattern: '0.0000'
+//      }
+//    },
+//    {
+//      data: 'units',
+//      type: 'text'
+//    },
+//    {
+//      data: 'asOf',
+//      type: 'date',
+//      dateFormat: 'MM/DD/YYYY'
+//    },
+//    {
+//      data: 'onedChng',
+//      type: 'numeric',
+//      numericFormat: {
+//        pattern: '0.00%'
+//      }
+//    }
+//  ],
+
+// dataObject = [
+// {
+//   id: 1,
+//   flag: 'EUR',
+//   currencyCode: 'EUR',
+//   currency: 'Euro',
+//   level: 0.9033,
+//   units: 'EUR / USD',
+//   asOf: '08/19/2019',
+//   onedChng: 0.0026
+// },
+// {
+//   id: 2,
+//   flag: 'JPY',
+//   currencyCode: 'JPY',
+//   currency: 'Japanese Yen',
+//   level: 124.3870,
+//   units: 'JPY / USD',
+//   asOf: '08/19/2019',
+//   onedChng: 0.0001
+// },
+// {
+//   id: 3,
+//   flag: 'GBP',
+//   currencyCode: 'GBP',
+//   currency: 'Pound Sterling',
+//   level: 0.6396,
+//   units: 'GBP / USD',
+//   asOf: '08/19/2019',
+//   onedChng: 0.00
+// }]

@@ -36,16 +36,13 @@ export const getChoicesForDNALibraryMock = {
   },
 }
 export const initialFormStateMock = {
-  formIsLoading: false,
-  selectedMaterial: '',
-  selectedApplication: '',
-  materials: [],
-  applications: [],
-  allMaterials: [],
-  allApplications: [],
-  containers: [],
   allContainers: [],
-  species: [],
+  allApplications: [],
+  allMaterials: [],
+  allPatientIdFormats: [],
+  applications: [],
+  containers: [],
+  formIsLoading: true,
   filteredContainers: [
     { id: 'Plates', value: 'Plates' },
     { id: 'Micronic Barcoded Tubes', value: 'Micronic Barcoded Tubes' },
@@ -53,23 +50,32 @@ export const initialFormStateMock = {
   filteredContainersBS: [
     { id: 'Blocks/Slides/Tubes', value: 'Blocks/Slides/Tubes' },
   ],
-  patientIdFormats: [],
+  materials: [],
+  selectedApplication: '',
+  selectedMaterial: '',
+  species: [],
   patientIdNeedsFormatting: false,
 }
 
-export const initialFormContainerStateMock = {
+export const initialGridStateMock = {
+  columns: [],
+  rows: [],
+  error: '',
+  form: [],
+  gridIsLoading: false,
+  nothingToChange: false,
+}
+
+export const initialFullStateMock = {
   upload: {
     form: {
-      formIsLoading: false,
-      selectedMaterial: '',
-      selectedApplication: '',
-      materials: [],
-      applications: [],
-      allMaterials: [],
-      allApplications: [],
-      containers: [],
       allContainers: [],
-      species: [],
+      allApplications: [],
+      allMaterials: [],
+      allPatientIdFormats: [],
+      applications: [],
+      containers: [],
+      formIsLoading: false,
       filteredContainers: [
         { id: 'Plates', value: 'Plates' },
         { id: 'Micronic Barcoded Tubes', value: 'Micronic Barcoded Tubes' },
@@ -77,8 +83,19 @@ export const initialFormContainerStateMock = {
       filteredContainersBS: [
         { id: 'Blocks/Slides/Tubes', value: 'Blocks/Slides/Tubes' },
       ],
-      patientIdFormats: [],
+      materials: [],
+      selectedApplication: '',
+      selectedMaterial: '',
+      species: [],
       patientIdNeedsFormatting: false,
+    },
+    grid: {
+      columns: [],
+      rows: [],
+      error: '',
+      form: [],
+      gridIsLoading: false,
+      nothingToChange: false,
     },
   },
 }

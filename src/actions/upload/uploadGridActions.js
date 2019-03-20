@@ -1,6 +1,12 @@
 // actions should not have this much BL, will change once it gets too convoluted
 import axios from 'axios'
-import { diff, generateRows } from './helpers'
+import {
+  diff,
+  generateRows,
+  generateAGColumns,
+  generateGridData,
+  updateRows,
+} from './helpers'
 
 let API_ROOT = 'http://localhost:9004'
 if (process.env.NODE_ENV === 'production') {
@@ -27,6 +33,7 @@ export function getColumns(formValues) {
     dispatch({ type: REQUEST_COLUMNS })
     if (getState().upload.grid.form.length == 0) {
       this.getInitialColumns(formValues)
+      // smells to have this in an action
     } else if (diffValues === undefined) {
       dispatch({ type: NO_CHANGE })
       return setTimeout(() => {
@@ -39,10 +46,15 @@ export function getColumns(formValues) {
       'number_of_samples' in diffValues
     ) {
       dispatch({ type: UPDATE_NUM_OF_ROWS })
-      let rows = generateRows(formValues, getState().upload.grid.columns)
+      // where exactly is the data?
+
+      let grid = updateRows(
+        formValues.number_of_samples,
+        getState().upload.grid
+      )
       dispatch({
         type: UPDATE_NUM_OF_ROWS_SUCCESS,
-        rows: rows,
+        rows: grid.rows,
         form: formValues,
       })
     } else {
@@ -66,21 +78,19 @@ export function getInitialColumns(formValues) {
         },
       })
       .then(response => {
-        let columnDefs = response.data.columnDefs
-        let rows = generateRows(formValues, columnDefs)
+        // Handsontable binds to your data source (list of arrays or list of objects) by reference. Therefore, all the data entered in the grid will alter the original data source.
+        let grid = generateGridData(response.data.columnDefs, formValues)
         dispatch({
           type: RECEIVE_COLUMNS_SUCCESS,
-          columns: columnDefs,
-          rows: rows,
+          grid: grid,
           form: formValues,
         })
-
         return response
       })
       .catch(error => {
         dispatch({
           type: RECEIVE_COLUMNS_FAIL,
-          error: error.response.data,
+          error: error,
           application: application,
           material: material,
         })

@@ -31,13 +31,8 @@ class UploadGridContainer extends React.Component {
 
   render() {
     const { classes, grid, handleSubmit } = this.props
-    return grid.columns.length > 0 ? (
-      <UploadGrid
-        update={this.updateCells}
-        grid={grid}
-        handleSubmit={handleSubmit}
-      />
-    ) : null
+
+    return grid.rows.length > 0 ? <UploadGrid grid={grid} /> : null
   }
 }
 

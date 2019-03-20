@@ -20,48 +20,6 @@ export const RECEIVE_MATERIALS_AND_APPLICATIONS_SUCCESS =
 export const RECEIVE_MATERIALS_AND_APPLICATIONS_FAIL =
   'RECEIVE_MATERIALS_AND_APPLICATIONS_FAIL'
 
-// export function getMaterialsAndApplications() {
-//   return dispatch => {
-//     dispatch({ type: REQUEST_MATERIALS_AND_APPLICATIONS })
-//     return axios
-//       .get(API_ROOT + '/sequencingAndSampleTypes')
-//       .then(response =>
-//         dispatch({
-//           type: RECEIVE_MATERIALS_AND_APPLICATIONS_SUCCESS,
-//           materials: response.data.samples,
-//           applications: response.data.sequencing,
-//         })
-//       )
-//       .catch(error =>
-//         dispatch({
-//           type: RECEIVE_MATERIALS_AND_APPLICATIONS_FAIL,
-//           error: error,
-//         })
-//       )
-//   }
-// }
-
-// export function getMaterialsAndApplications() {
-//   return dispatch => {
-//     dispatch({ type: REQUEST_MATERIALS_AND_APPLICATIONS })
-//     return axios
-//       .get(API_ROOT + '/upload/initialState')
-//       .then(response =>
-//         dispatch({
-//           type: RECEIVE_MATERIALS_AND_APPLICATIONS_SUCCESS,
-//           materials: response.data.samples,
-//           applications: response.data.sequencing,
-//         })
-//       )
-//       .catch(error =>
-//         dispatch({
-//           type: RECEIVE_MATERIALS_AND_APPLICATIONS_FAIL,
-//           error: error.message,
-//         })
-//       )
-//   }
-// }
-
 export const REQUEST_INITIAL_STATE = 'REQUEST_INITIAL_STATE'
 
 export const RECEIVE_INITIAL_STATE_SUCCESS = 'RECEIVE_INITIAL_STATE_SUCCESS'
@@ -171,7 +129,7 @@ export function getApplicationsForMaterial(selectedMaterial) {
 
 export const FILTER_CONTAINERS = 'FILTER_CONTAINERS'
 export const FILTER_CONTAINERS_FOR_BS = 'FILTER_CONTAINERS_FOR_BS'
-export const SHOW_allContainers = 'SHOW_allContainers'
+export const SHOW_ALL_CONTAINERS = 'SHOW_ALL_CONTAINERS'
 export function filterContainers(selectedMaterial) {
   if (selectedMaterial === 'Blocks/Slides') {
     return {
@@ -179,7 +137,7 @@ export function filterContainers(selectedMaterial) {
     }
   } else if (BSTMaterials.includes(selectedMaterial.toLowerCase())) {
     return {
-      type: SHOW_allContainers,
+      type: SHOW_ALL_CONTAINERS,
     }
   } else
     return {
