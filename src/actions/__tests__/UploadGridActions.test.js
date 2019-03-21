@@ -12,6 +12,7 @@ import {
   formValuesMock,
   gridMock,
   columnDefsResponseMock,
+  filledGridStateMock,
 } from '../../mocks'
 
 const gridTestStore = initialFullStateMock
@@ -66,7 +67,7 @@ describe('upload grid actions', () => {
       })
   })
 
-  it('should execute getInitialColumns fail actions)', () => {
+  it('should execute getInitialColumns fail actions', () => {
     const store = mockStore(gridTestStore)
     const errResp = {
       status: 400,
@@ -102,98 +103,39 @@ describe('upload grid actions', () => {
       })
   })
 
-  // it('creates GET_APPLICATIONS_FOR_MATERIALS_SUCCESS when getApplicationsForMaterial returns choices', () => {
-  //   const store = mockStore(gridTestStore)
-  //   moxios.wait(() => {
-  //     const request = moxios.requests.mostRecent()
-  //     request.respondWith({
-  //       status: 200,
-  //       response: getChoicesForDNALibraryMock,
-  //     })
-  //   })
+  it('should handle row number updates', () => {
+    // const oldNumber = filledGridStateMock.upload.grid.rows.length
+    // const newNumber = formValuesMock.number_of_samples
+    const store = mockStore(filledGridStateMock)
+    let rows = []
+    let formValues = formValuesMock
+    const expectedActions = [
+      {
+        type: 'REQUEST_COLUMNS',
+      },
+      {
+        type: 'UPDATE_NUM_OF_ROWS',
+      },
+      {
+        type: 'UPDATE_NUM_OF_ROWS_SUCCESS',
+        rows: [{ tubeId: '', userId: '' }, { tubeId: '', userId: '' }],
+        form: formValuesMock,
+      },
+    ]
+// expect(store.getState().upload.grid.rows.length).toEqual(
+//   parseInt(oldNumber)
+// )
+    store.dispatch(uploadGridActions.getColumns(formValuesMock))
 
-  //   const material = 'DNA Library'
+    const actions = store.getActions()
 
-  //   const expectedActions = [
-  //     {
-  //       type: 'SELECT_MATERIAL',
-  //       selectedMaterial: material,
-  //     },
-  //     {
-  //       type: 'REQUEST_APPLICATIONS_FOR_MATERIAL',
-  //     },
-  //     {
-  //       type: 'RECEIVE_APPLICATIONS_FOR_MATERIAL_SUCCESS',
-  //     },
-  //   ]
-  //   return store
-  //     .dispatch(uploadGridActions.getApplicationsForMaterial(material))
-  //     .then(() => {
-  //       const actions = store.getActions()
-  //       expect(actions).toEqual(expectedActions)
-  //     })
-  // })
-
-  // it('creates GET_APPLICATIONS_FOR_MATERIAL_FAIL when getApplicationsForMaterial fails', () => {
-  //   const store = mockStore(gridTestStore)
-  //   moxios.wait(() => {
-  //     const request = moxios.requests.mostRecent()
-  //     request.respondWith({
-  //       status: 404,
-  //     })
-  //   })
-
-  //   const material = 'DNA Library'
-
-  //   const expectedActions = [
-  //     {
-  //       type: 'SELECT_MATERIAL',
-  //       selectedMaterial: material,
-  //     },
-  //     {
-  //       type: 'REQUEST_APPLICATIONS_FOR_MATERIAL',
-  //     },
-  //     {
-  //       type: 'RECEIVE_APPLICATIONS_FOR_MATERIAL_FAIL',
-  //       error: 'Request failed with status code 404',
-  //     },
-  //   ]
-  //   return store
-  //     .dispatch(uploadGridActions.getApplicationsForMaterial(material))
-  //     .then(() => {
-  //       const actions = store.getActions()
-  //       expect(actions).toEqual(expectedActions)
-  //     })
-  // })
-  // it('creates GET_MATERIALS_FOR_APPLICATION_FAIL when getMaterialsForApplication fails', () => {
-  //   const store = mockStore(gridTestStore)
-  //   moxios.wait(() => {
-  //     const request = moxios.requests.mostRecent()
-  //     request.respondWith({
-  //       status: 404,
-  //     })
-  //   })
-
-  //   const application = 'DNA Library'
-
-  //   const expectedActions = [
-  //     {
-  //       type: 'SELECT_APPLICATION',
-  //       selectedApplication: application,
-  //     },
-  //     {
-  //       type: 'REQUEST_MATERIALS_FOR_APPLICATION',
-  //     },
-  //     {
-  //       type: 'RECEIVE_MATERIALS_FOR_APPLICATION_FAIL',
-  //       error: 'Request failed with status code 404',
-  //     },
-  //   ]
-  //   return store
-  //     .dispatch(uploadGridActions.getMaterialsForApplication(application))
-  //     .then(() => {
-  //       const actions = store.getActions()
-  //       expect(actions).toEqual(expectedActions)
-  //     })
-  // })
+    // TODO integration test
+    // console.log(newNumber)
+    // console.log(oldNumber)
+    // console.log(actions)
+    // expect(store.getState().upload.grid.rows.length).toEqual(
+    //   parseInt(newNumber)
+    // )
+    expect(actions).toEqual(expectedActions)
+  })
 })

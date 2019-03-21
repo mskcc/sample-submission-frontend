@@ -53,13 +53,13 @@ export function getColumns(formValues) {
       ) {
         dispatch({ type: UPDATE_NUM_OF_ROWS })
 
-        let grid = updateRows(
-          formValues.number_of_samples,
+        let rows = updateRows(
+          formValues,
           getState().upload.grid
         )
         return dispatch({
           type: UPDATE_NUM_OF_ROWS_SUCCESS,
-          rows: grid.rows,
+          rows: rows,
           form: formValues,
         })
       } else return dispatch(getInitialColumns(formValues))

@@ -8,7 +8,7 @@ class UploadGrid extends React.Component {
   constructor(props) {
 
     super(props)
-    this.handsontableData = this.props.grid.rows
+    // this.handsontableData = this.props.grid.rows
     this.handsontableCols = this.props.grid.columns
     this.handsontableColFeatures = this.props.grid.columnFeatures
   }
@@ -19,7 +19,7 @@ class UploadGrid extends React.Component {
         <HotTable
           licenseKey="non-commercial-and-evaluation"
           id="hot"
-          data={this.handsontableData}
+          data={this.props.grid.rows}
           colHeaders={this.handsontableCols}
           columns={this.handsontableColFeatures}
           rowHeaders={true}

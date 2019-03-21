@@ -64,6 +64,42 @@ export const initialGridStateMock = {
   nothingToChange: false,
 }
 
+export const filledGridStateMock = {
+  upload: {
+    grid: {
+      columns: ['Block/Slide/TubeID', 'Sample ID'],
+      rows: [
+        { tubeId: '', userId: '' },
+        { tubeId: '', userId: '' },
+        { tubeId: '', userId: '' },
+        { tubeId: '', userId: '' },
+      ],
+      error: '',
+      form: {
+        material: 'Tissue',
+        application: 'CustomCapture',
+        igo_request_id: '444444',
+        number_of_samples: '4',
+        species: 'Tuberculosis',
+        container: 'Plates',
+        patient_id_format: '',
+      },
+      gridIsLoading: false,
+      nothingToChange: false,
+      columnFeatures: [
+        {
+          columnHeader: 'Block/Slide/TubeID',
+          data: 'tubeId',
+        },
+        {
+          columnHeader: 'Sample ID',
+          data: 'userId',
+        },
+      ],
+    },
+  },
+}
+
 export const initialFullStateMock = {
   upload: {
     form: {
@@ -122,12 +158,32 @@ export const filledFullStateMock = {
       patientIdNeedsFormatting: false,
     },
     grid: {
-      columns: [],
-      rows: [],
+      columns: ['Block/Slide/TubeID', 'Sample ID'],
+      rows: [{ tubeId: '', userId: '' }, { tubeId: '', userId: '' }],
       error: '',
-      form: [],
+      form: {
+        material: 'Tissue',
+        application: 'CustomCapture',
+        igo_request_id: '444444',
+        number_of_samples: '4',
+        species: 'Tuberculosis',
+        container: 'Plates',
+        patient_id_format: '',
+      },
       gridIsLoading: false,
       nothingToChange: false,
+      columnFeatures: [
+        {
+          columnHeader: 'Block/Slide/TubeID',
+          data: 'tubeId',
+
+          name: 'Block/Slide/TubeID',
+        },
+        {
+          columnHeader: 'Sample ID',
+          data: 'userId',
+        },
+      ],
     },
   },
 }

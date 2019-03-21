@@ -6,7 +6,11 @@ export const generateGridData = (responseColumns, formValues) => {
   let grid = { columnFeatures: [], columnHeaders: [], rows: [] }
   grid.columnFeatures = generateColumnFeatures(responseColumns)
   grid.columnHeaders = grid.columnFeatures.map(a => a.columnHeader)
-  grid.rows = generateRows(responseColumns, formValues)
+  grid.rows = generateRows(
+    grid.columnFeatures,
+    formValues,
+    formValues.number_of_samples
+  )
   return grid
 }
 
@@ -28,14 +32,11 @@ function generateColumnFeatures(responseColumns) {
   return columnFeatures
 }
 
-function generateRows(columns, formValues) {
+function generateRows(columns, formValues, numberToAdd) {
   let rows = []
-  for (let i = 0; i < formValues.number_of_samples; i++) {
+  for (let i = 0; i < numberToAdd; i++) {
     for (let j = 0; j < columns.length; j++) {
-      if (
-        columns[j].data == 'species' ||
-        columns[j].data == 'organism'
-      ) {
+      if (columns[j].data == 'species' || columns[j].data == 'organism') {
         rows[i] = { ...rows[i], [columns[j].data]: formValues.species }
       } else {
         rows[i] = { ...rows[i], [columns[j].data]: '' }
@@ -73,25 +74,20 @@ export const diff = (obj1, obj2) => {
 }
 
 // update rows on #samples change without losing data
-export const updateRows = (newNumberOfSamples, grid) => {
-  console.log(newNumberOfSamples)
-  let oldNumberOfSamples = grid.form.number_of_samples
-  console.log(grid)
-  let row = new Array(grid.columns.length)
-
-  if (oldNumberOfSamples < newNumberOfSamples) {
-    let newRows = newNumberOfSamples - oldNumberOfSamples
-    // simply append empty rows for the difference
-    for (let i = 0; i < newRows; i++) {
-      grid.rows.push(row)
-      console.log('bigger')
-    }
+export const updateRows = (formValues, grid) => {
+  let newNumOfSamples = formValues.number_of_samples
+  let oldNumOfSamples = grid.form.number_of_samples
+  let rows = []
+  if (oldNumOfSamples < newNumOfSamples) {
+    let numOfRowsToGen = newNumOfSamples - oldNumOfSamples
+    rows = grid.rows
+    let newRows = generateRows(grid.columnFeatures, formValues, numOfRowsToGen)
+    rows = rows.concat(newRows)
   } else {
-    grid.rows = []
-    for (let i = 0; i < newNumberOfSamples; i++) {
-      grid.rows.push(row)
-      console.log('smaller')
+    // TODO slice or similar?
+    for (let i = 0; i < newNumOfSamples; i++) {
+      rows[i] = grid.rows[i]
     }
   }
-  return grid
+  return rows
 }
