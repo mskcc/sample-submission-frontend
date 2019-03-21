@@ -7,7 +7,7 @@ import { uploadFormActions } from '../../actions'
 
 import { UploadForm } from '../../components/Upload'
 
-class UploadFormContainer extends React.Component {
+export class UploadFormContainer extends React.Component {
   constructor(props) {
     super(props)
   }
@@ -27,9 +27,6 @@ class UploadFormContainer extends React.Component {
       this.props.getApplicationsForMaterial(selectedMaterial)
     } else {
       this.props.clearMaterial()
-      setTimeout(() => {
-        this.props.cleared
-      }, 500)
     }
     // show containers depending on material combination
     this.props.filterContainers(selectedMaterial)
@@ -41,9 +38,6 @@ class UploadFormContainer extends React.Component {
       this.props.getMaterialsForApplication(selectedApplication)
     } else {
       this.props.clearApplication()
-      setTimeout(() => {
-        this.props.cleared
-      }, 500)
     }
   }
 
@@ -73,6 +67,10 @@ class UploadFormContainer extends React.Component {
       />
     )
   }
+}
+
+UploadFormContainer.defaultProps = {
+  getInitialState: () => {},
 }
 
 const mapStateToProps = state => ({

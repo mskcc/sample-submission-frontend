@@ -28,19 +28,21 @@ describe('upload form reducers', () => {
   })
 
   it('handles materials for selected application', () => {
-    const expextedMaterials = [
+    const expectedMaterials = [
       { id: 'RNA', value: 'RNA' },
       { id: 'Tissue', value: 'Tissue' },
     ]
     const action = {
       type: 'RECEIVE_MATERIALS_FOR_APPLICATION_SUCCESS',
-      materials: expextedMaterials,
+      materials: expectedMaterials,
     }
 
     expect(uploadFormReducer(formTestStore, action)).toEqual({
       ...formTestStore,
-      materials: expextedMaterials,
+      materials: expectedMaterials,
       formIsLoading: false,
     })
   })
+
+
 })

@@ -70,7 +70,6 @@ export default function uploadGridReducer(state = initialGridState, action) {
       }
 
     default:
-    console.log(state)
       return state
   }
 }

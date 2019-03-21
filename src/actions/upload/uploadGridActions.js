@@ -34,7 +34,6 @@ export function getColumns(formValues) {
 
     // no grid? get inital columns
     if (getState().upload.grid.form.length == 0) {
-      console.log('dispatch getIC')
       return dispatch(getInitialColumns(formValues))
       // TODO smell to have this in an action
     } else {
@@ -83,10 +82,9 @@ export function getInitialColumns(formValues) {
         },
       })
       .then(response => {
-        
         // Handsontable binds to your data source (list of arrays or list of objects) by reference. Therefore, all the data entered in the grid will alter the original data source.
         let grid = generateGridData(response.data.columnDefs, formValues)
-        
+
         dispatch({
           type: RECEIVE_COLUMNS_SUCCESS,
           grid: grid,
@@ -105,7 +103,6 @@ export function getInitialColumns(formValues) {
       })
   }
 }
-
 
 export const RESET_GRID_ERROR_MESSAGE = 'RESET_GRID_ERROR_MESSAGE'
 

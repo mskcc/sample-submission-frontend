@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Render Header render Header correctly 1`] = `
+<div
+  className="Header-mskccHeader-1"
+>
+  <img
+    alt="MSKCC Logo"
+    className="MuiCardMedia-root-5 MuiCardMedia-media-6 Header-mskccLogo-3"
+    src="msk.png"
+    title="MSKCC Logo"
+  />
+  <div
+    className="Header-nav-2"
+  >
+    <div>
+      Sample Intake V2
+    </div>
+    <a
+      aria-current={null}
+      className="Header-navlink-4"
+      href="/upload"
+      onClick={[Function]}
+    >
+       
+      Upload
+    </a>
+     | 
+    <a
+      aria-current={null}
+      className="Header-navlink-4"
+      href="/promote"
+      onClick={[Function]}
+    >
+       
+      Promote
+    </a>
+  </div>
+</div>
+`;

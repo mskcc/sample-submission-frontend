@@ -102,7 +102,7 @@ exports[`Render UploadFormContainer render UploadFormContainer correctly 1`] = `
           <p
             className="MuiFormHelperText-root-85"
           >
-            Missing translationId: upload.form.material_helptext for language: \${ languageCode } (0 choices)
+            Missing translationId: upload.form.material_helptext for language: \${ languageCode } (1 choices)
           </p>
         </div>
       </div>
@@ -200,7 +200,7 @@ exports[`Render UploadFormContainer render UploadFormContainer correctly 1`] = `
           <p
             className="MuiFormHelperText-root-85"
           >
-            Missing translationId: upload.form.application_helptext for language: \${ languageCode } (0 choices)
+            Missing translationId: upload.form.application_helptext for language: \${ languageCode } (1 choices)
           </p>
         </div>
       </div>
@@ -396,7 +396,7 @@ exports[`Render UploadFormContainer render UploadFormContainer correctly 1`] = `
           <p
             className="MuiFormHelperText-root-85"
           >
-            Missing translationId: upload.form.species_helptext for language: \${ languageCode } (0 choices)
+            Missing translationId: upload.form.species_helptext for language: \${ languageCode } (1 choices)
           </p>
         </div>
       </div>

@@ -44,7 +44,7 @@ describe('upload form actions', () => {
       const request = moxios.requests.mostRecent()
       request.respondWith({
         status: 200,
-        response: getChoicesForDNALibraryMock,
+        response: { choices: getChoicesForDNALibraryMock },
       })
     })
 
@@ -60,6 +60,7 @@ describe('upload form actions', () => {
       },
       {
         type: 'RECEIVE_APPLICATIONS_FOR_MATERIAL_SUCCESS',
+        applications: getChoicesForDNALibraryMock,
       },
     ]
     return store

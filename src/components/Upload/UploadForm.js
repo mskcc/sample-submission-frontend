@@ -327,7 +327,12 @@ class UploadForm extends React.Component {
                 />
               </FormControl>
             </form>
-            <Button id="upload-form-submit" formId="upload-form" gridIsLoading={gridIsLoading} handleSubmit={handleSubmit} nothingToChange={nothingToChange} />{' '}
+            <Button
+              id="upload-form-submit"
+              formId="upload-form"
+              gridIsLoading={gridIsLoading}
+              nothingToChange={nothingToChange}
+            />{' '}
           </div>
         )}
       </Translate>
@@ -336,7 +341,25 @@ class UploadForm extends React.Component {
 }
 
 UploadForm.defaultProps = {
-  form: {},
+  form: {
+    allContainers: [{ id: 'id', value: 'value' }],
+    allApplications: [{ id: 'id', value: 'value' }],
+    allMaterials: [{ id: 'id', value: 'value' }],
+    allPatientIdFormats: [],
+    applications: [{ id: 'id', value: 'value' }],
+    containers: [{ id: 'id', value: 'value' }],
+    formIsLoading: false,
+    filteredContainers: [{ id: 'id', value: 'value' }],
+    filteredContainersBS: [{ id: 'id', value: 'value' }],
+    materials: [{ id: 'id', value: 'value' }],
+    selectedApplication: '',
+    selectedMaterial: '',
+    species: [{ id: 'id', value: 'value' }],
+    patientIdNeedsFormatting: false,
+    patientIdFormats: [{ id: 'id', value: 'value' }],
+  },
+  gridIsLoading: false,
+  nothingToChange: false,
 }
 
 UploadForm.propTypes = {

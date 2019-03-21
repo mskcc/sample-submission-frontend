@@ -146,7 +146,8 @@ export function filterContainers(selectedMaterial) {
 }
 
 export const SELECT_SPECIES_WITH_FORMATTER = 'SELECT_SPECIES_WITH_FORMATTER'
-export const SELECT_SPECIES_WITHOUT_FORMATTER = 'SELECT_SPECIES_WITHOUT_FORMATTER'
+export const SELECT_SPECIES_WITHOUT_FORMATTER =
+  'SELECT_SPECIES_WITHOUT_FORMATTER'
 export const CLEAR_SPECIES = 'CLEAR_SPECIES'
 export function getFormatterForSpecies(selectedSpecies) {
   if (PatientIDSpecies.includes(selectedSpecies.toLowerCase())) {
@@ -195,10 +196,7 @@ export const clearMaterial = () => {
 export const CLEAR_APPLICATION = 'CLEAR_APPLICATION'
 
 export const clearApplication = () => {
-  return dispatch => {
-    dispatch({ type: CLEAR_APPLICATION })
-    return dispatch(cleared())
-  }
+  return [{ type: CLEAR_APPLICATION }, { type: CLEARED }]
 }
 
 export const CLEARED = 'CLEARED'
