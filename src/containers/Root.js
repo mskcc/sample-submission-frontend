@@ -52,10 +52,10 @@ class Root extends Component {
               </div>
             ) : this.props.versionValid ? (
               <div>
-                <Route path="/" component={UploadPage} />
-                <Route path="/upload" component={UploadPage} />
+                <Route path="/(upload|)" component={UploadPage} />
+                
                 <Route path="/promote" component={Promote} />
-                {process.env.NODE_ENV !== 'production' ? <DevTools /> : <div />}
+                
               </div>
             ) : null}
           </div>
@@ -101,5 +101,7 @@ const theme = createMuiTheme({
       main: '#DF4602',
       dark: '#C24D00',
     },
+
+    textSecondary: '#e0e0e0'
   },
 })

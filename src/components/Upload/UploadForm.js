@@ -3,12 +3,10 @@ import { Translate } from 'react-localize-redux'
 import PropTypes from 'prop-types'
 
 import classNames from 'classnames'
-import { withStyles } from '@material-ui/core/styles'
+import { FormControl, InputAdornment, Paper, withStyles } from '@material-ui/core'
 
-import FormControl from '@material-ui/core/FormControl'
 import { Button, Checkbox, Dropdown, Input } from './index'
 
-import InputAdornment from '@material-ui/core/InputAdornment'
 
 class UploadForm extends React.Component {
   constructor(props) {
@@ -233,10 +231,10 @@ class UploadForm extends React.Component {
     return (
       <Translate>
         {({ translate }) => (
-          <div className={classes.form}>
+          <Paper className={classes.container} elevation={1}>
             <form
               id="upload-form"
-              className={classes.container}
+              className={classes.form}
               onSubmit={e => this.handleSubmit(e, handleSubmit)}
             >
               <Dropdown
@@ -266,17 +264,6 @@ class UploadForm extends React.Component {
               />
 
               <Dropdown
-                id="container"
-                error={!formValid.container}
-                onChange={this.handleDropdownChange}
-                items={form.containers.map(option => ({
-                  value: option.id,
-                  label: option.value,
-                }))}
-                loading={form.formIsLoading}
-              />
-
-              <Dropdown
                 id="species"
                 error={!formValid.species}
                 onSelect={handleSpeciesChange}
@@ -287,6 +274,18 @@ class UploadForm extends React.Component {
                 }))}
                 dynamic
               />
+
+              <Dropdown
+                id="container"
+                error={!formValid.container}
+                onChange={this.handleDropdownChange}
+                items={form.containers.map(option => ({
+                  value: option.id,
+                  label: option.value,
+                }))}
+                loading={form.formIsLoading}
+              />
+
               {this.props.form.patientIdNeedsFormatting ? (
                 <Dropdown
                   id="patient_id_format"
@@ -333,7 +332,7 @@ class UploadForm extends React.Component {
               gridIsLoading={gridIsLoading}
               nothingToChange={nothingToChange}
             />{' '}
-          </div>
+          </Paper>
         )}
       </Translate>
     )
@@ -371,16 +370,19 @@ UploadForm.propTypes = {
 
 const styles = theme => ({
   container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    width: '70%',
-    justifyContent: 'space-between',
-  },
-  form: {
     gridArea: 'form',
     display: 'grid',
     justifyItems: 'center',
+    width: '50%',
+    margin: '2em auto',
   },
+  form: {
+    display: 'flex',
+    flexWrap: 'wrap',
+
+    // justifyContent: 'space-between',
+  },
+
   dense: {
     marginTop: 19,
   },

@@ -18,13 +18,12 @@ import TestUploadPage from '../UploadPage'
 import uploadFormReducer from '../../../reducers/upload/uploadFormReducer'
 // import uploadGridActions from '../../../actions/upload/uploadGridActions'
 
-import { initialFullStateMock } from '../../../mocks'
+import { initialFullStateMock, filledFullStateMock } from '../../../mocks'
 
 const middlewares = [thunk, multi]
 const mockStore = configureStore(middlewares)
 
 const flushAllPromises = () => new Promise(resolve => setImmediate(resolve))
-
 const UploadPage = props => (
   <Provider store={props.store}>
     <TestUploadPage />
@@ -50,25 +49,37 @@ describe('renders UploadPage', () => {
 
   it('renders UploadForm child', async () => {
     const store = mockStore(initialFullStateMock)
-    const wrapper = mount(<UploadPage store={store} />)
+    const wrapper = mount(
+      <UploadPage store={mockStore(initialFullStateMock)} />
+    )
     expect(wrapper.find('UploadForm').exists()).toBe(true)
   })
-  it('renders grid on button click', async () => {
-    const store = mockStore(initialFullStateMock)
-
-    const uploadGridActions = { getColumns: jest.fn() }
+  it('renders UploadGrid', async () => {
+    // const getColumns = jest.fn()
+    const store = mockStore(filledFullStateMock)
+    // let oldState = store.getState()
+    // const uploadGridActions = { getColumns: jest.fn() }
     const wrapper = mount(
-      <UploadPage store={store} uploadGridActions={uploadGridActions} />
+      <UploadPage
+        store={store}
+        // uploadGridActions={uploadGridActions}
+        // getColumns={getColumns}
+      />
     )
 
     // request initial state for grid on button click
-    wrapper
-      .find('UploadFormContainer')
+    // wrapper
+    //   .find('#upload-form')
+    //   .first()
+    //   .simulate('submit')
+    // await flushAllPromises()
+    // let newStore = store.getState()
+    // console.log(oldState)
+    // console.log(newStore)
+    expect(wrapper.find('UploadGrid').exists()).toBe(true)
 
-      .simulate('submit')
+    // expect(newStore).not.toEqual(oldState)
     // console.log(wrapper.find('UploadForm').instance().state)
-
-  
 
     // moxios.wait(() => {
     //   const request = moxios.requests.mostRecent()
