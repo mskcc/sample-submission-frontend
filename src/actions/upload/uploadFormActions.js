@@ -151,17 +151,18 @@ export const SELECT_SPECIES_WITHOUT_ID_FORMATTER =
   'SELECT_SPECIES_WITHOUT_ID_FORMATTER'
 export const CLEAR_SPECIES = 'CLEAR_SPECIES'
 export function getFormatterForSpecies(selectedSpecies) {
-  if (PatientIDSpecies.includes(selectedSpecies.toLowerCase())) {
-    // TODO I like the look of this, but it should actually wait for the picklist to drop
-    return [
-      getPicklist('PatientIDTypes'),
-      {
+  return dispatch => {
+    if (PatientIDSpecies.includes(selectedSpecies.toLowerCase())) {
+      let formatter = 'PatientIDTypes'
+
+      dispatch({
         type: SELECT_SPECIES_WITH_ID_FORMATTER,
-      },
-    ]
-  } else {
-    return {
-      type: SELECT_SPECIES_WITHOUT_ID_FORMATTER,
+      })
+      return dispatch(getPicklist(formatter))
+    } else {
+      return dispatch({
+        type: SELECT_SPECIES_WITHOUT_ID_FORMATTER,
+      })
     }
   }
 }

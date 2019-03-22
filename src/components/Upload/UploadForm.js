@@ -26,24 +26,24 @@ class UploadForm extends React.Component {
       //   container: '',
       //   patient_id_type: '',
       // },
-      // values: {
-      //   material: 'Cells',
-      //   application: 'CustomCapture',
-      //   igo_request_id: '444444',
-      //   number_of_samples: '4',
-      //   species: 'Human',
-      //   container: 'Plates',
-      //   patient_id_type: 'MRN',
-      // },
       values: {
-        material: 'Tissue',
+        material: 'Cells',
         application: 'CustomCapture',
         igo_request_id: '444444',
-        number_of_samples: '400',
-        species: 'Tuberculosis',
+        number_of_samples: '4',
+        species: 'Human',
         container: 'Plates',
-        patient_id_type: '',
+        patient_id_type: 'MSK-Patients (or derived from MSK Patients)',
       },
+      // values: {
+      //   material: 'Tissue',
+      //   application: 'CustomCapture',
+      //   igo_request_id: '444444',
+      //   number_of_samples: '400',
+      //   species: 'Tuberculosis',
+      //   container: 'Plates',
+      //   patient_id_type: '',
+      // },
       // formErrors: {},
       igo_alternative_id: false,
       formValid: {
@@ -177,7 +177,7 @@ class UploadForm extends React.Component {
         case 'patient_id_type':
           // only validate if species mandates a format, else value will be disregarded anyway
           if (this.props.form.patientIDTypeNeedsFormatting) {
-            isValidOption = this.props.form.patientIDTypes.some(function(el) {
+            isValidOption = this.props.form.picklists.PatientIDTypes.some(function(el) {
               return el.value === values[value]
             })
             formValid[value] = isValidOption && values[value].length > 0
