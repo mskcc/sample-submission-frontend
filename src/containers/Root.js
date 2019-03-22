@@ -53,9 +53,9 @@ class Root extends Component {
             ) : this.props.versionValid ? (
               <div>
                 <Route path="/(upload|)" component={UploadPage} />
-                
+
                 <Route path="/promote" component={Promote} />
-                
+                {process.env.NODE_ENV !== 'production' ? <DevTools /> : <div />}
               </div>
             ) : null}
           </div>
@@ -93,8 +93,6 @@ const theme = createMuiTheme({
       light: '#8FC7E8',
       main: '#007CBA',
       dark: '#006098',
-
-    
     },
     secondary: {
       light: '#F6C65B',
@@ -102,6 +100,6 @@ const theme = createMuiTheme({
       dark: '#C24D00',
     },
 
-    textSecondary: '#e0e0e0'
+    textSecondary: '#e0e0e0',
   },
 })

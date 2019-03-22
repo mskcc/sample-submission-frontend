@@ -145,18 +145,23 @@ export function filterContainers(selectedMaterial) {
     }
 }
 
-export const SELECT_SPECIES_WITH_FORMATTER = 'SELECT_SPECIES_WITH_FORMATTER'
-export const SELECT_SPECIES_WITHOUT_FORMATTER =
-  'SELECT_SPECIES_WITHOUT_FORMATTER'
+export const SELECT_SPECIES_WITH_ID_FORMATTER =
+  'SELECT_SPECIES_WITH_ID_FORMATTER'
+export const SELECT_SPECIES_WITHOUT_ID_FORMATTER =
+  'SELECT_SPECIES_WITHOUT_ID_FORMATTER'
 export const CLEAR_SPECIES = 'CLEAR_SPECIES'
 export function getFormatterForSpecies(selectedSpecies) {
   if (PatientIDSpecies.includes(selectedSpecies.toLowerCase())) {
-    return {
-      type: SELECT_SPECIES_WITH_FORMATTER,
-    }
+    // TODO I like the look of this, but it should actually wait for the picklist to drop
+    return [
+      getPicklist('PatientIDTypes'),
+      {
+        type: SELECT_SPECIES_WITH_ID_FORMATTER,
+      },
+    ]
   } else {
     return {
-      type: SELECT_SPECIES_WITHOUT_FORMATTER,
+      type: SELECT_SPECIES_WITHOUT_ID_FORMATTER,
     }
   }
 }
@@ -173,17 +178,19 @@ export function getPicklist(picklist) {
   return dispatch => {
     dispatch({ type: REQUEST_PICKLIST, picklist })
     return axios
-      .get(API_ROOT + 'listValues/' + picklist)
+      .get(API_ROOT + '/listValues/' + picklist)
 
-      .then(response =>
+      .then(response => {
         dispatch({ type: RECEIVE_PICKLIST_SUCCESS, picklist: response.data })
-      )
-      .catch(error =>
+        return response
+      })
+      .catch(error => {
         dispatch({
           type: RECEIVE_PICKLIST_FAIL,
           error: error.message,
         })
-      )
+        return error
+      })
   }
 }
 

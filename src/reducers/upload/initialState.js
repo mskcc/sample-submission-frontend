@@ -14,10 +14,11 @@ export const initialFormState = {
     { id: 'Blocks/Slides/Tubes', value: 'Blocks/Slides/Tubes' },
   ],
   materials: [],
+  picklists: {},
   selectedApplication: '',
   selectedMaterial: '',
   species: [],
-  patientIdNeedsFormatting: false,
+  patientIDTypeNeedsFormatting: false,
 }
 
 export const initialGridState = {

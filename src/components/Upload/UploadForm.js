@@ -3,10 +3,14 @@ import { Translate } from 'react-localize-redux'
 import PropTypes from 'prop-types'
 
 import classNames from 'classnames'
-import { FormControl, InputAdornment, Paper, withStyles } from '@material-ui/core'
+import {
+  FormControl,
+  InputAdornment,
+  Paper,
+  withStyles,
+} from '@material-ui/core'
 
 import { Button, Checkbox, Dropdown, Input } from './index'
-
 
 class UploadForm extends React.Component {
   constructor(props) {
@@ -20,7 +24,7 @@ class UploadForm extends React.Component {
       //   number_of_samples: '',
       //   species: '',
       //   container: '',
-      //   patient_id_format: '',
+      //   patient_id_type: '',
       // },
       // values: {
       //   material: 'Cells',
@@ -29,7 +33,7 @@ class UploadForm extends React.Component {
       //   number_of_samples: '4',
       //   species: 'Human',
       //   container: 'Plates',
-      //   patient_id_format: 'MRN',
+      //   patient_id_type: 'MRN',
       // },
       values: {
         material: 'Tissue',
@@ -38,7 +42,7 @@ class UploadForm extends React.Component {
         number_of_samples: '400',
         species: 'Tuberculosis',
         container: 'Plates',
-        patient_id_format: '',
+        patient_id_type: '',
       },
       // formErrors: {},
       igo_alternative_id: false,
@@ -50,7 +54,7 @@ class UploadForm extends React.Component {
         number_of_samples: true,
         species: true,
         container: true,
-        patient_id_format: true,
+        patient_id_type: true,
       },
     }
   }
@@ -170,10 +174,10 @@ class UploadForm extends React.Component {
           formValid[value] = isValidOption && values[value].length > 0
           break
 
-        case 'patient_id_format':
+        case 'patient_id_type':
           // only validate if species mandates a format, else value will be disregarded anyway
-          if (this.props.form.patientIdNeedsFormatting) {
-            isValidOption = this.props.form.patientIdFormats.some(function(el) {
+          if (this.props.form.patientIDTypeNeedsFormatting) {
+            isValidOption = this.props.form.patientIDTypes.some(function(el) {
               return el.value === values[value]
             })
             formValid[value] = isValidOption && values[value].length > 0
@@ -209,7 +213,7 @@ class UploadForm extends React.Component {
       this.state.formValid.number_of_samples &&
       this.state.formValid.species &&
       this.state.formValid.container &&
-      this.state.formValid.patient_id_format
+      this.state.formValid.patient_id_type
     )
   }
 
@@ -275,6 +279,20 @@ class UploadForm extends React.Component {
                 dynamic
               />
 
+              {this.props.form.patientIDTypeNeedsFormatting &&
+              form.picklists.PatientIDTypes ? (
+                <Dropdown
+                  id="patient_id_type"
+                  value={this.props.form.patientIDType}
+                  error={!formValid.patient_id_type}
+                  onChange={this.handleDropdownChange}
+                  items={form.picklists.PatientIDTypes.map(option => ({
+                    value: option.id,
+                    label: option.value,
+                  }))}
+                />
+              ) : null}
+
               <Dropdown
                 id="container"
                 error={!formValid.container}
@@ -285,19 +303,6 @@ class UploadForm extends React.Component {
                 }))}
                 loading={form.formIsLoading}
               />
-
-              {this.props.form.patientIdNeedsFormatting ? (
-                <Dropdown
-                  id="patient_id_format"
-                  value={this.props.form.patientIdFormat}
-                  error={!formValid.patient_id_format}
-                  onChange={this.handleDropdownChange}
-                  items={form.patientIdFormats.map(option => ({
-                    value: option.id,
-                    label: option.value,
-                  }))}
-                />
-              ) : null}
 
               <Input
                 id="number_of_samples"
@@ -344,7 +349,7 @@ UploadForm.defaultProps = {
     allContainers: [{ id: 'id', value: 'value' }],
     allApplications: [{ id: 'id', value: 'value' }],
     allMaterials: [{ id: 'id', value: 'value' }],
-    allPatientIdFormats: [],
+    allpatientIDTypes: [],
     applications: [{ id: 'id', value: 'value' }],
     containers: [{ id: 'id', value: 'value' }],
     formIsLoading: false,
@@ -354,8 +359,8 @@ UploadForm.defaultProps = {
     selectedApplication: '',
     selectedMaterial: '',
     species: [{ id: 'id', value: 'value' }],
-    patientIdNeedsFormatting: false,
-    patientIdFormats: [{ id: 'id', value: 'value' }],
+    patientIDTypeNeedsFormatting: false,
+    picklists: { PatientIDTypes: [{ id: 'id', value: 'value' }] },
   },
   gridIsLoading: false,
   nothingToChange: false,

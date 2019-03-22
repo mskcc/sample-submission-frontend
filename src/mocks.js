@@ -52,7 +52,7 @@ export const initialFormStateMock = {
   selectedApplication: '',
   selectedMaterial: '',
   species: [],
-  patientIdNeedsFormatting: false,
+  patientIDTypeNeedsFormatting: false,
 }
 
 export const initialGridStateMock = {
@@ -82,7 +82,7 @@ export const filledGridStateMock = {
         number_of_samples: '4',
         species: 'Tuberculosis',
         container: 'Plates',
-        patient_id_format: '',
+        patient_id_type: '',
       },
       gridIsLoading: false,
       nothingToChange: false,
@@ -121,7 +121,7 @@ export const initialFullStateMock = {
       selectedApplication: '',
       selectedMaterial: '',
       species: [],
-      patientIdNeedsFormatting: false,
+      patientIDTypeNeedsFormatting: false,
     },
     grid: {
       columns: [],
@@ -155,7 +155,7 @@ export const filledFullStateMock = {
       selectedApplication: '',
       selectedMaterial: '',
       species: [{ id: 'test', value: 'test' }],
-      patientIdNeedsFormatting: false,
+      patientIDTypeNeedsFormatting: false,
     },
     grid: {
       columns: ['Block/Slide/TubeID', 'Sample ID'],
@@ -168,7 +168,7 @@ export const filledFullStateMock = {
         number_of_samples: '4',
         species: 'Tuberculosis',
         container: 'Plates',
-        patient_id_format: '',
+        patient_id_type: '',
       },
       gridIsLoading: false,
       nothingToChange: false,
@@ -194,7 +194,7 @@ export const formValuesMock = {
   igo_request_id: '444444',
   material: 'Tissue',
   number_of_samples: '2',
-  patient_id_format: '',
+  patient_id_type: '',
   species: 'Tuberculosis',
 }
 
