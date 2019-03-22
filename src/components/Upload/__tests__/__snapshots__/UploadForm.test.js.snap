@@ -205,104 +205,108 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
         </div>
       </div>
     </div>
-    <div
-      className="Dropdown-textField-36"
+    <fieldset
+      className="MuiFormControl-root-37"
     >
       <div
-        aria-expanded={false}
-        aria-haspopup="listbox"
-        aria-labelledby="downshift-2-label"
-        aria-owns={null}
-        role="combobox"
+        className="Dropdown-textField-36"
       >
         <div
-          className="MuiFormControl-root-37 MuiFormControl-fullWidth-40"
+          aria-expanded={false}
+          aria-haspopup="listbox"
+          aria-labelledby="downshift-2-label"
+          aria-owns={null}
+          role="combobox"
         >
-          <label
-            className="MuiFormLabel-root-52 MuiInputLabel-root-41 MuiInputLabel-formControl-46 MuiInputLabel-animated-49"
-            data-shrink={false}
-            htmlFor="downshift-2-input"
-            id="downshift-2-label"
-          >
-            Missing translationId: upload.form.species_label for language: \${ languageCode }
-          </label>
           <div
-            aria-activedescendant={null}
-            aria-autocomplete="list"
-            aria-controls={null}
-            aria-labelledby="downshift-2-label"
-            className="MuiInputBase-root-72 MuiInput-root-59 MuiInput-underline-63 MuiInputBase-formControl-73 MuiInput-formControl-60 MuiInputBase-adornedEnd-77"
-            onClick={[Function]}
+            className="MuiFormControl-root-37 MuiFormControl-fullWidth-40"
           >
-            <input
-              aria-invalid={false}
-              autoComplete="off"
-              className="MuiInputBase-input-82 MuiInput-input-67 MuiInputBase-inputAdornedEnd-88"
-              disabled={false}
-              id="species"
-              onBlur={[Function]}
-              onChange={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              required={false}
-              type="text"
-              value=""
-            />
-            <div
-              className="MuiInputAdornment-root-89 MuiInputAdornment-positionEnd-92"
+            <label
+              className="MuiFormLabel-root-52 MuiInputLabel-root-41 MuiInputLabel-formControl-46 MuiInputLabel-animated-49"
+              data-shrink={false}
+              htmlFor="downshift-2-input"
+              id="downshift-2-label"
             >
-              <button
-                aria-label="Toggle menu open"
-                className="MuiButtonBase-root-100 MuiIconButton-root-94"
+              Missing translationId: upload.form.species_label for language: \${ languageCode }
+            </label>
+            <div
+              aria-activedescendant={null}
+              aria-autocomplete="list"
+              aria-controls={null}
+              aria-labelledby="downshift-2-label"
+              className="MuiInputBase-root-72 MuiInput-root-59 MuiInput-underline-63 MuiInputBase-formControl-73 MuiInput-formControl-60 MuiInputBase-adornedEnd-77"
+              onClick={[Function]}
+            >
+              <input
+                aria-invalid={false}
+                autoComplete="off"
+                className="MuiInputBase-input-82 MuiInput-input-67 MuiInputBase-inputAdornedEnd-88"
                 disabled={false}
+                id="species"
                 onBlur={[Function]}
-                onClick={[Function]}
-                onContextMenu={[Function]}
+                onChange={[Function]}
                 onFocus={[Function]}
                 onKeyDown={[Function]}
-                onKeyUp={[Function]}
-                onMouseDown={[Function]}
-                onMouseLeave={[Function]}
-                onMouseUp={[Function]}
-                onTouchEnd={[Function]}
-                onTouchMove={[Function]}
-                onTouchStart={[Function]}
-                tabIndex="0"
-                type="button"
+                required={false}
+                type="text"
+                value=""
+              />
+              <div
+                className="MuiInputAdornment-root-89 MuiInputAdornment-positionEnd-92"
               >
-                <span
-                  className="MuiIconButton-label-99"
+                <button
+                  aria-label="Toggle menu open"
+                  className="MuiButtonBase-root-100 MuiIconButton-root-94"
+                  disabled={false}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onContextMenu={[Function]}
+                  onFocus={[Function]}
+                  onKeyDown={[Function]}
+                  onKeyUp={[Function]}
+                  onMouseDown={[Function]}
+                  onMouseLeave={[Function]}
+                  onMouseUp={[Function]}
+                  onTouchEnd={[Function]}
+                  onTouchMove={[Function]}
+                  onTouchStart={[Function]}
+                  tabIndex="0"
+                  type="button"
                 >
-                  <svg
-                    aria-hidden="true"
-                    className="MuiSvgIcon-root-103"
-                    focusable="false"
-                    role="presentation"
-                    viewBox="0 0 24 24"
+                  <span
+                    className="MuiIconButton-label-99"
                   >
-                    <path
-                      d="M7 10l5 5 5-5z"
-                    />
-                    <path
-                      d="M0 0h24v24H0z"
-                      fill="none"
-                    />
-                  </svg>
-                </span>
-                <span
-                  className="MuiTouchRipple-root-209"
-                />
-              </button>
+                    <svg
+                      aria-hidden="true"
+                      className="MuiSvgIcon-root-103"
+                      focusable="false"
+                      role="presentation"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M7 10l5 5 5-5z"
+                      />
+                      <path
+                        d="M0 0h24v24H0z"
+                        fill="none"
+                      />
+                    </svg>
+                  </span>
+                  <span
+                    className="MuiTouchRipple-root-209"
+                  />
+                </button>
+              </div>
             </div>
+            <p
+              className="MuiFormHelperText-root-112"
+            >
+              Missing translationId: upload.form.species_helptext for language: \${ languageCode } (1 choices)
+            </p>
           </div>
-          <p
-            className="MuiFormHelperText-root-112"
-          >
-            Missing translationId: upload.form.species_helptext for language: \${ languageCode } (1 choices)
-          </p>
         </div>
       </div>
-    </div>
+    </fieldset>
     <div
       className="Dropdown-textField-36"
     >

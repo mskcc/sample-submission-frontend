@@ -46,6 +46,7 @@ class UploadForm extends React.Component {
       // },
       // formErrors: {},
       igo_alternative_id: false,
+      species_samples_checked: false,
       formValid: {
         // form: false,
         material: true,
@@ -86,7 +87,7 @@ class UploadForm extends React.Component {
     })
   }
 
-  handleCheck = name => () => {
+  handleIGOCheck = name => () => {
     let date = this.getDate()
 
     this.setState({
@@ -95,6 +96,12 @@ class UploadForm extends React.Component {
         igo_request_id: date,
       },
       [name]: event.target.checked,
+    })
+  }
+
+  handleSpeciesCheck = name => () => {
+    this.setState({
+      species_samples_checked: event.target.checked,
     })
   }
 
@@ -177,9 +184,11 @@ class UploadForm extends React.Component {
         case 'patient_id_type':
           // only validate if species mandates a format, else value will be disregarded anyway
           if (this.props.form.patientIDTypeNeedsFormatting) {
-            isValidOption = this.props.form.picklists.PatientIDTypes.some(function(el) {
-              return el.value === values[value]
-            })
+            isValidOption = this.props.form.picklists.PatientIDTypes.some(
+              function(el) {
+                return el.value === values[value]
+              }
+            )
             formValid[value] = isValidOption && values[value].length > 0
             break
           } else {
@@ -266,23 +275,40 @@ class UploadForm extends React.Component {
                 loading={form.formIsLoading}
                 dynamic
               />
-
-              <Dropdown
-                id="species"
-                error={!formValid.species}
-                onSelect={handleSpeciesChange}
-                onChange={this.handleDropdownChange}
-                items={form.species.map(option => ({
-                  value: option.id,
-                  label: option.value,
-                }))}
-                dynamic
-              />
-
-              {this.props.form.patientIDTypeNeedsFormatting &&
-              form.picklists.PatientIDTypes ? (
+              <FormControl component="fieldset">
                 <Dropdown
-                  id="patient_id_type"
+                  id="species"
+                  error={!formValid.species}
+                  onSelect={handleSpeciesChange}
+                  onChange={this.handleDropdownChange}
+                  items={form.species.map(option => ({
+                    value: option.id,
+                    label: option.value,
+                  }))}
+                  dynamic
+                />
+                {this.props.form.patientIDTypeNeedsFormatting &&
+                (values.species == 'Mouse' ||
+                  values.species == 'Mouse_GeneticallyModified') ? (
+                  <Checkbox
+                    id="species_checkbox"
+                    checked={this.state.species_samples_checked}
+                    onChange={this.handleSpeciesCheck}
+                  />
+                ) : null}
+              </FormControl>
+
+              {// PatientID is needed when Human is selected or when Mouse* is selected and combined with species checkbox value
+              this.props.form.patientIDTypeNeedsFormatting &&
+              form.picklists.PatientIDTypes &&
+              (values.species == 'Human' ||
+                this.state.species_samples_checked) ? (
+                <Dropdown
+                  id={
+                    this.state.species_samples_checked
+                      ? 'group_id_type'
+                      : 'patient_id_type'
+                  }
                   value={this.props.form.patientIDType}
                   error={!formValid.patient_id_type}
                   onChange={this.handleDropdownChange}
@@ -327,7 +353,8 @@ class UploadForm extends React.Component {
                 <Checkbox
                   id="igo_alternative_id"
                   checked={this.state.igo_alternative_id}
-                  onChange={this.handleCheck}
+                  onChange={this.handleIGOCheck}
+                  hasHelptext
                 />
               </FormControl>
             </form>

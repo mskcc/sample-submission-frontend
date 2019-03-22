@@ -19,7 +19,14 @@ import Popover from '@material-ui/core/Popover'
 
 import Fade from '@material-ui/core/Fade'
 
-const CheckboxComponent = ({ id, value, onChange, classes, checked }) => (
+const CheckboxComponent = ({
+  id,
+  value,
+  onChange,
+  classes,
+  checked,
+  hasHelptext,
+}) => (
   <Translate>
     {({ translate }) => (
       <div className={classes.container}>
@@ -36,17 +43,19 @@ const CheckboxComponent = ({ id, value, onChange, classes, checked }) => (
           label={translate('upload.form.' + id + '_label')}
         />
 
-        <div>
-          <Fade in={checked}>
-            <Card className={classes.card}>
-              <CardContent className={classes.content}>
-                <Typography color="textSecondary">
-                  {translate('upload.form.' + id + '_helptext')}{' '}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Fade>
-        </div>
+        {hasHelptext && (
+          <div>
+            <Fade in={checked}>
+              <Card className={classes.card}>
+                <CardContent className={classes.content}>
+                  <Typography color="textSecondary">
+                    {translate('upload.form.' + id + '_helptext')}{' '}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Fade>
+          </div>
+        )}
       </div>
     )}
   </Translate>
