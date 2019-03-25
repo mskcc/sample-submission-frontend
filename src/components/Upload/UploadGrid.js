@@ -1,4 +1,5 @@
 import React from 'react'
+import { withStyles } from '@material-ui/core/styles'
 import { HotTable } from '@handsontable/react'
 import Handsontable from 'handsontable'
 import 'handsontable/dist/handsontable.full.css'
@@ -6,7 +7,6 @@ import 'handsontable/dist/handsontable.full.css'
 // after comparing agGrid, react-data-grid, canvas-datagrid, react-data-sheet, ReactHandsOnTable won
 class UploadGrid extends React.Component {
   constructor(props) {
-
     super(props)
     // this.handsontableData = this.props.grid.rows
     this.handsontableCols = this.props.grid.columns
@@ -14,25 +14,32 @@ class UploadGrid extends React.Component {
   }
 
   render() {
+    const { classes } = this.props
     return (
-      <div>
+      <div className={classes.container}>
         <HotTable
           licenseKey="non-commercial-and-evaluation"
           id="hot"
           data={this.props.grid.rows}
           colHeaders={this.props.grid.columns}
-          columns={this.props.grid.columnsFeatures}
+          columns={this.props.grid.columnFeatures}
           rowHeaders={true}
           manualColumnResize={true}
-
-          // dropdownMenu= {true}
+          width="95vw"
+          height="80vh"
         />
       </div>
     )
   }
 }
 
-export default UploadGrid
+const styles = theme => ({
+  container: {
+    borderRight: '1px solid gray',
+  },
+})
+
+export default withStyles(styles)(UploadGrid)
 
 // Syntax Examples
 // colHeaders: [

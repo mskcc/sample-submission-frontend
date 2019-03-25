@@ -27,6 +27,17 @@ function generateColumnFeatures(responseColumns, formValues) {
     //  patient_id_type is only set if corresponding species was selected
     if (
       columnFeatures[i].data == 'patientId' &&
+      (formValues.species == 'Mouse' ||
+        formValues.species == 'Mouse_GeneticallyModified')
+    ) {
+      columnFeatures[i] = {
+        ...columnFeatures[i],
+        columnHeader: 'Strain or Line Name',
+      }
+    }
+
+    if (
+      columnFeatures[i].data == 'patientId' &&
       formValues.patient_id_type !== ''
     ) {
       let formattingAdjustments = choosePatientIDFormatter(
@@ -48,11 +59,46 @@ function generateColumnFeatures(responseColumns, formValues) {
 function choosePatientIDFormatter(patientIDType) {
   switch (patientIDType) {
     case 'MSK-Patients (or derived from MSK Patients)':
-      return { pattern: 'd{8}', columnHeader: 'MRN' }
+      return {
+        pattern: 'd{8}',
+        columnHeader: 'MRN',
+        type: 'numeric',
+        validator: function(value, callback) {
+          if (/\d{8}/.test(value) || value == '') {
+            console.log(value)
+            callback(true)
+          } else {
+            console.log(value)
+            callback(false)
+          }
+        },
+      }
     case 'Non-MSK Patients':
-      return { pattern: '[0-9a-zA-Z]{4,}', columnHeader: 'Patient ID' }
+      return {
+        pattern: '[0-9a-zA-Z]{4,}',
+        columnHeader: 'Patient ID',
+        validator: function(value, callback) {
+          if (/[0-9a-zA-Z]{4,}/.test(value) || value == '') {
+            callback(true)
+          } else {
+            callback(false)
+          }
+        },
+      }
+    case 'Cell Lines, not from Patients':
+      return { columnHeader: 'Cell Line Name' }
     case 'Both MSK-Patients and Non-MSK Patients':
-      return { pattern: '[0-9a-zA-Z]{4,}|d{8}', columnHeader: 'Patient ID' }
+      return {
+        pattern: '[0-9a-zA-Z]{4,}|d{8}',
+        columnHeader: 'Patient ID',
+        validator: function(value, callback) {
+          if (/[0-9a-zA-Z]{4,}|d{8}/.test(value) || value == '') {
+            callback(true)
+          } else {
+            callback(false)
+          }
+        },
+      }
     default:
       return { pattern: 'formatter not found' }
   }

@@ -301,8 +301,8 @@ class UploadForm extends React.Component {
               {// PatientID is needed when Human is selected or when Mouse* is selected and combined with species checkbox value
               this.props.form.patientIDTypeNeedsFormatting &&
               form.picklists.PatientIDTypes &&
-              (values.species == 'Human' ||
-                this.state.species_samples_checked) ? (
+              (values.species == 'Human' &&
+                !this.state.species_samples_checked) ? (
                 <Dropdown
                   id={
                     this.state.species_samples_checked

@@ -9,7 +9,8 @@ if (process.env.NODE_ENV === 'production') {
 
 // materials that be combined with a Blocks/Slides/Tubes container
 const BSTMaterials = ['tissue', 'cells', 'blood', 'buffy coat', 'other']
-const PatientIDSpecies = ['human', 'mouse', 'mouse_geneticallymodified']
+const PatientIDSpecies = ['human']
+// const PatientIDSpecies = ['human', 'mouse', 'mouse_geneticallymodified']
 
 export const REQUEST_MATERIALS_AND_APPLICATIONS =
   'REQUEST_MATERIALS_AND_APPLICATIONS'
