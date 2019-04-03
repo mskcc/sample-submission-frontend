@@ -57,6 +57,8 @@ function generateColumnFeatures(responseColumns, formValues) {
       // TODO map backwards on submit or find way to keep tumorType id
       columnFeatures[i].source = extractValues(responseColumns[i].source)
       columnFeatures[i].trimDropdown = false
+      columnFeatures[i].allowInvalid = false
+
     }
   }
 
