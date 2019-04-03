@@ -20,8 +20,8 @@ class UploadGrid extends React.Component {
           licenseKey="non-commercial-and-evaluation"
           id="hot"
           data={this.props.grid.rows}
-          colHeaders={this.handsontableCols}
-          columns={this.handsontableColFeatures}
+          colHeaders={this.props.grid.columns}
+          columns={this.props.grid.columnsFeatures}
           rowHeaders={true}
           manualColumnResize={true}
 

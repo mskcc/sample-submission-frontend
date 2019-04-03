@@ -1,38 +1,4 @@
-export const getChoicesForDNALibraryMock = {
-  choices: [
-    { id: 'HemePACT_v4', value: 'HemePACT_v4' },
-    { id: 'M-IMPACT_v1', value: 'M-IMPACT_v1' },
-    { id: 'CustomCapture', value: 'CustomCapture' },
-    { id: 'IMPACT468', value: 'IMPACT468' },
-    { id: 'MethylMiner', value: 'MethylMiner' },
-    { id: 'QC_Discard', value: 'QC_Discard' },
-    { id: 'WholeExomeSequencing', value: 'WholeExomeSequencing' },
-    {
-      id: 'WholeGenomeBisulfateSequencing',
-      value: 'WholeGenomeBisulfateSequencing',
-    },
-    { id: 'AmpliconSeq', value: 'AmpliconSeq' },
-    { id: 'ATACSeq', value: 'ATACSeq' },
-    { id: 'ChIPSeq', value: 'ChIPSeq' },
-    { id: 'ddPCR', value: 'ddPCR' },
-    { id: 'DropSeq', value: 'DropSeq' },
-    { id: 'RNASeq', value: 'RNASeq' },
-    { id: 'Spo11Oligo', value: 'Spo11Oligo' },
-    { id: 'shRNASeq', value: 'shRNASeq' },
-    { id: 'WholeGenomeSequencing', value: 'WholeGenomeSequencing' },
-    { id: 'ShallowWGS', value: 'ShallowWGS' },
-    { id: 'RRBS', value: 'RRBS' },
-    { id: 'ImmunoSeq', value: 'ImmunoSeq' },
-    { id: 'CRISPRScreen', value: 'CRISPRScreen' },
-    {
-      id: '10X_Genomics_GeneExpression',
-      value: '10X_Genomics_GeneExpression',
-    },
-    { id: '10X_Genomics_WGS', value: '10X_Genomics_WGS' },
-    { id: 'Fingerprinting', value: 'Fingerprinting' },
-    { id: '10X_Genomics_ATAC', value: '10X_Genomics_ATAC' },
-  ],
-}
+
 export const initialFormStateMock = {
   allContainers: [],
   allApplications: [],
@@ -49,10 +15,11 @@ export const initialFormStateMock = {
     { id: 'Blocks/Slides/Tubes', value: 'Blocks/Slides/Tubes' },
   ],
   materials: [],
+  picklists: {},
   selectedApplication: '',
   selectedMaterial: '',
   species: [],
-  patientIdNeedsFormatting: false,
+  patientIDTypeNeedsFormatting: false,
 }
 
 export const initialGridStateMock = {
@@ -82,7 +49,7 @@ export const filledGridStateMock = {
         number_of_samples: '4',
         species: 'Tuberculosis',
         container: 'Plates',
-        patient_id_format: '',
+        patient_id_type: '',
       },
       gridIsLoading: false,
       nothingToChange: false,
@@ -121,7 +88,7 @@ export const initialFullStateMock = {
       selectedApplication: '',
       selectedMaterial: '',
       species: [],
-      patientIdNeedsFormatting: false,
+      patientIDTypeNeedsFormatting: false,
     },
     grid: {
       columns: [],
@@ -155,7 +122,7 @@ export const filledFullStateMock = {
       selectedApplication: '',
       selectedMaterial: '',
       species: [{ id: 'test', value: 'test' }],
-      patientIdNeedsFormatting: false,
+      patientIDTypeNeedsFormatting: false,
     },
     grid: {
       columns: ['Block/Slide/TubeID', 'Sample ID'],
@@ -168,7 +135,7 @@ export const filledFullStateMock = {
         number_of_samples: '4',
         species: 'Tuberculosis',
         container: 'Plates',
-        patient_id_format: '',
+        patient_id_type: '',
       },
       gridIsLoading: false,
       nothingToChange: false,
@@ -194,7 +161,7 @@ export const formValuesMock = {
   igo_request_id: '444444',
   material: 'Tissue',
   number_of_samples: '2',
-  patient_id_format: '',
+  patient_id_type: '',
   species: 'Tuberculosis',
 }
 

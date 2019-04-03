@@ -4,7 +4,7 @@
 // rows = data object, will be modified in place by hands on table
 export const generateGridData = (responseColumns, formValues) => {
   let grid = { columnFeatures: [], columnHeaders: [], rows: [] }
-  grid.columnFeatures = generateColumnFeatures(responseColumns)
+  grid.columnFeatures = generateColumnFeatures(responseColumns, formValues)
   grid.columnHeaders = grid.columnFeatures.map(a => a.columnHeader)
   grid.rows = generateRows(
     grid.columnFeatures,
@@ -19,17 +19,43 @@ function extractValues(mappings) {
   return result
 }
 
-function generateColumnFeatures(responseColumns) {
+function generateColumnFeatures(responseColumns, formValues) {
   let columnFeatures = []
   for (let i = 0; i < responseColumns.length; i++) {
     columnFeatures[i] = responseColumns[i]
+
+    //  patient_id_type is only set if corresponding species was selected
+    if (
+      columnFeatures[i].data == 'patientId' &&
+      formValues.patient_id_type !== ''
+    ) {
+      let formattingAdjustments = choosePatientIDFormatter(
+        formValues.patient_id_type
+      )
+      columnFeatures[i] = { ...columnFeatures[i], ...formattingAdjustments }
+    }
+    // dropdown in column?
     if ('source' in responseColumns[i]) {
       // TODO map backwards on submit or find way to keep tumorType id
       columnFeatures[i].source = extractValues(responseColumns[i].source)
       columnFeatures[i].trimDropdown = false
     }
   }
+
   return columnFeatures
+}
+
+function choosePatientIDFormatter(patientIDType) {
+  switch (patientIDType) {
+    case 'MSK-Patients (or derived from MSK Patients)':
+      return { pattern: 'd{8}', columnHeader: 'MRN' }
+    case 'Non-MSK Patients':
+      return { pattern: '[0-9a-zA-Z]{4,}', columnHeader: 'Patient ID' }
+    case 'Both MSK-Patients and Non-MSK Patients':
+      return { pattern: '[0-9a-zA-Z]{4,}|d{8}', columnHeader: 'Patient ID' }
+    default:
+      return { pattern: 'formatter not found' }
+  }
 }
 
 function generateRows(columns, formValues, numberToAdd) {

@@ -83,8 +83,8 @@ class Dropdown extends Component {
 Dropdown.defaultProps = {
   id: 'test_me',
   items: [
-    { label: 'itemId', value: 'itemValue' },
-    { label: 'itemId1', value: 'itemValue1' },
+    { label: 'defaultItemId', value: 'defaultItemValue' },
+    { label: 'defaultItemId1', value: 'defaultItemValue1' },
   ],
 }
 
