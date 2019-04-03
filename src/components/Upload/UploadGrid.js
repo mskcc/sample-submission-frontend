@@ -1,5 +1,6 @@
 import React from 'react'
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core'
+
 import { HotTable } from '@handsontable/react'
 import Handsontable from 'handsontable'
 import 'handsontable/dist/handsontable.full.css'
@@ -8,9 +9,16 @@ import 'handsontable/dist/handsontable.full.css'
 class UploadGrid extends React.Component {
   constructor(props) {
     super(props)
-    // this.handsontableData = this.props.grid.rows
-    this.handsontableCols = this.props.grid.columns
-    this.handsontableColFeatures = this.props.grid.columnFeatures
+    this.state = { invalidCells: [] } //   // this.handsontableData = this.props.grid.rows
+    //   this.handsontableCols = this.props.grid.columns
+    //   this.handsontableColFeatures = this.props.grid.columnFeatures
+    // }
+
+    this.hotTableComponent = React.createRef()
+  }
+
+  getErrorMsg = () => {
+    for (let i = 0; i < numberToAdd; i++) {}
   }
 
   render() {
@@ -24,7 +32,66 @@ class UploadGrid extends React.Component {
           colHeaders={this.props.grid.columns}
           columns={this.props.grid.columnFeatures}
           rowHeaders={true}
+          headerTooltips={true}
           manualColumnResize={true}
+          comments={true}
+          ref={this.hotTableComponent}
+          // colWidths="190"
+          // cells={function(row, col, prop) {
+          //   // first row contains helptext
+          //   var cellProperties = {}
+          //   if (row === 0) {
+          //     cellProperties.readOnly = true
+          //     cellProperties.className = classes.tooltipCell
+          //     cellProperties.type = 'text'
+          //   }
+          //   return cellProperties
+          // }}
+          afterValidate={(isValid, value, row, prop, source) => {
+            // let error = this.getErrorMsg(col)
+
+            let col = this.hotTableComponent.current.hotInstance.propToCol(prop)
+
+            // let col = this.propToCol(prop)
+
+            this.setState({
+              status: isValid,
+              [col]: this.props.grid.columnFeatures[col].error,
+            })
+          }}
+          afterChange={(changes, source) => {
+            if (source === 'edit') {
+              console.log(changes[0][1])
+              if (this.state.status === false) {
+                const TD = this.hotTableComponent.current.hotInstance.getCell(
+                  changes[0][0],
+                  this.hotTableComponent.current.hotInstance.propToCol(changes[0][1])
+                )
+                console.log(TD)
+
+                if (!this.state.invalidCells.includes(TD)) {
+                  this.state.invalidCells.push(TD)
+                }
+
+                this.state.invalidCells.forEach((td, index) => {
+                  if (!td.classList.contains('htInvalid')) {
+                    td.classList.add('htInvalid')
+                  }
+                })
+              }
+
+              if (this.state.invalidCells.length) {
+                this.state.invalidCells.forEach((td, index) => {
+                  if (td.classList.contains('htNumeric')) {
+                    td.classList.remove('htInvalid')
+                    this.state.invalidCells.splice(index, 1)
+                  } else {
+                    td.classList.add('htInvalid')
+                  }
+                })
+              }
+            }
+          }}
           width="95vw"
           height="80vh"
         />
@@ -36,6 +103,11 @@ class UploadGrid extends React.Component {
 const styles = theme => ({
   container: {
     borderRight: '1px solid gray',
+  },
+  tooltipCell: {
+    fontSize: '.8em',
+    color: 'black !important',
+    backgroundColor: '#cfd8dc !important',
   },
 })
 

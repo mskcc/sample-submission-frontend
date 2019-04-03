@@ -287,9 +287,9 @@ class UploadForm extends React.Component {
                   }))}
                   dynamic
                 />
-                {this.props.form.patientIDTypeNeedsFormatting &&
-                (values.species == 'Mouse' ||
-                  values.species == 'Mouse_GeneticallyModified') ? (
+                {// this.props.form.patientIDTypeNeedsFormatting &&
+                values.species == 'Mouse' ||
+                values.species == 'Mouse_GeneticallyModified' ? (
                   <Checkbox
                     id="species_checkbox"
                     checked={this.state.species_samples_checked}
