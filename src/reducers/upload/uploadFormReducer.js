@@ -1,57 +1,46 @@
 import { uploadFormActions as ActionTypes } from '../../actions'
 import { initialFormState } from './initialState'
 
-function uploadFormReducer(state = initialFormState, action) {
+export default function uploadFormReducer(state = initialFormState, action) {
   switch (action.type) {
     case ActionTypes.REQUEST_INITIAL_STATE:
       return {
         ...state,
-        isLoading: true,
+        formIsLoading: true,
       }
 
     case ActionTypes.RECEIVE_INITIAL_STATE_SUCCESS:
       return {
         ...state,
-        isLoading: false,
+        formIsLoading: false,
         materials: action.data.materials,
         applications: action.data.applications,
         allMaterials: action.data.materials,
         allApplications: action.data.applications,
         species: action.data.species,
-        all_containers: action.data.containers,
+        allContainers: action.data.containers,
         containers: action.data.containers,
-        patient_id_formats: action.data.patient_id_formats
+        // patientIdFormats: action.data.patientIdFormats,
       }
 
     case ActionTypes.RECEIVE_INITIAL_STATE_FAIL:
       return {
         ...state,
         error: action.error,
-        isLoading: false,
-      }  
-
+        formIsLoading: false,
+      }
 
     case ActionTypes.REQUEST_MATERIALS_AND_APPLICATIONS:
       return {
         ...state,
-        isLoading: true,
-      }
-
-    case ActionTypes.RECEIVE_MATERIALS_AND_APPLICATIONS_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        materials: action.materials,
-        applications: action.applications,
-        allMaterials: action.materials,
-        allApplications: action.applications,
+        formIsLoading: true,
       }
 
     case ActionTypes.RECEIVE_MATERIALS_AND_APPLICATIONS_FAIL:
       return {
         ...state,
         error: action.error,
-        isLoading: false,
+        formIsLoading: false,
       }
 
     case ActionTypes.SELECT_MATERIAL:
@@ -63,18 +52,18 @@ function uploadFormReducer(state = initialFormState, action) {
     case ActionTypes.FILTER_CONTAINERS:
       return {
         ...state,
-        containers: state.filtered_containers,
+        containers: state.filteredContainers,
       }
 
     case ActionTypes.FILTER_CONTAINERS_FOR_BS:
       return {
         ...state,
-        containers: state.filtered_containers_bs,
+        containers: state.filteredContainersBS,
       }
     case ActionTypes.SHOW_ALL_CONTAINERS:
       return {
         ...state,
-        containers: state.all_containers,
+        containers: state.allContainers,
       }
     case ActionTypes.SELECT_APPLICATION:
       return {
@@ -85,47 +74,62 @@ function uploadFormReducer(state = initialFormState, action) {
     case ActionTypes.REQUEST_MATERIALS_FOR_APPLICATION:
       return {
         ...state,
-        isLoading: true,
+        formIsLoading: true,
       }
     case ActionTypes.RECEIVE_MATERIALS_FOR_APPLICATION_SUCCESS:
       return {
         ...state,
-        isLoading: false,
+        formIsLoading: false,
         materials: action.materials,
       }
     case ActionTypes.RECEIVE_MATERIALS_FOR_APPLICATION_FAIL:
       return {
         ...state,
-        isLoading: false,
+        formIsLoading: false,
         error: action.error,
       }
 
     case ActionTypes.REQUEST_APPLICATIONS_FOR_MATERIAL:
       return {
         ...state,
-        isLoading: true,
+        formIsLoading: true,
       }
     case ActionTypes.RECEIVE_APPLICATIONS_FOR_MATERIAL_SUCCESS:
       return {
         ...state,
-        isLoading: false,
+        formIsLoading: false,
         applications: action.applications,
       }
     case ActionTypes.RECEIVE_APPLICATIONS_FOR_MATERIAL_FAIL:
       return {
         ...state,
-        isLoading: false,
+        formIsLoading: false,
         error: action.error,
+      }
+    case ActionTypes.SELECT_SPECIES_WITH_ID_FORMATTER:
+      return {
+        ...state,
+        patientIDTypeNeedsFormatting: true,
+      }
+    case ActionTypes.SELECT_SPECIES_WITHOUT_ID_FORMATTER:
+      return {
+        ...state,
+        patientIDTypeNeedsFormatting: false,
+      }
+    case ActionTypes.CLEAR_SPECIES:
+      return {
+        ...state,
+        patientIDTypeNeedsFormatting: false,
       }
     case ActionTypes.REQUEST_PICKLIST:
       return {
         ...state,
-        isLoading: true,
+        formIsLoading: true,
       }
     case ActionTypes.RECEIVE_PICKLIST_SUCCESS:
       return {
         ...state,
-        isLoading: false,
+        formIsLoading: false,
         picklists: {
           ...state.picklists,
 
@@ -136,7 +140,30 @@ function uploadFormReducer(state = initialFormState, action) {
     case ActionTypes.RECEIVE_PICKLIST_FAIL:
       return {
         ...state,
-        isLoading: false,
+        formIsLoading: false,
+        error: action.error,
+      }
+
+    case ActionTypes.REQUEST_COLUMNS:
+      return {
+        ...state,
+        formIsLoading: true,
+      }
+    case ActionTypes.RECEIVE_COLUMNS_SUCCESS:
+      return {
+        ...state,
+        formIsLoading: false,
+        columns: {
+          ...state.columns,
+
+          ...[action.columns],
+        },
+      }
+
+    case ActionTypes.RECEIVE_COLUMNS_FAIL:
+      return {
+        ...state,
+        formIsLoading: false,
         error: action.error,
       }
 
@@ -144,27 +171,23 @@ function uploadFormReducer(state = initialFormState, action) {
       return {
         ...state,
         applications: state.allApplications,
-        materials: state.allMaterials,
         selectedMaterial: '',
-        isLoading: true,
+        formIsLoading: true,
       }
     case ActionTypes.CLEAR_APPLICATION:
       return {
         ...state,
         materials: state.allMaterials,
-        applications: state.allApplications,
         selectedApplication: '',
-        isLoading: true,
+        formIsLoading: true,
       }
     case ActionTypes.CLEARED:
       return {
         ...state,
-        isLoading: false,
+        formIsLoading: false,
       }
 
     default:
       return state
   }
 }
-
-export default uploadFormReducer

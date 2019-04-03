@@ -1,65 +1,74 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
-import { withStyles } from '@material-ui/core/styles'
-import CardMedia from '@material-ui/core/CardMedia'
+import {
+  Avatar,
+  AppBar,
+  Toolbar,
+  Button,
+  Typography,
+  withStyles
+} from '@material-ui/core'
 
 import classNames from 'classnames'
 import image from './msk.png'
 
 const Header = ({ classes }) => (
-  <div className={classes.mskccHeader}>
-    <CardMedia
-      component="img"
-      alt="MSKCC Logo"
-      className={classes.mskccLogo}
-      image={image}
-      title="MSKCC Logo"
-    />
+  // <div className={classes.mskccHeader}>
+  <AppBar position="static" title={image} className={classes.header}>
+    <Toolbar>
+      <Avatar alt="mskcc logo" src={image} className={classes.avatar} />
 
-    <div className={classes.nav}>
-      <div>Sample Intake V2</div>
+      <Typography color="inherit" variant="h6" className={classes.title}>
+        SampleReceiving V2
+      </Typography>
 
-      <NavLink
-        to="/upload"
-        activeClassName="active"
-        className={classes.navlink}
-      >
-        {' '}
-        Upload
-      </NavLink>
-      {' | '}
-      <NavLink
-        to="/promote"
-        activeClassName="active"
-        className={classes.navlink}
-      >
-        {' '}
-        Promote
-      </NavLink>
-    </div>
-  </div>
+      <Button>
+        <NavLink
+          to="/upload"
+          activeClassName={classes.active}
+          className={classes.navlink}
+        >
+          <Typography color="inherit" variant="h6">
+            Upload
+          </Typography>
+        </NavLink>
+      </Button>
+      <Button>
+        <NavLink
+          to="/promote"
+          activeClassName={classes.active}
+          className={classes.navlink}
+        >
+          <Typography color="inherit" variant="h6">
+            Promote
+          </Typography>
+        </NavLink>
+      </Button>
+    </Toolbar>
+  </AppBar>
+
+  // </div>
 )
 
 const styles = theme => ({
-  mskccHeader: {
-    gridArea: 'mskcc-header',
-    fontSize: '2em',
-    paddingTop: '2em',
-    paddingBottom: '2em',
+  header: {
     backgroundColor: theme.palette.primary.logo,
     color: 'white',
-    width: '100vw',
     textAlign: 'center',
   },
-  nav: { marginTop: '2em' },
-  mskccLogo: {
-    position: 'absolute',
-    float: 'left',
-    height: 'auto',
-    width: '10%',
+  title: {
+    marginRight: theme.spacing.unit * 3,
   },
+
   navlink: {
-    fontSize: '.5em',
+    color: theme.palette.textSecondary,
+    textDecoration: 'none',
+    marginRight: theme.spacing.unit,
+    
+  },
+  active: {
+    color: 'white',
+    fontSize: '1em',
   },
 })
 

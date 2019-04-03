@@ -1,0 +1,101 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Render Header render Header correctly 1`] = `
+<header
+  className="MuiPaper-root-14 MuiPaper-elevation4-20 MuiAppBar-root-5 MuiAppBar-positionStatic-9 MuiAppBar-colorPrimary-12 Header-header-1"
+  title="msk.png"
+>
+  <div
+    className="MuiToolbar-root-41 MuiToolbar-regular-43 MuiToolbar-gutters-42"
+  >
+    <div
+      className="MuiAvatar-root-45"
+    >
+      <img
+        alt="mskcc logo"
+        className="MuiAvatar-img-47"
+        src="msk.png"
+      />
+    </div>
+    <h6
+      className="MuiTypography-root-48 MuiTypography-h6-65 MuiTypography-colorInherit-77 Header-title-2"
+    >
+      SampleReceiving V2
+    </h6>
+    <button
+      className="MuiButtonBase-root-110 MuiButton-root-84 MuiButton-text-86 MuiButton-flat-89"
+      disabled={false}
+      onBlur={[Function]}
+      onContextMenu={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex="0"
+      type="button"
+    >
+      <span
+        className="MuiButton-label-85"
+      >
+        <a
+          aria-current={null}
+          className="Header-navlink-3"
+          href="/upload"
+          onClick={[Function]}
+        >
+          <h6
+            className="MuiTypography-root-48 MuiTypography-h6-65 MuiTypography-colorInherit-77"
+          >
+            Upload
+          </h6>
+        </a>
+      </span>
+      <span
+        className="MuiTouchRipple-root-113"
+      />
+    </button>
+    <button
+      className="MuiButtonBase-root-110 MuiButton-root-84 MuiButton-text-86 MuiButton-flat-89"
+      disabled={false}
+      onBlur={[Function]}
+      onContextMenu={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex="0"
+      type="button"
+    >
+      <span
+        className="MuiButton-label-85"
+      >
+        <a
+          aria-current={null}
+          className="Header-navlink-3"
+          href="/promote"
+          onClick={[Function]}
+        >
+          <h6
+            className="MuiTypography-root-48 MuiTypography-h6-65 MuiTypography-colorInherit-77"
+          >
+            Promote
+          </h6>
+        </a>
+      </span>
+      <span
+        className="MuiTouchRipple-root-113"
+      />
+    </button>
+  </div>
+</header>
+`;

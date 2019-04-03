@@ -1,34 +1,31 @@
 export const initialFormState = {
-  isLoading: false,
-  selectedMaterial: '',
-  selectedApplication: '',
-  materials: [],
-  applications: [],
-  allMaterials: [],
+  allContainers: [],
   allApplications: [],
+  allMaterials: [],
+  allPatientIdFormats: [],
+  applications: [],
   containers: [],
-  all_containers: [],
-  species: [],
-  filtered_containers: [
+  formIsLoading: false,
+  filteredContainers: [
     { id: 'Plates', value: 'Plates' },
     { id: 'Micronic Barcoded Tubes', value: 'Micronic Barcoded Tubes' },
   ],
-  filtered_containers_bs: [
+  filteredContainersBS: [
     { id: 'Blocks/Slides/Tubes', value: 'Blocks/Slides/Tubes' },
   ],
-  patient_id_formats: [],
+  materials: [],
+  picklists: {},
+  selectedApplication: '',
+  selectedMaterial: '',
+  species: [],
+  patientIDTypeNeedsFormatting: false,
 }
 
-// picklists: {
-//     Species: [],
-
-//     Containers: ['Plates', 'Micronic Barcoded Tubes', 'Blocks/Slides/Tubes'],
-//     FilteredContainers: ['Plates', 'Micronic Barcoded Tubes'],
-//     FilteredContainersForBS: ['Blocks/Slides/Tubes'],
-//     'Patient ID Format': [
-//       'MRN',
-//       'User Provided Patient ID',
-//       'Combination of MRN and User Provided',
-//       'Mouse Parental Strain ID',
-//     ],
-//   },
+export const initialGridState = {
+  columns: [],
+  rows: [],
+  error: '',
+  form: [],
+  gridIsLoading: false,
+  nothingToChange: false,
+}

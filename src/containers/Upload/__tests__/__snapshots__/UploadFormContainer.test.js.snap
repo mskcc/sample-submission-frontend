@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Render UploadForm render UploadForm correctly 1`] = `
+exports[`Render UploadFormContainer render UploadFormContainer correctly 1`] = `
 <div
   className="MuiPaper-root-9 MuiPaper-elevation1-12 MuiPaper-rounded-10 UploadForm-container-1"
 >

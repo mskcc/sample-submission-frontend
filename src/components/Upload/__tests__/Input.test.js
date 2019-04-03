@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import renderer from 'react-test-renderer'
 import { mount } from 'enzyme'
-import TestInput from '../Input'
+import TestInput from '../formComponents/Input'
 
 const Input = props => <TestInput {...props} />
 const onChange = jest.fn();

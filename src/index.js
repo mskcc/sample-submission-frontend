@@ -1,9 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { LocalizeProvider } from 'react-localize-redux'
 
+import { Provider } from 'react-redux'
 import configureStore from './store/configureStore'
 
 import Root from './containers/Root'
@@ -15,11 +15,11 @@ import './App.scss'
 const store = configureStore
 
 const App = props => (
-  <Router>
+  <Provider store={store}>
     <LocalizeProvider store={store}>
-      <Root store={store} />
+      <Root />
     </LocalizeProvider>
-  </Router>
+  </Provider>
 )
 
 ReactDOM.render(<App />, document.getElementById('root'))

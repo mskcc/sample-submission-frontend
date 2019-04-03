@@ -19,7 +19,14 @@ import Popover from '@material-ui/core/Popover'
 
 import Fade from '@material-ui/core/Fade'
 
-const CheckboxComponent = ({ id, value, onChange, classes, checked }) => (
+const CheckboxComponent = ({
+  id,
+  value,
+  onChange,
+  classes,
+  checked,
+  hasHelptext,
+}) => (
   <Translate>
     {({ translate }) => (
       <div className={classes.container}>
@@ -36,17 +43,19 @@ const CheckboxComponent = ({ id, value, onChange, classes, checked }) => (
           label={translate('upload.form.' + id + '_label')}
         />
 
-        <div>
-          <Fade in={checked}>
-            <Card className={classes.card}>
-              <CardContent>
-                <Typography color="textSecondary">
-                  {translate('upload.form.' + id + '_helptext')}{' '}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Fade>
-        </div>
+        {hasHelptext && (
+          <div>
+            <Fade in={checked}>
+              <Card className={classes.card}>
+                <CardContent className={classes.content}>
+                  <Typography color="textSecondary">
+                    {translate('upload.form.' + id + '_helptext')}{' '}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Fade>
+          </div>
+        )}
       </div>
     )}
   </Translate>
@@ -67,12 +76,16 @@ const styles = theme => ({
     color: theme.palette.text.secondary,
     marginLeft: 2 * theme.spacing.unit,
     marginRight: 2 * theme.spacing.unit,
-    marginTop: -2 * theme.spacing.unit,
+    marginTop: -3 * theme.spacing.unit,
+
     minWidth: 350,
     fontSize: '.8em',
   },
   card: {
     maxWidth: 350,
+  },
+  content: {
+    padding: '5px !important',
   },
 })
 
