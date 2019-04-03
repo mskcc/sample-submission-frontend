@@ -7,7 +7,10 @@ import { uploadFormActions } from '../../actions'
 
 import { UploadForm } from '../../components/Upload'
 
-export class UploadFormContainer extends React.Component {
+// materials that be combined with a Blocks/Slides/Tubes container
+const BSTMaterials = ['tissue', 'cells', 'blood', 'buffy coat', 'other']
+
+class UploadFormContainer extends React.Component {
   constructor(props) {
     super(props)
   }
@@ -15,11 +18,14 @@ export class UploadFormContainer extends React.Component {
   componentDidUpdate(prevProps, prevState) {}
 
   componentDidMount() {
+
     this.props.getInitialState()
+    // this.props.getMaterialsAndApplications()
+    // this.props.getPicklist('Species')
   }
-  // handleSubmit = formValues => {
-  // this.props.handleSubmit(formValues)
-  // }
+  handleSubmit = formContent => {
+    console.log(formContent)
+  }
 
   handleMaterialChange = selectedMaterial => {
     if (selectedMaterial) {
@@ -27,50 +33,45 @@ export class UploadFormContainer extends React.Component {
       this.props.getApplicationsForMaterial(selectedMaterial)
     } else {
       this.props.clearMaterial()
+      setTimeout(() => {
+        this.props.cleared
+      }, 500)
     }
     // show containers depending on material combination
-    this.props.filterContainers(selectedMaterial)
+    this.filterContainers(selectedMaterial)
   }
 
+  filterContainers = selectedMaterial => {
+    if (selectedMaterial === 'Blocks/Slides') {
+      this.props.filterContainers('b/s')
+    } else if (BSTMaterials.includes(selectedMaterial.toLowerCase())) {
+      this.props.filterContainers('all')
+    } else this.props.filterContainers()
+  }
+  
   handleApplicationChange = selectedApplication => {
     if (selectedApplication) {
       // get possible ,materials for this application
       this.props.getMaterialsForApplication(selectedApplication)
     } else {
       this.props.clearApplication()
+      setTimeout(() => {
+        this.props.cleared
+      }, 500)
     }
   }
 
-  handleSpeciesChange = selectedSpecies => {
-    if (selectedSpecies) {
-      this.props.getFormatterForSpecies(selectedSpecies)
-    } else this.props.clearSpecies()
-  }
-
   render() {
-    const {
-      classes,
-      form,
-      handleSubmit,
-      gridIsLoading,
-      nothingToChange,
-    } = this.props
+    const { classes, form } = this.props
     return (
       <UploadForm
         form={form}
-        gridIsLoading={gridIsLoading}
-        nothingToChange={nothingToChange}
-        handleSubmit={handleSubmit}
+        handleSubmit={this.handleSubmit}
         handleMaterialChange={this.handleMaterialChange}
         handleApplicationChange={this.handleApplicationChange}
-        handleSpeciesChange={this.handleSpeciesChange}
       />
     )
   }
-}
-
-UploadFormContainer.defaultProps = {
-  getInitialState: () => {},
 }
 
 const mapStateToProps = state => ({

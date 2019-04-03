@@ -3,40 +3,16 @@ import PropTypes from 'prop-types'
 
 import { withLocalize } from 'react-localize-redux'
 import { connect } from 'react-redux'
-import { uploadGridActions } from '../../actions'
 import { resetErrorMessage } from '../../actions/commonActions'
 
-import { Dialog } from '../../components/Upload'
+import { Table } from '../../components'
 import UploadFormContainer from './UploadFormContainer'
-import UploadGridContainer from './UploadGridContainer'
 
-export class UploadPage extends Component {
-  handleFormSubmit = formValues => {
-    // TODO When do people update sample number?
-    this.props.getColumns(formValues)
-  }
-  handleGridSubmit = formValues => {
-    // this.props.resetErrorMessage()
-  }
-
-  handleDialogClose = () => {
-    this.props.resetGridErrorMessage()
-  }
-
+class UploadPage extends Component {
   render() {
     return (
       <React.Fragment>
-        <Dialog
-          open={this.props.grid.error.length > 0}
-          handleClose={this.handleDialogClose}
-          msg={this.props.grid.error}
-        />
-        <UploadFormContainer
-          handleSubmit={this.handleFormSubmit}
-          gridIsLoading={this.props.grid.gridIsLoading}
-          nothingToChange={this.props.grid.nothingToChange}
-        />
-        <UploadGridContainer handleSubmit={this.handleGridSubmit} />
+        <UploadFormContainer />
       </React.Fragment>
     )
   }
@@ -44,7 +20,6 @@ export class UploadPage extends Component {
 
 const mapStateToProps = state => ({
   errorMessage: state.errorMessage,
-  grid: state.upload.grid,
 })
 
 export default withLocalize(
@@ -52,7 +27,6 @@ export default withLocalize(
     mapStateToProps,
     {
       resetErrorMessage,
-      ...uploadGridActions,
     }
   )(UploadPage)
 )

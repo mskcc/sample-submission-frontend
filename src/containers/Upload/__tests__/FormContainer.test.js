@@ -1,18 +1,42 @@
-import React, { Component } from 'react'
-
 import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import multi from 'redux-multi'
 import moxios from 'moxios'
 
-import { uploadFormActions } from '../../actions/'
+import { uploadFormActions } from '../../../actions/'
+import uploadFormReducer from '../../../reducers/upload/uploadFormReducer'
 
-import { getChoicesForDNALibraryMock, initialFormStateMock } from '../../mocks'
-
-const formTestStore = initialFormStateMock
+import {
+  getChoicesForDNALibraryMock,
+  initialFormStateMock,
+} from '../../../mocks'
 
 const middlewares = [thunk, multi]
 const mockStore = configureStore(middlewares)
+
+const testStore = {
+  isLoading: false,
+  selectedMaterial: '',
+  selectedApplication: '',
+  materials: [],
+  applications: [],
+  containers: ['Plates', 'Micronic Barcoded Tubes'],
+  allMaterials: [],
+  allApplications: [],
+
+  picklists: {
+    Species: [],
+
+    Containers: ['Plates', 'Micronic Barcoded Tubes', 'Blocks/Slides/Tubes'],
+    FilteredContainers: ['Plates', 'Micronic Barcoded Tubes'],
+    'Patient ID Format': [
+      'MRN',
+      'User Provided Patient ID',
+      'Combination of MRN and User Provided',
+      'Mouse Parental Strain ID',
+    ],
+  },
+}
 
 describe('upload form actions', () => {
   beforeEach(function() {
@@ -23,7 +47,7 @@ describe('upload form actions', () => {
     moxios.uninstall()
   })
   it('should execute clearMaterial', () => {
-    const store = mockStore(formTestStore)
+    const store = mockStore(testStore)
 
     const expectedActions = [
       {
@@ -38,102 +62,13 @@ describe('upload form actions', () => {
     expect(actions).toEqual(expectedActions)
   })
 
-  it('creates actions for Species selection with formatter', () => {
-    const store = mockStore(formTestStore)
-    const species = 'human'
-    const data = { listname: {} }
-
-    moxios.wait(() => {
-      const request = moxios.requests.mostRecent()
-      request.respondWith({
-        status: 200,
-        response: data,
-      })
-    })
-
-    const expectedActions = [
-      {
-        type: 'SELECT_SPECIES_WITH_ID_FORMATTER',
-      },
-      {
-        type: 'REQUEST_PICKLIST',
-        picklist: 'PatientIDTypes',
-      },
-
-      {
-        type: 'RECEIVE_PICKLIST_SUCCESS',
-        picklist: data,
-      },
-    ]
-    return store
-      .dispatch(uploadFormActions.getFormatterForSpecies(species))
-      .then(() => {
-        const actions = store.getActions()
-        expect(actions).toEqual(expectedActions)
-      })
-  })
-
-  it('creates RECEIVE_PICKLIST_FAIL action for Species selection with formatter', () => {
-    const store = mockStore(formTestStore)
-    const species = 'Human'
-
-    moxios.wait(() => {
-      const request = moxios.requests.mostRecent()
-      request.respondWith({
-        status: 400,
-        
-      })
-    })
-    const expectedActions = [
-      {
-        type: 'SELECT_SPECIES_WITH_ID_FORMATTER',
-      },
-      {
-        type: 'REQUEST_PICKLIST',
-        picklist: 'PatientIDTypes',
-      },
-
-      {
-        type: 'RECEIVE_PICKLIST_FAIL',
-        error: 'Request failed with status code 400',
-      },
-    ]
-    return store
-      .dispatch(uploadFormActions.getFormatterForSpecies(species))
-      .then(() => {
-        const actions = store.getActions()
-        expect(actions).toEqual(expectedActions)
-      })
-  })
-
-  it('creates actions for Species selection without formatter', () => {
-    const store = mockStore(formTestStore)
-    const species = 'RNA'
-
-    const expectedActions = [
-      {
-        type: 'SELECT_SPECIES_WITHOUT_ID_FORMATTER',
-      },
-    ]
-    store.dispatch(uploadFormActions.getFormatterForSpecies(species))
-
-    const actions = store.getActions()
-    expect(actions).toEqual(expectedActions)
-  })
-
   it('creates GET_APPLICATIONS_FOR_MATERIALS_SUCCESS when getApplicationsForMaterial returns choices', () => {
-    const store = mockStore(formTestStore)
-    const data = [
-      { id: 'HemePACT_v4', value: 'HemePACT_v4' },
-      { id: 'M-IMPACT_v1', value: 'M-IMPACT_v1' },
-    ]
+    const store = mockStore(testStore)
     moxios.wait(() => {
       const request = moxios.requests.mostRecent()
       request.respondWith({
         status: 200,
-        response: {
-          choices: data,
-        },
+        response: getChoicesForDNALibraryMock,
       })
     })
 
@@ -149,7 +84,6 @@ describe('upload form actions', () => {
       },
       {
         type: 'RECEIVE_APPLICATIONS_FOR_MATERIAL_SUCCESS',
-        applications: data,
       },
     ]
     return store
@@ -160,8 +94,8 @@ describe('upload form actions', () => {
       })
   })
 
-  it('creates GET_APPLICATIONS_FOR_MATERIAL_FAIL when getApplicationsForMaterial fails', async () => {
-    const store = mockStore(formTestStore)
+  it('creates GET_APPLICATIONS_FOR_MATERIAL_FAIL when getApplicationsForMaterial fails', () => {
+    const store = mockStore(testStore)
     moxios.wait(() => {
       const request = moxios.requests.mostRecent()
       request.respondWith({
@@ -192,7 +126,7 @@ describe('upload form actions', () => {
       })
   })
   it('creates GET_MATERIALS_FOR_APPLICATION_FAIL when getMaterialsForApplication fails', () => {
-    const store = mockStore(formTestStore)
+    const store = mockStore(testStore)
     moxios.wait(() => {
       const request = moxios.requests.mostRecent()
       request.respondWith({
@@ -221,5 +155,18 @@ describe('upload form actions', () => {
         const actions = store.getActions()
         expect(actions).toEqual(expectedActions)
       })
+  })
+
+  // TODO FORM SUBMIT/VALIDATION FAIL  case ActionTypes.RECEIVE_MATERIALS_FOR_APPLICATION_SUCCESS:
+  // return {
+  //   ...state,
+  //   isLoading: false,
+  //   materials: [{ id: 'error', value: 'error' }],
+  // }
+})
+
+describe('upload form reducers', () => {
+  it('should return the initial state', () => {
+    expect(uploadFormReducer(undefined, {})).toEqual(initialFormStateMock)
   })
 })

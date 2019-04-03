@@ -31,7 +31,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   width: 100vw;
   font-size: 16px;
-  overflow-x: hidden;
 }
 
 code {
@@ -46,6 +45,6 @@ code {
     'form'
     'table'
     'footer';
-  justify-items: center;
+
   grid-row-gap: 4em;
 }

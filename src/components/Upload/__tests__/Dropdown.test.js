@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import renderer from 'react-test-renderer'
 import { mount } from 'enzyme'
-import TestDropdown from '../formComponents/Dropdown'
+import TestDropdown from '../Dropdown'
 
 const onChange = jest.fn()
 const Dropdown = props => <TestDropdown onChange={onChange} {...props} />
