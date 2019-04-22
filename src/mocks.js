@@ -1,4 +1,3 @@
-
 export const initialFormStateMock = {
   allContainers: [],
   allApplications: [],
@@ -173,7 +172,7 @@ export const columnDefsResponseMock = {
       editableCellTemplate:
         '<div><form name="inputForm"><input class="form-control inputheight" type="INPUT_TYPE" ng-class="\'colt\' + col.uid" ui-grid-editor ng-model="MODEL_COL_FIELD" ng-paste="grid.appScope.handleCellPaste($event)"></form></div>',
       headerCellClass: 'required',
-      helpText:
+      tooltip:
         'The identifier on your tube, block or slide.  You can paste in directly from excel, and there are no formatting rules.  Please be as correct as possible, and ensure your tubes, blocks and slides are labeled clearly.',
       name: 'Block/Slide/TubeID',
     },
@@ -183,7 +182,7 @@ export const columnDefsResponseMock = {
       editableCellTemplate:
         '<div><form name="inputForm"><input class="form-control inputheight" type="INPUT_TYPE" ng-class="\'colt\' + col.uid" ui-grid-editor ng-model="MODEL_COL_FIELD" ng-paste="grid.appScope.handleCellPaste($event)"></form></div>',
       headerCellClass: 'required',
-      helpText:
+      tooltip:
         'The Sample ID stays with your sample for its lifetime. Letters, numbers, dashes, and underscores only, three char min. You cannot have more than one underscore consecutively.',
       name: 'Sample ID',
     },
@@ -192,7 +191,7 @@ export const columnDefsResponseMock = {
       data: 'organism',
       editableCellTemplate: 'ui-grid/dropdownEditor',
       headerCellClass: 'required',
-      helpText:
+      tooltip:
         'If your species is not available, please contact IGO immediately',
       name: 'Species',
       picklistName: 'Species',
@@ -228,7 +227,7 @@ export const gridMock = {
       data: 'tubeId',
       editableCellTemplate: `<div><form name="inputForm"><input class="form-control inputheight" type="INPUT_TYPE" ng-class="'colt' + col.uid" ui-grid-editor ng-model="MODEL_COL_FIELD" ng-paste="grid.appScope.handleCellPaste($event)"></form></div>`,
       headerCellClass: 'required',
-      helpText:
+      tooltip:
         'The identifier on your tube, block or slide.  You can paste in directly from excel, and there are no formatting rules.  Please be as correct as possible, and ensure your tubes, blocks and slides are labeled clearly.',
       name: 'Block/Slide/TubeID',
     },
@@ -237,7 +236,7 @@ export const gridMock = {
       data: 'userId',
       editableCellTemplate: `<div><form name="inputForm"><input class="form-control inputheight" type="INPUT_TYPE" ng-class="'colt' + col.uid" ui-grid-editor ng-model="MODEL_COL_FIELD" ng-paste="grid.appScope.handleCellPaste($event)"></form></div>`,
       headerCellClass: 'required',
-      helpText:
+      tooltip:
         'The Sample ID stays with your sample for its lifetime. Letters, numbers, dashes, and underscores only, three char min. You cannot have more than one underscore consecutively.',
       name: 'Sample ID',
     },
@@ -246,7 +245,7 @@ export const gridMock = {
       data: 'organism',
       editableCellTemplate: 'ui-grid/dropdownEditor',
       headerCellClass: 'required',
-      helpText:
+      tooltip:
         'If your species is not available, please contact IGO immediately',
       name: 'Species',
       picklistName: 'Species',
@@ -275,6 +274,14 @@ export const gridMock = {
   ],
   columnHeaders: ['Block/Slide/TubeID', 'Sample ID', 'Species'],
   rows: [
+    {
+      organism:
+        'If your species is not available, please contact IGO immediately',
+      tubeId:
+        'The identifier on your tube, block or slide.  You can paste in directly from excel, and there are no formatting rules.  Please be as correct as possible, and ensure your tubes, blocks and slides are labeled clearly.',
+      userId:
+        'The Sample ID stays with your sample for its lifetime. Letters, numbers, dashes, and underscores only, three char min. You cannot have more than one underscore consecutively.',
+    },
     {
       tubeId: '',
       userId: '',
