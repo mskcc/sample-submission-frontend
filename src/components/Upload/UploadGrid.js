@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core'
 import { HotTable } from '@handsontable/react'
 import Handsontable from 'handsontable'
 import 'handsontable/dist/handsontable.full.css'
+import swal from '@sweetalert/with-react'
 
 // after comparing agGrid, react-data-grid, canvas-datagrid, react-data-sheet, ReactHandsOnTable won
 class UploadGrid extends React.Component {
@@ -19,6 +20,10 @@ class UploadGrid extends React.Component {
 
   getErrorMsg = () => {
     for (let i = 0; i < numberToAdd; i++) {}
+  }
+  showError = col => {
+    console.log(col)
+    swal(col)
   }
 
   render() {
@@ -51,47 +56,49 @@ class UploadGrid extends React.Component {
             // let error = this.getErrorMsg(col)
 
             let col = this.hotTableComponent.current.hotInstance.propToCol(prop)
-
+            // alert("col.error")
             // let col = this.propToCol(prop)
-
-            this.setState({
-              status: isValid,
-              [col]: this.props.grid.columnFeatures[col].error,
-            })
-          }}
-          afterChange={(changes, source) => {
-            if (source === 'edit') {
-              console.log(changes[0][1])
-              if (this.state.status === false) {
-                const TD = this.hotTableComponent.current.hotInstance.getCell(
-                  changes[0][0],
-                  this.hotTableComponent.current.hotInstance.propToCol(changes[0][1])
-                )
-                console.log(TD)
-
-                if (!this.state.invalidCells.includes(TD)) {
-                  this.state.invalidCells.push(TD)
-                }
-
-                this.state.invalidCells.forEach((td, index) => {
-                  if (!td.classList.contains('htInvalid')) {
-                    td.classList.add('htInvalid')
-                  }
-                })
-              }
-
-              if (this.state.invalidCells.length) {
-                this.state.invalidCells.forEach((td, index) => {
-                  if (td.classList.contains('htNumeric')) {
-                    td.classList.remove('htInvalid')
-                    this.state.invalidCells.splice(index, 1)
-                  } else {
-                    td.classList.add('htInvalid')
-                  }
-                })
-              }
+            if (!isValid) {
+              this.showError(this.props.grid.columnFeatures[col].error)
             }
+            // this.setState({
+            //   status: isValid,
+            //   [col]: this.props.grid.columnFeatures[col].error,
+            // })
           }}
+          // afterChange={(changes, source) => {
+          //   if (source === 'edit') {
+          //     console.log(changes[0][1])
+          //     if (this.state.status === false) {
+          //       const TD = this.hotTableComponent.current.hotInstance.getCell(
+          //         changes[0][0],
+          //         this.hotTableComponent.current.hotInstance.propToCol(changes[0][1])
+          //       )
+          //       console.log(TD)
+
+          //       if (!this.state.invalidCells.includes(TD)) {
+          //         this.state.invalidCells.push(TD)
+          //       }
+
+          //       this.state.invalidCells.forEach((td, index) => {
+          //         if (!td.classList.contains('htInvalid')) {
+          //           td.classList.add('htInvalid')
+          //         }
+          //       })
+          //     }
+
+          //     if (this.state.invalidCells.length) {
+          //       this.state.invalidCells.forEach((td, index) => {
+          //         if (td.classList.contains('htNumeric')) {
+          //           td.classList.remove('htInvalid')
+          //           this.state.invalidCells.splice(index, 1)
+          //         } else {
+          //           td.classList.add('htInvalid')
+          //         }
+          //       })
+          //     }
+          //   }
+          // }}
           width="95vw"
           height="80vh"
         />
