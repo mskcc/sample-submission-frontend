@@ -55,10 +55,14 @@ class UploadGrid extends React.Component {
           afterValidate={(isValid, value, row, prop, source) => {
             // let error = this.getErrorMsg(col)
 
-            let col = this.hotTableComponent.current.hotInstance.propToCol(prop)
+            // let col = this.hotTableComponent.current.hotInstance.propToCol(prop)
             // alert("col.error")
             // let col = this.propToCol(prop)
             if (!isValid) {
+              let col = this.hotTableComponent.current.hotInstance.propToCol(
+                prop
+              )
+
               this.showError(this.props.grid.columnFeatures[col].error)
             }
             // this.setState({
@@ -100,7 +104,10 @@ class UploadGrid extends React.Component {
           //   }
           // }}
           width="95vw"
-          height="80vh"
+          height={() => {
+            if (this.props.grid.rows.length * 22 < 500) return 'auto'
+            else return '500'
+          }}
         />
       </div>
     )
