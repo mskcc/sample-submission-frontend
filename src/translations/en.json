@@ -19,10 +19,13 @@
     "group_id_type_helptext": "Select Patient or Group ID Type",
     "group_id_type_label": "Patient or Group  ID Type*",
     "patient_id_type_helptext": "Select Patient ID Type",
-    "generate_button": "Generate Table",
     "nothing_to_change": "Nothing to change.",
     "fill_me": "Please fill out this field.",
     "test_me_label": "test me label",
     "test_me_helptext": "test me helptext"
+  },
+  "upload": {
+    "form_submit_label": "Generate Table",
+    "grid_submit_label": "Submit"
   }
 }

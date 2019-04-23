@@ -594,14 +594,14 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
       <span
         className="MuiButton-label-184"
       >
-        Missing translationId: upload.form.generate_button for language: \${ languageCode }
+        Missing translationId: upload.form_submit_label for language: \${ languageCode }
       </span>
       <span
         className="MuiTouchRipple-root-209"
       />
     </button>
     <div
-      className="Button-nothingToChange-182"
+      className="Button-nothingToSubmit-182"
       style={
         Object {
           "opacity": 0,

@@ -7,7 +7,7 @@ import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
 import { Translate } from 'react-localize-redux'
 
-const Button = ({ formId, gridIsLoading, nothingToChange, classes }) => (
+const Button = ({ id, formId, isLoading, nothingToSubmit, title, classes }) => (
   <Translate>
     {({ translate }) => (
       <div className={classes.wrapper}>
@@ -17,11 +17,11 @@ const Button = ({ formId, gridIsLoading, nothingToChange, classes }) => (
           form={formId}
           className={classes.button}
           color="secondary"
-          disabled={gridIsLoading}
+          disabled={isLoading}
         >
-          {translate('upload.form.generate_button')}
+          {translate('upload.' + id + '_label')}
         </MuiButton>
-        {gridIsLoading && (
+        {isLoading && (
           <CircularProgress
             color="secondary"
             size={24}
@@ -29,8 +29,8 @@ const Button = ({ formId, gridIsLoading, nothingToChange, classes }) => (
           />
         )}
         
-          <Fade in={nothingToChange}>
-            <div className={classes.nothingToChange}>
+          <Fade in={nothingToSubmit}>
+            <div className={classes.nothingToSubmit}>
               {translate('upload.form.nothing_to_change')}
             </div>
           </Fade>
@@ -58,7 +58,7 @@ const styles = theme => ({
     marginTop: -12,
     marginLeft: -12,
   },
-  nothingToChange: {
+  nothingToSubmit: {
     position: 'absolute',
     top: '50%',
     left: '50%',

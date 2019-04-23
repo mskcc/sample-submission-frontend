@@ -359,10 +359,10 @@ class UploadForm extends React.Component {
               </FormControl>
             </form>
             <Button
-              id="upload-form-submit"
+              id="form_submit"
               formId="upload-form"
-              gridIsLoading={gridIsLoading}
-              nothingToChange={nothingToChange}
+              isLoading={gridIsLoading}
+              nothingToSubmit={nothingToChange}
             />{' '}
           </Paper>
         )}

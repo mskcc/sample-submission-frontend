@@ -1,6 +1,6 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core'
-
+import {Button} from './index'
 import { HotTable } from '@handsontable/react'
 import Handsontable from 'handsontable'
 import 'handsontable/dist/handsontable.full.css'
@@ -109,6 +109,12 @@ class UploadGrid extends React.Component {
             else return '500'
           }}
         />
+         <Button
+              id="grid_submit"
+              formId="upload-grid"
+              isLoading={false}
+              nothingToSubmit={false}
+          />
       </div>
     )
   }
@@ -116,13 +122,18 @@ class UploadGrid extends React.Component {
 
 const styles = theme => ({
   container: {
-    borderRight: '1px solid gray',
+    // borderRight: '1px solid gray',
+    display: 'grid',
+    justifyItems: 'center',
   },
   tooltipCell: {
     fontSize: '.8em',
     color: 'black !important',
     backgroundColor: '#cfd8dc !important',
   },
+  submit: {
+    width: '30px',
+  }
 })
 
 export default withStyles(styles)(UploadGrid)
