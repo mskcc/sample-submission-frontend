@@ -20,6 +20,7 @@ $mskcc-dark-yellow: #ffc20e;
 $mskcc-light-yellow: #ffe100;
 $mskcc-dark-gray: #9e9e98;
 $mskcc-light-gray: #d5d4c7;
+$material-gray: #eceff1;
 
 body {
   margin: 0;
@@ -48,4 +49,34 @@ code {
     'footer';
   justify-items: center;
   grid-row-gap: 4em;
+}
+
+th{
+  background-color: $material-gray !important;
+}
+.colHeader .optional{
+  font-weight: 600;
+  color: $mskcc-dark-turquoise;
+}
+
+.colHeader .required{
+  font-weight: 600;
+
+  // font-weight: bold;
+  // color: $mskcc-orange;
+}
+
+.swal-title {
+  margin: 0px;
+  font-size: 18px;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.21);
+  margin-bottom: 28px;
+}
+
+.htColumnHeaders {
+    overflow: visible !important;
+}
+
+.handsontableEditor .autocompleteEditor .htMacScroll .handsontable .listbox{
+   overflow: visible !important;
 }

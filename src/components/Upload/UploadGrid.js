@@ -1,6 +1,6 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core'
-import {Button} from './index'
+import { GridButton } from './index'
 import { HotTable } from '@handsontable/react'
 import Handsontable from 'handsontable'
 import 'handsontable/dist/handsontable.full.css'
@@ -21,9 +21,35 @@ class UploadGrid extends React.Component {
   getErrorMsg = () => {
     for (let i = 0; i < numberToAdd; i++) {}
   }
-  showError = col => {
-    console.log(col)
-    swal(col)
+  showError = error => {
+    console.log(error)
+
+    swal(error)
+  }
+
+  handleSubmit = () => {
+    const { columnFeatures, rows } = this.props.grid
+
+    // run through grid required columns
+    let emptyColumns = new Set()
+    console.log(columnFeatures)
+    console.log(rows)
+    for (let i = 0; i < columnFeatures.length; i++) {
+      for (let j = 0; j < rows.length; j++) {
+        if (
+          columnFeatures[i].optional == false &&
+          !rows[j][columnFeatures[i].data]
+        ) {
+          console.log(rows[j][columnFeatures[i].data])
+          emptyColumns.add(columnFeatures[i].columnHeader)
+        }
+      }
+    }
+
+    if (emptyColumns.size > 0) {
+          console.log(emptyColumns.size)
+      swal('Required', [...emptyColumns].join('\n '), 'error')
+    }
   }
 
   render() {
@@ -104,17 +130,14 @@ class UploadGrid extends React.Component {
           //   }
           // }}
           width="95vw"
-          height={() => {
-            if (this.props.grid.rows.length * 22 < 500) return 'auto'
-            else return '500'
-          }}
+          height='500'
         />
-         <Button
-              id="grid_submit"
-              formId="upload-grid"
-              isLoading={false}
-              nothingToSubmit={false}
-          />
+        <GridButton
+          id="grid_submit"
+          onSubmit={this.handleSubmit}
+          isLoading={false}
+          nothingToSubmit={false}
+        />
       </div>
     )
   }
@@ -133,7 +156,7 @@ const styles = theme => ({
   },
   submit: {
     width: '30px',
-  }
+  },
 })
 
 export default withStyles(styles)(UploadGrid)

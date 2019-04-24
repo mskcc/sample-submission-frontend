@@ -6,7 +6,7 @@ export const generateGridData = (responseColumns, formValues) => {
   let grid = { columnFeatures: [], columnHeaders: [], rows: [] }
   grid.columnFeatures = generateColumnFeatures(responseColumns, formValues)
   grid.columnHeaders = grid.columnFeatures.map(
-    a => '<span title="' + a.tooltip + '">' + a.columnHeader + '</span>'
+    a => '<span class="' + a.className + '" title="' + a.tooltip + '">' + a.columnHeader + '</span>'
     // '    <span class="has-tooltip" href="#">' +
     // a.columnHeader +
     // '<span class="tooltip-wrapper"><span class="tooltip">' +
@@ -28,9 +28,10 @@ function extractValues(mappings) {
 
 function generateColumnFeatures(responseColumns, formValues) {
   let columnFeatures = []
+  
   for (let i = 0; i < responseColumns.length; i++) {
     columnFeatures[i] = responseColumns[i]
-
+    
     //  patient_id_type is only set if corresponding species was selected
     if (
       columnFeatures[i].data == 'patientId' &&
@@ -60,6 +61,14 @@ function generateColumnFeatures(responseColumns, formValues) {
       columnFeatures[i].allowInvalid = false
 
     }
+    if ('optional' in responseColumns[i]) {
+      // print(responseColumns)
+      
+      columnFeatures[i].allowEmpty = responseColumns[i].optional
+      columnFeatures[i].className = responseColumns[i].optional ? "optional" : "required"
+      if (columnFeatures[i].optional) {console.log(columnFeatures[i])}
+    }
+
   }
 
   return columnFeatures
