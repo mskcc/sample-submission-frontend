@@ -22,7 +22,7 @@ const mockStore = configureStore(middlewares)
 
 let API_ROOT = 'http://localhost:9004'
 if (process.env.NODE_ENV === 'production') {
-  API_ROOT = 'http://127.0.0.1:8445/'
+  API_ROOT = 'sample-receiving-backend/'
   // API_ROOT = 'https://rex.mskcc.org/apps/auth/'
 }
 
