@@ -42,7 +42,7 @@ class Root extends Component {
   render() {
     return (
       <MuiThemeProvider theme={theme}>
-        <Router>
+        <Router basename = "sample-receiving">
           <div className="app">
             <Header />
             {this.props.error ? (
@@ -52,7 +52,7 @@ class Root extends Component {
               </div>
             ) : this.props.versionValid ? (
               <div>
-                <Route path="/(upload|)" component={UploadPage} />
+                <Route   path="/(upload|)" component={UploadPage} />
 
                 <Route path="/promote" component={Promote} />
                 {process.env.NODE_ENV !== 'production' ? <DevTools /> : <div />}
