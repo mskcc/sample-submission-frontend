@@ -17,24 +17,24 @@ class UploadForm extends React.Component {
     super(props)
 
     this.state = {
-      // values: {
-      //   material: '',
-      //   application: '',
-      //   igo_request_id: '',
-      //   number_of_samples: '',
-      //   species: '',
-      //   container: '',
-      //   patient_id_type: '',
-      // },
       values: {
-        material: 'Cells',
-        application: 'CustomCapture',
-        igo_request_id: '444444',
-        number_of_samples: '4',
-        species: 'Human',
-        container: 'Plates',
-        patient_id_type: 'MSK-Patients (or derived from MSK Patients)',
+        material: '',
+        application: '',
+        igo_request_id: '',
+        number_of_samples: '',
+        species: '',
+        container: '',
+        patient_id_type: '',
       },
+      // values: {
+      //   material: 'DNA',
+      //   application: 'WholeExomeSequencing',
+      //   igo_request_id: '444444',
+      //   number_of_samples: '4',
+      //   species: 'Human',
+      //   container: 'Plates',
+      //   patient_id_type: 'MSK-Patients (or derived from MSK Patients)',
+      // },
       // values: {
       //   material: 'Tissue',
       //   application: 'CustomCapture',

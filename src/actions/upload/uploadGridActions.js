@@ -38,7 +38,6 @@ export function getColumns(formValues) {
       // TODO smell to have this in an action
     } else {
       let diffValues = diff(getState().upload.grid.form, formValues)
-
       if (diffValues === undefined) {
         dispatch({ type: NO_CHANGE })
         return setTimeout(() => {

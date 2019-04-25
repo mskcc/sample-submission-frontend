@@ -184,10 +184,11 @@ export const updateRows = (formValues, grid) => {
   let newNumOfSamples = formValues.number_of_samples
   let oldNumOfSamples = grid.form.number_of_samples
   let rows = []
-  if (oldNumOfSamples < newNumOfSamples) {
-    let numOfRowsToGen = newNumOfSamples - oldNumOfSamples
+  let numOfRowsToGen = newNumOfSamples - oldNumOfSamples
+  let newRows
+  if (numOfRowsToGen > 0) {
     rows = grid.rows
-    let newRows = generateRows(grid.columnFeatures, formValues, numOfRowsToGen)
+    newRows = generateRows(grid.columnFeatures, formValues, numOfRowsToGen)
     rows = rows.concat(newRows)
   } else {
     // TODO slice or similar?

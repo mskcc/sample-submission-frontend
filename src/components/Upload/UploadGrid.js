@@ -130,7 +130,13 @@ class UploadGrid extends React.Component {
           //   }
           // }}
           width="95vw"
-          height='500'
+          height={() => {
+            if (this.props.grid.rows.length >= 25) return '700'
+            // else if (this.props.grid.rows.length >= 900) return '100vh'
+            else if (this.props.grid.rows.length >= 20) return '510'
+            else if (this.props.grid.rows.length >= 15) return '500'
+            else if (this.props.grid.rows.length >= 5) return '300'
+          }}
         />
         <GridButton
           id="grid_submit"
