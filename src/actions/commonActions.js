@@ -2,7 +2,7 @@ import axios from 'axios'
 
 let API_ROOT = 'http://localhost:9004'
 if (process.env.NODE_ENV === 'production') {
-  API_ROOT = 'http://127.0.0.1:8445/'
+  API_ROOT = 'https://delphi.mskcc.org/sample-receiving-backend/'
 }
 
 export const REQUEST_CHECK_VERSION = 'REQUEST_CHECK_VERSION'
