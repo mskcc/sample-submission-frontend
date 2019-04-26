@@ -56,7 +56,7 @@ export class UploadFormContainer extends React.Component {
       nothingToChange,
     } = this.props
     return(
-        form.materials ? (
+        form && form.materials ? (
           <UploadForm
             form={form}
             gridIsLoading={gridIsLoading}
