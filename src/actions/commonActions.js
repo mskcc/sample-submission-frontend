@@ -28,6 +28,7 @@ export function checkVersion(version) {
           type: RECEIVE_CHECK_VERSION_SUCCESS,
           data: response.data,
         })
+        console.log(response)
         return response
       })
 
