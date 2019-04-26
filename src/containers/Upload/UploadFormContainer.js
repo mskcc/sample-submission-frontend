@@ -55,18 +55,18 @@ export class UploadFormContainer extends React.Component {
       gridIsLoading,
       nothingToChange,
     } = this.props
-    return
-    form.materials.length > 0 ? (
-      <UploadForm
-        form={form}
-        gridIsLoading={gridIsLoading}
-        nothingToChange={nothingToChange}
-        handleSubmit={handleSubmit}
-        handleMaterialChange={this.handleMaterialChange}
-        handleApplicationChange={this.handleApplicationChange}
-        handleSpeciesChange={this.handleSpeciesChange}
-      />
-    ) : null
+    return(
+        form.materials ? (
+          <UploadForm
+            form={form}
+            gridIsLoading={gridIsLoading}
+            nothingToChange={nothingToChange}
+            handleSubmit={handleSubmit}
+            handleMaterialChange={this.handleMaterialChange}
+            handleApplicationChange={this.handleApplicationChange}
+            handleSpeciesChange={this.handleSpeciesChange}
+          />
+        ) : <div/>)
   }
 }
 

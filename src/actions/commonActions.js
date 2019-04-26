@@ -2,7 +2,7 @@ import axios from 'axios'
 
 let API_ROOT = 'http://localhost:9004'
 if (process.env.NODE_ENV === 'production') {
-  API_ROOT = 'sample-receiving-backend/'
+  API_ROOT = 'http://127.0.0.1:8445/'
 }
 
 export const REQUEST_CHECK_VERSION = 'REQUEST_CHECK_VERSION'
@@ -24,12 +24,11 @@ export function checkVersion(version) {
         },
       })
       .then(response => {
-        dispatch({
+        return dispatch({
           type: RECEIVE_CHECK_VERSION_SUCCESS,
           data: response.data,
         })
-        console.log(response)
-        return response
+       
       })
 
       .catch(error => {
@@ -42,7 +41,7 @@ export function checkVersion(version) {
         } else {
           dispatch({
             type: SERVER_ERROR,
-            error: 'error',
+            error: error,
           })
         }
       })

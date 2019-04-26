@@ -9,7 +9,7 @@ import rootReducer from '../reducers/rootReducer'
 import DevTools from '../containers/DevTools'
 
 const middleware = [thunk, multi]
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'production') {
  
 }
 
