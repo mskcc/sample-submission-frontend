@@ -2,9 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import { LocalizeProvider } from 'react-localize-redux'
-
+import { PersistGate } from 'redux-persist/integration/react'
 import { Provider } from 'react-redux'
-import configureStore from './store/configureStore'
+import { store, persistor } from './store/configureStore'
 
 import Root from './containers/Root'
 
@@ -12,12 +12,14 @@ import * as serviceWorker from './serviceWorker'
 
 import './App.scss'
 
-const store = configureStore
+// const store = configureStore
 
 const App = props => (
   <Provider store={store}>
     <LocalizeProvider store={store}>
-      <Root />
+      <PersistGate loading={null} persistor={persistor}>
+        <Root />
+      </PersistGate>
     </LocalizeProvider>
   </Provider>
 )

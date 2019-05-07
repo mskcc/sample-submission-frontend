@@ -3,14 +3,13 @@ import { Provider } from 'react-redux'
 
 import thunk from 'redux-thunk'
 import multi from 'redux-multi'
-
+import { persistStore, persistReducer } from 'redux-persist'
 import { createLogger } from 'redux-logger'
 import rootReducer from '../reducers/rootReducer'
 import DevTools from '../containers/DevTools'
 
 const middleware = [thunk, multi]
 if (process.env.NODE_ENV === 'production') {
- 
 }
 
 const store = createStore(
@@ -21,4 +20,7 @@ const store = createStore(
   )
 )
 
-export default store
+
+let persistor = persistStore(store)
+
+export {store, persistor}
