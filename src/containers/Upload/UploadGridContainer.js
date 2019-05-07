@@ -20,10 +20,17 @@ class UploadGridContainer extends React.Component {
     // console.log('state')
     // console.log(this.state)
   }
+
+  handleChange = () => {
+    this.props.registerGridChange()
+  }
+
   render() {
     const { grid, handleSubmit } = this.props
 
-    return grid.rows.length > 0 ? <UploadGrid grid={grid} /> : null
+    return grid.rows.length > 0 ? (
+      <UploadGrid grid={grid} handleChange={this.handleChange} />
+    ) : null
   }
 }
 
