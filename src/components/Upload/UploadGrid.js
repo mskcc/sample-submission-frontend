@@ -47,7 +47,7 @@ class UploadGrid extends React.Component {
     }
 
     if (emptyColumns.size > 0) {
-          console.log(emptyColumns.size)
+      console.log(emptyColumns.size)
       swal('Required', [...emptyColumns].join('\n '), 'error')
     }
   }
@@ -78,6 +78,11 @@ class UploadGrid extends React.Component {
           //   }
           //   return cellProperties
           // }}
+          afterChange={(change, source) => {
+            if (source !== 'loadData') {
+              this.props.handleChange(change)
+            }
+          }}
           afterValidate={(isValid, value, row, prop, source) => {
             // let error = this.getErrorMsg(col)
 
