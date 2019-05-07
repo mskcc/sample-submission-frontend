@@ -447,7 +447,7 @@ exports[`renders UploadPage renders itself and UploadForm correctly 1`] = `
         className="MuiFormControl-root-53 Input-textField-137"
       >
         <label
-          className="MuiFormLabel-root-68 MuiInputLabel-root-57 MuiInputLabel-formControl-62 MuiInputLabel-animated-65 MuiInputLabel-shrink-64"
+          className="MuiFormLabel-root-68 MuiFormLabel-filled-72 MuiInputLabel-root-57 MuiInputLabel-formControl-62 MuiInputLabel-animated-65 MuiInputLabel-shrink-64"
           data-shrink={true}
           htmlFor="igo_request_id"
         >
@@ -477,11 +477,11 @@ exports[`renders UploadPage renders itself and UploadForm correctly 1`] = `
             onFocus={[Function]}
             required={false}
             type="number"
-            value=""
+            value="444444"
           />
         </div>
         <p
-          className="MuiFormHelperText-root-128"
+          className="MuiFormHelperText-root-128 MuiFormHelperText-filled-134"
           id="igo_request_id-helper-text"
         >
           Missing translationId: upload.form.igo_request_id_helptext for language: \${ languageCode }
