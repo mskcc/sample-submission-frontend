@@ -15,6 +15,15 @@ if (process.env.NODE_ENV === 'production') {
   // API_ROOT = 'https://rex.mskcc.org/apps/auth/'
 }
 // TODO will this stay a grid action?
+
+
+export const REGISTER_GRID_CHANGE = 'REGISTER_GRID_CHANGE'
+export const registerGridChange = (changes) => {
+  console.log(changes)
+  return { type: REGISTER_GRID_CHANGE }
+}
+
+
 export const REQUEST_COLUMNS = 'REQUEST_COLUMNS'
 export const REQUEST_INITIAL_COLUMNS = 'REQUEST_INITIAL_COLUMNS'
 

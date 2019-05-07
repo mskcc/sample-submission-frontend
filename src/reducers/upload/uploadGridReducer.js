@@ -8,6 +8,10 @@ export default function uploadGridReducer(state = initialGridState, action) {
         ...state,
         error: '',
       }
+    case ActionTypes.REGISTER_GRID_CHANGE:
+      return {
+        ...state,
+      }
 
     case ActionTypes.REQUEST_COLUMNS:
       return {
@@ -60,7 +64,11 @@ export default function uploadGridReducer(state = initialGridState, action) {
         ...state,
         gridIsLoading: false,
         error:
-          action.error.response.data + ' ' + action.material + ' x ' + action.application,
+          action.error.response.data +
+          ' ' +
+          action.material +
+          ' x ' +
+          action.application,
       }
 
     case ActionTypes.UPDATE_CELLS:

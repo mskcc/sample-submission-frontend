@@ -3,11 +3,15 @@ import { LocalizeProvider, localizeReducer } from 'react-localize-redux'
 
 import uploadReducer from './upload/uploadReducer'
 import commonReducer from './common/commonReducer'
+import { persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage' // defaults to localStorage for web and AsyncStorage for react-native
 
+import { commonActions } from '../actions'
 
-import {commonActions} from '../actions'
-
-
+const persistConfig = {
+  key: 'root',
+  storage,
+}
 
 const rootReducer = combineReducers({
   upload: uploadReducer,
@@ -17,7 +21,7 @@ const rootReducer = combineReducers({
   // promoteReducer,
   // receiptReducer,
   // loginReducer,
-    localize: localizeReducer,
+  localize: localizeReducer,
 })
 
-export default rootReducer
+export default persistReducer(persistConfig, rootReducer)
