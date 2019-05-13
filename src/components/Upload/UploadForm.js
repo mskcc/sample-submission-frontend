@@ -28,9 +28,9 @@ class UploadForm extends React.Component {
       // },
       values: {
         material: 'DNA',
-        application: 'WholeExomeSequencing',
+        application: 'AmpliSeq',
         igo_request_id: '444444',
-        number_of_samples: '4',
+        number_of_samples: '1',
         species: 'Human',
         container: 'Plates',
         patient_id_type: 'MSK-Patients (or derived from MSK Patients)',
@@ -130,7 +130,10 @@ class UploadForm extends React.Component {
     e.stopPropagation()
 
     if (this.validate()) {
-      handleParentSubmit(this.state.values)
+      handleParentSubmit({
+        ...this.state.values,
+        igo_request_id: 'IGO-' + this.state.values.igo_request_id.toString(),
+      })
     }
     // } else alert('error')
   }

@@ -6,7 +6,14 @@ export const generateGridData = (responseColumns, formValues) => {
   let grid = { columnFeatures: [], columnHeaders: [], rows: [] }
   grid.columnFeatures = generateColumnFeatures(responseColumns, formValues)
   grid.columnHeaders = grid.columnFeatures.map(
-    a => '<span class="' + a.className + '" title="' + a.tooltip + '">' + a.columnHeader + '</span>'
+    a =>
+      '<span class="' +
+      a.className +
+      '" title="' +
+      a.tooltip +
+      '">' +
+      a.columnHeader +
+      '</span>'
     // '    <span class="has-tooltip" href="#">' +
     // a.columnHeader +
     // '<span class="tooltip-wrapper"><span class="tooltip">' +
@@ -28,10 +35,10 @@ function extractValues(mappings) {
 
 function generateColumnFeatures(responseColumns, formValues) {
   let columnFeatures = []
-  
+
   for (let i = 0; i < responseColumns.length; i++) {
     columnFeatures[i] = responseColumns[i]
-    
+
     //  patient_id_type is only set if corresponding species was selected
     if (
       columnFeatures[i].data == 'patientId' &&
@@ -59,16 +66,18 @@ function generateColumnFeatures(responseColumns, formValues) {
       columnFeatures[i].source = extractValues(responseColumns[i].source)
       columnFeatures[i].trimDropdown = false
       columnFeatures[i].allowInvalid = false
-
     }
     if ('optional' in responseColumns[i]) {
       // print(responseColumns)
-      
-      columnFeatures[i].allowEmpty = responseColumns[i].optional
-      columnFeatures[i].className = responseColumns[i].optional ? "optional" : "required"
-      if (columnFeatures[i].optional) {console.log(columnFeatures[i])}
-    }
 
+      columnFeatures[i].allowEmpty = responseColumns[i].optional
+      columnFeatures[i].className = responseColumns[i].optional
+        ? 'optional'
+        : 'required'
+      if (columnFeatures[i].optional) {
+        console.log(columnFeatures[i])
+      }
+    }
   }
 
   return columnFeatures
@@ -197,4 +206,16 @@ export const updateRows = (formValues, grid) => {
     }
   }
   return rows
+}
+
+export const generateBankedSampleData = state => {
+  let data = {}
+  console.log(state)
+  data.version = state.common.version
+  data.grid = state.upload.grid.rows
+  data.form = state.upload.grid.form
+  let date = Math.floor(Date.now() / 1000);
+  // TODO use this for save/edit
+  data.transactionId = date
+  return data
 }

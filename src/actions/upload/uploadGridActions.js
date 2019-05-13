@@ -2,6 +2,7 @@
 import axios from 'axios'
 import {
   diff,
+  generateBankedSampleData,
   generateRows,
   generateAGColumns,
   generateGridData,
@@ -16,13 +17,11 @@ if (process.env.NODE_ENV === 'production') {
 }
 // TODO will this stay a grid action?
 
-
 export const REGISTER_GRID_CHANGE = 'REGISTER_GRID_CHANGE'
-export const registerGridChange = (changes) => {
+export const registerGridChange = changes => {
   console.log(changes)
   return { type: REGISTER_GRID_CHANGE }
 }
-
 
 export const REQUEST_COLUMNS = 'REQUEST_COLUMNS'
 export const REQUEST_INITIAL_COLUMNS = 'REQUEST_INITIAL_COLUMNS'
@@ -62,10 +61,7 @@ export function getColumns(formValues) {
       ) {
         dispatch({ type: UPDATE_NUM_OF_ROWS })
 
-        let rows = updateRows(
-          formValues,
-          getState().upload.grid
-        )
+        let rows = updateRows(formValues, getState().upload.grid)
         return dispatch({
           type: UPDATE_NUM_OF_ROWS_SUCCESS,
           rows: rows,
@@ -107,6 +103,36 @@ export function getInitialColumns(formValues) {
           error: error,
           application: application,
           material: material,
+        })
+        return error
+      })
+  }
+}
+
+export const ADD_GRID_TO_BANKED_SAMPLE = 'ADD_GRID_TO_BANKED_SAMPLE'
+export const ADD_GRID_TO_BANKED_SAMPLE_FAIL = 'ADD_GRID_TO_BANKED_SAMPLE_FAIL'
+export const ADD_GRID_TO_BANKED_SAMPLE_SUCCESS =
+  'ADD_GRID_TO_BANKED_SAMPLE_SUCCESS'
+export function addGridToBankedSample() {
+  return (dispatch, getState) => {
+    dispatch({ type: ADD_GRID_TO_BANKED_SAMPLE })
+
+    return axios
+      .post(API_ROOT + '/addBankedSamples', {
+        data: generateBankedSampleData(getState()),
+      })
+      .then(response => {
+        // Handsontable binds to your data source (list of arrays or list of objects) by reference. Therefore, all the data entered in the grid will alter the original data source.
+
+        dispatch({
+          type: ADD_GRID_TO_BANKED_SAMPLE_SUCCESS,
+        })
+        return response
+      })
+      .catch(error => {
+        dispatch({
+          type: ADD_GRID_TO_BANKED_SAMPLE_FAIL,
+          error: error,
         })
         return error
       })

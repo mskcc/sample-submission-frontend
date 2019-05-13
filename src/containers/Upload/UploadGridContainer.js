@@ -25,11 +25,19 @@ class UploadGridContainer extends React.Component {
     this.props.registerGridChange()
   }
 
+  handleSubmit = () => {
+    this.props.addGridToBankedSample(this.props.grid)
+  }
+
   render() {
     const { grid, handleSubmit } = this.props
 
     return grid.rows.length > 0 ? (
-      <UploadGrid grid={grid} handleChange={this.handleChange} />
+      <UploadGrid
+        grid={grid}
+        handleChange={this.handleChange}
+        handleSubmit={this.handleSubmit}
+      />
     ) : null
   }
 }
