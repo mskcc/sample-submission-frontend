@@ -48,14 +48,13 @@ class Root extends Component {
             {this.props.error ? (
               <div>
                 <Message msg={this.props.errorMessage} />
-                {process.env.NODE_ENV !== 'production' ? <DevTools /> : <div />}
+                
               </div>
             ) : this.props.versionValid ? (
               <div>
                 <Route   path="/(upload|)" component={UploadPage} />
-
                 <Route path="/promote" component={Promote} />
-                {process.env.NODE_ENV !== 'production' ? <DevTools /> : <div />}
+                
               </div>
             ) : null}
           </div>
