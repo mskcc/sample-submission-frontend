@@ -3,6 +3,7 @@ import { commonActions as ActionTypes } from '../../actions'
 const initialState = {
   version: '2.0',
   versionValid: false,
+  sessionValid: false,
   error: null,
 }
 
@@ -42,6 +43,18 @@ function commonReducer(state = initialState, action) {
         errorMessage: action.errorMessage,
         formIsLoading: false,
         versionValid: false,
+      }
+
+      case ActionTypes.SESSION_INVALID:
+      return {
+        ...state,
+        sessionValid: false,
+      }
+
+    case ActionTypes.SESSION_VALID:
+      return {
+        ...state,
+        sessionValid: true,
       }
 
     default:

@@ -17,6 +17,7 @@ import Header from '../components/Shared/Header'
 import Message from '../components/Shared/Message'
 import UploadPage from './Upload/UploadPage'
 import Promote from './Promote/Promote'
+import Login from './Login'
 
 class Root extends Component {
   constructor(props) {
@@ -40,6 +41,7 @@ class Root extends Component {
     this.props.checkSession()
   }
 
+
   render() {
     return (
       <MuiThemeProvider theme={theme}>
@@ -51,8 +53,11 @@ class Root extends Component {
                 <Message msg={this.props.errorMessage} />
                 {process.env.NODE_ENV !== 'production' ? <DevTools /> : <div />}
               </div>
-            ) : this.props.userAuthenticated ? (
-              <div> LOGIN </div>
+            ) : !this.props.sessionValid ? (
+              <div>
+                {process.env.NODE_ENV !== 'production' ? <DevTools /> : <div />}
+                <Login />
+              </div>
             ) : this.props.versionValid ? (
               <div>
                 <Route path="/(upload|)" component={UploadPage} />

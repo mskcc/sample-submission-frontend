@@ -65,38 +65,39 @@ export function checkSession() {
   }
 }
 
-export function login(username, pw) {
-  return dispatch => {
-    dispatch({ type: LOGIN_REQUEST })
-    return axios
-      .get(API_ROOT + '/login', {
-        params: {
-          username: username,
-          password: pw,
-        },
-      })
-      .then(response => {
-        return dispatch({
-          type: LOGIN_SUCCESS,
-          data: response.data,
-        })
-      })
+export function login(formValues) {
+  // return dispatch => {
+    console.log(formValues)
+    // dispatch({ type: LOGIN_REQUEST })
+    // return axios
+    //   .get(API_ROOT + '/login', {
+    //     params: {
+    //       username: formusername,
+    //       password: pw,
+    //     },
+    //   })
+    //   .then(response => {
+    //     return dispatch({
+    //       type: LOGIN_SUCCESS,
+    //       data: response.data,
+    //     })
+    //   })
 
-      .catch(error => {
-        if (error.response) {
-          dispatch({
-            type: LOGIN_FAIL,
-            error: error,
-            errorMessage: error.response.data.message,
-          })
-        } else {
-          dispatch({
-            type: SERVER_ERROR,
-            error: error,
-          })
-        }
-      })
-  }
+    //   .catch(error => {
+    //     if (error.response) {
+    //       dispatch({
+    //         type: LOGIN_FAIL,
+    //         error: error,
+    //         errorMessage: error.response.data.message,
+    //       })
+    //     } else {
+    //       dispatch({
+    //         type: SERVER_ERROR,
+    //         error: error,
+    //       })
+    //     }
+      // })
+  // }
 }
 
 //   /**
