@@ -12,7 +12,8 @@ import * as serviceWorker from './serviceWorker'
 
 import './App.scss'
 
-// const store = configureStore
+
+
 
 const App = props => (
   <Provider store={store}>
@@ -23,6 +24,8 @@ const App = props => (
     </LocalizeProvider>
   </Provider>
 )
+
+
 
 ReactDOM.render(<App />, document.getElementById('root'))
 

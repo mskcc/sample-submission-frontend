@@ -37,24 +37,27 @@ class Root extends Component {
   // making sure BE and FE versions match - shows info message if not
   componentDidMount() {
     this.props.checkVersion(this.props.version)
+    this.props.checkSession()
   }
 
   render() {
     return (
       <MuiThemeProvider theme={theme}>
-        <Router basename = "sample-receiving">
+        <Router basename="sample-receiving">
           <div className="app">
             <Header />
             {this.props.error ? (
               <div>
                 <Message msg={this.props.errorMessage} />
-                
+                {process.env.NODE_ENV !== 'production' ? <DevTools /> : <div />}
               </div>
+            ) : this.props.userAuthenticated ? (
+              <div> LOGIN </div>
             ) : this.props.versionValid ? (
               <div>
-                <Route   path="/(upload|)" component={UploadPage} />
+                <Route path="/(upload|)" component={UploadPage} />
                 <Route path="/promote" component={Promote} />
-                
+                {process.env.NODE_ENV !== 'production' ? <DevTools /> : <div />}
               </div>
             ) : null}
           </div>
