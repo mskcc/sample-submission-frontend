@@ -55,49 +55,73 @@ export const LOGIN_REQUEST = 'LOGIN_REQUEST'
 export const LOGIN_FAIL = 'LOGIN_FAIL'
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const SESSION_VALID = 'SESSION_VALID'
+export const SESSION_REQUEST = 'SESSION_REQUEST'
 export const SESSION_INVALID = 'SESSION_INVALID'
 
-export function checkSession() {
+export function setupSession() {
   return dispatch => {
-    storage.getToken() 
-      ? dispatch({ type: SESSION_VALID })
-      : dispatch({ type: SESSION_INVALID })
+    dispatch({ type: LOGIN_REQUEST })
+    return axios
+      .get(API_ROOT + '/login', {})
+      .then(response => {
+        return dispatch({
+          type: SESSION_VALID,
+          data: response.data,
+        })
+      })
+
+      .catch(error => {
+        if (error.response) {
+          dispatch({
+            type: SESSION_INVALID,
+            error: error,
+            errorMessage: error.response.data.message,
+          })
+        } else {
+          dispatch({
+            type: SERVER_ERROR,
+            error: error,
+          })
+        }
+      })
+    // storage.getToken()
+    //   ? dispatch({ type: SESSION_VALID })
+    //   : dispatch({ type: SESSION_INVALID })
   }
 }
 
-export function login(formValues) {
-  // return dispatch => {
-    console.log(formValues)
-    // dispatch({ type: LOGIN_REQUEST })
-    // return axios
-    //   .get(API_ROOT + '/login', {
-    //     params: {
-    //       username: formusername,
-    //       password: pw,
-    //     },
-    //   })
-    //   .then(response => {
-    //     return dispatch({
-    //       type: LOGIN_SUCCESS,
-    //       data: response.data,
-    //     })
-    //   })
+export function login(username, password) {
+  return dispatch => {
+    dispatch({ type: LOGIN_REQUEST })
+    console.log(username)
+    return axios
+      .post(API_ROOT + '/login', {
+        data: {
+          username: username,
+          password: password,
+        },
+      })
+      .then(response => {
+        return dispatch({
+          type: LOGIN_SUCCESS,
+          data: response.data,
+        })
+      })
 
-    //   .catch(error => {
-    //     if (error.response) {
-    //       dispatch({
-    //         type: LOGIN_FAIL,
-    //         error: error,
-    //         errorMessage: error.response.data.message,
-    //       })
-    //     } else {
-    //       dispatch({
-    //         type: SERVER_ERROR,
-    //         error: error,
-    //       })
-    //     }
-      // })
-  // }
+      .catch(error => {
+        if (error.response) {
+          dispatch({
+            type: LOGIN_FAIL,
+            errorMessage: error.response.data,
+          })
+        } else {
+          dispatch({
+            type: SERVER_ERROR,
+            error: error,
+          })
+        }
+      })
+  }
 }
 
 //   /**

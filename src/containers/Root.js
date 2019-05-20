@@ -38,7 +38,7 @@ class Root extends Component {
   // making sure BE and FE versions match - shows info message if not
   componentDidMount() {
     this.props.checkVersion(this.props.version)
-    this.props.checkSession()
+    // this.props.setupSession()
   }
 
 

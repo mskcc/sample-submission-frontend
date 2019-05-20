@@ -13,7 +13,8 @@ function commonReducer(state = initialState, action) {
       return {
         ...state,
         error: action.error,
-        errorMessage: 'Our backend is experiencing some downtime. Please check back later or message an admin.',
+        errorMessage:
+          'Our backend is experiencing some downtime. Please check back later or message an admin.',
       }
 
     case ActionTypes.RESET_ERROR_MESSAGE:
@@ -45,7 +46,7 @@ function commonReducer(state = initialState, action) {
         versionValid: false,
       }
 
-      case ActionTypes.SESSION_INVALID:
+    case ActionTypes.SESSION_INVALID:
       return {
         ...state,
         sessionValid: false,
@@ -55,6 +56,19 @@ function commonReducer(state = initialState, action) {
       return {
         ...state,
         sessionValid: true,
+      }
+
+    case ActionTypes.LOGIN_SUCCESS:
+      return {
+        ...state,
+        loggedIn: true,
+      }
+
+    case ActionTypes.LOGIN_FAIL:
+      return {
+        ...state,
+        loggedIn: false,
+        loginErrorMessage: action.errorMessage
       }
 
     default:

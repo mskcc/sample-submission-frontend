@@ -15,7 +15,7 @@ export function url(uri, queryParams) {
 export function get(url, kwargs = {}) {
   const { token, ...options } = kwargs
   const defaults = {
-    credentials: 'include',
+    // credentials: 'include',
     headers: Object.assign({
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -27,15 +27,16 @@ export function get(url, kwargs = {}) {
 
 export function post(url, data, kwargs = {}) {
   const { token, ...options } = kwargs
+  console.log(data)
   const defaults = {
-    credentials: 'include',
+    // credentials: 'include',
     headers: Object.assign({
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'X-CSRFToken': Cookies.get('csrf_token'),
+      // 'csrf_token': Cookies.get('csrf_token'),
     }, token ? { 'Authentication-Token': token } : {}),
     method: 'POST',
-    body: JSON.stringify(data),
+    body: data,
   }
   return request(url, _mergeOptions(defaults, options))
 }

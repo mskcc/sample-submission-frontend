@@ -3,77 +3,98 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { parse } from 'query-string'
 import TextField from '@material-ui/core/TextField'
+import Button from '@material-ui/core/Button'
+import Paper from '@material-ui/core/Paper'
 import { withStyles } from '@material-ui/core/styles'
-import { withLocalize } from 'react-localize-redux'
+import { Translate } from 'react-localize-redux'
 
 import { commonActions } from '../actions'
 import Message from '../components/Shared/Message'
 
 class Login extends React.Component {
-  constructor(props) {
-    super(props)
-    this.username = React.createRef()
-    this.pw = React.createRef()
-  }
-
   handleSubmit = event => {
     event.preventDefault()
-    console.log(event.target.value)
-    console.log(this.pw.current.value)
-    console.log(this.username.current.value)
-    // this.props.login(formValues)
+    const data = new FormData(event.target)
+    this.props.login(data.get('username'), data.get('password'))
   }
 
   render() {
     const isDev = process.env.NODE_ENV !== 'production'
-    const { error, submitting, pristine } = this.props
+    const { loginErrorMessage, submitting, pristine, classes } = this.props
     return (
-      <React.Fragment>
-        <h1>Log in!</h1>
-        {error && <Message msg={this.props.errorMessage} />}
-        {isDev && <p>Hint: a@a.com / password</p>}
-        <form onSubmit={this.handleSubmit}>
-          <TextField
-            id="standard-name"
-            label="MSK Username"
-            // class
-            ref={this.username}
-            margin="normal"
-          />
-          <TextField
-            id="password-input"
-            label="MSK Password"
-            // className={classes.textField}
-            ref={this.pw}
-            type="password"
-            autoComplete="current-password"
-            margin="normal"
-          />
-
-          <div className="row">
-            <button
-              type="submit"
-              className="btn btn-primary"
-              disabled={pristine || submitting}
+      <Translate>
+        {({ translate }) => (
+          <Paper elevation={1}>
+            {loginErrorMessage && <Message type="Error" msg={this.props.loginErrorMessage} />}
+            <form
+              onSubmit={this.handleSubmit}
+              id="login"
+              className={classes.container}
             >
-              {submitting ? 'Logging in...' : 'Submit'}
-            </button>
-          </div>
-        </form>
-      </React.Fragment>
+              <TextField
+                id="username"
+                name="username"
+                required
+                label="MSK Username"
+                // className={classes.textField}
+                // ref={this.username}
+                margin="normal"
+              />
+              <TextField
+                id="password"
+                name="password"
+                required
+                label="MSK Password"
+                // className={classes.textField}
+                // ref={this.pw}
+                type="password"
+                autoComplete="current-password"
+                margin="normal"
+              />
+
+              <div className="row">
+                <Button
+                  type="submit"
+                  form="login"
+                  variant="contained"
+                  color="secondary"
+                  disabled={pristine || submitting}
+                >
+                  {submitting ? 'Logging in...' : 'Submit'}
+                </Button>
+              </div>
+
+          
+
+            </form>
+          </Paper>
+        )}
+      </Translate>
     )
   }
 }
 
 const mapStateToProps = state => ({
   error: state.common.error,
-  errorMessage: state.common.errorMessage,
+  loginErrorMessage: state.common.loginErrorMessage,
 })
 const mapDispatchToProps = {
   ...commonActions,
 }
 
-export default withLocalize(
+const styles = theme => ({
+  container: {
+    padding: '2em 5em',
+    gridArea: 'form',
+    display: 'grid',
+    justifyItems: 'center',
+    // width: '50%',
+    // margin: '2em auto',
+    gridRowGap: '1em',
+  },
+})
+
+export default withStyles(styles)(
   connect(
     mapStateToProps,
     mapDispatchToProps
