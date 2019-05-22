@@ -38,7 +38,7 @@ class Root extends Component {
   // making sure BE and FE versions match - shows info message if not
   componentDidMount() {
     this.props.checkVersion(this.props.version)
-    // this.props.setupSession()
+    this.props.loadUserFromToken()
   }
 
   render() {
@@ -55,7 +55,7 @@ class Root extends Component {
                 <Message msg={this.props.message} />
                 {process.env.NODE_ENV !== 'production' ? <DevTools /> : <div />}
               </div>
-            ) : !this.props.sessionValid ? (
+            ) : !this.props.loggedIn ? (
               <div>
                 {process.env.NODE_ENV !== 'production' ? <DevTools /> : <div />}
                 <Login />
@@ -78,7 +78,7 @@ const mapStateToProps = state => ({
   formIsLoading: state.common.formIsLoading,
   version: state.common.version,
   versionValid: state.common.versionValid,
-  sessionValid: state.common.sessionValid,
+  loggedIn: state.common.loggedIn,
   error: state.common.error,
   message: state.common.message,
 })

@@ -2,8 +2,8 @@ import { commonActions as ActionTypes } from '../../actions'
 
 const initialState = {
   version: '2.0',
-  versionValid: false,
-  sessionValid: false,
+  loggedIn: false,
+  username: '',
   error: null,
   message: '',
 }
@@ -50,23 +50,24 @@ function commonReducer(state = initialState, action) {
     case ActionTypes.SESSION_INVALID:
       return {
         ...state,
-        sessionValid: false,
+        loggedIn: false,
+        username: '',
       }
 
     case ActionTypes.SESSION_VALID:
       return {
         ...state,
-        sessionValid: true,
-        message: action.message,
+        loggedIn: true,
+        username: action.payload.username,
+        message: action.payload.message,
       }
 
     case ActionTypes.LOGIN_SUCCESS:
       return {
         ...state,
         loggedIn: true,
-        sessionValid: true,
+        username: action.payload.username,
         message: action.payload.message,
-        jwtToken: action.payload.auth_token
       }
 
     case ActionTypes.LOGIN_FAIL:

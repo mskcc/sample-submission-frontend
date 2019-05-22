@@ -13,8 +13,6 @@ import { storage } from '../utils'
 axios.interceptors.request.use(
   config => {
     let token = localStorage.getItem('auth_token')
-    console.log('AUTHTESTAUTHTEST')
-    console.log(token)
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`
     }
@@ -87,19 +85,21 @@ export const SESSION_VALID = 'SESSION_VALID'
 export const SESSION_REQUEST = 'SESSION_REQUEST'
 export const SESSION_INVALID = 'SESSION_INVALID'
 
-export function setupSession() {
+export function loadUserFromToken() {
   return dispatch => {
     dispatch({ type: LOGIN_REQUEST })
     return axios
-      .get(API_ROOT + '/login', {})
+      .get(API_ROOT + '/userstatus', {})
       .then(response => {
+        console.log(response)
         return dispatch({
           type: SESSION_VALID,
-          data: response.data,
+          payload: response.data,
         })
       })
 
       .catch(error => {
+        console.log(error)
         if (error.response) {
           dispatch({
             type: SESSION_INVALID,
