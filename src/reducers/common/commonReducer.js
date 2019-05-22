@@ -5,6 +5,7 @@ const initialState = {
   versionValid: false,
   sessionValid: false,
   error: null,
+  message: '',
 }
 
 function commonReducer(state = initialState, action) {
@@ -13,7 +14,7 @@ function commonReducer(state = initialState, action) {
       return {
         ...state,
         error: action.error,
-        errorMessage:
+        message:
           'Our backend is experiencing some downtime. Please check back later or message an admin.',
       }
 
@@ -41,7 +42,7 @@ function commonReducer(state = initialState, action) {
       return {
         ...state,
         error: action.error,
-        errorMessage: action.errorMessage,
+        message: action.message,
         formIsLoading: false,
         versionValid: false,
       }
@@ -56,19 +57,22 @@ function commonReducer(state = initialState, action) {
       return {
         ...state,
         sessionValid: true,
+        message: action.message,
       }
 
     case ActionTypes.LOGIN_SUCCESS:
       return {
         ...state,
         loggedIn: true,
+        sessionValid: true,
+        message: action.message,
       }
 
     case ActionTypes.LOGIN_FAIL:
       return {
         ...state,
         loggedIn: false,
-        loginErrorMessage: action.errorMessage
+        message: action.message,
       }
 
     default:

@@ -39,7 +39,7 @@ export function checkVersion(version) {
           dispatch({
             type: RECEIVE_CHECK_VERSION_FAIL,
             error: error,
-            errorMessage: error.response.data.message,
+            message: error.response.data.message,
           })
         } else {
           dispatch({
@@ -104,7 +104,7 @@ export function login(username, password) {
       .then(response => {
         return dispatch({
           type: LOGIN_SUCCESS,
-          data: response.data,
+          message: response.data,
         })
       })
 
@@ -112,7 +112,7 @@ export function login(username, password) {
         if (error.response) {
           dispatch({
             type: LOGIN_FAIL,
-            errorMessage: error.response.data,
+            message: error.response.data,
           })
         } else {
           dispatch({

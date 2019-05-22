@@ -41,16 +41,18 @@ class Root extends Component {
     // this.props.setupSession()
   }
 
-
   render() {
     return (
       <MuiThemeProvider theme={theme}>
         <Router basename="sample-receiving">
           <div className="app">
             <Header />
+            {this.props.message ? (
+              <Message type="Success" msg={this.props.message} />
+            ) : null}
             {this.props.error ? (
               <div>
-                <Message msg={this.props.errorMessage} />
+                <Message msg={this.props.message} />
                 {process.env.NODE_ENV !== 'production' ? <DevTools /> : <div />}
               </div>
             ) : !this.props.sessionValid ? (
@@ -58,13 +60,13 @@ class Root extends Component {
                 {process.env.NODE_ENV !== 'production' ? <DevTools /> : <div />}
                 <Login />
               </div>
-            ) : this.props.versionValid ? (
+            ) : (
               <div>
                 <Route path="/(upload|)" component={UploadPage} />
                 <Route path="/promote" component={Promote} />
                 {process.env.NODE_ENV !== 'production' ? <DevTools /> : <div />}
               </div>
-            ) : null}
+            )}
           </div>
         </Router>
       </MuiThemeProvider>
@@ -76,8 +78,9 @@ const mapStateToProps = state => ({
   formIsLoading: state.common.formIsLoading,
   version: state.common.version,
   versionValid: state.common.versionValid,
+  sessionValid: state.common.sessionValid,
   error: state.common.error,
-  errorMessage: state.common.errorMessage,
+  message: state.common.message,
 })
 const mapDispatchToProps = {
   ...commonActions,
