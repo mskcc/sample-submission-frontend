@@ -19,7 +19,7 @@ export function get(url, kwargs = {}) {
     headers: Object.assign({
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-    }, token ? { 'Authentication-Token': token } : {}),
+    }, token ? { 'Authentication': token } : {}),
     method: 'GET',
   }
   return request(url, _mergeOptions(defaults, options))

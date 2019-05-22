@@ -9,6 +9,35 @@ import { get, post, patch, url } from '../utils/request'
 
 import { storage } from '../utils'
 
+// Add a request interceptor
+axios.interceptors.request.use(
+  config => {
+    let token = localStorage.getItem('auth_token')
+    console.log('AUTHTESTAUTHTEST')
+    console.log(token)
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`
+    }
+
+    return config
+  },
+
+  error => {
+    return Promise.reject(error)
+  }
+)
+// Add a response interceptor
+axios.interceptors.response.use(
+  function(response) {
+    // Do something with response data
+    return response
+  },
+  function(error) {
+    // Do something with response error
+    return Promise.reject(error)
+  }
+)
+
 export const REQUEST_CHECK_VERSION = 'REQUEST_CHECK_VERSION'
 
 export const SERVER_ERROR = 'SERVER_ERROR'
@@ -93,7 +122,6 @@ export function setupSession() {
 export function login(username, password) {
   return dispatch => {
     dispatch({ type: LOGIN_REQUEST })
-    console.log(username)
     return axios
       .post(API_ROOT + '/login', {
         data: {
@@ -102,9 +130,12 @@ export function login(username, password) {
         },
       })
       .then(response => {
+        console.log(response)
+        localStorage.setItem('auth_token', response.data.auth_token)
+
         return dispatch({
           type: LOGIN_SUCCESS,
-          message: response.data,
+          payload: response.data,
         })
       })
 

@@ -65,7 +65,8 @@ function commonReducer(state = initialState, action) {
         ...state,
         loggedIn: true,
         sessionValid: true,
-        message: action.message,
+        message: action.payload.message,
+        jwtToken: action.payload.auth_token
       }
 
     case ActionTypes.LOGIN_FAIL:
