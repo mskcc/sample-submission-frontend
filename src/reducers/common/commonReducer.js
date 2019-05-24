@@ -6,6 +6,7 @@ const initialState = {
   username: '',
   error: null,
   message: '',
+  loading: true,
 }
 
 function commonReducer(state = initialState, action) {
@@ -27,13 +28,11 @@ function commonReducer(state = initialState, action) {
     case ActionTypes.REQUEST_CHECK_VERSION:
       return {
         ...state,
-        formIsLoading: true,
       }
 
     case ActionTypes.RECEIVE_CHECK_VERSION_SUCCESS:
       return {
         ...state,
-        formIsLoading: false,
         versionValid: true,
         error: null,
       }
@@ -43,29 +42,36 @@ function commonReducer(state = initialState, action) {
         ...state,
         error: action.error,
         message: action.message,
-        formIsLoading: false,
+        // loading: false,
         versionValid: false,
       }
-
-    case ActionTypes.SESSION_INVALID:
+    case ActionTypes.REFRESH_TOKEN_REQUEST:
       return {
         ...state,
-        loggedIn: false,
-        username: '',
+        loading: true,
       }
-
-    case ActionTypes.SESSION_VALID:
+    case ActionTypes.REFRESH_TOKEN_VALID:
       return {
         ...state,
         loggedIn: true,
+        loading: false,
         username: action.payload.username,
-        message: action.payload.message,
+        message: 'Welcome back, ' + action.payload.username + '.',
+      }
+
+    case ActionTypes.REFRESH_TOKEN_INVALID:
+      return {
+        ...state,
+        loggedIn: false,
+        loading: false,
+        username: '',
       }
 
     case ActionTypes.LOGIN_SUCCESS:
       return {
         ...state,
         loggedIn: true,
+        loading: false,
         username: action.payload.username,
         message: action.payload.message,
       }
@@ -74,6 +80,22 @@ function commonReducer(state = initialState, action) {
       return {
         ...state,
         loggedIn: false,
+        // loading: false,
+        message: action.message,
+      }
+
+    case ActionTypes.LOGOUT_SUCCESS:
+      return {
+        ...state,
+        loggedIn: false,
+        loading: false,
+      }
+
+    case ActionTypes.LOGOUT_FAIL:
+      return {
+        ...state,
+        loggedIn: true,
+        // loading: false,
         message: action.message,
       }
 

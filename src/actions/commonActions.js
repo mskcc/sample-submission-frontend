@@ -12,8 +12,8 @@ import { storage } from '../utils'
 // Add a request interceptor
 axios.interceptors.request.use(
   config => {
-    let token = localStorage.getItem('auth_token')
-    if (token) {
+    let token = localStorage.getItem('access_token')
+    if (token && !config.headers['Authorization']) {
       config.headers['Authorization'] = `Bearer ${token}`
     }
 
@@ -78,47 +78,61 @@ export function checkVersion(version) {
   }
 }
 
-export const LOGIN_REQUEST = 'LOGIN_REQUEST'
-export const LOGIN_FAIL = 'LOGIN_FAIL'
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
-export const SESSION_VALID = 'SESSION_VALID'
-export const SESSION_REQUEST = 'SESSION_REQUEST'
-export const SESSION_INVALID = 'SESSION_INVALID'
+export const REFRESH_TOKEN_VALID = 'REFRESH_TOKEN_VALID'
+export const REFRESH_TOKEN_REQUEST = 'REFRESH_TOKEN_REQUEST'
+export const REFRESH_TOKEN_INVALID = 'REFRESH_TOKEN_INVALID'
 
-export function loadUserFromToken() {
+export function refreshToken() {
   return dispatch => {
-    dispatch({ type: LOGIN_REQUEST })
-    return axios
-      .get(API_ROOT + '/userstatus', {})
-      .then(response => {
-        console.log(response)
-        return dispatch({
-          type: SESSION_VALID,
-          payload: response.data,
-        })
-      })
+    let token = localStorage.getItem('refresh_token')
+    if (token) {
+      dispatch({ type: REFRESH_TOKEN_REQUEST })
 
-      .catch(error => {
-        console.log(error)
-        if (error.response) {
-          dispatch({
-            type: SESSION_INVALID,
-            error: error,
-            errorMessage: error.response.data.message,
+      return axios
+        .get(
+          API_ROOT + '/refresh',
+          { headers: { Authorization: `Bearer ${token}` } },
+          {}
+        )
+        .then(response => {
+          localStorage.setItem('access_token', response.data.access_token)
+          return dispatch({
+            type: REFRESH_TOKEN_VALID,
+            payload: response.data,
           })
-        } else {
-          dispatch({
-            type: SERVER_ERROR,
-            error: error,
-          })
-        }
+        })
+
+        .catch(error => {
+          localStorage.removeItem('refresh_token')
+          localStorage.removeItem('access_token')
+
+          if (error.response) {
+            dispatch({
+              type: REFRESH_TOKEN_INVALID,
+              error: error,
+              errorMessage: error.response.data.message,
+            })
+          } else {
+            dispatch({
+              type: SERVER_ERROR,
+              error: error,
+            })
+          }
+        })
+      // storage.getToken()
+      //   ? dispatch({ type: REFRESH_TOKEN_VALID })
+      //   : dispatch({ type: SESSION_INVALID })
+    } else
+      dispatch({
+        type: REFRESH_TOKEN_INVALID,
+        errorMessage: 'Your session expired. Please log in again.',
       })
-    // storage.getToken()
-    //   ? dispatch({ type: SESSION_VALID })
-    //   : dispatch({ type: SESSION_INVALID })
   }
 }
 
+export const LOGIN_REQUEST = 'LOGIN_REQUEST'
+export const LOGIN_FAIL = 'LOGIN_FAIL'
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export function login(username, password) {
   return dispatch => {
     dispatch({ type: LOGIN_REQUEST })
@@ -130,8 +144,8 @@ export function login(username, password) {
         },
       })
       .then(response => {
-        console.log(response)
-        localStorage.setItem('auth_token', response.data.auth_token)
+        localStorage.setItem('access_token', response.data.access_token)
+        localStorage.setItem('refresh_token', response.data.refresh_token)
 
         return dispatch({
           type: LOGIN_SUCCESS,
@@ -140,17 +154,59 @@ export function login(username, password) {
       })
 
       .catch(error => {
-        if (error.response) {
-          dispatch({
-            type: LOGIN_FAIL,
-            message: error.response.data,
+        return dispatch({
+          type: LOGIN_FAIL,
+          message: error.response.data.message,
+        })
+      })
+  }
+}
+
+export const LOGOUT_REQUEST = 'LOGOUT_REQUEST'
+export const LOGOUT_FAIL = 'LOGOUT_FAIL'
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
+export function logout() {
+  return dispatch => {
+    dispatch({ type: LOGOUT_REQUEST })
+
+    let access_token = localStorage.getItem('access_token')
+    let refresh_token = localStorage.getItem('refresh_token')
+
+    if (access_token) {
+      localStorage.removeItem('access_token')
+      axios
+        .get(API_ROOT + '/logoutAccess', {})
+        .then(response => {})
+        .catch(error => {
+          return dispatch({
+            type: LOGOUT_FAIL,
+            message: error.response.data.message,
           })
-        } else {
-          dispatch({
-            type: SERVER_ERROR,
-            error: error,
+        })
+    }
+    let token = localStorage.getItem('refresh_token')
+    if (refresh_token) {
+      localStorage.removeItem('refresh_token')
+      axios
+        .get(
+          API_ROOT + '/logoutRefresh',
+          { headers: { Authorization: `Bearer ${token}` } },
+          {}
+        )
+        .then(response => {
+          return dispatch({
+            type: LOGOUT_SUCCESS,
           })
-        }
+        })
+        .catch(error => {
+          return dispatch({
+            type: LOGOUT_FAIL,
+            message: error.response.data.message,
+          })
+        })
+    } else
+      return dispatch({
+        type: LOGOUT_SUCCESS,
       })
   }
 }

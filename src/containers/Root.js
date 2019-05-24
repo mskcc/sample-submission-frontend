@@ -12,12 +12,14 @@ import { LocalizeProvider, withLocalize } from 'react-localize-redux'
 import enTranslations from '../translations/en.json'
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 import Header from '../components/Shared/Header'
 import Message from '../components/Shared/Message'
 import UploadPage from './Upload/UploadPage'
 import Promote from './Promote/Promote'
 import Login from './Login'
+import Logout from './Logout'
 
 class Root extends Component {
   constructor(props) {
@@ -35,10 +37,10 @@ class Root extends Component {
     })
   }
 
-  // making sure BE and FE versions match - shows info message if not
   componentDidMount() {
+    // making sure BE and FE versions match - shows info message if not
     this.props.checkVersion(this.props.version)
-    this.props.loadUserFromToken()
+    this.props.refreshToken()
   }
 
   render() {
@@ -46,25 +48,32 @@ class Root extends Component {
       <MuiThemeProvider theme={theme}>
         <Router basename="sample-receiving">
           <div className="app">
-            <Header />
-            {this.props.message ? (
+            <Header loggedIn={this.props.loggedIn} />
+            {process.env.NODE_ENV !== 'production' ? <DevTools /> : <div />}
+            {this.props.message && (
               <Message type="Success" msg={this.props.message} />
-            ) : null}
-            {this.props.error ? (
+            )}
+
+            {this.props.loading ? (
+              <CircularProgress
+                color="secondary"
+                size={24}
+                // className={classes.buttonProgress}
+              />
+            ) : this.props.error ? (
               <div>
                 <Message msg={this.props.message} />
-                {process.env.NODE_ENV !== 'production' ? <DevTools /> : <div />}
               </div>
             ) : !this.props.loggedIn ? (
               <div>
-                {process.env.NODE_ENV !== 'production' ? <DevTools /> : <div />}
                 <Login />
               </div>
             ) : (
               <div>
                 <Route path="/(upload|)" component={UploadPage} />
                 <Route path="/promote" component={Promote} />
-                {process.env.NODE_ENV !== 'production' ? <DevTools /> : <div />}
+                <Route path="/logout" component={Logout} />
+                <Route path="/login" component={Login} />
               </div>
             )}
           </div>
@@ -75,12 +84,7 @@ class Root extends Component {
 }
 
 const mapStateToProps = state => ({
-  formIsLoading: state.common.formIsLoading,
-  version: state.common.version,
-  versionValid: state.common.versionValid,
-  loggedIn: state.common.loggedIn,
-  error: state.common.error,
-  message: state.common.message,
+  ...state.common,
 })
 const mapDispatchToProps = {
   ...commonActions,

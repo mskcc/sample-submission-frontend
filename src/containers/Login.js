@@ -25,7 +25,9 @@ class Login extends React.Component {
       <Translate>
         {({ translate }) => (
           <Paper elevation={1}>
-            {loginErrorMessage && <Message type="Error" msg={this.props.loginErrorMessage} />}
+            {loginErrorMessage && (
+              <Message type="Error" msg={this.props.loginErrorMessage} />
+            )}
             <form
               onSubmit={this.handleSubmit}
               id="login"
@@ -63,9 +65,6 @@ class Login extends React.Component {
                   {submitting ? 'Logging in...' : 'Submit'}
                 </Button>
               </div>
-
-          
-
             </form>
           </Paper>
         )}
@@ -77,6 +76,7 @@ class Login extends React.Component {
 const mapStateToProps = state => ({
   error: state.common.error,
   loginErrorMessage: state.common.loginErrorMessage,
+  loggedIn: state.common.loggedIn,
 })
 const mapDispatchToProps = {
   ...commonActions,

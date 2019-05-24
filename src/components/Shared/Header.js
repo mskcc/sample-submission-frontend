@@ -6,13 +6,13 @@ import {
   Toolbar,
   Button,
   Typography,
-  withStyles
+  withStyles,
 } from '@material-ui/core'
 
 import classNames from 'classnames'
 import image from './msk.png'
 
-const Header = ({ classes }) => (
+const Header = ({ classes, loggedIn }) => (
   // <div className={classes.mskccHeader}>
   <AppBar position="static" title={image} className={classes.header}>
     <Toolbar>
@@ -44,6 +44,31 @@ const Header = ({ classes }) => (
           </Typography>
         </NavLink>
       </Button>
+      {loggedIn ? (
+        <Button>
+          <NavLink
+            to="/logout"
+            activeClassName={classes.active}
+            className={classes.navlink}
+          >
+            <Typography color="inherit" variant="h6">
+              Logout
+            </Typography>
+          </NavLink>
+        </Button>
+      ) : (
+        <Button>
+          <NavLink
+            to="/login"
+            activeClassName={classes.active}
+            className={classes.navlink}
+          >
+            <Typography color="inherit" variant="h6">
+              Login
+            </Typography>
+          </NavLink>
+        </Button>
+      )}
     </Toolbar>
   </AppBar>
 
@@ -64,7 +89,6 @@ const styles = theme => ({
     color: theme.palette.textSecondary,
     textDecoration: 'none',
     marginRight: theme.spacing.unit,
-    
   },
   active: {
     color: 'white',
