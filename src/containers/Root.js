@@ -50,32 +50,19 @@ class Root extends Component {
           <div className="app">
             <Header loggedIn={this.props.loggedIn} />
             {process.env.NODE_ENV !== 'production' ? <DevTools /> : <div />}
-            {this.props.message && (
-              <Message type="Success" msg={this.props.message} />
+
+            {this.props.message && <Message msg={this.props.message} />}
+
+            {this.props.loading && (
+              <CircularProgress color="secondary" size={24} />
             )}
 
-            {this.props.loading ? (
-              <CircularProgress
-                color="secondary"
-                size={24}
-                // className={classes.buttonProgress}
-              />
-            ) : this.props.error ? (
-              <div>
-                <Message msg={this.props.message} />
-              </div>
-            ) : !this.props.loggedIn ? (
-              <div>
-                <Login />
-              </div>
-            ) : (
-              <div>
-                <Route path="/(upload|)" component={UploadPage} />
-                <Route path="/promote" component={Promote} />
-                <Route path="/logout" component={Logout} />
-                <Route path="/login" component={Login} />
-              </div>
-            )}
+            <div>
+              <Route path="/(upload|)" component={UploadPage} />
+              <Route path="/promote" component={Promote} />
+              <Route path="/logout" component={Logout} />
+              <Route path="/login" component={Login} />
+            </div>
           </div>
         </Router>
       </MuiThemeProvider>

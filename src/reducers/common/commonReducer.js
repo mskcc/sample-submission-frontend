@@ -89,6 +89,8 @@ function commonReducer(state = initialState, action) {
         ...state,
         loggedIn: false,
         loading: false,
+        message: "Successfully logged out.",
+
       }
 
     case ActionTypes.LOGOUT_FAIL:

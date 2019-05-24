@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
 import { withStyles } from '@material-ui/core/styles'
 import { Translate } from 'react-localize-redux'
+import { Redirect } from 'react-router-dom'
 
 import { commonActions } from '../actions'
 import Message from '../components/Shared/Message'
@@ -21,6 +22,9 @@ class Login extends React.Component {
   render() {
     const isDev = process.env.NODE_ENV !== 'production'
     const { loginErrorMessage, submitting, pristine, classes } = this.props
+    if (!this.props.loading && this.props.loggedIn) {
+      return <Redirect to="/upload" />
+    }
     return (
       <Translate>
         {({ translate }) => (

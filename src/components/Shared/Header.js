@@ -21,41 +21,43 @@ const Header = ({ classes, loggedIn }) => (
       <Typography color="inherit" variant="h6" className={classes.title}>
         SampleReceiving V2
       </Typography>
-
-      <Button>
-        <NavLink
-          to="/upload"
-          activeClassName={classes.active}
-          className={classes.navlink}
-        >
-          <Typography color="inherit" variant="h6">
-            Upload
-          </Typography>
-        </NavLink>
-      </Button>
-      <Button>
-        <NavLink
-          to="/promote"
-          activeClassName={classes.active}
-          className={classes.navlink}
-        >
-          <Typography color="inherit" variant="h6">
-            Promote
-          </Typography>
-        </NavLink>
-      </Button>
       {loggedIn ? (
-        <Button>
-          <NavLink
-            to="/logout"
-            activeClassName={classes.active}
-            className={classes.navlink}
-          >
-            <Typography color="inherit" variant="h6">
-              Logout
-            </Typography>
-          </NavLink>
-        </Button>
+        <React.Fragment>
+          <Button>
+            <NavLink
+              to="/upload"
+              activeClassName={classes.active}
+              className={classes.navlink}
+            >
+              <Typography color="inherit" variant="h6">
+                Upload
+              </Typography>
+            </NavLink>
+          </Button>
+          <Button>
+            <NavLink
+              to="/promote"
+              activeClassName={classes.active}
+              className={classes.navlink}
+            >
+              <Typography color="inherit" variant="h6">
+                Promote
+              </Typography>
+            </NavLink>
+          </Button>
+
+          <Button>
+            <NavLink
+              to="/logout"
+              activeClassName={classes.active}
+              className={classes.navlink}
+            >
+              <Typography color="inherit" variant="h6">
+                Logout
+              </Typography>
+            </NavLink>
+          </Button>
+        </React.Fragment>
       ) : (
         <Button>
           <NavLink

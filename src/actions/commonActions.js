@@ -173,10 +173,11 @@ export function logout() {
     let refresh_token = localStorage.getItem('refresh_token')
 
     if (access_token) {
-      localStorage.removeItem('access_token')
       axios
         .get(API_ROOT + '/logoutAccess', {})
-        .then(response => {})
+        .then(response => {
+          localStorage.removeItem('access_token')
+        })
         .catch(error => {
           return dispatch({
             type: LOGOUT_FAIL,
