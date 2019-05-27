@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 import { renderToStaticMarkup } from 'react-dom/server'
 
 import { connect } from 'react-redux'
@@ -20,6 +20,7 @@ import UploadPage from './Upload/UploadPage'
 import Promote from './Promote/Promote'
 import Login from './Login'
 import Logout from './Logout'
+import ErrorPage from './ErrorPage'
 
 class Root extends Component {
   constructor(props) {
@@ -51,18 +52,23 @@ class Root extends Component {
             <Header loggedIn={this.props.loggedIn} />
             {process.env.NODE_ENV !== 'production' ? <DevTools /> : <div />}
 
-            {this.props.message && <Message msg={this.props.message} />}
-
-            {this.props.loading && (
-              <CircularProgress color="secondary" size={24} />
+            {this.props.error ? (
+              <ErrorPage />
+            ) : (
+              <React.Fragment>
+                {this.props.message && <Message msg={this.props.message} />}
+                {this.props.loading && (
+                  <CircularProgress color="secondary" size={24} />
+                )}
+                <div>
+                  <Route path="/(upload|)" component={UploadPage} />
+                  <Route path="/promote" component={Promote} />
+                  <Route path="/logout" component={Logout} />
+                  <Route path="/login" component={Login} />
+                  <Route path="/error" component={ErrorPage} />
+                </div>{' '}
+              </React.Fragment>
             )}
-
-            <div>
-              <Route path="/(upload|)" component={UploadPage} />
-              <Route path="/promote" component={Promote} />
-              <Route path="/logout" component={Logout} />
-              <Route path="/login" component={Login} />
-            </div>
           </div>
         </Router>
       </MuiThemeProvider>
