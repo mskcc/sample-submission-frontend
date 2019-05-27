@@ -14,12 +14,9 @@ const styles = theme => ({
   },
 })
 
-const Message = ({ msg, classes }) => (
+const Message = ({ type, msg, classes }) => (
   <div>
     <Paper className={classes.container} elevation={1}>
-      <Typography variant="h5" component="h3">
-        Error{' '}
-      </Typography>
       <Typography component="p">{msg}</Typography>
     </Paper>
   </div>

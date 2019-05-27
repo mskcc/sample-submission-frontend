@@ -2,8 +2,11 @@ import { commonActions as ActionTypes } from '../../actions'
 
 const initialState = {
   version: '2.0',
-  versionValid: false,
+  loggedIn: false,
+  username: '',
   error: null,
+  message: '',
+  loading: true,
 }
 
 function commonReducer(state = initialState, action) {
@@ -12,7 +15,8 @@ function commonReducer(state = initialState, action) {
       return {
         ...state,
         error: action.error,
-        errorMessage: 'Our backend is experiencing some downtime. Please check back later or message an admin.',
+        message:
+          'Our backend is experiencing some downtime. Please check back later or message an admin.',
       }
 
     case ActionTypes.RESET_ERROR_MESSAGE:
@@ -24,13 +28,11 @@ function commonReducer(state = initialState, action) {
     case ActionTypes.REQUEST_CHECK_VERSION:
       return {
         ...state,
-        formIsLoading: true,
       }
 
     case ActionTypes.RECEIVE_CHECK_VERSION_SUCCESS:
       return {
         ...state,
-        formIsLoading: false,
         versionValid: true,
         error: null,
       }
@@ -39,9 +41,64 @@ function commonReducer(state = initialState, action) {
       return {
         ...state,
         error: action.error,
-        errorMessage: action.errorMessage,
-        formIsLoading: false,
+        message: action.message,
+        // loading: false,
         versionValid: false,
+      }
+    case ActionTypes.REFRESH_TOKEN_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      }
+    case ActionTypes.REFRESH_TOKEN_VALID:
+      return {
+        ...state,
+        loggedIn: true,
+        loading: false,
+        username: action.payload.username,
+        message: 'Welcome back, ' + action.payload.username + '.',
+      }
+
+    case ActionTypes.REFRESH_TOKEN_INVALID:
+      return {
+        ...state,
+        loggedIn: false,
+        loading: false,
+        username: '',
+      }
+
+    case ActionTypes.LOGIN_SUCCESS:
+      return {
+        ...state,
+        loggedIn: true,
+        loading: false,
+        username: action.payload.username,
+        message: action.payload.message,
+      }
+
+    case ActionTypes.LOGIN_FAIL:
+      return {
+        ...state,
+        loggedIn: false,
+        // loading: false,
+        message: action.message,
+      }
+
+    case ActionTypes.LOGOUT_SUCCESS:
+      return {
+        ...state,
+        loggedIn: false,
+        loading: false,
+        message: "Successfully logged out.",
+
+      }
+
+    case ActionTypes.LOGOUT_FAIL:
+      return {
+        ...state,
+        loggedIn: true,
+        // loading: false,
+        message: action.message,
       }
 
     default:

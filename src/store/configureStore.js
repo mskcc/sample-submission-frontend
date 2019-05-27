@@ -3,7 +3,7 @@ import { Provider } from 'react-redux'
 
 import thunk from 'redux-thunk'
 import multi from 'redux-multi'
-import { persistStore, persistReducer } from 'redux-persist'
+import { persistStore } from 'redux-persist'
 import { createLogger } from 'redux-logger'
 import rootReducer from '../reducers/rootReducer'
 import DevTools from '../containers/DevTools'

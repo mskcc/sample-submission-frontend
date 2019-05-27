@@ -98,6 +98,14 @@ export const initialFullStateMock = {
       nothingToChange: false,
     },
   },
+  common: {
+    version: '2.0',
+    loggedIn: false,
+    username: '',
+    error: null,
+    message: '',
+    loading: true,
+  },
 }
 
 export const filledFullStateMock = {
@@ -151,6 +159,14 @@ export const filledFullStateMock = {
         },
       ],
     },
+  },
+  common: {
+    version: '2.0',
+    loggedIn: false,
+    username: '',
+    error: null,
+    message: '',
+    loading: true,
   },
 }
 
@@ -224,7 +240,7 @@ export const gridMock = {
   columnFeatures: [
     {
       columnHeader: 'Block/Slide/TubeID',
-      
+
       data: 'tubeId',
       editableCellTemplate: `<div><form name="inputForm"><input class="form-control inputheight" type="INPUT_TYPE" ng-class="'colt' + col.uid" ui-grid-editor ng-model="MODEL_COL_FIELD" ng-paste="grid.appScope.handleCellPaste($event)"></form></div>`,
       headerCellClass: 'required',
@@ -234,7 +250,7 @@ export const gridMock = {
     },
     {
       columnHeader: 'Sample ID',
-      
+
       data: 'userId',
       editableCellTemplate: `<div><form name="inputForm"><input class="form-control inputheight" type="INPUT_TYPE" ng-class="'colt' + col.uid" ui-grid-editor ng-model="MODEL_COL_FIELD" ng-paste="grid.appScope.handleCellPaste($event)"></form></div>`,
       headerCellClass: 'required',

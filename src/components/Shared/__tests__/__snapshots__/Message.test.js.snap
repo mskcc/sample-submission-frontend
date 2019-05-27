@@ -5,12 +5,6 @@ exports[`Render Message render Message correctly 1`] = `
   <div
     className="MuiPaper-root-2 MuiPaper-elevation1-5 MuiPaper-rounded-3 Message-container-1"
   >
-    <h3
-      className="MuiTypography-root-29 MuiTypography-h5-45"
-    >
-      Error
-       
-    </h3>
     <p
       className="MuiTypography-root-29 MuiTypography-body1-38"
     />
