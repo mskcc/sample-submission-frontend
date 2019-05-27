@@ -29,6 +29,10 @@ class UploadGridContainer extends React.Component {
     this.props.addGridToBankedSample(this.props.grid)
   }
 
+  handleSave = () => {
+    this.props.savePartialSubmission(this.props.grid)
+  }
+
   render() {
     const { grid, handleSubmit } = this.props
 
@@ -37,6 +41,7 @@ class UploadGridContainer extends React.Component {
         grid={grid}
         handleChange={this.handleChange}
         handleSubmit={this.handleSubmit}
+        handleSave={this.handleSave}
       />
     ) : null
   }

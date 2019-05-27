@@ -27,6 +27,9 @@ class UploadGrid extends React.Component {
     swal(error)
   }
 
+  handleSave = () => {
+    this.props.handleSave()
+  }
   handleSubmit = () => {
     const { columnFeatures, rows } = this.props.grid
 
@@ -70,7 +73,7 @@ class UploadGrid extends React.Component {
             />
             <GridButton
               id="grid_save"
-              // onSubmit={this.handleSubmit}
+              onSubmit={this.handleSave}
               isLoading={false}
               nothingToSubmit={false}
               color="primary"

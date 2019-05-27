@@ -139,6 +139,37 @@ export function addGridToBankedSample() {
   }
 }
 
+export const SAVE_PARTIAL_SUBMISSION = 'SAVE_PARTIAL_SUBMISSION'
+export const SAVE_PARTIAL_SUBMISSION_FAIL = 'SAVE_PARTIAL_SUBMISSION_FAIL'
+export const SAVE_PARTIAL_SUBMISSION_SUCCESS = 'SAVE_PARTIAL_SUBMISSION_SUCCESS'
+export function savePartialSubmission(grid) {
+  return (dispatch, getState) => {
+    dispatch({ type: SAVE_PARTIAL_SUBMISSION })
+
+    return axios
+      .post(API_ROOT + '/saveSubmission', {
+        username: getState().user.username,
+        grid_values: grid.rows,
+        header_values: grid.form
+      })
+      .then(response => {
+        // Handsontable binds to your data source (list of arrays or list of objects) by reference. Therefore, all the data entered in the grid will alter the original data source.
+
+        dispatch({
+          type: SAVE_PARTIAL_SUBMISSION_SUCCESS,
+        })
+        return response
+      })
+      .catch(error => {
+        dispatch({
+          type: SAVE_PARTIAL_SUBMISSION_FAIL,
+          error: error,
+        })
+        return error
+      })
+  }
+}
+
 export const RESET_GRID_ERROR_MESSAGE = 'RESET_GRID_ERROR_MESSAGE'
 
 // Resets the currently visible error message.
