@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 import { renderToStaticMarkup } from 'react-dom/server'
 
 import { connect } from 'react-redux'
-import { commonActions } from '../actions'
+import { commonActions, userActions } from '../actions'
 import DevTools from './DevTools'
 
 import { LocalizeProvider, withLocalize } from 'react-localize-redux'
@@ -17,6 +17,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import Header from '../components/Shared/Header'
 import Message from '../components/Shared/Message'
 import UploadPage from './Upload/UploadPage'
+import SubmissionsPage from './Submissions/SubmissionsPage'
 import Promote from './Promote/Promote'
 import Login from './Login'
 import Logout from './Logout'
@@ -45,6 +46,7 @@ class Root extends Component {
   }
 
   render() {
+
     return (
       <MuiThemeProvider theme={theme}>
         <Router basename="sample-receiving">
@@ -63,6 +65,7 @@ class Root extends Component {
                 <div>
                   <Route path="/(upload|)" component={UploadPage} />
                   <Route path="/promote" component={Promote} />
+                  <Route path="/submissions" component={SubmissionsPage} />
                   <Route path="/logout" component={Logout} />
                   <Route path="/login" component={Login} />
                   <Route path="/error" component={ErrorPage} />
@@ -78,9 +81,11 @@ class Root extends Component {
 
 const mapStateToProps = state => ({
   ...state.common,
+  ...state.user,
 })
 const mapDispatchToProps = {
   ...commonActions,
+  ...userActions,
 }
 
 export default withLocalize(

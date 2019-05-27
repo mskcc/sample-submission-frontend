@@ -9,7 +9,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { Translate } from 'react-localize-redux'
 import { Redirect } from 'react-router-dom'
 
-import { commonActions } from '../actions'
+import { userActions } from '../actions'
 import Message from '../components/Shared/Message'
 
 class Login extends React.Component {
@@ -78,12 +78,12 @@ class Login extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  error: state.common.error,
-  loginErrorMessage: state.common.loginErrorMessage,
-  loggedIn: state.common.loggedIn,
+  error: state.user.error,
+  loginErrorMessage: state.user.loginErrorMessage,
+  loggedIn: state.user.loggedIn,
 })
 const mapDispatchToProps = {
-  ...commonActions,
+  ...userActions,
 }
 
 const styles = theme => ({

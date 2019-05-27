@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import { withLocalize } from 'react-localize-redux'
 import { connect } from 'react-redux'
 import { uploadGridActions } from '../../actions'
-import { resetErrorMessage } from '../../actions/commonActions'
 import { Redirect } from 'react-router-dom'
 
 import { Dialog } from '../../components/Upload'
@@ -50,16 +49,17 @@ export class UploadPage extends Component {
 const mapStateToProps = state => ({
   errorMessage: state.errorMessage,
   grid: state.upload.grid,
-  loggedIn: state.common.loggedIn,
-  loading: state.common.loading,
+  loggedIn: state.user.loggedIn,
+  loading: state.user.loading,
 
 })
+
 
 export default withLocalize(
   connect(
     mapStateToProps,
     {
-      resetErrorMessage,
+      // resetErrorMessage,
       ...uploadGridActions,
     }
   )(UploadPage)
