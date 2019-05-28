@@ -13,6 +13,7 @@ export default function uploadFormReducer(state = initialFormState, action) {
       return {
         ...state,
         formIsLoading: false,
+        initialFetched: true,
         materials: action.data.materials,
         applications: action.data.applications,
         allMaterials: action.data.materials,
@@ -26,8 +27,17 @@ export default function uploadFormReducer(state = initialFormState, action) {
     case ActionTypes.RECEIVE_INITIAL_STATE_FAIL:
       return {
         ...state,
+        initialFetched: false,
         error: action.error,
         formIsLoading: false,
+      }
+
+    case ActionTypes.INITIAL_STATE_RETRIEVED:
+      return {
+        ...state,
+        formIsLoading: false,
+
+
       }
 
     case ActionTypes.REQUEST_MATERIALS_AND_APPLICATIONS:
