@@ -1,7 +1,7 @@
 import { userActions as ActionTypes } from '../../actions'
 
 const initialState = {
-  submissions: {test:'test'},
+  submissions: { test: 'test' },
 }
 
 function userReducer(state = initialState, action) {
@@ -74,6 +74,15 @@ function userReducer(state = initialState, action) {
         // loading: false,
         message: action.message,
       }
+    case ActionTypes.GET_SUBMISSIONS:
+      return {
+        ...state,
+        loading: true,
+      }
+    case ActionTypes.GET_SUBMISSIONS_FAIL:
+      return { ...state, loading: false }
+    case ActionTypes.GET_SUBMISSIONS_SUCCESS:
+      return { ...state, submissionsTable: action.payload.table, submissions: action.payload.submissions, loading: false }
 
     default:
       return state

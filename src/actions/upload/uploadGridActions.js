@@ -2,12 +2,12 @@
 import axios from 'axios'
 import {
   diff,
-  generateBankedSampleData,
+  generateSubmitData,
   generateRows,
   generateAGColumns,
   generateGridData,
   updateRows,
-} from './helpers'
+} from '../helpers'
 
 // make global
 let API_ROOT = 'http://localhost:9004'
@@ -37,8 +37,8 @@ export const registerGridChange = changes => {
   return { type: REGISTER_GRID_CHANGE }
 }
 
-export const REQUEST_COLUMNS = 'REQUEST_COLUMNS'
-export const REQUEST_INITIAL_COLUMNS = 'REQUEST_INITIAL_COLUMNS'
+export const GET_COLUMNS = 'GET_COLUMNS'
+export const GET_INITIAL_COLUMNS = 'GET_INITIAL_COLUMNS'
 
 export const NO_CHANGE = 'NO_CHANGE'
 export const NO_CHANGE_RESET = 'NO_CHANGE_RESET'
@@ -46,23 +46,21 @@ export const NO_CHANGE_RESET = 'NO_CHANGE_RESET'
 export const UPDATE_NUM_OF_ROWS = 'UPDATE_NUM_OF_ROWS'
 export const UPDATE_NUM_OF_ROWS_SUCCESS = 'UPDATE_NUM_OF_ROWS_SUCCESS'
 
-export const RECEIVE_COLUMNS_FROM_CACHE = 'RECEIVE_COLUMNS_FROM_CACHE'
-export const RECEIVE_COLUMNS_SUCCESS = 'RECEIVE_COLUMNS_SUCCESS'
-// export const RECEIVE_COLUMNS_INVALID_COMBINATION = 'RECEIVE_COLUMNS_INVALID_COMBINATION'
-export const RECEIVE_COLUMNS_FAIL = 'RECEIVE_COLUMNS_FAIL'
+export const GET_COLUMNS_FROM_CACHE = 'GET_COLUMNS_FROM_CACHE'
+export const GET_COLUMNS_SUCCESS = 'GET_COLUMNS_SUCCESS'
+// export const GET_COLUMNS_INVALID_COMBINATION = 'GET_COLUMNS_INVALID_COMBINATION'
+export const GET_COLUMNS_FAIL = 'GET_COLUMNS_FAIL'
 
 export function getColumns(formValues) {
   return (dispatch, getState) => {
-    dispatch({ type: REQUEST_COLUMNS })
+    dispatch({ type: GET_COLUMNS })
 
     // no grid? get inital columns
     if (getState().upload.grid.form.length == 0) {
       return dispatch(getInitialColumns(formValues))
       // TODO smell to have this in an action
     } else {
-      console.log(formValues, getState().upload.grid.form)
       let diffValues = diff(getState().upload.grid.form, formValues)
-      console.log(diffValues)
       if (Object.entries(diffValues).length === 0) {
         dispatch({ type: NO_CHANGE })
         return setTimeout(() => {
@@ -92,7 +90,7 @@ export function getInitialColumns(formValues) {
   let material = formValues.material
   let application = formValues.application
   return dispatch => {
-    dispatch({ type: REQUEST_INITIAL_COLUMNS })
+    dispatch({ type: GET_INITIAL_COLUMNS })
     material = material.replace('/', '_PIPI_SLASH_')
     application = application.replace('/', '_PIPI_SLASH_')
     return axios
@@ -107,7 +105,7 @@ export function getInitialColumns(formValues) {
         let grid = generateGridData(response.data.columnDefs, formValues)
 
         dispatch({
-          type: RECEIVE_COLUMNS_SUCCESS,
+          type: GET_COLUMNS_SUCCESS,
           grid: grid,
           form: formValues,
         })
@@ -115,7 +113,7 @@ export function getInitialColumns(formValues) {
       })
       .catch(error => {
         dispatch({
-          type: RECEIVE_COLUMNS_FAIL,
+          type: GET_COLUMNS_FAIL,
           error: error,
           application: application,
           material: material,
@@ -129,13 +127,14 @@ export const ADD_GRID_TO_BANKED_SAMPLE = 'ADD_GRID_TO_BANKED_SAMPLE'
 export const ADD_GRID_TO_BANKED_SAMPLE_FAIL = 'ADD_GRID_TO_BANKED_SAMPLE_FAIL'
 export const ADD_GRID_TO_BANKED_SAMPLE_SUCCESS =
   'ADD_GRID_TO_BANKED_SAMPLE_SUCCESS'
+export const BUTTON_RESET = 'BUTTON_RESET'
 export function addGridToBankedSample() {
   return (dispatch, getState) => {
     dispatch({ type: ADD_GRID_TO_BANKED_SAMPLE })
 
     return axios
       .post(API_ROOT + '/addBankedSamples', {
-        data: generateBankedSampleData(getState()),
+        data: generateSubmitData(getState()),
       })
       .then(response => {
         // Handsontable binds to your data source (list of arrays or list of objects) by reference. Therefore, all the data entered in the grid will alter the original data source.
@@ -155,6 +154,7 @@ export function addGridToBankedSample() {
   }
 }
 
+
 export const SAVE_PARTIAL_SUBMISSION = 'SAVE_PARTIAL_SUBMISSION'
 export const SAVE_PARTIAL_SUBMISSION_FAIL = 'SAVE_PARTIAL_SUBMISSION_FAIL'
 export const SAVE_PARTIAL_SUBMISSION_SUCCESS = 'SAVE_PARTIAL_SUBMISSION_SUCCESS'
@@ -165,17 +165,16 @@ export function savePartialSubmission(grid) {
     return axios
       .post(API_ROOT + '/saveSubmission', {
         data: {
-          ...generateBankedSampleData(getState()),
+          ...generateSubmitData(getState()),
           username: getState().user.username,
         },
       })
       .then(response => {
         // Handsontable binds to your data source (list of arrays or list of objects) by reference. Therefore, all the data entered in the grid will alter the original data source.
-
-        dispatch({
-          type: SAVE_PARTIAL_SUBMISSION_SUCCESS,
-        })
-        return response
+        dispatch({ type: SAVE_PARTIAL_SUBMISSION_SUCCESS })
+        return setTimeout(() => {
+          dispatch({ type: BUTTON_RESET })
+        }, 2000)
       })
       .catch(error => {
         dispatch({
@@ -184,6 +183,39 @@ export function savePartialSubmission(grid) {
         })
         return error
       })
+  }
+}
+
+export const SUBMISSION_COLLUSION_CHECK = 'SUBMISSION_COLLUSION_CHECK'
+export const SUBMISSION_COLLUSION_CHECK_FAIL = 'SUBMISSION_COLLUSION_CHECK_FAIL'
+export const SUBMISSION_COLLUSION_CHECK_SUCCESS =
+  'SUBMISSION_COLLUSION_CHECK_SUCCESS'
+export function checkSubmissionCollusion() {
+  return (dispatch, getState) => {
+    dispatch({ type: SUBMISSION_COLLUSION_CHECK })
+
+    //   if (Object.entries(getState().user.submissions).length === 0) {
+    //      getSubmissions
+
+    //   return axios
+    //     .get(API_ROOT + '/saveSubmission', {
+    //       data: {
+    //         ...generateSubmitData(getState()),
+    //         username: getState().user.username,
+    //       },
+    //     })
+    //     .then(response => {
+    //       // Handsontable binds to your data source (list of arrays or list of objects) by reference. Therefore, all the data entered in the grid will alter the original data source.
+    //       dispatch({ type: SUBMISSION_COLLUSION_CHECK_SUCCESS, payload: response.data })
+    //     })
+    //     .catch(error => {
+    //       dispatch({
+    //         type: SUBMISSION_COLLUSION_CHECK_FAIL,
+    //         error: error,
+    //       })
+    //       return error
+    //     })
+    // }
   }
 }
 

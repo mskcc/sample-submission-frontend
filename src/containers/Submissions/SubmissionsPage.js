@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { withLocalize } from 'react-localize-redux'
 import { connect } from 'react-redux'
-import { uploadGridActions } from '../../actions'
+import { userActions } from '../../actions'
 import { resetErrorMessage } from '../../actions/commonActions'
 import { Redirect } from 'react-router-dom'
 
@@ -19,18 +19,23 @@ export class SubmissionsPage extends Component {
     // this.props.resetErrorMessage()
   }
 
+  componentDidMount() {
+    // making sure BE and FE versions match - shows info message if not
+    this.props.getSubmissions()
+  }
+
   handleDialogClose = () => {
     this.props.resetGridErrorMessage()
   }
 
   render() {
-    // if (!this.props.loading && !this.props.loggedIn) {
-    //   return <Redirect to="/login" />
-    // }
+    if (!this.props.loading && !this.props.loggedIn) {
+      return <Redirect to="/login" />
+    }
 
     return (
       <React.Fragment>
-        <SubmissionsTable user={this.props.user} />
+        <SubmissionsTable submissions={this.props.user.submissionsTable} />
       </React.Fragment>
     )
   }
@@ -38,6 +43,8 @@ export class SubmissionsPage extends Component {
 
 const mapStateToProps = state => ({
   user: state.user,
+  loggedIn: state.user.loggedIn,
+  loading: state.user.loading,
 })
 
 export default withLocalize(
@@ -45,7 +52,7 @@ export default withLocalize(
     mapStateToProps,
     {
       resetErrorMessage,
-      ...uploadGridActions,
+      ...userActions,
     }
   )(SubmissionsPage)
 )

@@ -27,5 +27,6 @@ export const initialGridState = {
   error: '',
   form: [],
   gridIsLoading: false,
+  isSaving: false,
   nothingToChange: false,
 }

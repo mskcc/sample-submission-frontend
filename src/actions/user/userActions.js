@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { generateSubmissionsGrid } from '../helpers'
 
 let API_ROOT = 'http://localhost:9004'
 if (process.env.NODE_ENV === 'production') {
@@ -164,6 +165,34 @@ export function logout() {
     } else
       return dispatch({
         type: LOGOUT_SUCCESS,
+      })
+  }
+}
+
+export const GET_SUBMISSIONS = 'GET_SUBMISSIONS'
+export const GET_SUBMISSIONS_FAIL = 'GET_SUBMISSIONS_FAIL'
+export const GET_SUBMISSIONS_SUCCESS = 'GET_SUBMISSIONS_SUCCESS'
+export function getSubmissions() {
+  return dispatch => {
+    dispatch({ type: GET_SUBMISSIONS })
+    return axios
+      .get(API_ROOT + '/getSubmissions', {})
+      .then(response => {
+        console.log(response.data)
+        dispatch({
+          type: GET_SUBMISSIONS_SUCCESS,
+          payload: {
+            submissions: response.data,
+            table: generateSubmissionsGrid(response.data),
+          },
+        })
+      })
+      .catch(error => {
+        dispatch({
+          type: GET_SUBMISSIONS_FAIL,
+          error: error,
+        })
+        return error
       })
   }
 }

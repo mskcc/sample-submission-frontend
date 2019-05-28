@@ -18,6 +18,8 @@ class SubmissionsTable extends React.Component {
     this.hotTableComponent = React.createRef()
   }
 
+
+    
   getErrorMsg = () => {
     for (let i = 0; i < numberToAdd; i++) {}
   }
@@ -66,8 +68,9 @@ class SubmissionsTable extends React.Component {
           <HotTable
             licenseKey="non-commercial-and-evaluation"
             id="hot"
-            data={this.props.user.submissions}
-            colHeaders={this.props.user.submissions}
+            data={this.props.submissions.data}
+            colHeaders={this.props.submissions.columnHeaders}
+            // colHeaders={this.props.submissions}
             // columns={this.props.grid.columnFeatures}
             // rowHeaders={true}
             // headerTooltips={true}
@@ -92,8 +95,9 @@ class SubmissionsTable extends React.Component {
             // }}
 
             width="95%"
-            stretchH="all"
-            // height="10%"
+            height="auto"
+            // stretchH="auto"
+            
             // height={() => {
             //   if (this.props.submissions.length >= 25) return '700'
             //   // else if (this.props.submissions.length >= 900) return '100vh'

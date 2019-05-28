@@ -9,19 +9,21 @@ import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
 import { Translate } from 'react-localize-redux'
 
-const Button = ({ id, onSubmit, isLoading, nothingToSubmit, title, classes, color }) => (
+const Button = ({ id, onSubmit, isLoading, done, title, classes, color }) => (
   <Translate>
     {({ translate }) => (
       <React.Fragment>
         <MuiButton
           variant="contained"
           type="submit"
-          onClick = {onSubmit}
+          onClick={onSubmit}
           className={classes.button}
           color={color}
           disabled={isLoading}
         >
-          {translate('upload.' + id + '_label')}
+          {done
+            ? translate('upload.' + id + '_msg')
+            : translate('upload.' + id + '_label')}
         </MuiButton>
         {isLoading && (
           <CircularProgress
@@ -30,14 +32,9 @@ const Button = ({ id, onSubmit, isLoading, nothingToSubmit, title, classes, colo
             className={classes.buttonProgress}
           />
         )}
+
         
-          <Fade in={nothingToSubmit}>
-            <div className={classes.nothingToSubmit}>
-              {translate('upload.form.nothing_to_change')}
-            </div>
-          </Fade>
-        </React.Fragment>
-      
+      </React.Fragment>
     )}
   </Translate>
 )
