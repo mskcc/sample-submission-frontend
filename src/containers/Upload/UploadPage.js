@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { withLocalize } from 'react-localize-redux'
 import { connect } from 'react-redux'
-import { uploadGridActions } from '../../actions'
+import { uploadGridActions, userActions } from '../../actions'
 import { Redirect } from 'react-router-dom'
 
 import { Dialog } from '../../components/Upload'
@@ -23,11 +23,16 @@ export class UploadPage extends Component {
     this.props.resetGridErrorMessage()
   }
 
+  componentDidMount() {
+    this.props.refreshToken()
+  }
+
   render() {
     console.log(this.props.loggedIn)
     if (!this.props.loading && !this.props.loggedIn) {
       return <Redirect to="/login" />
     }
+
     return (
       <React.Fragment>
         <Dialog
@@ -51,9 +56,7 @@ const mapStateToProps = state => ({
   grid: state.upload.grid,
   loggedIn: state.user.loggedIn,
   loading: state.user.loading,
-
 })
-
 
 export default withLocalize(
   connect(
@@ -61,6 +64,7 @@ export default withLocalize(
     {
       // resetErrorMessage,
       ...uploadGridActions,
+      ...userActions,
     }
   )(UploadPage)
 )

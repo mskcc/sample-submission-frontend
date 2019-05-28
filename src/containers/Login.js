@@ -27,51 +27,55 @@ class Login extends React.Component {
     }
     return (
       <Translate>
-        {({ translate }) => (
-          <Paper elevation={1}>
-            {loginErrorMessage && (
-              <Message type="Error" msg={this.props.loginErrorMessage} />
-            )}
-            <form
-              onSubmit={this.handleSubmit}
-              id="login"
-              className={classes.container}
-            >
-              <TextField
-                id="username"
-                name="username"
-                required
-                label="MSK Username"
-                // className={classes.textField}
-                // ref={this.username}
-                margin="normal"
-              />
-              <TextField
-                id="password"
-                name="password"
-                required
-                label="MSK Password"
-                // className={classes.textField}
-                // ref={this.pw}
-                type="password"
-                autoComplete="current-password"
-                margin="normal"
-              />
+        {({ translate }) =>
+          !this.props.loading ? (
+            <Paper elevation={1}>
+              {loginErrorMessage && (
+                <Message type="Error" msg={this.props.loginErrorMessage} />
+              )}
+              <form
+                onSubmit={this.handleSubmit}
+                id="login"
+                className={classes.container}
+              >
+                <TextField
+                  id="username"
+                  name="username"
+                  required
+                  label="MSK Username"
+                  // className={classes.textField}
+                  // ref={this.username}
+                  margin="normal"
+                />
+                <TextField
+                  id="password"
+                  name="password"
+                  required
+                  label="MSK Password"
+                  // className={classes.textField}
+                  // ref={this.pw}
+                  type="password"
+                  autoComplete="current-password"
+                  margin="normal"
+                />
 
-              <div className="row">
-                <Button
-                  type="submit"
-                  form="login"
-                  variant="contained"
-                  color="secondary"
-                  disabled={pristine || submitting}
-                >
-                  {submitting ? 'Logging in...' : 'Submit'}
-                </Button>
-              </div>
-            </form>
-          </Paper>
-        )}
+                <div className="row">
+                  <Button
+                    type="submit"
+                    form="login"
+                    variant="contained"
+                    color="secondary"
+                    disabled={pristine || submitting}
+                  >
+                    {submitting ? 'Logging in...' : 'Submit'}
+                  </Button>
+                </div>
+              </form>
+            </Paper>
+          ) : (
+            <div />
+          )
+        }
       </Translate>
     )
   }
@@ -81,6 +85,7 @@ const mapStateToProps = state => ({
   error: state.user.error,
   loginErrorMessage: state.user.loginErrorMessage,
   loggedIn: state.user.loggedIn,
+  loading: state.user.loading,
 })
 const mapDispatchToProps = {
   ...userActions,

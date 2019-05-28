@@ -210,12 +210,12 @@ export const updateRows = (formValues, grid) => {
 
 export const generateBankedSampleData = state => {
   let data = {}
-  console.log(state)
   data.version = state.common.version
-  data.grid = state.upload.grid.rows
-  data.form = state.upload.grid.form
+  data.grid_values = state.upload.grid.rows
+  data.form_values = state.upload.grid.form
   let date = Math.floor(Date.now() / 1000);
   // TODO use this for save/edit
   data.transactionId = date
+  console.log(data)
   return data
 }

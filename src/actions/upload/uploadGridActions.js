@@ -15,11 +15,25 @@ if (process.env.NODE_ENV === 'production') {
   API_ROOT = 'https://delphi.mskcc.org/sample-receiving-backend/'
   // API_ROOT = 'https://rex.mskcc.org/apps/auth/'
 }
-// TODO will this stay a grid action?
+
+// Add a request interceptor
+axios.interceptors.request.use(
+  config => {
+    let token = localStorage.getItem('access_token')
+    if (token && !config.headers['Authorization']) {
+      config.headers['Authorization'] = `Bearer ${token}`
+    }
+
+    return config
+  },
+
+  error => {
+    return Promise.reject(error)
+  }
+)
 
 export const REGISTER_GRID_CHANGE = 'REGISTER_GRID_CHANGE'
 export const registerGridChange = changes => {
-  console.log(changes)
   return { type: REGISTER_GRID_CHANGE }
 }
 
@@ -148,9 +162,10 @@ export function savePartialSubmission(grid) {
 
     return axios
       .post(API_ROOT + '/saveSubmission', {
-        username: getState().user.username,
-        grid_values: grid.rows,
-        header_values: grid.form
+        data: {
+          ...generateBankedSampleData(getState()),
+          username: getState().user.username,
+        },
       })
       .then(response => {
         // Handsontable binds to your data source (list of arrays or list of objects) by reference. Therefore, all the data entered in the grid will alter the original data source.

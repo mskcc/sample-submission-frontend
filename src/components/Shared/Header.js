@@ -34,17 +34,7 @@ const Header = ({ classes, loggedIn }) => (
               </Typography>
             </NavLink>
           </Button>
-          <Button>
-            <NavLink
-              to="/promote"
-              activeClassName={classes.active}
-              className={classes.navlink}
-            >
-              <Typography color="inherit" variant="h6">
-                Promote
-              </Typography>
-            </NavLink>
-          </Button>  
+          
           <Button>
             <NavLink
               to="/submissions"
