@@ -60,8 +60,10 @@ export function getColumns(formValues) {
       return dispatch(getInitialColumns(formValues))
       // TODO smell to have this in an action
     } else {
+      console.log(formValues, getState().upload.grid.form)
       let diffValues = diff(getState().upload.grid.form, formValues)
-      if (diffValues === undefined) {
+      console.log(diffValues)
+      if (Object.entries(diffValues).length === 0) {
         dispatch({ type: NO_CHANGE })
         return setTimeout(() => {
           dispatch({ type: NO_CHANGE_RESET })
@@ -70,7 +72,7 @@ export function getColumns(formValues) {
 
       //#samples -> #number rows, rest same, only update rows number
       else if (
-        Object.keys(diffValues).length === 1 &&
+        Object.entries(diffValues).length === 1 &&
         'number_of_samples' in diffValues
       ) {
         dispatch({ type: UPDATE_NUM_OF_ROWS })
