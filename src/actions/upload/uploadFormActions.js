@@ -26,25 +26,30 @@ export const REQUEST_INITIAL_STATE = 'REQUEST_INITIAL_STATE'
 export const RECEIVE_INITIAL_STATE_SUCCESS = 'RECEIVE_INITIAL_STATE_SUCCESS'
 
 export const RECEIVE_INITIAL_STATE_FAIL = 'RECEIVE_INITIAL_STATE_FAIL'
+export const INITIAL_STATE_RETRIEVED = 'INITIAL_STATE_RETRIEVED'
 
 export function getInitialState() {
-  return dispatch => {
-    dispatch({ type: REQUEST_INITIAL_STATE })
-    return axios
-      .get(API_ROOT + '/upload/initialState')
-      .then(response => {
-        dispatch({
-          type: RECEIVE_INITIAL_STATE_SUCCESS,
-          data: response.data,
+  return (dispatch, getState) => {
+    if (getState().upload.form.initialFetched)
+      return dispatch({ type: INITIAL_STATE_RETRIEVED })
+    else {
+      dispatch({ type: REQUEST_INITIAL_STATE })
+      return axios
+        .get(API_ROOT + '/upload/initialState')
+        .then(response => {
+          dispatch({
+            type: RECEIVE_INITIAL_STATE_SUCCESS,
+            data: response.data,
+          })
+          return response
         })
-        return response
-      })
-      .catch(error =>
-        dispatch({
-          type: RECEIVE_INITIAL_STATE_FAIL,
-          error: error.message,
-        })
-      )
+        .catch(error =>
+          dispatch({
+            type: RECEIVE_INITIAL_STATE_FAIL,
+            error: error.message,
+          })
+        )
+    }
   }
 }
 

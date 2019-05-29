@@ -27,6 +27,11 @@ class UploadGrid extends React.Component {
     swal(error)
   }
 
+  handleSave = () => {
+    // if (this.props.checkSubmissionCollusion())
+
+    this.props.handleSave()
+  }
   handleSubmit = () => {
     const { columnFeatures, rows } = this.props.grid
 
@@ -49,106 +54,133 @@ class UploadGrid extends React.Component {
     if (emptyColumns.size > 0) {
       console.log(emptyColumns.size)
       swal('Required', [...emptyColumns].join('\n '), 'error')
+    } else {
+      this.props.handleSubmit()
     }
   }
 
   render() {
-    const { classes } = this.props
+    const { classes, grid, handleChange } = this.props
+    // console.log(this.props.grid.rows.length)
     return (
-      <div className={classes.container}>
-        <HotTable
-          licenseKey="non-commercial-and-evaluation"
-          id="hot"
-          data={this.props.grid.rows}
-          colHeaders={this.props.grid.columns}
-          columns={this.props.grid.columnFeatures}
-          rowHeaders={true}
-          headerTooltips={true}
-          manualColumnResize={true}
-          comments={true}
-          ref={this.hotTableComponent}
-          // colWidths="190"
-          // cells={function(row, col, prop) {
-          //   // first row contains helptext
-          //   var cellProperties = {}
-          //   if (row === 0) {
-          //     cellProperties.readOnly = true
-          //     cellProperties.className = classes.tooltipCell
-          //     cellProperties.type = 'text'
-          //   }
-          //   return cellProperties
-          // }}
-          afterChange={(change, source) => {
-            if (source !== 'loadData') {
-              this.props.handleChange(change)
-            }
-          }}
-          afterValidate={(isValid, value, row, prop, source) => {
-            // let error = this.getErrorMsg(col)
+      <div>
+        <div className={classes.container}>
+          <div className={classes.buttons}>
+            <GridButton
+              id="grid_submit"
+              onSubmit={this.handleSubmit}
+              isLoading={false}
+              nothingToSubmit={false}
+              color="secondary"
+            />
+            <GridButton
+              id="grid_save"
+              onSubmit={this.handleSave}
+              isLoading={grid.isSaving}
+              done={grid.saved}
+              msg={'Saved!'}
+              color="primary"
+            />{' '}
+            <GridButton
+              id="grid_clear"
+              // onSubmit={this.handleSubmit}
+              isLoading={false}
+              nothingToSubmit={false}
+              color="primary"
+            />
+          </div>
+          <HotTable
+            licenseKey="non-commercial-and-evaluation"
+            id="hot"
+            data={grid.rows}
+            colHeaders={grid.columns}
+            columns={grid.columnFeatures}
+            rowHeaders={true}
+            headerTooltips={true}
+            manualColumnResize={true}
+            comments={true}
+            ref={this.hotTableComponent}
+            // colWidths="190"
+            // cells={function(row, col, prop) {
+            //   // first row contains helptext
+            //   var cellProperties = {}
+            //   if (row === 0) {
+            //     cellProperties.readOnly = true
+            //     cellProperties.className = classes.tooltipCell
+            //     cellProperties.type = 'text'
+            //   }
+            //   return cellProperties
+            // }}
+            afterChange={(change, source) => {
+              if (source !== 'loadData') {
+                handleChange(change)
+              }
+            }}
+            afterValidate={(isValid, value, row, prop, source) => {
+              // let error = this.getErrorMsg(col)
 
-            // let col = this.hotTableComponent.current.hotInstance.propToCol(prop)
-            // alert("col.error")
-            // let col = this.propToCol(prop)
-            if (!isValid) {
-              let col = this.hotTableComponent.current.hotInstance.propToCol(
-                prop
-              )
+              // let col = this.hotTableComponent.current.hotInstance.propToCol(prop)
+              // alert("col.error")
+              // let col = this.propToCol(prop)
+              if (!isValid) {
+                let col = this.hotTableComponent.current.hotInstance.propToCol(
+                  prop
+                )
 
-              this.showError(this.props.grid.columnFeatures[col].error)
-            }
-            // this.setState({
-            //   status: isValid,
-            //   [col]: this.props.grid.columnFeatures[col].error,
-            // })
-          }}
-          // afterChange={(changes, source) => {
-          //   if (source === 'edit') {
-          //     console.log(changes[0][1])
-          //     if (this.state.status === false) {
-          //       const TD = this.hotTableComponent.current.hotInstance.getCell(
-          //         changes[0][0],
-          //         this.hotTableComponent.current.hotInstance.propToCol(changes[0][1])
-          //       )
-          //       console.log(TD)
+                this.showError(grid.columnFeatures[col].error)
+              }
+              // this.setState({
+              //   status: isValid,
+              //   [col]: grid.columnFeatures[col].error,
+              // })
+            }}
+            // afterChange={(changes, source) => {
+            //   if (source === 'edit') {
+            //     console.log(changes[0][1])
+            //     if (this.state.status === false) {
+            //       const TD = this.hotTableComponent.current.hotInstance.getCell(
+            //         changes[0][0],
+            //         this.hotTableComponent.current.hotInstance.propToCol(changes[0][1])
+            //       )
+            //       console.log(TD)
 
-          //       if (!this.state.invalidCells.includes(TD)) {
-          //         this.state.invalidCells.push(TD)
-          //       }
+            //       if (!this.state.invalidCells.includes(TD)) {
+            //         this.state.invalidCells.push(TD)
+            //       }
 
-          //       this.state.invalidCells.forEach((td, index) => {
-          //         if (!td.classList.contains('htInvalid')) {
-          //           td.classList.add('htInvalid')
-          //         }
-          //       })
-          //     }
+            //       this.state.invalidCells.forEach((td, index) => {
+            //         if (!td.classList.contains('htInvalid')) {
+            //           td.classList.add('htInvalid')
+            //         }
+            //       })
+            //     }
 
-          //     if (this.state.invalidCells.length) {
-          //       this.state.invalidCells.forEach((td, index) => {
-          //         if (td.classList.contains('htNumeric')) {
-          //           td.classList.remove('htInvalid')
-          //           this.state.invalidCells.splice(index, 1)
-          //         } else {
-          //           td.classList.add('htInvalid')
-          //         }
-          //       })
-          //     }
-          //   }
-          // }}
-          width="95vw"
-          height={() => {
-            if (this.props.grid.rows.length >= 25) return '700'
-            // else if (this.props.grid.rows.length >= 900) return '100vh'
-            else if (this.props.grid.rows.length >= 20) return '510'
-            else if (this.props.grid.rows.length >= 15) return '500'
-            else if (this.props.grid.rows.length >= 5) return '300'
-          }}
-        />
-        <GridButton
-          id="grid_submit"
-          onSubmit={this.handleSubmit}
-          isLoading={false}
-          nothingToSubmit={false}
-        />
+            //     if (this.state.invalidCells.length) {
+            //       this.state.invalidCells.forEach((td, index) => {
+            //         if (td.classList.contains('htNumeric')) {
+            //           td.classList.remove('htInvalid')
+            //           this.state.invalidCells.splice(index, 1)
+            //         } else {
+            //           td.classList.add('htInvalid')
+            //         }
+            //       })
+            //     }
+            //   }
+            // }}
+            width="95%"
+            stretchH="all"
+            // height="10%"
+            height={() => {
+              if (grid.rows.length >= 25) return '700'
+              // else if (grid.rows.length >= 900) return '100vh'
+              else if (grid.rows.length >= 20) return '510'
+              else if (grid.rows.length >= 15) return '500'
+              else if (grid.rows.length >= 10) return '400'
+              else if (grid.rows.length >= 5) return '200'
+              else if (grid.rows.length < 5) return '150'
+            }}
+          />
+        </div>
       </div>
     )
   }
@@ -159,7 +191,12 @@ const styles = theme => ({
     // borderRight: '1px solid gray',
     display: 'grid',
     justifyItems: 'center',
+    marginLeft: theme.spacing.unit * 2,
+    width: '95vw',
+    // maxHeight: 600,
+    overflow: 'hidden',
   },
+  buttons: {},
   tooltipCell: {
     fontSize: '.8em',
     color: 'black !important',

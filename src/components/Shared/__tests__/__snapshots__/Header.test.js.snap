@@ -45,50 +45,13 @@ exports[`Render Header render Header correctly 1`] = `
         <a
           aria-current={null}
           className="Header-navlink-3"
-          href="/upload"
+          href="/login"
           onClick={[Function]}
         >
           <h6
             className="MuiTypography-root-48 MuiTypography-h6-65 MuiTypography-colorInherit-77"
           >
-            Upload
-          </h6>
-        </a>
-      </span>
-      <span
-        className="MuiTouchRipple-root-113"
-      />
-    </button>
-    <button
-      className="MuiButtonBase-root-110 MuiButton-root-84 MuiButton-text-86 MuiButton-flat-89"
-      disabled={false}
-      onBlur={[Function]}
-      onContextMenu={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onMouseDown={[Function]}
-      onMouseLeave={[Function]}
-      onMouseUp={[Function]}
-      onTouchEnd={[Function]}
-      onTouchMove={[Function]}
-      onTouchStart={[Function]}
-      tabIndex="0"
-      type="button"
-    >
-      <span
-        className="MuiButton-label-85"
-      >
-        <a
-          aria-current={null}
-          className="Header-navlink-3"
-          href="/promote"
-          onClick={[Function]}
-        >
-          <h6
-            className="MuiTypography-root-48 MuiTypography-h6-65 MuiTypography-colorInherit-77"
-          >
-            Promote
+            Login
           </h6>
         </a>
       </span>

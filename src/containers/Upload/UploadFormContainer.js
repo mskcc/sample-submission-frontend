@@ -15,12 +15,10 @@ export class UploadFormContainer extends React.Component {
   componentDidUpdate(prevProps, prevState) {}
 
   componentDidMount() {
+    // todo wait for token refresh!
     this.props.getInitialState()
   }
-  // handleSubmit = formValues => {
-  // this.props.handleSubmit(formValues)
-  // }
-
+  
   handleMaterialChange = selectedMaterial => {
     if (selectedMaterial) {
       // get possible applications for this material

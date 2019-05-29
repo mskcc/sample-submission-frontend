@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import { connect } from 'react-redux'
-import { uploadGridActions } from '../../actions'
+import { uploadGridActions, userActions } from '../../actions'
 
 import CircularProgress from '@material-ui/core/CircularProgress'
 
@@ -25,11 +25,35 @@ class UploadGridContainer extends React.Component {
     this.props.registerGridChange()
   }
 
+  handleSubmit = () => {
+    this.props.addGridToBankedSample(this.props.grid)
+  }
+
+  handleSave = () => {
+    // if (this.props.checkSubmissionCollusion()) {
+      swal(
+        'A request with this IGO ID and your username already exists. Do you want to overwrite?',
+        { buttons: ['Cancel', true] }
+      ).then(value => {
+        if (!value) {
+          // swal('OK!')
+        } else {
+          this.props.savePartialSubmission(this.props.grid)
+        }
+      })
+    // }
+  }
+
   render() {
     const { grid, handleSubmit } = this.props
 
     return grid.rows.length > 0 ? (
-      <UploadGrid grid={grid} handleChange={this.handleChange} />
+      <UploadGrid
+        grid={grid}
+        handleChange={this.handleChange}
+        handleSubmit={this.handleSubmit}
+        handleSave={this.handleSave}
+      />
     ) : null
   }
 }
@@ -40,6 +64,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   ...uploadGridActions,
+  ...userActions,
 }
 
 export default connect(

@@ -2,11 +2,34 @@
 // columnHeaders = displayed column names
 // features = field/data name, patterns, dropdowns...
 // rows = data object, will be modified in place by hands on table
+export const generateSubmissionsGrid = response => {
+  let grid = { columnHeaders: [], data: [] }
+
+  grid.columnHeaders = response.column_headers.map(a => a)
+  for (let i = 0; i < response.submissions.length; i++) {
+    let submission = response.submissions[i]
+    grid.data[i] = {
+      requestId: submission.request_id,
+      submitted: submission.submitted,
+      created_on: submission.created_on,
+      submitted_on: submission.submitted_on,
+    }
+  }
+  console.log(grid)
+  return grid
+}
 export const generateGridData = (responseColumns, formValues) => {
   let grid = { columnFeatures: [], columnHeaders: [], rows: [] }
   grid.columnFeatures = generateColumnFeatures(responseColumns, formValues)
   grid.columnHeaders = grid.columnFeatures.map(
-    a => '<span class="' + a.className + '" title="' + a.tooltip + '">' + a.columnHeader + '</span>'
+    a =>
+      '<span class="' +
+      a.className +
+      '" title="' +
+      a.tooltip +
+      '">' +
+      a.columnHeader +
+      '</span>'
     // '    <span class="has-tooltip" href="#">' +
     // a.columnHeader +
     // '<span class="tooltip-wrapper"><span class="tooltip">' +
@@ -28,10 +51,10 @@ function extractValues(mappings) {
 
 function generateColumnFeatures(responseColumns, formValues) {
   let columnFeatures = []
-  
+
   for (let i = 0; i < responseColumns.length; i++) {
     columnFeatures[i] = responseColumns[i]
-    
+
     //  patient_id_type is only set if corresponding species was selected
     if (
       columnFeatures[i].data == 'patientId' &&
@@ -59,16 +82,18 @@ function generateColumnFeatures(responseColumns, formValues) {
       columnFeatures[i].source = extractValues(responseColumns[i].source)
       columnFeatures[i].trimDropdown = false
       columnFeatures[i].allowInvalid = false
-
     }
     if ('optional' in responseColumns[i]) {
       // print(responseColumns)
-      
-      columnFeatures[i].allowEmpty = responseColumns[i].optional
-      columnFeatures[i].className = responseColumns[i].optional ? "optional" : "required"
-      if (columnFeatures[i].optional) {console.log(columnFeatures[i])}
-    }
 
+      columnFeatures[i].allowEmpty = responseColumns[i].optional
+      columnFeatures[i].className = responseColumns[i].optional
+        ? 'optional'
+        : 'required'
+      if (columnFeatures[i].optional) {
+        console.log(columnFeatures[i])
+      }
+    }
   }
 
   return columnFeatures
@@ -197,4 +222,16 @@ export const updateRows = (formValues, grid) => {
     }
   }
   return rows
+}
+
+export const generateSubmitData = state => {
+  let data = {}
+  data.version = state.common.version
+  data.grid_values = state.upload.grid.rows
+  data.form_values = state.upload.grid.form
+  let date = Math.floor(Date.now() / 1000)
+  // TODO use this for save/edit
+  data.transactionId = date
+  console.log(data)
+  return data
 }

@@ -2,8 +2,9 @@ import { commonActions as ActionTypes } from '../../actions'
 
 const initialState = {
   version: '2.0',
-  versionValid: false,
   error: null,
+  message: '',
+  // loading: true,
 }
 
 function commonReducer(state = initialState, action) {
@@ -12,7 +13,8 @@ function commonReducer(state = initialState, action) {
       return {
         ...state,
         error: action.error,
-        errorMessage: 'Our backend is experiencing some downtime. Please check back later or message an admin.',
+        message:
+          'Our backend is experiencing some downtime. Please check back later or message an admin.',
       }
 
     case ActionTypes.RESET_ERROR_MESSAGE:
@@ -24,13 +26,11 @@ function commonReducer(state = initialState, action) {
     case ActionTypes.REQUEST_CHECK_VERSION:
       return {
         ...state,
-        formIsLoading: true,
       }
 
     case ActionTypes.RECEIVE_CHECK_VERSION_SUCCESS:
       return {
         ...state,
-        formIsLoading: false,
         versionValid: true,
         error: null,
       }
@@ -39,10 +39,11 @@ function commonReducer(state = initialState, action) {
       return {
         ...state,
         error: action.error,
-        errorMessage: action.errorMessage,
-        formIsLoading: false,
+        message: action.message,
+        
         versionValid: false,
       }
+   
 
     default:
       return state

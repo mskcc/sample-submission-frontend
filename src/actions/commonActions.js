@@ -5,12 +5,41 @@ if (process.env.NODE_ENV === 'production') {
   API_ROOT = 'https://delphi.mskcc.org/sample-receiving-backend/'
 }
 
-export const REQUEST_CHECK_VERSION = 'REQUEST_CHECK_VERSION'
+import { get, post, patch, url } from '../utils/request'
+
+import { storage } from '../utils'
+
+// Add a request interceptor
+axios.interceptors.request.use(
+  config => {
+    let token = localStorage.getItem('access_token')
+    if (token && !config.headers['Authorization']) {
+      config.headers['Authorization'] = `Bearer ${token}`
+    }
+
+    return config
+  },
+
+  error => {
+    return Promise.reject(error)
+  }
+)
+// Add a response interceptor
+axios.interceptors.response.use(
+  function(response) {
+    // Do something with response data
+    return response
+  },
+  function(error) {
+    // Do something with response error
+    return Promise.reject(error)
+  }
+)
 
 export const SERVER_ERROR = 'SERVER_ERROR'
 
+export const REQUEST_CHECK_VERSION = 'REQUEST_CHECK_VERSION'
 export const RECEIVE_CHECK_VERSION_SUCCESS = 'RECEIVE_CHECK_VERSION_SUCCESS'
-
 export const RECEIVE_CHECK_VERSION_FAIL = 'RECEIVE_CHECK_VERSION_FAIL'
 export const RECEIVE_SERVER_ERROR = 'RECEIVE_SERVER_ERROR'
 
@@ -28,7 +57,6 @@ export function checkVersion(version) {
           type: RECEIVE_CHECK_VERSION_SUCCESS,
           data: response.data,
         })
-       
       })
 
       .catch(error => {
@@ -36,7 +64,7 @@ export function checkVersion(version) {
           dispatch({
             type: RECEIVE_CHECK_VERSION_FAIL,
             error: error,
-            errorMessage: error.response.data.message,
+            message: error.response.data.message,
           })
         } else {
           dispatch({
