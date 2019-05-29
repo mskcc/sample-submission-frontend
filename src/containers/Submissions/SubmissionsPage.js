@@ -33,7 +33,7 @@ export class SubmissionsPage extends Component {
       return <Redirect to="/login" />
     }
 
-    return this.props.user.submissions &&
+    return this.props.user.submissions && this.props.user.submissions.submissions &&
       this.props.user.submissions.submissions.length > 0 ? (
       <SubmissionsTable submissions={this.props.user.submissionsTable} />
     ) : (
