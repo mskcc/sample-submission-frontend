@@ -60,7 +60,7 @@ class UploadGrid extends React.Component {
   }
 
   render() {
-    const { classes, grid } = this.props
+    const { classes, grid, handleChange } = this.props
     // console.log(this.props.grid.rows.length)
     return (
       <div>

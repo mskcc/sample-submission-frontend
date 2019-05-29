@@ -60,6 +60,7 @@ export function refreshToken() {
         .catch(error => {
           localStorage.removeItem('refresh_token')
           localStorage.removeItem('access_token')
+          localStorage.removeItem('persist:root')
 
           if (error.response) {
             dispatch({
@@ -128,6 +129,7 @@ export function logout() {
 
     let access_token = localStorage.getItem('access_token')
     let refresh_token = localStorage.getItem('refresh_token')
+    localStorage.removeItem('persist:root')
 
     if (access_token) {
       axios

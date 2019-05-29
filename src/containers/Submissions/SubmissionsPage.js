@@ -33,11 +33,9 @@ export class SubmissionsPage extends Component {
       return <Redirect to="/login" />
     }
 
-    return (
-      <React.Fragment>
-        <SubmissionsTable submissions={this.props.user.submissionsTable} />
-      </React.Fragment>
-    )
+    return this.props.user.submissions.submissions.length > 0 ? (
+      <SubmissionsTable submissions={this.props.user.submissionsTable} />
+    ) : null
   }
 }
 
