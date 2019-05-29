@@ -5,10 +5,6 @@ if (process.env.NODE_ENV === 'production') {
   API_ROOT = 'https://delphi.mskcc.org/sample-receiving-backend/'
 }
 
-import { get, post, patch, url } from '../utils/request'
-
-import { storage } from '../utils'
-
 // Add a request interceptor
 axios.interceptors.request.use(
   config => {
