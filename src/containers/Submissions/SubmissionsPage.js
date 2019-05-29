@@ -33,9 +33,12 @@ export class SubmissionsPage extends Component {
       return <Redirect to="/login" />
     }
 
-    return this.props.user.submissions && this.props.user.submissions.submissions.length > 0 ? (
+    return this.props.user.submissions &&
+      this.props.user.submissions.submissions.length > 0 ? (
       <SubmissionsTable submissions={this.props.user.submissionsTable} />
-    ) : "You have not submitted anything since the launch of V2!"
+    ) : (
+      'You have not submitted anything since the launch of V2!'
+    )
   }
 }
 

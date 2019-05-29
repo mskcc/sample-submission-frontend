@@ -2,6 +2,22 @@
 // columnHeaders = displayed column names
 // features = field/data name, patterns, dropdowns...
 // rows = data object, will be modified in place by hands on table
+export const generateSubmissionsGrid = response => {
+  let grid = { columnHeaders: [], data: [] }
+
+  grid.columnHeaders = response.column_headers.map(a => a)
+  for (let i = 0; i < response.submissions.length; i++) {
+    let submission = response.submissions[i]
+    grid.data[i] = {
+      requestId: submission.request_id,
+      submitted: submission.submitted,
+      created_on: submission.created_on,
+      submitted_on: submission.submitted_on,
+    }
+  }
+  console.log(grid)
+  return grid
+}
 export const generateGridData = (responseColumns, formValues) => {
   let grid = { columnFeatures: [], columnHeaders: [], rows: [] }
   grid.columnFeatures = generateColumnFeatures(responseColumns, formValues)
@@ -208,14 +224,14 @@ export const updateRows = (formValues, grid) => {
   return rows
 }
 
-export const generateBankedSampleData = state => {
+export const generateSubmitData = state => {
   let data = {}
-  console.log(state)
   data.version = state.common.version
-  data.grid = state.upload.grid.rows
-  data.form = state.upload.grid.form
-  let date = Math.floor(Date.now() / 1000);
+  data.grid_values = state.upload.grid.rows
+  data.form_values = state.upload.grid.form
+  let date = Math.floor(Date.now() / 1000)
   // TODO use this for save/edit
   data.transactionId = date
+  console.log(data)
   return data
 }

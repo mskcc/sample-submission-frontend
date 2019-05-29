@@ -27,6 +27,11 @@ class UploadGrid extends React.Component {
     swal(error)
   }
 
+  handleSave = () => {
+    // if (this.props.checkSubmissionCollusion())
+
+    this.props.handleSave()
+  }
   handleSubmit = () => {
     const { columnFeatures, rows } = this.props.grid
 
@@ -55,7 +60,7 @@ class UploadGrid extends React.Component {
   }
 
   render() {
-    const { classes } = this.props
+    const { classes, grid, handleChange } = this.props
     // console.log(this.props.grid.rows.length)
     return (
       <div>
@@ -70,9 +75,10 @@ class UploadGrid extends React.Component {
             />
             <GridButton
               id="grid_save"
-              // onSubmit={this.handleSubmit}
-              isLoading={false}
-              nothingToSubmit={false}
+              onSubmit={this.handleSave}
+              isLoading={grid.isSaving}
+              done={grid.saved}
+              msg={'Saved!'}
               color="primary"
             />{' '}
             <GridButton
@@ -86,9 +92,9 @@ class UploadGrid extends React.Component {
           <HotTable
             licenseKey="non-commercial-and-evaluation"
             id="hot"
-            data={this.props.grid.rows}
-            colHeaders={this.props.grid.columns}
-            columns={this.props.grid.columnFeatures}
+            data={grid.rows}
+            colHeaders={grid.columns}
+            columns={grid.columnFeatures}
             rowHeaders={true}
             headerTooltips={true}
             manualColumnResize={true}
@@ -107,7 +113,7 @@ class UploadGrid extends React.Component {
             // }}
             afterChange={(change, source) => {
               if (source !== 'loadData') {
-                this.props.handleChange(change)
+                handleChange(change)
               }
             }}
             afterValidate={(isValid, value, row, prop, source) => {
@@ -121,11 +127,11 @@ class UploadGrid extends React.Component {
                   prop
                 )
 
-                this.showError(this.props.grid.columnFeatures[col].error)
+                this.showError(grid.columnFeatures[col].error)
               }
               // this.setState({
               //   status: isValid,
-              //   [col]: this.props.grid.columnFeatures[col].error,
+              //   [col]: grid.columnFeatures[col].error,
               // })
             }}
             // afterChange={(changes, source) => {
@@ -162,16 +168,16 @@ class UploadGrid extends React.Component {
             //   }
             // }}
             width="95%"
-            stretchH='all'
+            stretchH="all"
             // height="10%"
             height={() => {
-              if (this.props.grid.rows.length >= 25) return '700'
-              // else if (this.props.grid.rows.length >= 900) return '100vh'
-              else if (this.props.grid.rows.length >= 20) return '510'
-              else if (this.props.grid.rows.length >= 15) return '500'
-              else if (this.props.grid.rows.length >= 10) return '400'
-              else if (this.props.grid.rows.length >= 5) return '200'
-              else if (this.props.grid.rows.length < 5) return '150'
+              if (grid.rows.length >= 25) return '700'
+              // else if (grid.rows.length >= 900) return '100vh'
+              else if (grid.rows.length >= 20) return '510'
+              else if (grid.rows.length >= 15) return '500'
+              else if (grid.rows.length >= 10) return '400'
+              else if (grid.rows.length >= 5) return '200'
+              else if (grid.rows.length < 5) return '150'
             }}
           />
         </div>
