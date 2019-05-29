@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { commonActions } from '../actions'
+import { userActions } from '../actions'
 import { Redirect } from 'react-router-dom'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
@@ -19,10 +19,10 @@ class Logout extends React.Component {
   }
 }
 const mapStateToProps = state => ({
-  ...state.common,
+  ...state.user,
 })
 const mapDispatchToProps = {
-  ...commonActions,
+  ...userActions,
 }
 
 export default connect(

@@ -28,6 +28,7 @@
     "form_submit_label": "Generate Table",
     "grid_submit_label": "Submit",
     "grid_save_label": "Save Table",
+    "grid_save_msg": "Saved!",
     "grid_clear_label": "Clear Table"
   }
 }

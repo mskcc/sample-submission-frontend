@@ -13,7 +13,7 @@ export default function uploadGridReducer(state = initialGridState, action) {
         ...state,
       }
 
-    case ActionTypes.REQUEST_COLUMNS:
+    case ActionTypes.GET_COLUMNS:
       return {
         ...state,
         gridIsLoading: true,
@@ -42,13 +42,13 @@ export default function uploadGridReducer(state = initialGridState, action) {
         rows: action.rows,
         form: action.form,
       }
-    case ActionTypes.RECEIVE_COLUMNS_FROM_CACHE:
+    case ActionTypes.GET_COLUMNS_FROM_CACHE:
       return {
         ...state,
         gridIsLoading: false,
       }
 
-    case ActionTypes.RECEIVE_COLUMNS_SUCCESS:
+    case ActionTypes.GET_COLUMNS_SUCCESS:
       return {
         ...state,
         gridIsLoading: false,
@@ -59,7 +59,7 @@ export default function uploadGridReducer(state = initialGridState, action) {
         form: action.form,
       }
 
-    case ActionTypes.RECEIVE_COLUMNS_FAIL:
+    case ActionTypes.GET_COLUMNS_FAIL:
       return {
         ...state,
         gridIsLoading: false,
@@ -76,6 +76,20 @@ export default function uploadGridReducer(state = initialGridState, action) {
         ...state,
         rows: action.rows,
       }
+
+    case ActionTypes.SAVE_PARTIAL_SUBMISSION:
+      return {
+        ...state,
+        isSaving: true,
+      }
+    case ActionTypes.SAVE_PARTIAL_SUBMISSION_FAIL:
+      return { ...state, isSaving: false }
+    case ActionTypes.SAVE_PARTIAL_SUBMISSION_SUCCESS:
+      return { ...state, isSaving: false, saved: true }
+
+    case ActionTypes.BUTTON_RESET: {
+      return { ...state, submitted: false, saved: false }
+    }
 
     default:
       return state
