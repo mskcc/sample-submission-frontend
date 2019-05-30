@@ -77,20 +77,6 @@ export default function uploadGridReducer(state = initialGridState, action) {
         rows: action.rows,
       }
 
-    case ActionTypes.SAVE_PARTIAL_SUBMISSION:
-      return {
-        ...state,
-        isSaving: true,
-      }
-    case ActionTypes.SAVE_PARTIAL_SUBMISSION_FAIL:
-      return { ...state, isSaving: false }
-    case ActionTypes.SAVE_PARTIAL_SUBMISSION_SUCCESS:
-      return { ...state, isSaving: false, saved: true }
-
-    case ActionTypes.BUTTON_RESET: {
-      return { ...state, submitted: false, saved: false }
-    }
-
     default:
       return state
   }

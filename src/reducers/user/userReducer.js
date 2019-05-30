@@ -1,7 +1,10 @@
 import { userActions as ActionTypes } from '../../actions'
 
 const initialState = {
-  submissions: { test: 'test' },
+  submissions: {},
+  error: null,
+  loading: false,
+  loggedIn: false,
 }
 
 function userReducer(state = initialState, action) {
@@ -48,6 +51,8 @@ function userReducer(state = initialState, action) {
         loggedIn: true,
         loading: false,
         username: action.payload.username,
+        submissionsTable: action.table,
+        submissions: action.payload.submissions,
         message: action.payload.message,
       }
 
@@ -64,6 +69,7 @@ function userReducer(state = initialState, action) {
         ...state,
         loggedIn: false,
         loading: false,
+        username: '',
         message: 'Successfully logged out.',
       }
 
@@ -80,9 +86,34 @@ function userReducer(state = initialState, action) {
         loading: true,
       }
     case ActionTypes.GET_SUBMISSIONS_FAIL:
-      return { ...state, loading: false }
+      return { ...state, loading: false, error: error }
     case ActionTypes.GET_SUBMISSIONS_SUCCESS:
-      return { ...state, submissionsTable: action.payload.table, submissions: action.payload.submissions, loading: false }
+      return {
+        ...state,
+        submissionsTable: action.payload.table,
+        submissions: action.payload.submissions,
+        loading: false,
+      }
+    case ActionTypes.SAVE_PARTIAL_SUBMISSION:
+      return {
+        ...state,
+        isSaving: true,
+      }
+    case ActionTypes.SAVE_PARTIAL_SUBMISSION_FAIL:
+      return { ...state, isSaving: false }
+    case ActionTypes.SAVE_PARTIAL_SUBMISSION_SUCCESS:
+      return {
+        ...state,
+        isSaving: false,
+        saved: true,
+
+        submissionsTable: action.payload.table,
+        submissions: action.payload.submissions,
+      }
+
+    case ActionTypes.BUTTON_RESET: {
+      return { ...state, submitted: false, saved: false }
+    }
 
     default:
       return state

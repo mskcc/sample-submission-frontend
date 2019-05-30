@@ -4,8 +4,7 @@
 // rows = data object, will be modified in place by hands on table
 export const generateSubmissionsGrid = response => {
   let grid = { columnHeaders: [], data: [] }
-
-  grid.columnHeaders = response.column_headers.map(a => a)
+  grid.columnHeaders = response.submission_columns.map(a => a)
   for (let i = 0; i < response.submissions.length; i++) {
     let submission = response.submissions[i]
     grid.data[i] = {
@@ -15,7 +14,6 @@ export const generateSubmissionsGrid = response => {
       submitted_on: submission.submitted_on,
     }
   }
-  console.log(grid)
   return grid
 }
 export const generateGridData = (responseColumns, formValues) => {

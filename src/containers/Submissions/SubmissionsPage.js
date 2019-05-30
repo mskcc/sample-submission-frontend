@@ -19,10 +19,9 @@ export class SubmissionsPage extends Component {
     // this.props.resetErrorMessage()
   }
 
-  componentDidMount() {
-    // making sure BE and FE versions match - shows info message if not
-    this.props.getSubmissions()
-  }
+  // componentDidMount() {
+  //   this.props.getSubmissions()
+  // }
 
   handleDialogClose = () => {
     this.props.resetGridErrorMessage()
@@ -33,8 +32,8 @@ export class SubmissionsPage extends Component {
       return <Redirect to="/login" />
     }
 
-    return this.props.user.submissions && this.props.user.submissions.submissions &&
-      this.props.user.submissions.submissions.length > 0 ? (
+    return this.props.user.submissions &&
+      this.props.user.submissions.length > 0 ? (
       <SubmissionsTable submissions={this.props.user.submissionsTable} />
     ) : (
       'You have not submitted anything since the launch of V2!'

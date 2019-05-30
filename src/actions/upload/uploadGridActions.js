@@ -6,6 +6,7 @@ import {
   generateRows,
   generateAGColumns,
   generateGridData,
+  generateSubmissionsGrid,
   updateRows,
 } from '../helpers'
 
@@ -151,71 +152,6 @@ export function addGridToBankedSample() {
         })
         return error
       })
-  }
-}
-
-
-export const SAVE_PARTIAL_SUBMISSION = 'SAVE_PARTIAL_SUBMISSION'
-export const SAVE_PARTIAL_SUBMISSION_FAIL = 'SAVE_PARTIAL_SUBMISSION_FAIL'
-export const SAVE_PARTIAL_SUBMISSION_SUCCESS = 'SAVE_PARTIAL_SUBMISSION_SUCCESS'
-export function savePartialSubmission(grid) {
-  return (dispatch, getState) => {
-    dispatch({ type: SAVE_PARTIAL_SUBMISSION })
-
-    return axios
-      .post(API_ROOT + '/saveSubmission', {
-        data: {
-          ...generateSubmitData(getState()),
-          username: getState().user.username,
-        },
-      })
-      .then(response => {
-        // Handsontable binds to your data source (list of arrays or list of objects) by reference. Therefore, all the data entered in the grid will alter the original data source.
-        dispatch({ type: SAVE_PARTIAL_SUBMISSION_SUCCESS })
-        return setTimeout(() => {
-          dispatch({ type: BUTTON_RESET })
-        }, 2000)
-      })
-      .catch(error => {
-        dispatch({
-          type: SAVE_PARTIAL_SUBMISSION_FAIL,
-          error: error,
-        })
-        return error
-      })
-  }
-}
-
-export const SUBMISSION_COLLUSION_CHECK = 'SUBMISSION_COLLUSION_CHECK'
-export const SUBMISSION_COLLUSION_CHECK_FAIL = 'SUBMISSION_COLLUSION_CHECK_FAIL'
-export const SUBMISSION_COLLUSION_CHECK_SUCCESS =
-  'SUBMISSION_COLLUSION_CHECK_SUCCESS'
-export function checkSubmissionCollusion() {
-  return (dispatch, getState) => {
-    dispatch({ type: SUBMISSION_COLLUSION_CHECK })
-
-    //   if (Object.entries(getState().user.submissions).length === 0) {
-    //      getSubmissions
-
-    //   return axios
-    //     .get(API_ROOT + '/saveSubmission', {
-    //       data: {
-    //         ...generateSubmitData(getState()),
-    //         username: getState().user.username,
-    //       },
-    //     })
-    //     .then(response => {
-    //       // Handsontable binds to your data source (list of arrays or list of objects) by reference. Therefore, all the data entered in the grid will alter the original data source.
-    //       dispatch({ type: SUBMISSION_COLLUSION_CHECK_SUCCESS, payload: response.data })
-    //     })
-    //     .catch(error => {
-    //       dispatch({
-    //         type: SUBMISSION_COLLUSION_CHECK_FAIL,
-    //         error: error,
-    //       })
-    //       return error
-    //     })
-    // }
   }
 }
 
