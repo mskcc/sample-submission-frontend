@@ -86,7 +86,7 @@ function userReducer(state = initialState, action) {
         loading: true,
       }
     case ActionTypes.GET_SUBMISSIONS_FAIL:
-      return { ...state, loading: false, error: error }
+      return { ...state, loading: false, error: action.error }
     case ActionTypes.GET_SUBMISSIONS_SUCCESS:
       return {
         ...state,
@@ -109,6 +109,21 @@ function userReducer(state = initialState, action) {
 
         submissionsTable: action.payload.table,
         submissions: action.payload.submissions,
+      }
+
+    case ActionTypes.EDIT_SUBMISSION:
+      return {
+        ...state,
+        loading: true,
+      }
+    case ActionTypes.EDIT_SUBMISSION_FAIL:
+      return { ...state, loading: false }
+
+    case ActionTypes.EDIT_SUBMISSION_SUCCESS:
+      console.log(state)
+      return {
+        ...state,
+        loading: false,
       }
 
     case ActionTypes.BUTTON_RESET: {

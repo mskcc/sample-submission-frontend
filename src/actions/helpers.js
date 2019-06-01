@@ -2,20 +2,7 @@
 // columnHeaders = displayed column names
 // features = field/data name, patterns, dropdowns...
 // rows = data object, will be modified in place by hands on table
-export const generateSubmissionsGrid = response => {
-  let grid = { columnHeaders: [], data: [] }
-  grid.columnHeaders = response.submission_columns.map(a => a)
-  for (let i = 0; i < response.submissions.length; i++) {
-    let submission = response.submissions[i]
-    grid.data[i] = {
-      requestId: submission.request_id,
-      submitted: submission.submitted,
-      created_on: submission.created_on,
-      submitted_on: submission.submitted_on,
-    }
-  }
-  return grid
-}
+
 export const generateGridData = (responseColumns, formValues) => {
   let grid = { columnFeatures: [], columnHeaders: [], rows: [] }
   grid.columnFeatures = generateColumnFeatures(responseColumns, formValues)
@@ -227,9 +214,39 @@ export const generateSubmitData = state => {
   data.version = state.common.version
   data.grid_values = state.upload.grid.rows
   data.form_values = state.upload.grid.form
-  let date = Math.floor(Date.now() / 1000)
+  let now = Date.now()
+  let date = Math.floor(now / 1000)
   // TODO use this for save/edit
   data.transactionId = date
+
   console.log(data)
   return data
+}
+
+export const generateSubmissionsGrid = response => {
+  let grid = { columnHeaders: [], data: [], columnFeatures: [] }
+  grid.columnHeaders = response.submission_headers.map(a => a.name)
+  grid.columnFeatures = response.submission_headers
+  for (let i = 0; i < response.submissions.length; i++) {
+    let submission = response.submissions[i]
+    grid.data[i] = {
+      igo_request_id: submission.igo_request_id,
+      submitted: submission.submitted ? 'yes' : 'no',
+      created_on: submission.created_on,
+      submitted_on: submission.submitted_on,
+      edit: '<a className={classes.test}>edit </a>',
+      view_receipt: 'view receipt',
+      delete: '<div className={classes.test}/>',
+    }
+  }
+  return grid
+}
+
+export const findSubmission = (submissions, id) => {
+  for (let i = 0; i < submissions.length; i++) {
+    if (submissions[i].igo_request_id == id) {
+      return submissions[i]
+    }
+  }
+  return null
 }

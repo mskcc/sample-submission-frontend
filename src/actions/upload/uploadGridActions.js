@@ -8,6 +8,7 @@ import {
   generateGridData,
   generateSubmissionsGrid,
   updateRows,
+  findSubmission
 } from '../helpers'
 
 // make global
@@ -154,6 +155,28 @@ export function addGridToBankedSample() {
       })
   }
 }
+
+
+export const EDIT_SUBMISSION = 'EDIT_SUBMISSION'
+export const EDIT_SUBMISSION_FAIL = 'EDIT_SUBMISSION_FAIL'
+export const EDIT_SUBMISSION_SUCCESS = 'EDIT_SUBMISSION_SUCCESS'
+export function editSubmission(id) {
+  return (dispatch, getState) => {
+    dispatch({ type: 'EDIT_SUBMISSION' })
+    let submission = findSubmission(getState().user.submissions, id)
+    if (submission) {
+      return dispatch({
+        type: 'EDIT_SUBMISSION_SUCCESS',
+        payload: submission,
+      })
+    } else {
+      return dispatch({
+        type: 'EDIT_SUBMISSION_FAIL',
+      })
+    }
+  }
+}
+
 
 export const RESET_GRID_ERROR_MESSAGE = 'RESET_GRID_ERROR_MESSAGE'
 

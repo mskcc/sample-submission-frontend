@@ -1,5 +1,9 @@
 import axios from 'axios'
-import { generateSubmitData, generateSubmissionsGrid } from '../helpers'
+import {
+  generateSubmitData,
+  generateSubmissionsGrid,
+  findSubmission,
+} from '../helpers'
 
 let API_ROOT = 'http://localhost:9004'
 if (process.env.NODE_ENV === 'production') {
@@ -211,31 +215,51 @@ export function savePartialSubmission(grid) {
       })
   }
 }
-// export const GET_SUBMISSIONS = 'GET_SUBMISSIONS'
-// export const GET_SUBMISSIONS_FAIL = 'GET_SUBMISSIONS_FAIL'
-// export const GET_SUBMISSIONS_SUCCESS = 'GET_SUBMISSIONS_SUCCESS'
-// export function getSubmissions() {
-//   return dispatch => {
-//     dispatch({ type: GET_SUBMISSIONS })
-//     return axios
-//       .get(API_ROOT + '/getSubmissions', {})
-//       .then(response => {
-//         console.log(response.data)
-//         return dispatch({
-//           type: GET_SUBMISSIONS_SUCCESS,
-//           payload: {
-//             submissions: response.data,
-//             table: generateSubmissionsGrid(response.data),
-//           },
-//         })
+export const GET_SUBMISSIONS = 'GET_SUBMISSIONS'
+export const GET_SUBMISSIONS_FAIL = 'GET_SUBMISSIONS_FAIL'
+export const GET_SUBMISSIONS_SUCCESS = 'GET_SUBMISSIONS_SUCCESS'
+export function getSubmissions() {
+  return dispatch => {
+    dispatch({ type: GET_SUBMISSIONS })
+    return axios
+      .get(API_ROOT + '/getSubmissions', {})
+      .then(response => {
+        console.log(response.data)
+        return dispatch({
+          type: GET_SUBMISSIONS_SUCCESS,
+          payload: {
+            submissions: response.data.submissions,
+            table: generateSubmissionsGrid(response.data),
+          },
+        })
+      })
+      .catch(error => {
+        return dispatch({
+          type: GET_SUBMISSIONS_FAIL,
+          error: error,
+        })
+        return error
+      })
+  }
+}
+
+// export const EDIT_SUBMISSION = 'EDIT_SUBMISSION'
+// export const EDIT_SUBMISSION_FAIL = 'EDIT_SUBMISSION_FAIL'
+// export const EDIT_SUBMISSION_SUCCESS = 'EDIT_SUBMISSION_SUCCESS'
+// export function editSubmission(id) {
+//   return (dispatch, getState) => {
+//     dispatch({ type: 'EDIT_SUBMISSION' })
+//     let submission = findSubmission(getState().user.submissions, id)
+//     if (submission) {
+//       return dispatch({
+//         type: 'EDIT_SUBMISSION_SUCCESS',
+//         payload: 'submission',
 //       })
-//       .catch(error => {
-//         return dispatch({
-//           type: GET_SUBMISSIONS_FAIL,
-//           error: error,
-//         })
-//         return error
+//     } else {
+//       return dispatch({
+//         type: 'EDIT_SUBMISSION_FAIL',
 //       })
+//     }
 //   }
 // }
 

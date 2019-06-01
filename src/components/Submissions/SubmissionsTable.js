@@ -6,6 +6,16 @@ import Handsontable from 'handsontable'
 import 'handsontable/dist/handsontable.full.css'
 import swal from '@sweetalert/with-react'
 
+class cellBtn extends React.Component {
+  handleClick = () => {
+    this.props.onCellClick(this.props.value)
+  }
+
+  render() {
+    return <div onClick={this.handleClick}>{this.props.value}</div>
+  }
+}
+
 // after comparing agGrid, react-data-grid, canvas-datagrid, react-data-sheet, ReactHandsOnTable won
 class SubmissionsTable extends React.Component {
   constructor(props) {
@@ -18,8 +28,6 @@ class SubmissionsTable extends React.Component {
     this.hotTableComponent = React.createRef()
   }
 
-
-    
   getErrorMsg = () => {
     for (let i = 0; i < numberToAdd; i++) {}
   }
@@ -56,57 +64,59 @@ class SubmissionsTable extends React.Component {
     }
   }
 
+  // cellBtn = (text, link) => {
+  //   <button onClick={() => onClick(text, link)}>{text}</button>
+  // }
+
+  // data = submissions => {
+  //   let data = []
+  //   for (let i = 0; i < submissions.length; i++) {
+  //     let submission = submissions[i]
+
+  //     data[i] = {
+  //       igo_request_id: submission.igo_request_id,
+  //       submitted: submission.submitted ? '<span>&#10003</span>' : '',
+  //       created_on: submission.created_on,
+  //       submitted_on: submission.submitted_on,
+  //       edit: '<a href="/upload/' + submission.igo_request_id + '"> test </a>',
+  //       view_receipt: 'view receipt',
+  //       delete:
+  //         '<div onClick={handleClick()} className={classes.test}>&#10006</a>',
+  //     }
+  //   }
+  //   return data
+  // }
+
   render() {
-    const { classes } = this.props
-    console.log(this.props)
-    // console.log(this.props.submissions.length)
+    const { classes, handleClick, handleReceipt, handleDelete } = this.props
     return (
       <div>
-        <div className={classes.container}>
-        
-          <div className={classes.buttons} />
+        <div>
           <HotTable
             licenseKey="non-commercial-and-evaluation"
             id="hot"
-            data={this.props.submissions.data}
-            colHeaders={this.props.submissions.columnHeaders}
-            // colHeaders={this.props.submissions}
-            // columns={this.props.grid.columnFeatures}
-            // rowHeaders={true}
-            // headerTooltips={true}
-            // manualColumnResize={true}
-            // comments={true}
-            // ref={this.hotTableComponent}
-            // colWidths="190"
-            // cells={function(row, col, prop) {
-            //   // first row contains helptext
-            //   var cellProperties = {}
-            //   if (row === 0) {
-            //     cellProperties.readOnly = true
-            //     cellProperties.className = classes.tooltipCell
-            //     cellProperties.type = 'text'
-            //   }
-            //   return cellProperties
-            // }}
-            // afterChange={(change, source) => {
-            //   if (source !== 'loadData') {
-            //     this.props.handleChange(change)
-            //   }
-            // }}
+            ref={this.hotTableComponent}
+            data={this.props.user.submissionsTable.data}
+            colHeaders={this.props.user.submissionsTable.columnHeaders}
+            colHeaders={this.props.user.submissionsTable.columnHeaders}
+            readOnly
+            className="htCenter"
+            columns={this.props.user.submissionsTable.columnFeatures}
+            afterOnCellMouseDown={(event, coords, TD) => {
+              // console.log(event)
+              console.log(coords)
+              
+              // edit column
+              if (coords.col == '4') {
+                console.log('edit')
+                handleClick('edit',this.props.user.submissionsTable.data[coords.row].igo_request_id)
+                // this.handleClick(this.hotTableComponent.current.hotInstance.getCell(coords))
+                
+              }
 
-            width="95%"
-            height="auto"
-            // stretchH="auto"
-            
-            // height={() => {
-            //   if (this.props.submissions.length >= 25) return '700'
-            //   // else if (this.props.submissions.length >= 900) return '100vh'
-            //   else if (this.props.submissions.length >= 20) return '510'
-            //   else if (this.props.submissions.length >= 15) return '500'
-            //   else if (this.props.submissions.length >= 10) return '400'
-            //   else if (this.props.submissions.length >= 5) return '200'
-            //   else if (this.props.submissions.length < 5) return '150'
-            // }}
+              // '2' stands for the RMB
+              // this.handleClick(TD.innerHTML)
+            }}
           />
         </div>
       </div>
@@ -114,25 +124,6 @@ class SubmissionsTable extends React.Component {
   }
 }
 
-const styles = theme => ({
-  container: {
-    // borderRight: '1px solid gray',
-    display: 'grid',
-    justifyItems: 'center',
-    marginLeft: theme.spacing.unit * 2,
-    width: '95vw',
-    // maxHeight: 600,
-    overflow: 'hidden',
-  },
-  buttons: {},
-  tooltipCell: {
-    fontSize: '.8em',
-    color: 'black !important',
-    backgroundColor: '#cfd8dc !important',
-  },
-  submit: {
-    width: '30px',
-  },
-})
+const styles = theme => ({})
 
 export default withStyles(styles)(SubmissionsTable)

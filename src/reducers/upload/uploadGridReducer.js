@@ -1,4 +1,5 @@
 import { uploadGridActions as ActionTypes } from '../../actions'
+import { userActions as UserActionTypes } from '../../actions'
 import { initialGridState } from './initialState'
 
 export default function uploadGridReducer(state = initialGridState, action) {
@@ -75,6 +76,13 @@ export default function uploadGridReducer(state = initialGridState, action) {
       return {
         ...state,
         rows: action.rows,
+      }
+
+    case ActionTypes.EDIT_SUBMISSION_SUCCESS:
+      console.log(state)
+      return {
+        ...state,
+        rows: JSON.parse(action.payload.grid_values),
       }
 
     default:
