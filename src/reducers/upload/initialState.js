@@ -19,12 +19,12 @@ export const initialFormState = {
   allSpecies: [],
   patientIDTypeNeedsFormatting: false,
   selected: {
-    application: '',
-    material: '',
-    igo_request_id: '',
-    number_of_samples: '',
-    species: '',
-    container: '',
+    application: 'AmpliSeq',
+    material: 'DNA',
+    igo_request_id: '898989',
+    number_of_samples: '10',
+    species: 'Mouse',
+    container: 'Plates',
     patient_id_type: '',
   },
 }

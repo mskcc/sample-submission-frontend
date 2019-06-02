@@ -1,5 +1,6 @@
 import { uploadFormActions as ActionTypes } from '../../actions'
 import { initialFormState } from './initialState'
+import { uploadGridActions as GridActionTypes } from '../../actions'
 
 export default function uploadFormReducer(state = initialFormState, action) {
   switch (action.type) {
@@ -59,7 +60,7 @@ export default function uploadFormReducer(state = initialFormState, action) {
           [action.payload.id]: action.payload.value,
         },
       }
-      case ActionTypes.CLEAR:
+    case ActionTypes.CLEAR:
       return {
         ...state,
         selected: {
@@ -213,6 +214,16 @@ export default function uploadFormReducer(state = initialFormState, action) {
       return {
         ...state,
         formIsLoading: false,
+      }
+
+    case GridActionTypes.EDIT_SUBMISSION_SUCCESS:
+      let form = JSON.parse(action.payload.form_values)
+      return {
+        ...state,
+        selected: {
+          ...form,
+          igo_request_id: form.igo_request_id.replace('IGO-', ''),
+        },
       }
 
     default:

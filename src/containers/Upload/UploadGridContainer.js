@@ -49,8 +49,8 @@ class UploadGridContainer extends React.Component {
     }
   }
 
-  submissionExists = (request_id, submissions) => {
-    return submissions.some(e => e.request_id === request_id)
+  submissionExists = (igo_request_id, submissions) => {
+    return submissions.some(e => e.igo_request_id === igo_request_id)
   }
 
   render() {

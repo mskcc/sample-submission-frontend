@@ -79,7 +79,6 @@ export default function uploadGridReducer(state = initialGridState, action) {
       }
 
     case ActionTypes.EDIT_SUBMISSION_SUCCESS:
-      console.log(state)
       return {
         ...state,
         rows: JSON.parse(action.payload.grid_values),

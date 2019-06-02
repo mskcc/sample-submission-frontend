@@ -16,7 +16,9 @@ export class UploadFormContainer extends React.Component {
 
   componentDidMount() {
     // todo wait for token refresh!
-    this.props.getInitialState()
+    if (!this.props.form.initialFetched) {
+      this.props.getInitialState()
+    }
   }
 
   handleMaterialChange = selectedMaterial => {
