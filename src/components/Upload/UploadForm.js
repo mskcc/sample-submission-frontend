@@ -27,14 +27,17 @@ class UploadForm extends React.Component {
       //   patient_id_type: '',
       // },
       values: {
-        material: 'DNA',
-        application: 'AmpliSeq',
-        igo_request_id: '444444',
-        number_of_samples: '1',
-        species: 'Human',
-        container: 'Plates',
-        patient_id_type: 'MSK-Patients (or derived from MSK Patients)',
+        ...this.props.form.selected,
       },
+      // values: {
+      //   material: 'DNA',
+      //   application: 'AmpliSeq',
+      //   igo_request_id: '444444',
+      //   number_of_samples: '1',
+      //   species: 'Human',
+      //   container: 'Plates',
+      //   patient_id_type: 'MSK-Patients (or derived from MSK Patients)',
+      // },
       // values: {
       //   material: 'Tissue',
       //   application: 'CustomCapture',
@@ -60,10 +63,10 @@ class UploadForm extends React.Component {
     }
   }
   componentDidUpdate(prevProps, prevState) {
-    // console.log('prevState')
-    // console.log(prevState)
-    // console.log('state')
-    // console.log(this.state)
+    console.log('prevState')
+    console.log(prevState)
+    console.log('state')
+    console.log(this.state)
   }
 
   handleDropdownChange = event => {
@@ -74,6 +77,8 @@ class UploadForm extends React.Component {
       },
       formValid: { ...this.state.formValid, [event.id]: true },
     })
+    this.props.handleInputChange(event.id, event.value)
+    
   }
 
   handleChange = () => {
@@ -85,6 +90,8 @@ class UploadForm extends React.Component {
       },
       formValid: { ...this.state.formValid, [event.target.id]: true },
     })
+    // this.props.handleSelect(event.target.id,event.target.value)
+    this.props.handleInputChange(event.target.id, event.target.value)
   }
 
   handleIGOCheck = name => () => {
@@ -125,10 +132,6 @@ class UploadForm extends React.Component {
     return mm + dd + yyyy
   }
 
-
-  
-  attac
-
   handleSubmit = (e, handleParentSubmit) => {
     e.preventDefault()
     e.stopPropagation()
@@ -159,7 +162,7 @@ class UploadForm extends React.Component {
           // validate whether selected value in dynamic fields is in controlled options
           // (could fail if user was extremely quick to select
           // invalid material/app combination)
-          isValidOption = this.props.form.materials.some(function(el) {
+          isValidOption = this.props.form.filteredMaterials.some(function(el) {
             return el.value === values[value]
           })
 
@@ -167,7 +170,9 @@ class UploadForm extends React.Component {
           break
 
         case 'application':
-          isValidOption = this.props.form.applications.some(function(el) {
+          isValidOption = this.props.form.filteredApplications.some(function(
+            el
+          ) {
             return el.value === values[value]
           })
 
@@ -182,7 +187,7 @@ class UploadForm extends React.Component {
           break
 
         case 'species':
-          isValidOption = this.props.form.species.some(function(el) {
+          isValidOption = this.props.form.allSpecies.some(function(el) {
             return el.value === values[value]
           })
           formValid[value] = isValidOption && values[value].length > 0
@@ -248,6 +253,8 @@ class UploadForm extends React.Component {
     const buttonClassname = classNames({
       [classes.buttonSuccess]: !this.props.gridIsLoading,
     })
+    console.log(this.state)
+    console.log(form)
     return (
       <Translate>
         {({ translate }) => (
@@ -262,12 +269,16 @@ class UploadForm extends React.Component {
                 error={!formValid.material}
                 onSelect={handleMaterialChange}
                 onChange={this.handleDropdownChange}
-                items={form.materials.map(option => ({
+                items={form.filteredMaterials.map(option => ({
                   value: option.id,
                   label: option.value,
                 }))}
                 loading={form.formIsLoading}
                 dynamic
+                value={{
+                  value: form.selected.material,
+                  label: form.selected.material,
+                }}
               />
 
               <Dropdown
@@ -275,12 +286,16 @@ class UploadForm extends React.Component {
                 error={!formValid.application}
                 onSelect={handleApplicationChange}
                 onChange={this.handleDropdownChange}
-                items={form.applications.map(option => ({
-                  value: option.id,
+                items={form.filteredApplications.map(option => ({
+                  value: option.value,
                   label: option.value,
                 }))}
                 loading={form.formIsLoading}
                 dynamic
+                value={{
+                  value: form.selected.application,
+                  label: form.selected.application,
+                }}
               />
               <FormControl component="fieldset">
                 <Dropdown
@@ -288,10 +303,14 @@ class UploadForm extends React.Component {
                   error={!formValid.species}
                   onSelect={handleSpeciesChange}
                   onChange={this.handleDropdownChange}
-                  items={form.species.map(option => ({
-                    value: option.id,
+                  items={form.allSpecies.map(option => ({
+                    value: option.value,
                     label: option.value,
                   }))}
+                  value={{
+                  value: form.selected.species,
+                  label: form.selected.species,
+                }}
                   dynamic
                 />
                 {// this.props.form.patientIDTypeNeedsFormatting &&
@@ -323,6 +342,10 @@ class UploadForm extends React.Component {
                     value: option.id,
                     label: option.value,
                   }))}
+                  value={{
+                  value: form.selected.patient_id_type,
+                  label: form.selected.patient_id_type,
+                }}
                 />
               ) : null}
 
@@ -335,6 +358,10 @@ class UploadForm extends React.Component {
                   label: option.value,
                 }))}
                 loading={form.formIsLoading}
+                value={{
+                  value: form.selected.container,
+                  label: form.selected.container,
+                }}
               />
 
               <Input
@@ -344,11 +371,12 @@ class UploadForm extends React.Component {
                 inputProps={{
                   inputProps: { min: 0 },
                 }}
+
               />
               <FormControl component="fieldset">
                 <Input
                   id="igo_request_id"
-                  value={values.igo_request_id}
+                  value={form.selected.igo_request_id}
                   error={!formValid.igo_request_id}
                   onChange={this.handleChange}
                   inputProps={{

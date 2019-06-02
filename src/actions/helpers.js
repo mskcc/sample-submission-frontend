@@ -223,6 +223,8 @@ export const generateSubmitData = state => {
   return data
 }
 
+// edit: links back to /upload, onClick the grid_valyes of that row is fed into 
+// the state (see SubmissionsTable for the onClick)
 export const generateSubmissionsGrid = response => {
   let grid = { columnHeaders: [], data: [], columnFeatures: [] }
   grid.columnHeaders = response.submission_headers.map(a => a.name)
@@ -234,7 +236,7 @@ export const generateSubmissionsGrid = response => {
       submitted: submission.submitted ? 'yes' : 'no',
       created_on: submission.created_on,
       submitted_on: submission.submitted_on,
-      edit: '<a className={classes.test}>edit </a>',
+      edit: '<a href="/upload" className={classes.test}>edit </a>',
       view_receipt: 'view receipt',
       delete: '<div className={classes.test}/>',
     }

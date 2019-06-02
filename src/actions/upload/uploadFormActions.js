@@ -92,6 +92,20 @@ export function getMaterialsForApplication(selectedApplication) {
       })
   }
 }
+export const SELECT = 'SELECT'
+
+export function select(id, value) {
+  return dispatch => {
+    dispatch({ type: SELECT_DROPDOWN, payload:{id:id, value:value} })
+  }
+}
+export const CLEAR = 'CLEAR'
+
+export function clear(id) {
+  return dispatch => {
+    dispatch({ type: CLEAR, payload:{id:id} })
+  }
+}
 
 export const SELECT_MATERIAL = 'SELECT_MATERIAL'
 
@@ -163,6 +177,7 @@ export function getFormatterForSpecies(selectedSpecies) {
 
       dispatch({
         type: SELECT_SPECIES_WITH_ID_FORMATTER,
+
       })
       return dispatch(getPicklist(formatter))
     } else {

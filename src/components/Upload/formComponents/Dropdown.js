@@ -40,10 +40,11 @@ class Dropdown extends Component {
       onChange,
       onSelect,
       loading,
+      value,
       classes,
     } = this.props
     const { filteredItems } = this.state
-
+    console.log(value)
     return (
       <Translate>
         {({ translate }) => (
@@ -56,7 +57,9 @@ class Dropdown extends Component {
               inputRef={node => {
                 this.input = node
               }}
+              defaultSelectedItem={value}
               getInputProps={() => ({
+                
                 id: id,
                 error: error,
                 label: error

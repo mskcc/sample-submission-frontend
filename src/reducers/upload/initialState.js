@@ -3,7 +3,7 @@ export const initialFormState = {
   allApplications: [],
   allMaterials: [],
   allPatientIdFormats: [],
-  applications: [],
+  filteredApplications: [],
   containers: [],
   formIsLoading: false,
   filteredContainers: [
@@ -13,12 +13,20 @@ export const initialFormState = {
   filteredContainersBS: [
     { id: 'Blocks/Slides/Tubes', value: 'Blocks/Slides/Tubes' },
   ],
-  materials: [],
+  filteredMaterials: [],
   picklists: {},
-  selectedApplication: '',
-  selectedMaterial: '',
-  species: [],
+
+  allSpecies: [],
   patientIDTypeNeedsFormatting: false,
+  selected: {
+    application: '',
+    material: '',
+    igo_request_id: '',
+    number_of_samples: '',
+    species: '',
+    container: '',
+    patient_id_type: '',
+  },
 }
 
 export const initialGridState = {

@@ -83,6 +83,8 @@ export default function uploadGridReducer(state = initialGridState, action) {
       return {
         ...state,
         rows: JSON.parse(action.payload.grid_values),
+        form: JSON.parse(action.payload.form_values),
+
       }
 
     default:

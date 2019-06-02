@@ -14,11 +14,11 @@ export default function uploadFormReducer(state = initialFormState, action) {
         ...state,
         formIsLoading: false,
         initialFetched: true,
-        materials: action.data.materials,
-        applications: action.data.applications,
+        filteredMaterials: action.data.materials,
+        filteredApplications: action.data.applications,
         allMaterials: action.data.materials,
         allApplications: action.data.applications,
-        species: action.data.species,
+        allSpecies: action.data.species,
         allContainers: action.data.containers,
         containers: action.data.containers,
         // patientIdFormats: action.data.patientIdFormats,
@@ -51,32 +51,52 @@ export default function uploadFormReducer(state = initialFormState, action) {
         formIsLoading: false,
       }
 
+    case ActionTypes.SELECT:
+      return {
+        ...state,
+        selected: {
+          ...state.selected,
+          [action.payload.id]: action.payload.value,
+        },
+      }
+      case ActionTypes.CLEAR:
+      return {
+        ...state,
+        selected: {
+          ...state.selected,
+          [action.payload.id]: '',
+        },
+      }
+
     case ActionTypes.SELECT_MATERIAL:
       return {
         ...state,
-        selectedMaterial: action.selectedMaterial,
+        selected: { ...state.selected, material: action.selectedMaterial },
       }
 
     case ActionTypes.FILTER_CONTAINERS:
       return {
         ...state,
-        containers: state.filteredContainers,
+        filteredContainers: state.filteredContainers,
       }
 
     case ActionTypes.FILTER_CONTAINERS_FOR_BS:
       return {
         ...state,
-        containers: state.filteredContainersBS,
+        filteredContainers: state.filteredContainersBS,
       }
     case ActionTypes.SHOW_ALL_CONTAINERS:
       return {
         ...state,
-        containers: state.allContainers,
+        filteredContainers: state.allContainers,
       }
     case ActionTypes.SELECT_APPLICATION:
       return {
         ...state,
-        selectedApplication: action.selectedApplication,
+        selected: {
+          ...state.selected,
+          application: action.selectedApplication,
+        },
       }
 
     case ActionTypes.REQUEST_MATERIALS_FOR_APPLICATION:
@@ -88,7 +108,7 @@ export default function uploadFormReducer(state = initialFormState, action) {
       return {
         ...state,
         formIsLoading: false,
-        materials: action.materials,
+        filteredMaterials: action.materials,
       }
     case ActionTypes.RECEIVE_MATERIALS_FOR_APPLICATION_FAIL:
       return {
@@ -106,7 +126,7 @@ export default function uploadFormReducer(state = initialFormState, action) {
       return {
         ...state,
         formIsLoading: false,
-        applications: action.applications,
+        filteredApplications: action.applications,
       }
     case ActionTypes.RECEIVE_APPLICATIONS_FOR_MATERIAL_FAIL:
       return {
@@ -178,15 +198,15 @@ export default function uploadFormReducer(state = initialFormState, action) {
     case ActionTypes.CLEAR_MATERIAL:
       return {
         ...state,
-        applications: state.allApplications,
-        selectedMaterial: '',
+        filteredApplications: state.allApplications,
+        selected: { ...state.selected, material: '' },
         formIsLoading: true,
       }
     case ActionTypes.CLEAR_APPLICATION:
       return {
         ...state,
-        materials: state.allMaterials,
-        selectedApplication: '',
+        filteredMaterials: state.allMaterials,
+        selected: { ...state.selected, application: '' },
         formIsLoading: true,
       }
     case ActionTypes.CLEARED:
