@@ -55,6 +55,7 @@ export const GET_COLUMNS_FAIL = 'GET_COLUMNS_FAIL'
 
 export function getColumns(formValues) {
   return (dispatch, getState) => {
+    // let formValues = getState().upload.form.selected
     dispatch({ type: GET_COLUMNS })
 
     // no grid? get inital columns
@@ -63,7 +64,7 @@ export function getColumns(formValues) {
       // TODO smell to have this in an action
     } else {
       let diffValues = diff(getState().upload.grid.form, formValues)
-      if (Object.entries(diffValues).length === 0) {
+      if (!diffValues || Object.entries(diffValues).length === 0) {
         dispatch({ type: NO_CHANGE })
         return setTimeout(() => {
           dispatch({ type: NO_CHANGE_RESET })

@@ -18,7 +18,10 @@ export class SubmissionsPage extends Component {
   handleClick = (type, id) => {
     switch (type) {
       case 'edit': {
-        return this.props.editSubmission(id)
+        this.props.editSubmission(id)
+        return this.props.history.push('upload');
+
+        
       }
       case 'receipt': {
         return this.props.editSubmission(id)

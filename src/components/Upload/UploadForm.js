@@ -63,10 +63,10 @@ class UploadForm extends React.Component {
     }
   }
   componentDidUpdate(prevProps, prevState) {
-    console.log('prevState')
-    console.log(prevState)
-    console.log('state')
-    console.log(this.state)
+    // console.log('prevState')
+    // console.log(prevState)
+    // console.log('state')
+    // console.log(this.state)
   }
 
   handleDropdownChange = event => {
@@ -78,7 +78,6 @@ class UploadForm extends React.Component {
       formValid: { ...this.state.formValid, [event.id]: true },
     })
     this.props.handleInputChange(event.id, event.value)
-    
   }
 
   handleChange = () => {
@@ -91,6 +90,10 @@ class UploadForm extends React.Component {
       formValid: { ...this.state.formValid, [event.target.id]: true },
     })
     // this.props.handleSelect(event.target.id,event.target.value)
+    // let value =
+    //   event.target.id == 'igo_request_id'
+    //     ? 'IGO-' + event.target.value
+    //     : event.target.value
     this.props.handleInputChange(event.target.id, event.target.value)
   }
 
@@ -139,6 +142,7 @@ class UploadForm extends React.Component {
     if (this.validate()) {
       handleParentSubmit({
         ...this.state.values,
+        
         igo_request_id: 'IGO-' + this.state.values.igo_request_id.toString(),
       })
     }
@@ -253,8 +257,7 @@ class UploadForm extends React.Component {
     const buttonClassname = classNames({
       [classes.buttonSuccess]: !this.props.gridIsLoading,
     })
-    console.log(this.state)
-    console.log(form)
+    
     return (
       <Translate>
         {({ translate }) => (
@@ -308,9 +311,9 @@ class UploadForm extends React.Component {
                     label: option.value,
                   }))}
                   value={{
-                  value: form.selected.species,
-                  label: form.selected.species,
-                }}
+                    value: form.selected.species,
+                    label: form.selected.species,
+                  }}
                   dynamic
                 />
                 {// this.props.form.patientIDTypeNeedsFormatting &&
@@ -343,9 +346,9 @@ class UploadForm extends React.Component {
                     label: option.value,
                   }))}
                   value={{
-                  value: form.selected.patient_id_type,
-                  label: form.selected.patient_id_type,
-                }}
+                    value: form.selected.patient_id_type,
+                    label: form.selected.patient_id_type,
+                  }}
                 />
               ) : null}
 
@@ -371,7 +374,7 @@ class UploadForm extends React.Component {
                 inputProps={{
                   inputProps: { min: 0 },
                 }}
-
+                value={form.selected.number_of_samples}
               />
               <FormControl component="fieldset">
                 <Input

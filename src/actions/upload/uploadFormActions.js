@@ -96,7 +96,7 @@ export const SELECT = 'SELECT'
 
 export function select(id, value) {
   return dispatch => {
-    dispatch({ type: SELECT_DROPDOWN, payload:{id:id, value:value} })
+    dispatch({ type: SELECT, payload:{id:id, value:value} })
   }
 }
 export const CLEAR = 'CLEAR'

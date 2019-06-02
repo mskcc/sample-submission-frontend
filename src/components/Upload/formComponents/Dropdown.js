@@ -44,7 +44,6 @@ class Dropdown extends Component {
       classes,
     } = this.props
     const { filteredItems } = this.state
-    console.log(value)
     return (
       <Translate>
         {({ translate }) => (
