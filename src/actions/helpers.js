@@ -2,22 +2,7 @@
 // columnHeaders = displayed column names
 // features = field/data name, patterns, dropdowns...
 // rows = data object, will be modified in place by hands on table
-export const generateSubmissionsGrid = response => {
-  let grid = { columnHeaders: [], data: [] }
 
-  grid.columnHeaders = response.column_headers.map(a => a)
-  for (let i = 0; i < response.submissions.length; i++) {
-    let submission = response.submissions[i]
-    grid.data[i] = {
-      requestId: submission.request_id,
-      submitted: submission.submitted,
-      created_on: submission.created_on,
-      submitted_on: submission.submitted_on,
-    }
-  }
-  console.log(grid)
-  return grid
-}
 export const generateGridData = (responseColumns, formValues) => {
   let grid = { columnFeatures: [], columnHeaders: [], rows: [] }
   grid.columnFeatures = generateColumnFeatures(responseColumns, formValues)
@@ -216,7 +201,6 @@ export const updateRows = (formValues, grid) => {
     newRows = generateRows(grid.columnFeatures, formValues, numOfRowsToGen)
     rows = rows.concat(newRows)
   } else {
-    // TODO slice or similar?
     for (let i = 0; i < newNumOfSamples; i++) {
       rows[i] = grid.rows[i]
     }
@@ -229,9 +213,48 @@ export const generateSubmitData = state => {
   data.version = state.common.version
   data.grid_values = state.upload.grid.rows
   data.form_values = state.upload.grid.form
-  let date = Math.floor(Date.now() / 1000)
+
+  let now = Date.now()
+  let date = Math.floor(now / 1000)
   // TODO use this for save/edit
   data.transactionId = date
+
   console.log(data)
   return data
+}
+
+// edit: links back to /upload, onClick the grid_valyes of that row is fed into
+// the state (see SubmissionsTable for the onClick)
+export const generateSubmissionsGrid = response => {
+  let grid = { columnHeaders: [], data: [], columnFeatures: [] }
+  grid.columnHeaders = response.submission_headers.map(a => a.name)
+  grid.columnFeatures = response.submission_headers
+  for (let i = 0; i < response.submissions.length; i++) {
+    let submission = response.submissions[i]
+    grid.data[i] = {
+      igo_request_id: submission.igo_request_id,
+      submitted: submission.submitted ? 'yes' : 'no',
+      created_on: submission.created_on,
+      submitted_on: submission.submitted_on,
+      edit: submission.submitted
+        ? '<span class="grid-action-disabled">edit</span>'
+        : '<span class="grid-action">edit</span>',
+      receipt: submission.submitted
+        ? '<span class="grid-action grid-action">download</span>'
+        : '<span class="grid-action-disabled">download</span>',
+      delete: submission.submitted
+        ? '<span class="grid-action-disabled">delete</span>'
+        : '<span class="grid-action">delete</span>',
+    }
+  }
+  return grid
+}
+
+export const findSubmission = (submissions, id) => {
+  for (let i = 0; i < submissions.length; i++) {
+    if (submissions[i].igo_request_id == id) {
+      return submissions[i]
+    }
+  }
+  return null
 }

@@ -51,15 +51,15 @@ code {
   grid-row-gap: 4em;
 }
 
-th{
+th {
   background-color: $material-gray !important;
 }
-.colHeader .optional{
+.colHeader .optional {
   font-weight: 600;
   color: $mskcc-dark-turquoise;
 }
 
-.colHeader .required{
+.colHeader .required {
   font-weight: 600;
 
   // font-weight: bold;
@@ -74,9 +74,19 @@ th{
 }
 
 .htColumnHeaders {
-    overflow: visible !important;
+  overflow: visible !important;
 }
 
-.handsontableEditor .autocompleteEditor .htMacScroll .handsontable .listbox{
-   overflow: visible !important;
+.handsontableEditor .autocompleteEditor .htMacScroll .handsontable .listbox {
+  overflow: visible !important;
+}
+
+.grid-action {
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.grid-action-disabled {
+  cursor: not-allowed;
 }

@@ -28,8 +28,6 @@ class UploadGrid extends React.Component {
   }
 
   handleSave = () => {
-    // if (this.props.checkSubmissionCollusion())
-
     this.props.handleSave()
   }
   handleSubmit = () => {
@@ -60,7 +58,7 @@ class UploadGrid extends React.Component {
   }
 
   render() {
-    const { classes, grid, handleChange } = this.props
+    const { classes, grid, handleChange, user } = this.props
     // console.log(this.props.grid.rows.length)
     return (
       <div>
@@ -76,8 +74,8 @@ class UploadGrid extends React.Component {
             <GridButton
               id="grid_save"
               onSubmit={this.handleSave}
-              isLoading={grid.isSaving}
-              done={grid.saved}
+              isLoading={user.isSaving}
+              done={user.saved}
               msg={'Saved!'}
               color="primary"
             />{' '}
