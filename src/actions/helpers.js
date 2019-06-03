@@ -201,7 +201,6 @@ export const updateRows = (formValues, grid) => {
     newRows = generateRows(grid.columnFeatures, formValues, numOfRowsToGen)
     rows = rows.concat(newRows)
   } else {
-    // TODO slice or similar?
     for (let i = 0; i < newNumOfSamples; i++) {
       rows[i] = grid.rows[i]
     }
@@ -237,9 +236,15 @@ export const generateSubmissionsGrid = response => {
       submitted: submission.submitted ? 'yes' : 'no',
       created_on: submission.created_on,
       submitted_on: submission.submitted_on,
-      edit: 'edit',
-      view_receipt: 'view receipt',
-      delete: '<div className={classes.test}/>',
+      edit: submission.submitted
+        ? '<span class="grid-action-disabled">edit</span>'
+        : '<span class="grid-action">edit</span>',
+      receipt: submission.submitted
+        ? '<span class="grid-action grid-action">download</span>'
+        : '<span class="grid-action-disabled">download</span>',
+      delete: submission.submitted
+        ? '<span class="grid-action-disabled">delete</span>'
+        : '<span class="grid-action">delete</span>',
     }
   }
   return grid

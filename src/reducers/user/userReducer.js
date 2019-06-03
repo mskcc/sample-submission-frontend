@@ -126,6 +126,23 @@ function userReducer(state = initialState, action) {
         loading: false,
       }
 
+    case ActionTypes.DELETE_SUBMISSION:
+      return {
+        ...state,
+        isSaving: true,
+      }
+    case ActionTypes.DELETE_SUBMISSION_FAIL:
+      return { ...state, isSaving: false }
+    case ActionTypes.DELETE_SUBMISSION_SUCCESS:
+      return {
+        ...state,
+        isSaving: false,
+        saved: true,
+
+        submissionsTable: action.payload.table,
+        submissions: action.payload.submissions,
+      }
+
     case ActionTypes.BUTTON_RESET: {
       return { ...state, submitted: false, saved: false }
     }

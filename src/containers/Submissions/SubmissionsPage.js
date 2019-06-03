@@ -19,15 +19,20 @@ export class SubmissionsPage extends Component {
     switch (type) {
       case 'edit': {
         this.props.editSubmission(id)
-        return this.props.history.push('upload');
-
-        
+        return this.props.history.push('upload')
       }
       case 'receipt': {
         return this.props.editSubmission(id)
       }
       case 'delete': {
-        return this.props.editSubmission(id)
+        swal('Are you sure you want to delete this submission?', {
+          buttons: ['Cancel', true],
+        }).then(value => {
+          if (value) {
+            return this.props.deleteSubmission(id)
+            return this.props.history.push('submissions')
+          }
+        })
       }
       default:
         return null
@@ -35,10 +40,6 @@ export class SubmissionsPage extends Component {
   }
 
   render() {
-    // if (!this.props.loading && !this.props.loggedIn) {
-    //   return <Redirect to="/login" />
-    // }
-
     return this.props.user.submissions &&
       this.props.user.submissions.length > 0 ? (
       <SubmissionsTable user={this.props.user} handleClick={this.handleClick} />
@@ -61,7 +62,6 @@ export default withLocalize(
       resetErrorMessage,
       ...userActions,
       ...uploadGridActions,
-
     }
   )(SubmissionsPage)
 )

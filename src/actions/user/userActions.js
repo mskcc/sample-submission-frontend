@@ -243,6 +243,34 @@ export function getSubmissions() {
   }
 }
 
+
+export const DELETE_SUBMISSION = 'DELETE_SUBMISSION'
+export const DELETE_SUBMISSION_FAIL = 'DELETE_SUBMISSION_FAIL'
+export const DELETE_SUBMISSION_SUCCESS = 'DELETE_SUBMISSION_SUCCESS'
+export function deleteSubmission(id) {
+  return dispatch => {
+    dispatch({ type: DELETE_SUBMISSION })
+    return axios
+      .post(API_ROOT + '/deleteSubmission', {data:{igo_request_id:id}})
+      .then(response => {
+        return dispatch({
+          type: DELETE_SUBMISSION_SUCCESS,
+          payload: {
+            submissions: response.data.submissions,
+            table: generateSubmissionsGrid(response.data),
+          },
+        })
+      })
+      .catch(error => {
+        return dispatch({
+          type: DELETE_SUBMISSION_FAIL,
+          error: error,
+        })
+        return error
+      })
+  }
+}
+
 // export const EDIT_SUBMISSION = 'EDIT_SUBMISSION'
 // export const EDIT_SUBMISSION_FAIL = 'EDIT_SUBMISSION_FAIL'
 // export const EDIT_SUBMISSION_SUCCESS = 'EDIT_SUBMISSION_SUCCESS'
