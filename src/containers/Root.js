@@ -14,8 +14,7 @@ import enTranslations from '../translations/en.json'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
-import Header from '../components/Shared/Header'
-import Message from '../components/Shared/Message'
+import { Header, Message, SnackMessage } from '../components'
 import UploadPage from './Upload/UploadPage'
 import SubmissionsPage from './Submissions/SubmissionsPage'
 import Promote from './Promote/Promote'
@@ -61,46 +60,55 @@ class Root extends Component {
   }
 
   render() {
+    console.log(this.props)
     return (
       <MuiThemeProvider theme={theme}>
         <Router basename="sample-receiving">
-          <div className="app">
-            <Header loggedIn={this.props.loggedIn} />
-            {process.env.NODE_ENV !== 'production' ? <DevTools /> : <div />}
+          <div>
+            <div className="app">
+              <Header loggedIn={this.props.loggedIn} />
+              {process.env.NODE_ENV !== 'production' ? <DevTools /> : <div />}
 
-            {this.props.error ? (
-              <ErrorPage />
-            ) : (
-              <React.Fragment>
-                {this.props.message && <Message msg={this.props.message} />}
-                {this.props.loading && (
-                  <CircularProgress color="secondary" size={24} />
-                )}
-                <div>
-                  <PrivateRoute
-                    loggedIn={this.props.loggedIn}
-                    path="/(upload|)"
-                    component={UploadPage}
-                  />
-                  <PrivateRoute
-                    loggedIn={this.props.loggedIn}
-                    path="/promote"
-                    component={Promote}
-                  />
-                  <PrivateRoute
-                    loggedIn={this.props.loggedIn}
-                    path="/submissions"
-                    component={SubmissionsPage}
-                  />
-                  <PrivateRoute
-                    loggedIn={this.props.loggedIn}
-                    path="/logout"
-                    component={Logout}
-                  />
-                  <Route path="/login" component={Login} />
-                  <Route path="/error" component={ErrorPage} />
-                </div>{' '}
-              </React.Fragment>
+              {this.props.serverError ? null : (
+                <React.Fragment>
+                  {this.props.loading && (
+                    <CircularProgress color="secondary" size={24} />
+                  )}
+                  <div>
+                    <PrivateRoute
+                      loggedIn={this.props.loggedIn}
+                      path="/(upload|)"
+                      component={UploadPage}
+                    />
+                    <PrivateRoute
+                      loggedIn={this.props.loggedIn}
+                      path="/promote"
+                      component={Promote}
+                    />
+                    <PrivateRoute
+                      loggedIn={this.props.loggedIn}
+                      path="/submissions"
+                      component={SubmissionsPage}
+                    />
+                    <PrivateRoute
+                      loggedIn={this.props.loggedIn}
+                      path="/logout"
+                      component={Logout}
+                    />
+                    <Route path="/login" component={Login} />
+                    <Route path="/error" component={ErrorPage} />
+                  </div>{' '}
+                </React.Fragment>
+              )}
+            </div>
+            {this.props.message && (
+              <span>
+                <SnackMessage
+                  open
+                  type={this.props.error ? 'error' : 'info'}
+                  message={this.props.message}
+                />
+              </span>
             )}
           </div>
         </Router>

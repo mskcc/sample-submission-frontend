@@ -60,12 +60,12 @@ export function checkVersion(version) {
           dispatch({
             type: RECEIVE_CHECK_VERSION_FAIL,
             error: error,
-            message: error.response.data.message,
           })
         } else {
           dispatch({
             type: SERVER_ERROR,
-            error: error,
+            serverError: true,
+            
           })
         }
       })

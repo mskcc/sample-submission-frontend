@@ -21,6 +21,7 @@
     "bootstrap": "^4.3.1",
     "case-sensitive-paths-webpack-plugin": "2.1.2",
     "chalk": "2.4.1",
+    "clsx": "^1.0.4",
     "cross-fetch": "^3.0.2",
     "css-loader": "1.0.0",
     "dotenv": "6.0.0",

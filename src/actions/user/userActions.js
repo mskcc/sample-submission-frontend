@@ -70,7 +70,6 @@ export function refreshToken() {
             dispatch({
               type: REFRESH_TOKEN_INVALID,
               error: error,
-              errorMessage: error.response.data.message,
             })
           } else {
             dispatch({
@@ -85,7 +84,7 @@ export function refreshToken() {
     } else
       dispatch({
         type: REFRESH_TOKEN_INVALID,
-        errorMessage: 'Your session expired. Please log in again.',
+        message: 'Your session expired. Please log in again.',
       })
   }
 }
@@ -111,6 +110,7 @@ export function login(username, password) {
 
         return dispatch({
           type: LOGIN_SUCCESS,
+          message: response.data.message,
           payload: response.data,
           table: generateSubmissionsGrid({
             submissions: response.data.submissions,
@@ -123,7 +123,7 @@ export function login(username, password) {
         console.log(error)
         return dispatch({
           type: LOGIN_FAIL,
-          message: error,
+          error: error,
         })
       })
   }

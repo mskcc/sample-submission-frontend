@@ -21,7 +21,7 @@ class Login extends React.Component {
 
   render() {
     const isDev = process.env.NODE_ENV !== 'production'
-    const { loginErrorMessage, submitting, pristine, classes } = this.props
+    const { submitting, pristine, classes } = this.props
     if (!this.props.loading && this.props.loggedIn) {
       return <Redirect to="/upload" />
     }
@@ -30,9 +30,6 @@ class Login extends React.Component {
         {({ translate }) =>
           !this.props.loading ? (
             <Paper elevation={1}>
-              {loginErrorMessage && (
-                <Message type="Error" msg={this.props.loginErrorMessage} />
-              )}
               <form
                 onSubmit={this.handleSubmit}
                 id="login"
@@ -83,7 +80,6 @@ class Login extends React.Component {
 
 const mapStateToProps = state => ({
   error: state.user.error,
-  loginErrorMessage: state.user.loginErrorMessage,
   loggedIn: state.user.loggedIn,
   loading: state.user.loading,
 })
