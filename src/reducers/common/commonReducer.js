@@ -20,7 +20,29 @@ function commonReducer(state = initialState, action) {
     case ActionTypes.RESET_ERROR_MESSAGE:
       return {
         ...state,
-        error: null,
+        error: false,
+        message: '',
+      }
+
+    case ActionTypes.SET_ERROR_MESSAGE:
+      return {
+        ...state,
+        error: true,
+        message: payload.message,
+      }
+
+    case ActionTypes.RESET_MESSAGE:
+      return {
+        ...state,
+
+        message: '',
+      }
+
+    case ActionTypes.SET_MESSAGE:
+      return {
+        ...state,
+
+        message: payload.message,
       }
 
     case ActionTypes.REQUEST_CHECK_VERSION:
@@ -40,10 +62,9 @@ function commonReducer(state = initialState, action) {
         ...state,
         error: action.error,
         message: action.message,
-        
+
         versionValid: false,
       }
-   
 
     default:
       return state

@@ -41,13 +41,13 @@ const Button = ({ id, onSubmit, isLoading, done, title, classes, color }) => (
 
 const styles = theme => ({
   button: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     // height: 50,
     // display: 'inline-block',
     width: 150,
   },
   wrapper: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     position: 'relative',
   },
   buttonProgress: {

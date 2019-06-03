@@ -1,6 +1,6 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core'
-import { GridButton } from './index'
+import { GridButton } from '../index'
 import { HotTable } from '@handsontable/react'
 import Handsontable from 'handsontable'
 import 'handsontable/dist/handsontable.full.css'
@@ -189,7 +189,7 @@ const styles = theme => ({
     // borderRight: '1px solid gray',
     display: 'grid',
     justifyItems: 'center',
-    marginLeft: theme.spacing.unit * 2,
+    marginLeft: theme.spacing(2),
     width: '95vw',
     // maxHeight: 600,
     overflow: 'hidden',

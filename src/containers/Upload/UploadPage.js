@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import { uploadGridActions, userActions } from '../../actions'
 import { Redirect } from 'react-router-dom'
 
-import { Dialog } from '../../components/Upload'
+import { Dialog } from '../../components'
 import UploadFormContainer from './UploadFormContainer'
 import UploadGridContainer from './UploadGridContainer'
 

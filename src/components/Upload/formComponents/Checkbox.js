@@ -74,9 +74,9 @@ CheckboxComponent.defaultProps = {
 const styles = theme => ({
   container: {
     color: theme.palette.text.secondary,
-    marginLeft: 2 * theme.spacing.unit,
-    marginRight: 2 * theme.spacing.unit,
-    marginTop: -3 * theme.spacing.unit,
+    marginLeft: 2 * theme.spacing(1),
+    marginRight: 2 * theme.spacing(1),
+    marginTop: -3 * theme.spacing(1),
 
     minWidth: 350,
     fontSize: '.8em',

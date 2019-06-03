@@ -7,7 +7,7 @@ import { uploadGridActions, userActions } from '../../actions'
 
 import CircularProgress from '@material-ui/core/CircularProgress'
 
-import { UploadGrid } from '../../components/Upload'
+import { UploadGrid } from '../../components'
 
 class UploadGridContainer extends React.Component {
   constructor(props) {

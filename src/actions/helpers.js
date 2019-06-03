@@ -227,8 +227,8 @@ export const generateSubmitData = state => {
 // the state (see SubmissionsTable for the onClick)
 export const generateSubmissionsGrid = response => {
   let grid = { columnHeaders: [], data: [], columnFeatures: [] }
-  grid.columnHeaders = response.submission_headers.map(a => a.name)
-  grid.columnFeatures = response.submission_headers
+  grid.columnHeaders = response.submission_columns.map(a => a.name)
+  grid.columnFeatures = response.submission_columns
   for (let i = 0; i < response.submissions.length; i++) {
     let submission = response.submissions[i]
     grid.data[i] = {
