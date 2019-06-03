@@ -28,11 +28,6 @@ export class UploadPage extends Component {
   }
 
   render() {
-    console.log(this.props.loggedIn)
-    if (!this.props.loading && !this.props.loggedIn) {
-      return <Redirect to="/login" />
-    }
-
     return (
       <React.Fragment>
         <Dialog

@@ -23,6 +23,21 @@ import Login from './Login'
 import Logout from './Logout'
 import ErrorPage from './ErrorPage'
 
+function PrivateRoute({ component: Component, loggedIn, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={props =>
+        loggedIn === true ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to={{ pathname: '/login' }} />
+        )
+      }
+    />
+  )
+}
+
 class Root extends Component {
   constructor(props) {
     super(props)
@@ -46,7 +61,6 @@ class Root extends Component {
   }
 
   render() {
-
     return (
       <MuiThemeProvider theme={theme}>
         <Router basename="sample-receiving">
@@ -63,10 +77,26 @@ class Root extends Component {
                   <CircularProgress color="secondary" size={24} />
                 )}
                 <div>
-                  <Route path="/(upload|)" component={UploadPage} />
-                  <Route path="/promote" component={Promote} />
-                  <Route path="/submissions" component={SubmissionsPage} />
-                  <Route path="/logout" component={Logout} />
+                  <PrivateRoute
+                    loggedIn={this.props.loggedIn}
+                    path="/(upload|)"
+                    component={UploadPage}
+                  />
+                  <PrivateRoute
+                    loggedIn={this.props.loggedIn}
+                    path="/promote"
+                    component={Promote}
+                  />
+                  <PrivateRoute
+                    loggedIn={this.props.loggedIn}
+                    path="/submissions"
+                    component={SubmissionsPage}
+                  />
+                  <PrivateRoute
+                    loggedIn={this.props.loggedIn}
+                    path="/logout"
+                    component={Logout}
+                  />
                   <Route path="/login" component={Login} />
                   <Route path="/error" component={ErrorPage} />
                 </div>{' '}
