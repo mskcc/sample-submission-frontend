@@ -7,6 +7,8 @@ if (process.env.NODE_ENV === 'production') {
   // API_ROOT = 'https://rex.mskcc.org/apps/auth/'
 }
 
+import { generateSubmissionsGrid } from '../helpers'
+
 // materials that be combined with a Blocks/Slides/Tubes container
 const BSTMaterials = ['tissue', 'cells', 'blood', 'buffy coat', 'other']
 const PatientIDSpecies = ['human']
@@ -39,7 +41,10 @@ export function getInitialState() {
         .then(response => {
           dispatch({
             type: RECEIVE_INITIAL_STATE_SUCCESS,
-            data: response.data,
+            form_data: response.data,
+            user_data:{
+                        submissions: response.data.submissions,
+                        table: generateSubmissionsGrid(response.data),}
           })
           return response
         })
@@ -90,6 +95,20 @@ export function getMaterialsForApplication(selectedApplication) {
         })
         return error
       })
+  }
+}
+export const SELECT = 'SELECT'
+
+export function select(id, value) {
+  return dispatch => {
+    dispatch({ type: SELECT, payload: { id: id, value: value } })
+  }
+}
+export const CLEAR = 'CLEAR'
+
+export function clear(id) {
+  return dispatch => {
+    dispatch({ type: CLEAR, payload: { id: id } })
   }
 }
 

@@ -12,7 +12,7 @@ import { commonActions } from '../actions'
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['upload']
+  whitelist: ['upload', 'user']
 }
 
 

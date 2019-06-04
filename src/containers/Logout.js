@@ -7,6 +7,8 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 class Logout extends React.Component {
   componentDidMount() {
     this.props.logout()
+    return this.props.history.push('login')
+
   }
 
   render() {

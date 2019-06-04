@@ -6,7 +6,9 @@ import {
   generateRows,
   generateAGColumns,
   generateGridData,
+  generateSubmissionsGrid,
   updateRows,
+  findSubmission
 } from '../helpers'
 
 // make global
@@ -53,6 +55,7 @@ export const GET_COLUMNS_FAIL = 'GET_COLUMNS_FAIL'
 
 export function getColumns(formValues) {
   return (dispatch, getState) => {
+    // let formValues = getState().upload.form.selected
     dispatch({ type: GET_COLUMNS })
 
     // no grid? get inital columns
@@ -61,7 +64,7 @@ export function getColumns(formValues) {
       // TODO smell to have this in an action
     } else {
       let diffValues = diff(getState().upload.grid.form, formValues)
-      if (Object.entries(diffValues).length === 0) {
+      if (!diffValues || Object.entries(diffValues).length === 0) {
         dispatch({ type: NO_CHANGE })
         return setTimeout(() => {
           dispatch({ type: NO_CHANGE_RESET })
@@ -155,69 +158,26 @@ export function addGridToBankedSample() {
 }
 
 
-export const SAVE_PARTIAL_SUBMISSION = 'SAVE_PARTIAL_SUBMISSION'
-export const SAVE_PARTIAL_SUBMISSION_FAIL = 'SAVE_PARTIAL_SUBMISSION_FAIL'
-export const SAVE_PARTIAL_SUBMISSION_SUCCESS = 'SAVE_PARTIAL_SUBMISSION_SUCCESS'
-export function savePartialSubmission(grid) {
+export const EDIT_SUBMISSION = 'EDIT_SUBMISSION'
+export const EDIT_SUBMISSION_FAIL = 'EDIT_SUBMISSION_FAIL'
+export const EDIT_SUBMISSION_SUCCESS = 'EDIT_SUBMISSION_SUCCESS'
+export function editSubmission(id) {
   return (dispatch, getState) => {
-    dispatch({ type: SAVE_PARTIAL_SUBMISSION })
-
-    return axios
-      .post(API_ROOT + '/saveSubmission', {
-        data: {
-          ...generateSubmitData(getState()),
-          username: getState().user.username,
-        },
+    dispatch({ type: 'EDIT_SUBMISSION' })
+    let submission = findSubmission(getState().user.submissions, id)
+    if (submission) {
+      return dispatch({
+        type: 'EDIT_SUBMISSION_SUCCESS',
+        payload: submission,
       })
-      .then(response => {
-        // Handsontable binds to your data source (list of arrays or list of objects) by reference. Therefore, all the data entered in the grid will alter the original data source.
-        dispatch({ type: SAVE_PARTIAL_SUBMISSION_SUCCESS })
-        return setTimeout(() => {
-          dispatch({ type: BUTTON_RESET })
-        }, 2000)
+    } else {
+      return dispatch({
+        type: 'EDIT_SUBMISSION_FAIL',
       })
-      .catch(error => {
-        dispatch({
-          type: SAVE_PARTIAL_SUBMISSION_FAIL,
-          error: error,
-        })
-        return error
-      })
+    }
   }
 }
 
-export const SUBMISSION_COLLUSION_CHECK = 'SUBMISSION_COLLUSION_CHECK'
-export const SUBMISSION_COLLUSION_CHECK_FAIL = 'SUBMISSION_COLLUSION_CHECK_FAIL'
-export const SUBMISSION_COLLUSION_CHECK_SUCCESS =
-  'SUBMISSION_COLLUSION_CHECK_SUCCESS'
-export function checkSubmissionCollusion() {
-  return (dispatch, getState) => {
-    dispatch({ type: SUBMISSION_COLLUSION_CHECK })
-
-    //   if (Object.entries(getState().user.submissions).length === 0) {
-    //      getSubmissions
-
-    //   return axios
-    //     .get(API_ROOT + '/saveSubmission', {
-    //       data: {
-    //         ...generateSubmitData(getState()),
-    //         username: getState().user.username,
-    //       },
-    //     })
-    //     .then(response => {
-    //       // Handsontable binds to your data source (list of arrays or list of objects) by reference. Therefore, all the data entered in the grid will alter the original data source.
-    //       dispatch({ type: SUBMISSION_COLLUSION_CHECK_SUCCESS, payload: response.data })
-    //     })
-    //     .catch(error => {
-    //       dispatch({
-    //         type: SUBMISSION_COLLUSION_CHECK_FAIL,
-    //         error: error,
-    //       })
-    //       return error
-    //     })
-    // }
-  }
-}
 
 export const RESET_GRID_ERROR_MESSAGE = 'RESET_GRID_ERROR_MESSAGE'
 

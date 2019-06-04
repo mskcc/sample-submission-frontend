@@ -1,5 +1,9 @@
 import axios from 'axios'
-import { generateSubmissionsGrid } from '../helpers'
+import {
+  generateSubmitData,
+  generateSubmissionsGrid,
+  findSubmission,
+} from '../helpers'
 
 let API_ROOT = 'http://localhost:9004'
 if (process.env.NODE_ENV === 'production') {
@@ -21,17 +25,17 @@ axios.interceptors.request.use(
     return Promise.reject(error)
   }
 )
-// Add a response interceptor
-axios.interceptors.response.use(
-  function(response) {
-    // Do something with response data
-    return response
-  },
-  function(error) {
-    // Do something with response error
-    return Promise.reject(error)
-  }
-)
+// // Add a response interceptor
+// axios.interceptors.response.use(
+//   function(response) {
+//     // Do something with response data
+//     return response
+//   },
+//   function(error) {
+//     // Do something with response error
+//     return Promise.reject(error)
+//   }
+// )
 
 export const REFRESH_TOKEN_VALID = 'REFRESH_TOKEN_VALID'
 export const REFRESH_TOKEN_REQUEST = 'REFRESH_TOKEN_REQUEST'
@@ -66,7 +70,6 @@ export function refreshToken() {
             dispatch({
               type: REFRESH_TOKEN_INVALID,
               error: error,
-              errorMessage: error.response.data.message,
             })
           } else {
             dispatch({
@@ -81,7 +84,7 @@ export function refreshToken() {
     } else
       dispatch({
         type: REFRESH_TOKEN_INVALID,
-        errorMessage: 'Your session expired. Please log in again.',
+        message: 'Your session expired. Please log in again.',
       })
   }
 }
@@ -107,14 +110,20 @@ export function login(username, password) {
 
         return dispatch({
           type: LOGIN_SUCCESS,
+          message: response.data.message,
           payload: response.data,
+          table: generateSubmissionsGrid({
+            submissions: response.data.submissions,
+            submission_columns: response.data.submission_columns,
+          }),
         })
       })
 
       .catch(error => {
+        console.log(error)
         return dispatch({
           type: LOGIN_FAIL,
-          message: error.response.data.message,
+          error: error,
         })
       })
   }
@@ -126,10 +135,9 @@ export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
 export function logout() {
   return dispatch => {
     dispatch({ type: LOGOUT_REQUEST })
-
+    localStorage.removeItem('persist:root')
     let access_token = localStorage.getItem('access_token')
     let refresh_token = localStorage.getItem('refresh_token')
-    localStorage.removeItem('persist:root')
 
     if (access_token) {
       axios
@@ -171,6 +179,44 @@ export function logout() {
   }
 }
 
+export const BUTTON_RESET = 'BUTTON_RESET'
+export const SAVE_PARTIAL_SUBMISSION = 'SAVE_PARTIAL_SUBMISSION'
+export const SAVE_PARTIAL_SUBMISSION_FAIL = 'SAVE_PARTIAL_SUBMISSION_FAIL'
+export const SAVE_PARTIAL_SUBMISSION_SUCCESS = 'SAVE_PARTIAL_SUBMISSION_SUCCESS'
+export function savePartialSubmission(grid) {
+  return (dispatch, getState) => {
+    dispatch({ type: SAVE_PARTIAL_SUBMISSION })
+
+    return axios
+      .post(API_ROOT + '/saveSubmission', {
+        data: {
+          ...generateSubmitData(getState()),
+          username: getState().user.username,
+        },
+      })
+      .then(response => {
+        // Handsontable binds to your data source (list of arrays or list of objects) by reference. Therefore, all the data entered in the grid will alter the original data source.
+        dispatch({
+          type: SAVE_PARTIAL_SUBMISSION_SUCCESS,
+          payload: {
+            submissions: response.data.submissions,
+            table: generateSubmissionsGrid(response.data),
+          },
+          message: 'Saved!',
+        })
+        return setTimeout(() => {
+          dispatch({ type: BUTTON_RESET })
+        }, 2000)
+      })
+      .catch(error => {
+        dispatch({
+          type: SAVE_PARTIAL_SUBMISSION_FAIL,
+          error: error,
+        })
+        return error
+      })
+  }
+}
 export const GET_SUBMISSIONS = 'GET_SUBMISSIONS'
 export const GET_SUBMISSIONS_FAIL = 'GET_SUBMISSIONS_FAIL'
 export const GET_SUBMISSIONS_SUCCESS = 'GET_SUBMISSIONS_SUCCESS'
@@ -181,16 +227,16 @@ export function getSubmissions() {
       .get(API_ROOT + '/getSubmissions', {})
       .then(response => {
         console.log(response.data)
-        dispatch({
+        return dispatch({
           type: GET_SUBMISSIONS_SUCCESS,
           payload: {
-            submissions: response.data,
+            submissions: response.data.submissions,
             table: generateSubmissionsGrid(response.data),
           },
         })
       })
       .catch(error => {
-        dispatch({
+        return dispatch({
           type: GET_SUBMISSIONS_FAIL,
           error: error,
         })
@@ -198,6 +244,84 @@ export function getSubmissions() {
       })
   }
 }
+
+export const DELETE_SUBMISSION = 'DELETE_SUBMISSION'
+export const DELETE_SUBMISSION_FAIL = 'DELETE_SUBMISSION_FAIL'
+export const DELETE_SUBMISSION_SUCCESS = 'DELETE_SUBMISSION_SUCCESS'
+export function deleteSubmission(id) {
+  return dispatch => {
+    dispatch({ type: DELETE_SUBMISSION })
+    return axios
+      .post(API_ROOT + '/deleteSubmission', { data: { igo_request_id: id } })
+      .then(response => {
+        return dispatch({
+          type: DELETE_SUBMISSION_SUCCESS,
+          payload: {
+            submissions: response.data.submissions,
+            table: generateSubmissionsGrid(response.data),
+          },
+          message: 'Submission ' + id + ' successfully deleted.',
+        })
+      })
+      .catch(error => {
+        return dispatch({
+          type: DELETE_SUBMISSION_FAIL,
+          error: error,
+        })
+        return error
+      })
+  }
+}
+
+// export const EDIT_SUBMISSION = 'EDIT_SUBMISSION'
+// export const EDIT_SUBMISSION_FAIL = 'EDIT_SUBMISSION_FAIL'
+// export const EDIT_SUBMISSION_SUCCESS = 'EDIT_SUBMISSION_SUCCESS'
+// export function editSubmission(id) {
+//   return (dispatch, getState) => {
+//     dispatch({ type: 'EDIT_SUBMISSION' })
+//     let submission = findSubmission(getState().user.submissions, id)
+//     if (submission) {
+//       return dispatch({
+//         type: 'EDIT_SUBMISSION_SUCCESS',
+//         payload: 'submission',
+//       })
+//     } else {
+//       return dispatch({
+//         type: 'EDIT_SUBMISSION_FAIL',
+//       })
+//     }
+//   }
+// }
+
+// export const GET_SUBMISSIONS_EXISTS = 'GET_SUBMISSIONS_EXISTS'
+// export const GET_SUBMISSIONS_EXISTS_FAIL = 'GET_SUBMISSIONS_EXISTS_FAIL'
+// export const GET_SUBMISSIONS_EXISTS_SUCCESS = 'GET_SUBMISSIONS_EXISTS_SUCCESS'
+// export function submissionExists(username, request_id) {
+//   return dispatch => {
+//     dispatch({ type: GET_SUBMISSIONS_EXISTS })
+//     return axios
+//       .post(API_ROOT + '/submissionExists', {
+//         data: {
+//           username: username,
+//           request_id: request_id,
+//         },
+//       })
+//       .then(response => {
+//         console.log(response.data)
+//         dispatch({
+//           type: GET_SUBMISSIONS_EXISTS_SUCCESS,
+//           payload: response.data,
+//         })
+//       })
+//       .catch(error => {
+//         dispatch({
+//           type: GET_SUBMISSIONS_EXISTS_FAIL,
+//           error: error,
+//         })
+//         return error
+//       })
+//   }
+// }
 
 export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE'
 

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { uploadFormActions } from '../../actions'
 
-import { UploadForm } from '../../components/Upload'
+import { UploadForm } from '../../components'
 
 export class UploadFormContainer extends React.Component {
   constructor(props) {
@@ -16,10 +16,13 @@ export class UploadFormContainer extends React.Component {
 
   componentDidMount() {
     // todo wait for token refresh!
-    this.props.getInitialState()
+    if (!this.props.form.initialFetched) {
+      this.props.getInitialState()
+    }
   }
-  
+
   handleMaterialChange = selectedMaterial => {
+    console.log(selectedMaterial)
     if (selectedMaterial) {
       // get possible applications for this material
       this.props.getApplicationsForMaterial(selectedMaterial)
@@ -44,6 +47,12 @@ export class UploadFormContainer extends React.Component {
       this.props.getFormatterForSpecies(selectedSpecies)
     } else this.props.clearSpecies()
   }
+  handleInputChange = (id, value) => {
+    console.log(id + value)
+    if (value) {
+      this.props.select(id, value)
+    } else this.props.clear(id)
+  }
 
   render() {
     const {
@@ -53,18 +62,20 @@ export class UploadFormContainer extends React.Component {
       gridIsLoading,
       nothingToChange,
     } = this.props
-    return(
-        form && form.materials ? (
-          <UploadForm
-            form={form}
-            gridIsLoading={gridIsLoading}
-            nothingToChange={nothingToChange}
-            handleSubmit={handleSubmit}
-            handleMaterialChange={this.handleMaterialChange}
-            handleApplicationChange={this.handleApplicationChange}
-            handleSpeciesChange={this.handleSpeciesChange}
-          />
-        ) : <div/>)
+    return form && form.allMaterials ? (
+      <UploadForm
+        form={form}
+        gridIsLoading={gridIsLoading}
+        nothingToChange={nothingToChange}
+        handleSubmit={handleSubmit}
+        handleMaterialChange={this.handleMaterialChange}
+        handleApplicationChange={this.handleApplicationChange}
+        handleSpeciesChange={this.handleSpeciesChange}
+        handleInputChange={this.handleInputChange}
+      />
+    ) : (
+      <div />
+    )
   }
 }
 

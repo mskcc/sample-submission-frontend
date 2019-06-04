@@ -1,5 +1,6 @@
 import { uploadFormActions as ActionTypes } from '../../actions'
 import { initialFormState } from './initialState'
+import { uploadGridActions as GridActionTypes } from '../../actions'
 
 export default function uploadFormReducer(state = initialFormState, action) {
   switch (action.type) {
@@ -14,13 +15,14 @@ export default function uploadFormReducer(state = initialFormState, action) {
         ...state,
         formIsLoading: false,
         initialFetched: true,
-        materials: action.data.materials,
-        applications: action.data.applications,
-        allMaterials: action.data.materials,
-        allApplications: action.data.applications,
-        species: action.data.species,
-        allContainers: action.data.containers,
-        containers: action.data.containers,
+        filteredMaterials: action.form_data.materials,
+        filteredApplications: action.form_data.applications,
+        allMaterials: action.form_data.materials,
+        allApplications: action.form_data.applications,
+        allSpecies: action.form_data.species,
+        allContainers: action.form_data.containers,
+        containers: action.form_data.containers,
+
         // patientIdFormats: action.data.patientIdFormats,
       }
 
@@ -51,32 +53,52 @@ export default function uploadFormReducer(state = initialFormState, action) {
         formIsLoading: false,
       }
 
+    case ActionTypes.SELECT:
+      return {
+        ...state,
+        selected: {
+          ...state.selected,
+          [action.payload.id]: action.payload.value,
+        },
+      }
+    case ActionTypes.CLEAR:
+      return {
+        ...state,
+        selected: {
+          ...state.selected,
+          [action.payload.id]: '',
+        },
+      }
+
     case ActionTypes.SELECT_MATERIAL:
       return {
         ...state,
-        selectedMaterial: action.selectedMaterial,
+        selected: { ...state.selected, material: action.selectedMaterial },
       }
 
     case ActionTypes.FILTER_CONTAINERS:
       return {
         ...state,
-        containers: state.filteredContainers,
+        filteredContainers: state.filteredContainers,
       }
 
     case ActionTypes.FILTER_CONTAINERS_FOR_BS:
       return {
         ...state,
-        containers: state.filteredContainersBS,
+        filteredContainers: state.filteredContainersBS,
       }
     case ActionTypes.SHOW_ALL_CONTAINERS:
       return {
         ...state,
-        containers: state.allContainers,
+        filteredContainers: state.allContainers,
       }
     case ActionTypes.SELECT_APPLICATION:
       return {
         ...state,
-        selectedApplication: action.selectedApplication,
+        selected: {
+          ...state.selected,
+          application: action.selectedApplication,
+        },
       }
 
     case ActionTypes.REQUEST_MATERIALS_FOR_APPLICATION:
@@ -88,7 +110,7 @@ export default function uploadFormReducer(state = initialFormState, action) {
       return {
         ...state,
         formIsLoading: false,
-        materials: action.materials,
+        filteredMaterials: action.materials,
       }
     case ActionTypes.RECEIVE_MATERIALS_FOR_APPLICATION_FAIL:
       return {
@@ -106,7 +128,7 @@ export default function uploadFormReducer(state = initialFormState, action) {
       return {
         ...state,
         formIsLoading: false,
-        applications: action.applications,
+        filteredApplications: action.applications,
       }
     case ActionTypes.RECEIVE_APPLICATIONS_FOR_MATERIAL_FAIL:
       return {
@@ -178,21 +200,31 @@ export default function uploadFormReducer(state = initialFormState, action) {
     case ActionTypes.CLEAR_MATERIAL:
       return {
         ...state,
-        applications: state.allApplications,
-        selectedMaterial: '',
+        filteredApplications: state.allApplications,
+        selected: { ...state.selected, material: '' },
         formIsLoading: true,
       }
     case ActionTypes.CLEAR_APPLICATION:
       return {
         ...state,
-        materials: state.allMaterials,
-        selectedApplication: '',
+        filteredMaterials: state.allMaterials,
+        selected: { ...state.selected, application: '' },
         formIsLoading: true,
       }
     case ActionTypes.CLEARED:
       return {
         ...state,
         formIsLoading: false,
+      }
+
+    case GridActionTypes.EDIT_SUBMISSION_SUCCESS:
+      let form = JSON.parse(action.payload.form_values)
+      return {
+        ...state,
+        selected: {
+          ...form,
+          igo_request_id: form.igo_request_id.replace('IGO-', ''),
+        },
       }
 
     default:

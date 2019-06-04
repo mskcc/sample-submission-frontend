@@ -3,7 +3,7 @@ export const initialFormState = {
   allApplications: [],
   allMaterials: [],
   allPatientIdFormats: [],
-  applications: [],
+  filteredApplications: [],
   containers: [],
   formIsLoading: false,
   filteredContainers: [
@@ -13,12 +13,20 @@ export const initialFormState = {
   filteredContainersBS: [
     { id: 'Blocks/Slides/Tubes', value: 'Blocks/Slides/Tubes' },
   ],
-  materials: [],
+  filteredMaterials: [],
   picklists: {},
-  selectedApplication: '',
-  selectedMaterial: '',
-  species: [],
+
+  allSpecies: [],
   patientIDTypeNeedsFormatting: false,
+  selected: {
+    application: 'AmpliSeq',
+    material: 'DNA',
+    igo_request_id: '898989',
+    number_of_samples: '10',
+    species: 'Mouse',
+    container: 'Plates',
+    patient_id_type: '',
+  },
 }
 
 export const initialGridState = {
