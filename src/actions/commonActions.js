@@ -1,9 +1,6 @@
 import axios from 'axios'
 
-let API_ROOT = 'http://localhost:9004'
-if (process.env.NODE_ENV === 'production') {
-  API_ROOT = 'https://delphi.mskcc.org/sample-receiving-backend/'
-}
+import {Config} from '../config.js'
 
 // Add a request interceptor
 axios.interceptors.request.use(
@@ -43,7 +40,7 @@ export function checkVersion(version) {
   return dispatch => {
     dispatch({ type: REQUEST_CHECK_VERSION })
     return axios
-      .get(API_ROOT + '/checkVersion?', {
+      .get(Config.API_ROOT + '/checkVersion?', {
         params: {
           version: version,
         },

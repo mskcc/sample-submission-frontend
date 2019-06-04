@@ -57,7 +57,7 @@ class UploadGrid extends React.Component {
   }
 
   render() {
-    const { classes, grid, handleChange, user } = this.props
+    const { classes, grid, handleChange, user, handleMRN } = this.props
     // console.log(this.props.grid.rows.length)
     return (
       <div>
@@ -108,9 +108,20 @@ class UploadGrid extends React.Component {
             //   }
             //   return cellProperties
             // }}
-            afterChange={(change, source) => {
-              if (source !== 'loadData') {
-                handleChange(change)
+            afterChange={(changes, source) => {
+              console.log(changes)
+              // if (source !== 'loadData') {
+              //   handleChange(changes)
+              // }
+              // if patientId looks like MRN
+              if (changes) {
+                changes.forEach(([row, prop, oldValue, newValue]) => {
+                  if (prop == 'patientId' && /^([0-9]{6})$/.test(newValue)) {
+                    
+                    console.log('MRN')
+                    handleMRN(row)
+                  }
+                })
               }
             }}
             afterValidate={(isValid, value, row, prop, source) => {

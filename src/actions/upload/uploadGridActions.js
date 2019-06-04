@@ -12,11 +12,13 @@ import {
 } from '../helpers'
 
 // make global
-let API_ROOT = 'http://localhost:9004'
-if (process.env.NODE_ENV === 'production') {
-  API_ROOT = 'https://delphi.mskcc.org/sample-receiving-backend/'
-  // API_ROOT = 'https://rex.mskcc.org/apps/auth/'
-}
+// let Config.API_ROOT = 'http://localhost:9004'
+// if (process.env.NODE_ENV === 'production') {
+//   Config.API_ROOT = 'https://delphi.mskcc.org/sample-receiving-backend/'
+//   // Config.API_ROOT = 'https://rex.mskcc.org/apps/auth/'
+// }
+
+import {Config} from '../../config.js'
 
 // Add a request interceptor
 axios.interceptors.request.use(
@@ -97,7 +99,7 @@ export function getInitialColumns(formValues) {
     material = material.replace('/', '_PIPI_SLASH_')
     application = application.replace('/', '_PIPI_SLASH_')
     return axios
-      .get(API_ROOT + '/columnDefinition?', {
+      .get(Config.API_ROOT + '/columnDefinition?', {
         params: {
           type: material,
           recipe: application,
@@ -136,7 +138,7 @@ export function addGridToBankedSample() {
     dispatch({ type: ADD_GRID_TO_BANKED_SAMPLE })
 
     return axios
-      .post(API_ROOT + '/addBankedSamples', {
+      .post(Config.API_ROOT + '/addBankedSamples', {
         data: generateSubmitData(getState()),
       })
       .then(response => {
@@ -177,9 +179,32 @@ export function editSubmission(id) {
   }
 }
 
-export const RESET_GRID_ERROR_MESSAGE = 'RESET_GRID_ERROR_MESSAGE'
 
-// Resets the currently visible error message.
-export const resetGridErrorMessage = () => ({
-  type: RESET_GRID_ERROR_MESSAGE,
-})
+export const HANDLE_MRN = 'HANDLE_MRN'
+export const HANDLE_MRN_FAIL = 'HANDLE_MRN_FAIL'
+export const HANDLE_MRN_SUCCESS = 'HANDLE_MRN_SUCCESS'
+export function handleMRN(row) {
+  return (dispatch, getState) => {
+    dispatch({ type: 'HANDLE_MRN' })
+
+    return axios
+      .post(Config.API_ROOT + '/addBankedSamples', {
+        data: generateSubmitData(getState()),
+      })
+      .then(response => {
+        // Handsontable binds to your data source (list of arrays or list of objects) by reference. Therefore, all the data entered in the grid will alter the original data source.
+
+        dispatch({
+          type: HANDLE_MRN_SUCCESS,
+        })
+        return response
+      })
+      .catch(error => {
+        dispatch({
+          type: HANDLE_MRN_FAIL,
+          error: error,
+        })
+        return error
+      })
+  }
+}
