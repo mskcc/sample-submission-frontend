@@ -35,22 +35,18 @@ class UploadGrid extends React.Component {
 
     // run through grid required columns
     let emptyColumns = new Set()
-    console.log(columnFeatures)
-    console.log(rows)
     for (let i = 0; i < columnFeatures.length; i++) {
       for (let j = 0; j < rows.length; j++) {
         if (
           columnFeatures[i].optional == false &&
           !rows[j][columnFeatures[i].data]
         ) {
-          console.log(rows[j][columnFeatures[i].data])
           emptyColumns.add(columnFeatures[i].columnHeader)
         }
       }
     }
 
     if (emptyColumns.size > 0) {
-      console.log(emptyColumns.size)
       swal('Required', [...emptyColumns].join('\n '), 'error')
     } else {
       this.props.handleSubmit()

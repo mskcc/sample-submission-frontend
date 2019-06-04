@@ -202,6 +202,7 @@ export function savePartialSubmission(grid) {
             submissions: response.data.submissions,
             table: generateSubmissionsGrid(response.data),
           },
+          message: 'Saved!',
         })
         return setTimeout(() => {
           dispatch({ type: BUTTON_RESET })
@@ -259,6 +260,7 @@ export function deleteSubmission(id) {
             submissions: response.data.submissions,
             table: generateSubmissionsGrid(response.data),
           },
+          message: 'Submission ' + id + ' successfully deleted.',
         })
       })
       .catch(error => {

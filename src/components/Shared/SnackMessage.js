@@ -28,14 +28,14 @@ class SimpleSnackbar extends React.Component {
     }
 
     this.setState({ open: false })
+    this.props.handleClose()
   }
   componentDidMount() {
     this.setState({ open: true })
   }
 
   render() {
-    const { type, message, classes } = this.props
-    console.log(type)
+    const { type, message, classes, handleClose } = this.props
     return (
       <div>
         <Snackbar

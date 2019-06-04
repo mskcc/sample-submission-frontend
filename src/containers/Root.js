@@ -55,8 +55,13 @@ class Root extends Component {
 
   componentDidMount() {
     // making sure BE and FE versions match - shows info message if not
-    this.props.checkVersion(this.props.version)
+    this.props.checkVersion(this.props.common.version)
     this.props.refreshToken()
+  }
+
+  handleMsgClose = () => {
+    this.props.resetMessage()
+    // this.props.resetErrorMessage()
   }
 
   render() {
@@ -69,9 +74,11 @@ class Root extends Component {
               <Header loggedIn={this.props.loggedIn} />
               {process.env.NODE_ENV !== 'production' ? <DevTools /> : <div />}
 
-              {this.props.serverError ? null : (
+              {this.props.common.serverError ? (
+                <ErrorPage />
+              ) : (
                 <React.Fragment>
-                  {this.props.loading && (
+                  {this.props.common.loading && (
                     <CircularProgress color="secondary" size={24} />
                   )}
                   <div>
@@ -98,18 +105,20 @@ class Root extends Component {
                     <Route path="/login" component={Login} />
                     <Route path="/error" component={ErrorPage} />
                   </div>{' '}
+                  {this.props.common.message &&
+                  this.props.common.message.length > 0 ? (
+                    <span>
+                      <SnackMessage
+                        open
+                        type={this.props.error ? 'error' : 'info'}
+                        message={this.props.common.message}
+                        handleClose={this.handleMsgClose}
+                      />
+                    </span>
+                  ) : null}
                 </React.Fragment>
               )}
             </div>
-            {this.props.message && (
-              <span>
-                <SnackMessage
-                  open
-                  type={this.props.error ? 'error' : 'info'}
-                  message={this.props.message}
-                />
-              </span>
-            )}
           </div>
         </Router>
       </MuiThemeProvider>
@@ -118,7 +127,7 @@ class Root extends Component {
 }
 
 const mapStateToProps = state => ({
-  ...state.common,
+  common: state.common,
   ...state.user,
 })
 const mapDispatchToProps = {

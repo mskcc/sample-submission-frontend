@@ -101,7 +101,6 @@ function userReducer(state = initialState, action) {
         ...state,
         isSaving: false,
         saved: true,
-
         submissionsTable: action.payload.table,
         submissions: action.payload.submissions,
       }
@@ -115,7 +114,6 @@ function userReducer(state = initialState, action) {
       return { ...state, loading: false }
 
     case ActionTypes.EDIT_SUBMISSION_SUCCESS:
-      console.log(state)
       return {
         ...state,
         loading: false,

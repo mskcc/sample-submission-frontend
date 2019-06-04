@@ -23,15 +23,19 @@ function commonReducer(state = initialState, action) {
       error: true,
       serverError: true,
       message:
-        'Our backend is experiencing some downtime. Please check back later or message an admin.',
+        'Our backend is experiencing some downtime. Please refresh, check back later or message an admin.',
     }
   } else if (error) {
     return {
       ...state,
       error: true,
-      // message: action.error.response.data.message,
+      message: action.error.response
+        ? action.error.response.data.message
+        : action.error.message
     }
   } else if (message) {
+    console.log(message)
+    console.log(action)
     return {
       ...state,
       message: action.message,
@@ -56,7 +60,7 @@ function commonReducer(state = initialState, action) {
       case ActionTypes.RESET_MESSAGE:
         return {
           ...state,
-
+          error: false,
           message: '',
         }
 
