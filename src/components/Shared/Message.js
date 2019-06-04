@@ -7,8 +7,8 @@ import Typography from '@material-ui/core/Typography'
 const styles = theme => ({
   container: {
     ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
     maxWidth: 500,
     margin: '0 auto',
   },

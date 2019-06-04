@@ -10,7 +10,7 @@ import {
   withStyles,
 } from '@material-ui/core'
 
-import { Button, Checkbox, Dropdown, Input } from './index'
+import { Button, Checkbox, Dropdown, Input } from '../index'
 
 class UploadForm extends React.Component {
   constructor(props) {
@@ -460,13 +460,13 @@ const styles = theme => ({
     width: 200,
   },
   button: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     height: 50,
     display: 'inline-block',
     width: 300,
   },
   wrapper: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     position: 'relative',
   },
   buttonProgress: {

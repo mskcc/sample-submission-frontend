@@ -1,6 +1,6 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core'
-import { GridButton } from './index'
+import { GridButton } from '../index'
 import { HotTable } from '@handsontable/react'
 import Handsontable from 'handsontable'
 import 'handsontable/dist/handsontable.full.css'
@@ -35,22 +35,18 @@ class UploadGrid extends React.Component {
 
     // run through grid required columns
     let emptyColumns = new Set()
-    console.log(columnFeatures)
-    console.log(rows)
     for (let i = 0; i < columnFeatures.length; i++) {
       for (let j = 0; j < rows.length; j++) {
         if (
           columnFeatures[i].optional == false &&
           !rows[j][columnFeatures[i].data]
         ) {
-          console.log(rows[j][columnFeatures[i].data])
           emptyColumns.add(columnFeatures[i].columnHeader)
         }
       }
     }
 
     if (emptyColumns.size > 0) {
-      console.log(emptyColumns.size)
       swal('Required', [...emptyColumns].join('\n '), 'error')
     } else {
       this.props.handleSubmit()
@@ -189,7 +185,7 @@ const styles = theme => ({
     // borderRight: '1px solid gray',
     display: 'grid',
     justifyItems: 'center',
-    marginLeft: theme.spacing.unit * 2,
+    marginLeft: theme.spacing(2),
     width: '95vw',
     // maxHeight: 600,
     overflow: 'hidden',

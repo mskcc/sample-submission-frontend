@@ -85,13 +85,13 @@ const styles = theme => ({
     textAlign: 'center',
   },
   title: {
-    marginRight: theme.spacing.unit * 3,
+    marginRight: theme.spacing(3),
   },
 
   navlink: {
     color: theme.palette.textSecondary,
     textDecoration: 'none',
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(1),
   },
   active: {
     color: 'white',

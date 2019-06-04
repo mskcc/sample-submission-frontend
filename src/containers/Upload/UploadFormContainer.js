@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { uploadFormActions } from '../../actions'
 
-import { UploadForm } from '../../components/Upload'
+import { UploadForm } from '../../components'
 
 export class UploadFormContainer extends React.Component {
   constructor(props) {

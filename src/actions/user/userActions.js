@@ -25,17 +25,17 @@ axios.interceptors.request.use(
     return Promise.reject(error)
   }
 )
-// Add a response interceptor
-axios.interceptors.response.use(
-  function(response) {
-    // Do something with response data
-    return response
-  },
-  function(error) {
-    // Do something with response error
-    return Promise.reject(error)
-  }
-)
+// // Add a response interceptor
+// axios.interceptors.response.use(
+//   function(response) {
+//     // Do something with response data
+//     return response
+//   },
+//   function(error) {
+//     // Do something with response error
+//     return Promise.reject(error)
+//   }
+// )
 
 export const REFRESH_TOKEN_VALID = 'REFRESH_TOKEN_VALID'
 export const REFRESH_TOKEN_REQUEST = 'REFRESH_TOKEN_REQUEST'
@@ -70,7 +70,6 @@ export function refreshToken() {
             dispatch({
               type: REFRESH_TOKEN_INVALID,
               error: error,
-              errorMessage: error.response.data.message,
             })
           } else {
             dispatch({
@@ -85,7 +84,7 @@ export function refreshToken() {
     } else
       dispatch({
         type: REFRESH_TOKEN_INVALID,
-        errorMessage: 'Your session expired. Please log in again.',
+        message: 'Your session expired. Please log in again.',
       })
   }
 }
@@ -111,6 +110,7 @@ export function login(username, password) {
 
         return dispatch({
           type: LOGIN_SUCCESS,
+          message: response.data.message,
           payload: response.data,
           table: generateSubmissionsGrid({
             submissions: response.data.submissions,
@@ -120,9 +120,10 @@ export function login(username, password) {
       })
 
       .catch(error => {
+        console.log(error)
         return dispatch({
           type: LOGIN_FAIL,
-          message: error.response.data.message,
+          error: error,
         })
       })
   }
@@ -201,6 +202,7 @@ export function savePartialSubmission(grid) {
             submissions: response.data.submissions,
             table: generateSubmissionsGrid(response.data),
           },
+          message: 'Saved!',
         })
         return setTimeout(() => {
           dispatch({ type: BUTTON_RESET })
@@ -243,7 +245,6 @@ export function getSubmissions() {
   }
 }
 
-
 export const DELETE_SUBMISSION = 'DELETE_SUBMISSION'
 export const DELETE_SUBMISSION_FAIL = 'DELETE_SUBMISSION_FAIL'
 export const DELETE_SUBMISSION_SUCCESS = 'DELETE_SUBMISSION_SUCCESS'
@@ -251,7 +252,7 @@ export function deleteSubmission(id) {
   return dispatch => {
     dispatch({ type: DELETE_SUBMISSION })
     return axios
-      .post(API_ROOT + '/deleteSubmission', {data:{igo_request_id:id}})
+      .post(API_ROOT + '/deleteSubmission', { data: { igo_request_id: id } })
       .then(response => {
         return dispatch({
           type: DELETE_SUBMISSION_SUCCESS,
@@ -259,6 +260,7 @@ export function deleteSubmission(id) {
             submissions: response.data.submissions,
             table: generateSubmissionsGrid(response.data),
           },
+          message: 'Submission ' + id + ' successfully deleted.',
         })
       })
       .catch(error => {

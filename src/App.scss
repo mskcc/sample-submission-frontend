@@ -44,9 +44,8 @@ code {
   display: grid;
   grid-template-areas:
     'mskcc-header'
-    'form'
-    'table'
-    'footer';
+    'content';
+    // 'footer';
   justify-items: center;
   grid-row-gap: 4em;
 }

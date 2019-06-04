@@ -1,28 +1,16 @@
-import { userActions as ActionTypes } from '../../actions'
+import {
+  uploadFormActions as UploadActionTypes,
+  userActions as ActionTypes,
+} from '../../actions'
 
 const initialState = {
   submissions: {},
-  error: null,
   loading: false,
   loggedIn: false,
 }
 
 function userReducer(state = initialState, action) {
   switch (action.type) {
-    case ActionTypes.SERVER_ERROR:
-      return {
-        ...state,
-        error: action.error,
-        message:
-          'Our backend is experiencing some downtime. Please check back later or message an admin.',
-      }
-
-    case ActionTypes.RESET_ERROR_MESSAGE:
-      return {
-        ...state,
-        error: null,
-      }
-
     case ActionTypes.REFRESH_TOKEN_REQUEST:
       return {
         ...state,
@@ -34,7 +22,7 @@ function userReducer(state = initialState, action) {
         loggedIn: true,
         loading: false,
         username: action.payload.username,
-        message: 'Welcome back, ' + action.payload.username + '.',
+        // message: 'Welcome back, ' + action.payload.username + '.',
       }
 
     case ActionTypes.REFRESH_TOKEN_INVALID:
@@ -53,15 +41,14 @@ function userReducer(state = initialState, action) {
         username: action.payload.username,
         submissionsTable: action.table,
         submissions: action.payload.submissions,
-        message: action.payload.message,
+        // message: action.payload.message,
       }
 
     case ActionTypes.LOGIN_FAIL:
       return {
         ...state,
         loggedIn: false,
-        // loading: false,
-        message: action.message,
+        loading: false,
       }
 
     case ActionTypes.LOGOUT_SUCCESS:
@@ -70,7 +57,7 @@ function userReducer(state = initialState, action) {
         loggedIn: false,
         loading: false,
         username: '',
-        message: 'Successfully logged out.',
+        // message: 'Successfully logged out.',
       }
 
     case ActionTypes.LOGOUT_FAIL:
@@ -78,8 +65,16 @@ function userReducer(state = initialState, action) {
         ...state,
         loggedIn: true,
         // loading: false,
-        message: action.message,
+        // message: action.message,
       }
+
+    case UploadActionTypes.RECEIVE_INITIAL_STATE_SUCCESS:
+      return {
+        ...state,
+        submissionsTable: action.user_data.table,
+        submissions: action.user_data.submissions,
+      }
+
     case ActionTypes.GET_SUBMISSIONS:
       return {
         ...state,
@@ -106,7 +101,6 @@ function userReducer(state = initialState, action) {
         ...state,
         isSaving: false,
         saved: true,
-
         submissionsTable: action.payload.table,
         submissions: action.payload.submissions,
       }
@@ -120,7 +114,6 @@ function userReducer(state = initialState, action) {
       return { ...state, loading: false }
 
     case ActionTypes.EDIT_SUBMISSION_SUCCESS:
-      console.log(state)
       return {
         ...state,
         loading: false,

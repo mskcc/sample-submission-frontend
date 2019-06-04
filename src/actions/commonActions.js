@@ -60,12 +60,12 @@ export function checkVersion(version) {
           dispatch({
             type: RECEIVE_CHECK_VERSION_FAIL,
             error: error,
-            message: error.response.data.message,
           })
         } else {
           dispatch({
             type: SERVER_ERROR,
-            error: error,
+            serverError: true,
+            
           })
         }
       })
@@ -73,8 +73,33 @@ export function checkVersion(version) {
 }
 
 export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE'
+export const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE'
+
+// Resets the currently visible error message.
+export const setErrorMessage = () => ({
+  type: SET_ERROR_MESSAGE,
+})
+
 
 // Resets the currently visible error message.
 export const resetErrorMessage = () => ({
   type: RESET_ERROR_MESSAGE,
 })
+
+
+
+export const RESET_MESSAGE = 'RESET_MESSAGE'
+export const SET_MESSAGE = 'SET_MESSAGE'
+
+// Resets the currently visible error message.
+export const setMessage = () => ({
+  type: SET_MESSAGE,
+})
+
+
+// Resets the currently visible error message.
+export const resetMessage = () => ({
+  type: RESET_MESSAGE,
+})
+
+

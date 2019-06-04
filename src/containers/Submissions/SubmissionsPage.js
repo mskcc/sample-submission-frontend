@@ -8,7 +8,7 @@ import { resetErrorMessage } from '../../actions/commonActions'
 import { Redirect } from 'react-router-dom'
 
 import SubmissionsTable from '../../components/Submissions/SubmissionsTable'
-import { Dialog } from '../../components/Upload'
+import { Dialog } from '../../components'
 
 export class SubmissionsPage extends Component {
   componentDidMount() {
