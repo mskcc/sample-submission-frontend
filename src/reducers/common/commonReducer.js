@@ -29,7 +29,7 @@ function commonReducer(state = initialState, action) {
     return {
       ...state,
       error: true,
-      message: action.error.response.data.message,
+      // message: action.error.response.data.message,
     }
   } else if (message) {
     return {

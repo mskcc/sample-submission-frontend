@@ -15,13 +15,14 @@ export default function uploadFormReducer(state = initialFormState, action) {
         ...state,
         formIsLoading: false,
         initialFetched: true,
-        filteredMaterials: action.data.materials,
-        filteredApplications: action.data.applications,
-        allMaterials: action.data.materials,
-        allApplications: action.data.applications,
-        allSpecies: action.data.species,
-        allContainers: action.data.containers,
-        containers: action.data.containers,
+        filteredMaterials: action.form_data.materials,
+        filteredApplications: action.form_data.applications,
+        allMaterials: action.form_data.materials,
+        allApplications: action.form_data.applications,
+        allSpecies: action.form_data.species,
+        allContainers: action.form_data.containers,
+        containers: action.form_data.containers,
+
         // patientIdFormats: action.data.patientIdFormats,
       }
 

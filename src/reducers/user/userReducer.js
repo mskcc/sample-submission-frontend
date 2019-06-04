@@ -1,4 +1,7 @@
-import { userActions as ActionTypes } from '../../actions'
+import {
+  uploadFormActions as UploadActionTypes,
+  userActions as ActionTypes,
+} from '../../actions'
 
 const initialState = {
   submissions: {},
@@ -64,6 +67,14 @@ function userReducer(state = initialState, action) {
         // loading: false,
         // message: action.message,
       }
+
+    case UploadActionTypes.RECEIVE_INITIAL_STATE_SUCCESS:
+      return {
+        ...state,
+        submissionsTable: action.user_data.table,
+        submissions: action.user_data.submissions,
+      }
+
     case ActionTypes.GET_SUBMISSIONS:
       return {
         ...state,
