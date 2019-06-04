@@ -30,6 +30,9 @@ class UploadGrid extends React.Component {
   handleSave = () => {
     this.props.handleSave()
   }
+  handleClear = () => {
+    this.hotTableComponent.current.hotInstance.clear()
+  }
   handleSubmit = () => {
     const { columnFeatures, rows } = this.props.grid
 
@@ -62,14 +65,14 @@ class UploadGrid extends React.Component {
           <div className={classes.buttons}>
             <GridButton
               id="grid_submit"
-              onSubmit={this.handleSubmit}
+              onClick={this.handleSubmit}
               isLoading={false}
               nothingToSubmit={false}
               color="secondary"
             />
             <GridButton
               id="grid_save"
-              onSubmit={this.handleSave}
+              onClick={this.handleSave}
               isLoading={user.isSaving}
               done={user.saved}
               msg={'Saved!'}
@@ -77,7 +80,7 @@ class UploadGrid extends React.Component {
             />{' '}
             <GridButton
               id="grid_clear"
-              // onSubmit={this.handleSubmit}
+              onClick={this.handleClear}
               isLoading={false}
               nothingToSubmit={false}
               color="primary"

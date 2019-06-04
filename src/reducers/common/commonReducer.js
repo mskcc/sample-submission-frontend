@@ -34,8 +34,6 @@ function commonReducer(state = initialState, action) {
         : action.error.message
     }
   } else if (message) {
-    console.log(message)
-    console.log(action)
     return {
       ...state,
       message: action.message,
