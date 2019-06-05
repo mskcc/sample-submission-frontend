@@ -8,7 +8,7 @@ import {
   generateGridData,
   generateSubmissionsGrid,
   updateRows,
-  findSubmission,
+  redactMRN,
 } from '../helpers'
 
 // make global
@@ -18,7 +18,7 @@ import {
 //   // Config.API_ROOT = 'https://rex.mskcc.org/apps/auth/'
 // }
 
-import {Config} from '../../config.js'
+import { Config } from '../../config.js'
 
 // Add a request interceptor
 axios.interceptors.request.use(
@@ -179,25 +179,32 @@ export function editSubmission(id) {
   }
 }
 
-
 export const HANDLE_MRN = 'HANDLE_MRN'
 export const HANDLE_MRN_FAIL = 'HANDLE_MRN_FAIL'
 export const HANDLE_MRN_SUCCESS = 'HANDLE_MRN_SUCCESS'
-export function handleMRN(row) {
+export function handleMRN(rowIndex) {
   return (dispatch, getState) => {
     dispatch({ type: 'HANDLE_MRN' })
-
     return axios
-      .post(Config.API_ROOT + '/addBankedSamples', {
-        data: generateSubmitData(getState()),
-      })
-      .then(response => {
-        // Handsontable binds to your data source (list of arrays or list of objects) by reference. Therefore, all the data entered in the grid will alter the original data source.
+      .post(
+        Config.API_ROOT + '/patientIdConverter',
 
+        {
+          data: {
+            patient_id: getState().upload.grid.rows[rowIndex].patientId,
+          },
+        }
+      )
+      .then(response => {
         dispatch({
           type: HANDLE_MRN_SUCCESS,
+          message: 'MRN redacted.',
+          rows: redactMRN(
+            getState().upload.grid.rows,
+            rowIndex,
+            response.data.patient_id
+          ),
         })
-        return response
       })
       .catch(error => {
         dispatch({
@@ -208,3 +215,10 @@ export function handleMRN(row) {
       })
   }
 }
+
+export const RESET_GRID_ERROR_MESSAGE = 'RESET_GRID_ERROR_MESSAGE'
+
+// Resets the currently visible error message.
+export const resetGridErrorMessage = () => ({
+  type: RESET_GRID_ERROR_MESSAGE,
+})
