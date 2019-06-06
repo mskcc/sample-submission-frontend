@@ -31,25 +31,25 @@ class SubmissionsTable extends React.Component {
             ref={this.hotTableComponent}
             data={this.props.user.submissionsTable.data}
             colHeaders={this.props.user.submissionsTable.columnHeaders}
-            colHeaders={this.props.user.submissionsTable.columnHeaders}
             readOnly
             className="htCenter"
             columns={this.props.user.submissionsTable.columnFeatures}
+            stretchH="all"
             afterOnCellMouseDown={(event, coords, TD) => {
               let submitted =
                 this.props.user.submissionsTable.data[coords.row].submitted ==
                 'yes'
 
-              if (coords.col == '4' && !submitted) {
+              if (coords.col == '9' && !submitted) {
                 handleClick(
                   'edit',
                   this.props.user.submissionsTable.data[coords.row]
                     .igo_request_id
                 )
-                if (coords.col == '5' && submitted) {
+                if (coords.col == '10' && submitted) {
                   console.log('receipt download')
                 }
-              } else if (coords.col == '6' && !submitted) {
+              } else if (coords.col == '11' && !submitted) {
                 handleClick(
                   'delete',
                   this.props.user.submissionsTable.data[coords.row]

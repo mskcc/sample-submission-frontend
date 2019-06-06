@@ -2,6 +2,7 @@
 import axios from 'axios'
 import {
   diff,
+  findSubmission,
   generateSubmitData,
   generateRows,
   generateAGColumns,
@@ -146,6 +147,7 @@ export function addGridToBankedSample() {
 
         dispatch({
           type: ADD_GRID_TO_BANKED_SAMPLE_SUCCESS,
+          message: "Submitted! Check your submissions."
         })
         return response
       })

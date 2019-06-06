@@ -217,7 +217,7 @@ export const generateSubmitData = state => {
   let now = Date.now()
   let date = Math.floor(now / 1000)
   // TODO use this for save/edit
-  data.transactionId = date
+  data.transaction_id = date
 
   console.log(data)
   return data
@@ -227,12 +227,19 @@ export const generateSubmitData = state => {
 // the state (see SubmissionsTable for the onClick)
 export const generateSubmissionsGrid = response => {
   let grid = { columnHeaders: [], data: [], columnFeatures: [] }
+
   grid.columnHeaders = response.submission_columns.map(a => a.name)
   grid.columnFeatures = response.submission_columns
   for (let i = 0; i < response.submissions.length; i++) {
+
     let submission = response.submissions[i]
     grid.data[i] = {
       igo_request_id: submission.igo_request_id,
+      transaction_id: submission.transaction_id,
+      username: submission.username,
+      sample_type: JSON.parse(submission.form_values).material,
+      application: JSON.parse(submission.form_values).application,
+      version: submission.version,
       submitted: submission.submitted ? 'yes' : 'no',
       created_on: submission.created_on,
       submitted_on: submission.submitted_on,
