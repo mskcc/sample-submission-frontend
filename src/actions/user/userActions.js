@@ -5,10 +5,8 @@ import {
   findSubmission,
 } from '../helpers'
 
-let API_ROOT = 'http://localhost:9004'
-if (process.env.NODE_ENV === 'production') {
-  API_ROOT = 'https://delphi.mskcc.org/sample-receiving-backend/'
-}
+import {Config} from '../../config.js'
+
 
 // Add a request interceptor
 axios.interceptors.request.use(
@@ -49,7 +47,7 @@ export function refreshToken() {
 
       return axios
         .get(
-          API_ROOT + '/refresh',
+          Config.API_ROOT + '/refresh',
           { headers: { Authorization: `Bearer ${token}` } },
           {}
         )
@@ -98,7 +96,7 @@ export function login(username, password) {
   return dispatch => {
     dispatch({ type: LOGIN_REQUEST })
     return axios
-      .post(API_ROOT + '/login', {
+      .post(Config.API_ROOT + '/login', {
         data: {
           username: username,
           password: password,
@@ -141,7 +139,7 @@ export function logout() {
 
     if (access_token) {
       axios
-        .get(API_ROOT + '/logoutAccess', {})
+        .get(Config.API_ROOT + '/logoutAccess', {})
         .then(response => {
           localStorage.removeItem('access_token')
         })
@@ -157,7 +155,7 @@ export function logout() {
       localStorage.removeItem('refresh_token')
       axios
         .get(
-          API_ROOT + '/logoutRefresh',
+          Config.API_ROOT + '/logoutRefresh',
           { headers: { Authorization: `Bearer ${token}` } },
           {}
         )
@@ -188,7 +186,7 @@ export function savePartialSubmission(grid) {
     dispatch({ type: SAVE_PARTIAL_SUBMISSION })
 
     return axios
-      .post(API_ROOT + '/saveSubmission', {
+      .post(Config.API_ROOT + '/saveSubmission', {
         data: {
           ...generateSubmitData(getState()),
           username: getState().user.username,
@@ -224,7 +222,7 @@ export function getSubmissions() {
   return dispatch => {
     dispatch({ type: GET_SUBMISSIONS })
     return axios
-      .get(API_ROOT + '/getSubmissions', {})
+      .get(Config.API_ROOT + '/getSubmissions', {})
       .then(response => {
         console.log(response.data)
         return dispatch({
@@ -252,7 +250,7 @@ export function deleteSubmission(id) {
   return dispatch => {
     dispatch({ type: DELETE_SUBMISSION })
     return axios
-      .post(API_ROOT + '/deleteSubmission', { data: { igo_request_id: id } })
+      .post(Config.API_ROOT + '/deleteSubmission', { data: { igo_request_id: id } })
       .then(response => {
         return dispatch({
           type: DELETE_SUBMISSION_SUCCESS,
@@ -300,7 +298,7 @@ export function deleteSubmission(id) {
 //   return dispatch => {
 //     dispatch({ type: GET_SUBMISSIONS_EXISTS })
 //     return axios
-//       .post(API_ROOT + '/submissionExists', {
+//       .post(Config.API_ROOT + '/submissionExists', {
 //         data: {
 //           username: username,
 //           request_id: request_id,

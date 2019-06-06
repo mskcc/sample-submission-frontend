@@ -93,7 +93,7 @@ function choosePatientIDFormatter(patientIDType) {
         error:
           'MRN is incorrectly formatted, please correct, or speak to a project manager if unsure.',
 
-        type: 'numeric',
+        type: 'text',
         validator: function(value, callback) {
           if (/\d{8}/.test(value) || value == '') {
             console.log(value)
@@ -257,4 +257,9 @@ export const findSubmission = (submissions, id) => {
     }
   }
   return null
+}
+
+export const redactMRN = (rows, index, id) => {
+  rows[index].patientId = id
+  return rows
 }

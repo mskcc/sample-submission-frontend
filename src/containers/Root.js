@@ -65,7 +65,6 @@ class Root extends Component {
   }
 
   render() {
-    console.log(this.props)
     return (
       <MuiThemeProvider theme={theme}>
         <Router basename="sample-receiving">

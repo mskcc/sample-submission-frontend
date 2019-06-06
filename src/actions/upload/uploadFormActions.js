@@ -1,11 +1,7 @@
 //TODO ERROR HANDLING
 import axios from 'axios'
 
-let API_ROOT = 'http://localhost:9004'
-if (process.env.NODE_ENV === 'production') {
-  API_ROOT = 'https://delphi.mskcc.org/sample-receiving-backend/'
-  // API_ROOT = 'https://rex.mskcc.org/apps/auth/'
-}
+import {Config} from '../../config.js'
 
 import { generateSubmissionsGrid } from '../helpers'
 
@@ -37,7 +33,7 @@ export function getInitialState() {
     else {
       dispatch({ type: REQUEST_INITIAL_STATE })
       return axios
-        .get(API_ROOT + '/upload/initialState')
+        .get(Config.API_ROOT + '/upload/initialState')
         .then(response => {
           dispatch({
             type: RECEIVE_INITIAL_STATE_SUCCESS,
@@ -76,7 +72,7 @@ export function getMaterialsForApplication(selectedApplication) {
     dispatch({ type: SELECT_APPLICATION, selectedApplication })
     dispatch({ type: REQUEST_MATERIALS_FOR_APPLICATION })
     return axios
-      .get(API_ROOT + '/columnDefinition', {
+      .get(Config.API_ROOT + '/columnDefinition', {
         params: {
           recipe: selectedApplication.replace('/', '_PIPI_SLASH_'),
         },
@@ -130,7 +126,7 @@ export function getApplicationsForMaterial(selectedMaterial) {
     dispatch({ type: SELECT_MATERIAL, selectedMaterial })
     dispatch({ type: REQUEST_APPLICATIONS_FOR_MATERIAL })
     return axios
-      .get(API_ROOT + '/columnDefinition', {
+      .get(Config.API_ROOT + '/columnDefinition', {
         params: {
           type: selectedMaterial.replace('/', '_PIPI_SLASH_'),
         },
@@ -204,7 +200,7 @@ export function getPicklist(picklist) {
   return dispatch => {
     dispatch({ type: REQUEST_PICKLIST, picklist })
     return axios
-      .get(API_ROOT + '/listValues/' + picklist)
+      .get(Config.API_ROOT + '/listValues/' + picklist)
 
       .then(response => {
         dispatch({ type: RECEIVE_PICKLIST_SUCCESS, picklist: response.data })

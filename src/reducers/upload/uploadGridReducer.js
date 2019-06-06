@@ -72,6 +72,16 @@ export default function uploadGridReducer(state = initialGridState, action) {
           action.application,
       }
 
+    case ActionTypes.HANDLE_MRN_SUCCESS:
+      return {
+        ...state,
+      }
+
+    case ActionTypes.HANDLE_MRN_FAIL:
+      return {
+        ...state,
+      }
+
     case ActionTypes.UPDATE_CELLS:
       return {
         ...state,
@@ -83,7 +93,6 @@ export default function uploadGridReducer(state = initialGridState, action) {
         ...state,
         rows: JSON.parse(action.payload.grid_values),
         form: JSON.parse(action.payload.form_values),
-
       }
 
     default:
