@@ -10,6 +10,14 @@ const initialState = {
 }
 
 function userReducer(state = initialState, action) {
+  const { error } = action
+
+  if (error && error.response.status == 401) {
+    return {
+      ...state,
+      loggedIn: false,
+    }
+  }
   switch (action.type) {
     case ActionTypes.REFRESH_TOKEN_REQUEST:
       return {

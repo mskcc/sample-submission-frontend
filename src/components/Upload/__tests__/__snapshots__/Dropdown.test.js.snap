@@ -12,10 +12,10 @@ exports[`Render Dropdown render Dropdown correctly 1`] = `
     role="combobox"
   >
     <div
-      className="MuiFormControl-root-2 MuiFormControl-fullWidth-5"
+      className="MuiFormControl-root MuiFormControl-fullWidth"
     >
       <label
-        className="MuiFormLabel-root-17 MuiInputLabel-root-6 MuiInputLabel-formControl-11 MuiInputLabel-animated-14"
+        className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated"
         data-shrink={false}
         htmlFor="downshift-0-input"
         id="downshift-0-label"
@@ -27,13 +27,13 @@ exports[`Render Dropdown render Dropdown correctly 1`] = `
         aria-autocomplete="list"
         aria-controls={null}
         aria-labelledby="downshift-0-label"
-        className="MuiInputBase-root-37 MuiInput-root-24 MuiInput-underline-28 MuiInputBase-formControl-38 MuiInput-formControl-25 MuiInputBase-adornedEnd-42"
+        className="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl MuiInputBase-adornedEnd"
         onClick={[Function]}
       >
         <input
           aria-invalid={false}
           autoComplete="off"
-          className="MuiInputBase-input-47 MuiInput-input-32 MuiInputBase-inputAdornedEnd-53"
+          className="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd"
           disabled={false}
           id="test_me"
           onBlur={[Function]}
@@ -45,15 +45,14 @@ exports[`Render Dropdown render Dropdown correctly 1`] = `
           value=""
         />
         <div
-          className="MuiInputAdornment-root-54 MuiInputAdornment-positionEnd-57"
+          className="MuiInputAdornment-root MuiInputAdornment-positionEnd"
         >
           <button
             aria-label="Toggle menu open"
-            className="MuiButtonBase-root-65 MuiIconButton-root-59"
+            className="MuiButtonBase-root MuiIconButton-root"
             disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
-            onContextMenu={[Function]}
             onFocus={[Function]}
             onKeyDown={[Function]}
             onKeyUp={[Function]}
@@ -63,15 +62,15 @@ exports[`Render Dropdown render Dropdown correctly 1`] = `
             onTouchEnd={[Function]}
             onTouchMove={[Function]}
             onTouchStart={[Function]}
-            tabIndex="0"
+            tabIndex={0}
             type="button"
           >
             <span
-              className="MuiIconButton-label-64"
+              className="MuiIconButton-label"
             >
               <svg
                 aria-hidden="true"
-                className="MuiSvgIcon-root-68"
+                className="MuiSvgIcon-root"
                 focusable="false"
                 role="presentation"
                 viewBox="0 0 24 24"
@@ -85,14 +84,11 @@ exports[`Render Dropdown render Dropdown correctly 1`] = `
                 />
               </svg>
             </span>
-            <span
-              className="MuiTouchRipple-root-86"
-            />
           </button>
         </div>
       </div>
       <p
-        className="MuiFormHelperText-root-77"
+        className="MuiFormHelperText-root"
       >
         Missing translationId: upload.form.test_me_helptext for language: \${ languageCode }
       </p>

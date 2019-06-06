@@ -47,7 +47,7 @@ export function getInitialState() {
         .catch(error =>
           dispatch({
             type: RECEIVE_INITIAL_STATE_FAIL,
-            error: error.message,
+            error: error,
           })
         )
     }
@@ -87,7 +87,7 @@ export function getMaterialsForApplication(selectedApplication) {
       .catch(error => {
         dispatch({
           type: RECEIVE_MATERIALS_FOR_APPLICATION_FAIL,
-          error: error.message,
+          error: error,
         })
         return error
       })
@@ -141,7 +141,7 @@ export function getApplicationsForMaterial(selectedMaterial) {
       .catch(error => {
         dispatch({
           type: RECEIVE_APPLICATIONS_FOR_MATERIAL_FAIL,
-          error: error.message,
+          error: error,
         })
         return error
       })
@@ -209,7 +209,7 @@ export function getPicklist(picklist) {
       .catch(error => {
         dispatch({
           type: RECEIVE_PICKLIST_FAIL,
-          error: error.message,
+          error: error,
         })
         return error
       })

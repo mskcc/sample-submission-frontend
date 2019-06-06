@@ -2,23 +2,23 @@
 
 exports[`Render Input render Input correctly 1`] = `
 <div
-  className="MuiFormControl-root-2 Input-textField-1"
+  className="MuiFormControl-root MuiTextField-root Input-textField-1"
 >
   <label
-    className="MuiFormLabel-root-17 MuiInputLabel-root-6 MuiInputLabel-formControl-11 MuiInputLabel-animated-14"
+    className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated"
     data-shrink={false}
     htmlFor="test_me"
   >
     Missing translationId: upload.form.test_me_label for language: \${ languageCode }
   </label>
   <div
-    className="MuiInputBase-root-37 MuiInput-root-24 MuiInput-underline-28 MuiInputBase-formControl-38 MuiInput-formControl-25"
+    className="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
     onClick={[Function]}
   >
     <input
       aria-describedby="test_me-helper-text"
       aria-invalid={false}
-      className="MuiInputBase-input-47 MuiInput-input-32 MuiInputBase-inputType-50 MuiInput-inputType-35"
+      className="MuiInputBase-input MuiInput-input"
       disabled={false}
       id="test_me"
       onBlur={[Function]}
@@ -29,7 +29,7 @@ exports[`Render Input render Input correctly 1`] = `
     />
   </div>
   <p
-    className="MuiFormHelperText-root-54"
+    className="MuiFormHelperText-root"
     id="test_me-helper-text"
   >
     Missing translationId: upload.form.test_me_helptext for language: \${ languageCode }

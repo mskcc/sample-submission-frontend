@@ -26,12 +26,20 @@ function commonReducer(state = initialState, action) {
         'Our backend is experiencing some downtime. Please refresh, check back later or message an admin.',
     }
   } else if (error) {
-    return {
-      ...state,
-      error: true,
-      message: action.error.response
-        ? action.error.response.data.message
-        : action.error.message
+    if (error.response.status == 401) {
+      return {
+        ...state,
+        error: true,
+        message: 'Your session expired. Please log back in.',
+      }
+    } else {
+      return {
+        ...state,
+        error: true,
+        message: action.error.response
+          ? action.error.response.data.message
+          : action.error.message,
+      }
     }
   } else if (message) {
     return {
