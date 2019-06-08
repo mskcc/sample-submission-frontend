@@ -31,7 +31,7 @@ export class UploadPage extends Component {
     return (
       <React.Fragment>
         <Dialog
-          open={this.props.grid.error.length > 0}
+          open={this.props.grid.gridError.length > 0}
           handleClose={this.handleDialogClose}
           msg={this.props.grid.error}
         />

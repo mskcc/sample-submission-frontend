@@ -61,13 +61,17 @@ export function refreshToken() {
         .catch(error => {
           localStorage.removeItem('refresh_token')
           localStorage.removeItem('access_token')
-          localStorage.removeItem('persist:root')
+          sessionStorage.removeItem('persist:root')
 
           if (error.response) {
-            dispatch({
+            return dispatch({
               type: REFRESH_TOKEN_INVALID,
               error: error,
             })
+            // return dispatch({
+            //   type: LOGOUT_SUCCESS,
+            //   error: error,
+            // })
           } else {
             dispatch({
               type: SERVER_ERROR,
@@ -132,7 +136,8 @@ export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
 export function logout() {
   return dispatch => {
     dispatch({ type: LOGOUT_REQUEST })
-    localStorage.removeItem('persist:root')
+    sessionStorage.removeItem('persist:root')
+
     let access_token = localStorage.getItem('access_token')
     let refresh_token = localStorage.getItem('refresh_token')
 

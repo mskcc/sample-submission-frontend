@@ -1,12 +1,17 @@
 import {
-  uploadFormActions as UploadActionTypes,
+  uploadFormActions as FormActionTypes,
   userActions as ActionTypes,
 } from '../../actions'
 import FileSaver from 'file-saver'
 const initialState = {
   submissions: {},
+  username: '',
   loading: false,
   loggedIn: false,
+  saved: false,
+  submissionsTable: {},
+  isSaving: false,
+
 }
 
 function userReducer(state = initialState, action) {
@@ -61,11 +66,7 @@ function userReducer(state = initialState, action) {
 
     case ActionTypes.LOGOUT_SUCCESS:
       return {
-        ...state,
-        loggedIn: false,
-        loading: false,
-        username: '',
-        // message: 'Successfully logged out.',
+        ...initialState,
       }
 
     case ActionTypes.LOGOUT_FAIL:
@@ -76,7 +77,7 @@ function userReducer(state = initialState, action) {
         // message: action.message,
       }
 
-    case UploadActionTypes.RECEIVE_INITIAL_STATE_SUCCESS:
+    case FormActionTypes.RECEIVE_INITIAL_STATE_SUCCESS:
       return {
         ...state,
         submissionsTable: action.user_data.table,
@@ -159,8 +160,9 @@ function userReducer(state = initialState, action) {
       }
     case ActionTypes.DOWNLOAD_RECEIPT_SUCCESS:
       FileSaver.saveAs(
-        new Blob([(action.file)], {
-          type:  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        new Blob([action.file], {
+          type:
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         }),
         action.filename + '.xlsx'
       )

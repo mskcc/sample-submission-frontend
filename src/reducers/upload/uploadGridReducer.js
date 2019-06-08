@@ -88,16 +88,7 @@ export default function uploadGridReducer(state = initialGridState, action) {
         rows: action.rows,
       }
 
-    case FormActionTypes.SELECT:
-      if (action.payload.id == 'igo_request_id') {
-        return {
-          ...state,
-          form: { ...state.form, igo_request_id: 'IGO-'+action.payload.value },
-        }
-      } else
-        return {
-          ...state,
-        }
+   
 
     case ActionTypes.EDIT_SUBMISSION_SUCCESS:
       return {
@@ -105,6 +96,25 @@ export default function uploadGridReducer(state = initialGridState, action) {
         rows: JSON.parse(action.payload.grid_values),
         form: JSON.parse(action.payload.form_values),
       }
+
+       case FormActionTypes.SELECT:
+      if (action.payload.id == 'igo_request_id') {
+        return {
+          ...state,
+          gridIsLoading: false,
+          form: {
+            ...state.form,
+            igo_request_id: 'IGO-' + action.payload.value,
+          },
+        }
+      } else {
+        return {
+          gridIsLoading: false,
+          ...state,
+        }
+      }
+
+
 
     default:
       return state

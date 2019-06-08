@@ -32,7 +32,7 @@ export const initialFormState = {
 export const initialGridState = {
   columns: [],
   rows: [],
-  error: '',
+  gridError: '',
   form: [],
   gridIsLoading: false,
   isSaving: false,
