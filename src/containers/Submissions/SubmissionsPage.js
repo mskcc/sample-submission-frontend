@@ -15,21 +15,21 @@ export class SubmissionsPage extends Component {
     this.props.getSubmissions()
   }
 
-  handleClick = (type, id) => {
+  handleClick = (type, id, username) => {
     switch (type) {
       case 'edit': {
-        this.props.editSubmission(id)
-        return this.props.history.push('upload')
+        return this.props.editSubmission(id, this.props)
+        
       }
       case 'receipt': {
-        return this.props.editSubmission(id)
+        return this.props.downloadReceipt(id, username)
       }
       case 'delete': {
         swal('Are you sure you want to delete this submission?', {
           buttons: ['Cancel', true],
         }).then(value => {
           if (value) {
-            return this.props.deleteSubmission(id)
+            return this.props.deleteSubmission(id, username)
             return this.props.history.push('submissions')
           }
         })

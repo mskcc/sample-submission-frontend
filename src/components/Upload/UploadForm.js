@@ -199,7 +199,7 @@ class UploadForm extends React.Component {
 
         case 'patient_id_type':
           // only validate if species mandates a format, else value will be disregarded anyway
-          if (this.props.form.patientIDTypeNeedsFormatting) {
+          if (this.state.values.species == 'Human ' && this.state.values.patient_id_type == "MSK-Patients (or derived from MSK Patients)") {
             isValidOption = this.props.form.picklists.PatientIDTypes.some(
               function(el) {
                 return el.value === values[value]

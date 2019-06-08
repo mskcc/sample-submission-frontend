@@ -8,7 +8,6 @@ import swal from '@sweetalert/with-react'
 class SubmissionsTable extends React.Component {
   constructor(props) {
     super(props)
-
     this.hotTableComponent = React.createRef()
   }
 
@@ -31,30 +30,25 @@ class SubmissionsTable extends React.Component {
             ref={this.hotTableComponent}
             data={this.props.user.submissionsTable.data}
             colHeaders={this.props.user.submissionsTable.columnHeaders}
-            colHeaders={this.props.user.submissionsTable.columnHeaders}
             readOnly
             className="htCenter"
             columns={this.props.user.submissionsTable.columnFeatures}
+            stretchH="all"
             afterOnCellMouseDown={(event, coords, TD) => {
+              let id = this.props.user.submissionsTable.data[coords.row]
+                .igo_request_id
               let submitted =
                 this.props.user.submissionsTable.data[coords.row].submitted ==
                 'yes'
 
-              if (coords.col == '4' && !submitted) {
-                handleClick(
-                  'edit',
-                  this.props.user.submissionsTable.data[coords.row]
-                    .igo_request_id
-                )
-                if (coords.col == '5' && submitted) {
-                  console.log('receipt download')
-                }
-              } else if (coords.col == '6' && !submitted) {
-                handleClick(
-                  'delete',
-                  this.props.user.submissionsTable.data[coords.row]
-                    .igo_request_id
-                )
+              let username = this.props.user.submissionsTable.data[coords.row]
+                .username
+              if (coords.col == '9' && !submitted) {
+                handleClick('edit', id, username)
+              } else if (coords.col == '10' && submitted) {
+                handleClick('receipt', id, username)
+              } else if (coords.col == '11' && !submitted) {
+                handleClick('delete', id, username)
               }
             }}
           />

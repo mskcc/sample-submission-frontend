@@ -2,6 +2,7 @@
 import axios from 'axios'
 import {
   diff,
+  findSubmission,
   generateSubmitData,
   generateRows,
   generateAGColumns,
@@ -142,10 +143,14 @@ export function addGridToBankedSample() {
         data: generateSubmitData(getState()),
       })
       .then(response => {
-        // Handsontable binds to your data source (list of arrays or list of objects) by reference. Therefore, all the data entered in the grid will alter the original data source.
+        // Handsontable binds to your data source (list of arrays or list of objects) 
+        // by reference. Therefore, all the data entered in the grid 
+        // will alter the original data source.
+        
 
         dispatch({
           type: ADD_GRID_TO_BANKED_SAMPLE_SUCCESS,
+          message: 'Submitted! Check your submissions.',
         })
         return response
       })
@@ -162,15 +167,21 @@ export function addGridToBankedSample() {
 export const EDIT_SUBMISSION = 'EDIT_SUBMISSION'
 export const EDIT_SUBMISSION_FAIL = 'EDIT_SUBMISSION_FAIL'
 export const EDIT_SUBMISSION_SUCCESS = 'EDIT_SUBMISSION_SUCCESS'
-export function editSubmission(id) {
-  return (dispatch, getState) => {
+export function editSubmission(id, ownProps) {
+  return (dispatch, getState,) => {
     dispatch({ type: 'EDIT_SUBMISSION' })
     let submission = findSubmission(getState().user.submissions, id)
     if (submission) {
-      return dispatch({
-        type: 'EDIT_SUBMISSION_SUCCESS',
-        payload: submission,
-      })
+      //  decided to rebuild grid instead of saving colFeatues and headers to avoid version
+      dispatch(getInitialColumns(JSON.parse(submission.form_values))).then(
+        () => {
+          dispatch({
+            type: 'EDIT_SUBMISSION_SUCCESS',
+            payload: submission,
+          })
+          return ownProps.history.push('upload')
+        }
+      )
     } else {
       return dispatch({
         type: 'EDIT_SUBMISSION_FAIL',

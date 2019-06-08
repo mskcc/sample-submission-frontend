@@ -2,7 +2,7 @@ import {
   uploadFormActions as UploadActionTypes,
   userActions as ActionTypes,
 } from '../../actions'
-
+import FileSaver from 'file-saver'
 const initialState = {
   submissions: {},
   loading: false,
@@ -12,7 +12,7 @@ const initialState = {
 function userReducer(state = initialState, action) {
   const { error } = action
 
-  if (error && error.response.status == 401) {
+  if (error && error.response && error.response.status == 401) {
     return {
       ...state,
       loggedIn: false,
@@ -147,6 +147,27 @@ function userReducer(state = initialState, action) {
     case ActionTypes.BUTTON_RESET: {
       return { ...state, submitted: false, saved: false }
     }
+
+    case ActionTypes.DOWNLOAD_RECEIPT:
+      return {
+        ...state,
+      }
+
+    case ActionTypes.DOWNLOAD_RECEIPT_FAIL:
+      return {
+        ...state,
+      }
+    case ActionTypes.DOWNLOAD_RECEIPT_SUCCESS:
+      FileSaver.saveAs(
+        new Blob([(action.file)], {
+          type:  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        }),
+        action.filename + '.xlsx'
+      )
+
+      return {
+        ...state,
+      }
 
     default:
       return state
