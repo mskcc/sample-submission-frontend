@@ -5,8 +5,7 @@ import {
   findSubmission,
 } from '../helpers'
 
-import {Config} from '../../config.js'
-
+import { Config } from '../../config.js'
 
 // Add a request interceptor
 axios.interceptors.request.use(
@@ -224,7 +223,6 @@ export function getSubmissions() {
     return axios
       .get(Config.API_ROOT + '/getSubmissions', {})
       .then(response => {
-        console.log(response.data)
         return dispatch({
           type: GET_SUBMISSIONS_SUCCESS,
           payload: {
@@ -250,7 +248,9 @@ export function deleteSubmission(id) {
   return dispatch => {
     dispatch({ type: DELETE_SUBMISSION })
     return axios
-      .post(Config.API_ROOT + '/deleteSubmission', { data: { igo_request_id: id } })
+      .post(Config.API_ROOT + '/deleteSubmission', {
+        data: { igo_request_id: id },
+      })
       .then(response => {
         return dispatch({
           type: DELETE_SUBMISSION_SUCCESS,
@@ -264,6 +264,37 @@ export function deleteSubmission(id) {
       .catch(error => {
         return dispatch({
           type: DELETE_SUBMISSION_FAIL,
+          error: error,
+        })
+        return error
+      })
+  }
+}
+
+export const DOWNLOAD_RECEIPT = 'DOWNLOAD_RECEIPT'
+export const DOWNLOAD_RECEIPT_FAIL = 'DOWNLOAD_RECEIPT_FAIL'
+export const DOWNLOAD_RECEIPT_SUCCESS = 'DOWNLOAD_RECEIPT_SUCCESS'
+export function downloadReceipt(id, username) {
+  return dispatch => {
+    dispatch({ type: DOWNLOAD_RECEIPT })
+    return axios
+      .get(Config.API_ROOT + '/download', {
+        params: { igo_request_id: id, username: username },
+        responseType: 'blob',
+      })
+      .then(response => {
+        dispatch({
+          type: DOWNLOAD_RECEIPT_SUCCESS,
+          file: response.data,
+          filename: 'Receipt-'+id+'-'+username          // payload: {
+          //   submissions: response.data.submissions,
+          //   table: generateSubmissionsGrid(response.data),
+          // },
+        })
+      })
+      .catch(error => {
+        return dispatch({
+          type: DOWNLOAD_RECEIPT_FAIL,
           error: error,
         })
         return error
