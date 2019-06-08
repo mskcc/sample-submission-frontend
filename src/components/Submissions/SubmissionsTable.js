@@ -34,21 +34,26 @@ class SubmissionsTable extends React.Component {
             className="htCenter"
             columns={this.props.user.submissionsTable.columnFeatures}
             stretchH="all"
+            filters="true"
+            columnSorting="true"
+            dropdownMenu={['filter_by_value', 'filter_action_bar']}
             afterOnCellMouseDown={(event, coords, TD) => {
-              let id = this.props.user.submissionsTable.data[coords.row]
-                .igo_request_id
-              let submitted =
-                this.props.user.submissionsTable.data[coords.row].submitted ==
-                'yes'
+              if (coords.row != -1) {
+                let id = this.props.user.submissionsTable.data[coords.row]
+                  .igo_request_id
+                let submitted =
+                  this.props.user.submissionsTable.data[coords.row].submitted ==
+                  'yes'
 
-              let username = this.props.user.submissionsTable.data[coords.row]
-                .username
-              if (coords.col == '9' && !submitted) {
-                handleClick('edit', id, username)
-              } else if (coords.col == '10' && submitted) {
-                handleClick('receipt', id, username)
-              } else if (coords.col == '11' && !submitted) {
-                handleClick('delete', id, username)
+                let username = this.props.user.submissionsTable.data[coords.row]
+                  .username
+                if (coords.col == '9' && !submitted) {
+                  handleClick('edit', id, username)
+                } else if (coords.col == '10' && submitted) {
+                  handleClick('receipt', id, username)
+                } else if (coords.col == '11' && !submitted) {
+                  handleClick('delete', id, username)
+                }
               }
             }}
           />

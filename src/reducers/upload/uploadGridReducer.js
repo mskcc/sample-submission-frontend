@@ -1,5 +1,5 @@
 import { uploadGridActions as ActionTypes } from '../../actions'
-import { userActions as UserActionTypes } from '../../actions'
+import { uploadFormActions as FormActionTypes } from '../../actions'
 import { initialGridState } from './initialState'
 
 export default function uploadGridReducer(state = initialGridState, action) {
@@ -87,6 +87,17 @@ export default function uploadGridReducer(state = initialGridState, action) {
         ...state,
         rows: action.rows,
       }
+
+    case FormActionTypes.SELECT:
+      if (action.payload.id == 'igo_request_id') {
+        return {
+          ...state,
+          form: { ...state.form, igo_request_id: 'IGO-'+action.payload.value },
+        }
+      } else
+        return {
+          ...state,
+        }
 
     case ActionTypes.EDIT_SUBMISSION_SUCCESS:
       return {
