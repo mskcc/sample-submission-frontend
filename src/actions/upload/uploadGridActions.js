@@ -143,7 +143,10 @@ export function addGridToBankedSample() {
         data: generateSubmitData(getState()),
       })
       .then(response => {
-        // Handsontable binds to your data source (list of arrays or list of objects) by reference. Therefore, all the data entered in the grid will alter the original data source.
+        // Handsontable binds to your data source (list of arrays or list of objects) 
+        // by reference. Therefore, all the data entered in the grid 
+        // will alter the original data source.
+        
 
         dispatch({
           type: ADD_GRID_TO_BANKED_SAMPLE_SUCCESS,

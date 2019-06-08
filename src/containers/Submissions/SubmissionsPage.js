@@ -22,7 +22,6 @@ export class SubmissionsPage extends Component {
         
       }
       case 'receipt': {
-        console.log(username)
         return this.props.downloadReceipt(id, username)
       }
       case 'delete': {
@@ -30,7 +29,7 @@ export class SubmissionsPage extends Component {
           buttons: ['Cancel', true],
         }).then(value => {
           if (value) {
-            return this.props.deleteSubmission(id)
+            return this.props.deleteSubmission(id, username)
             return this.props.history.push('submissions')
           }
         })

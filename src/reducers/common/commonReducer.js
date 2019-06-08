@@ -16,7 +16,7 @@ const initialState = {
 // global errors and messages
 function commonReducer(state = initialState, action) {
   const { type, error, message, serverError } = action
-
+  // const { status } = error.response
   if (serverError) {
     return {
       ...state,
@@ -26,7 +26,7 @@ function commonReducer(state = initialState, action) {
         'Our backend is experiencing some downtime. Please refresh, check back later or message an admin.',
     }
   } else if (error) {
-    if (error.response.status == 401) {
+    if (error.response && status == 401) {
       return {
         ...state,
         error: true,

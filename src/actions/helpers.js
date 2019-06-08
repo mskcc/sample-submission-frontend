@@ -76,7 +76,6 @@ function generateColumnFeatures(responseColumns, formValues) {
         ? 'optional'
         : 'required'
       if (columnFeatures[i].optional) {
-        console.log(columnFeatures[i])
       }
     }
   }
@@ -96,10 +95,8 @@ function choosePatientIDFormatter(patientIDType) {
         type: 'text',
         validator: function(value, callback) {
           if (/\d{8}/.test(value) || value == '') {
-            console.log(value)
             callback(true)
           } else {
-            console.log(value)
             callback(false)
           }
         },
@@ -231,7 +228,6 @@ export const generateSubmissionsGrid = response => {
   grid.columnHeaders = response.submission_columns.map(a => a.name)
   grid.columnFeatures = response.submission_columns
   for (let i = 0; i < response.submissions.length; i++) {
-
     let submission = response.submissions[i]
     grid.data[i] = {
       igo_request_id: submission.igo_request_id,

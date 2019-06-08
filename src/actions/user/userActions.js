@@ -244,12 +244,12 @@ export function getSubmissions() {
 export const DELETE_SUBMISSION = 'DELETE_SUBMISSION'
 export const DELETE_SUBMISSION_FAIL = 'DELETE_SUBMISSION_FAIL'
 export const DELETE_SUBMISSION_SUCCESS = 'DELETE_SUBMISSION_SUCCESS'
-export function deleteSubmission(id) {
+export function deleteSubmission(id, username) {
   return dispatch => {
     dispatch({ type: DELETE_SUBMISSION })
     return axios
       .post(Config.API_ROOT + '/deleteSubmission', {
-        data: { igo_request_id: id },
+        data: { igo_request_id: id, username: username },
       })
       .then(response => {
         return dispatch({
@@ -286,7 +286,7 @@ export function downloadReceipt(id, username) {
         dispatch({
           type: DOWNLOAD_RECEIPT_SUCCESS,
           file: response.data,
-          filename: 'Receipt-'+id+'-'+username          // payload: {
+          filename: 'Receipt-' + id + '-' + username, // payload: {
           //   submissions: response.data.submissions,
           //   table: generateSubmissionsGrid(response.data),
           // },
