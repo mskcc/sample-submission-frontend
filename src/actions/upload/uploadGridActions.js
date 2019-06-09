@@ -220,7 +220,9 @@ export function handleMRN(rowIndex) {
       .catch(error => {
         dispatch({
           type: HANDLE_MRN_FAIL,
+
           error: error,
+          rows: redactMRN(getState().upload.grid.rows, rowIndex, ''),
         })
         return error
       })

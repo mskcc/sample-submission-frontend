@@ -280,15 +280,16 @@ export const findSubmission = (submissions, id) => {
 }
 
 export const redactMRN = (rows, index, id) => {
-  rows[index].patientId = id
+  rows[index].cmoPatientId = id
+  rows[index].patientId = "MRN REDACTED"
   return rows
 }
 
 export const appendAssay = (rows, index, oldValue, newValue) => {
-  console.log(rows)
-  console.log(index)
-  console.log(oldValue, newValue)
+  // console.log(rows)
+  // console.log(index)
+  // console.log(oldValue, newValue)
   rows[index].assay = newValue + ',' + oldValue
-  console.log(rows)
+  // console.log(rows)
   return rows
 }
