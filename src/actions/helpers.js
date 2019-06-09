@@ -22,6 +22,8 @@ export const generateGridData = (responseColumns, formValues) => {
     formValues,
     formValues.number_of_samples
   )
+ 
+
   return grid
 }
 
@@ -73,6 +75,15 @@ function generateColumnFeatures(responseColumns, formValues) {
         columnFeatures[i].error = 'Something went wrong'
       } else {
         columnFeatures[i].allowInvalid = false
+      }
+    }
+    if ('pattern' in columnFeatures[i]) {
+      columnFeatures[i].validator = (value, callback) => {
+        if (/responseColumns[i].pattern/.test(value)) {
+          callback(true)
+        } else {
+          callback(false)
+        }
       }
     }
     if ('optional' in responseColumns[i]) {
@@ -157,14 +168,60 @@ function generateRows(columns, formValues, numberToAdd) {
       //     // readOnly: true,
       //   }
       // } else {
+      // console.log(columns[j].data)
       if (columns[j].data == 'species' || columns[j].data == 'organism') {
         rows[i] = { ...rows[i], [columns[j].data]: formValues.species }
+        // } else if (columns[j].data == 'wellPosition') {
+        //   rows[i] = { ...rows[i], [columns[j].data]: getWellPos(i) }
       } else {
         rows[i] = { ...rows[i], [columns[j].data]: '' }
       }
       // }
     }
   }
+  for (let j = 0; j < columns.length; j++) {
+   if (columns[j].data == 'wellPosition'){
+      return setWellPos(rows)
+      // break
+   }
+  }
+
+
+  return rows
+}
+
+// export const getWellPos = index => {
+//   index += 1
+//   let plateColumnLength = 8
+//   let plateCols = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+//   // for (i = 0, i <= index, i++)
+//   if (index <= plateCols.length) {
+//     return plateCols[index] + index
+//   } else if (index <= plateColumnLength * 2) {
+//     return String.fromCharCode(96 + (index - plateColumnLength)) + 2
+//   } else if (index <= plateColumnLength * 3) {
+//     return String.fromCharCode(96 + (index - plateColumnLength * 2)) + 3
+//   } else if (index <= plateColumnLength * 4) {
+//     return String.fromCharCode(96 + (index - plateColumnLength * 3)) + 4
+//   }
+// }
+
+export const setWellPos = rows => {
+  let plateRows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+  let times = Math.ceil(rows.length / plateRows.length)
+  let i = 0
+  let wells = 0
+  while (i < times && i < 12) {
+    for (let j = 0; j < plateRows.length; j++) {
+      if (rows[j + plateRows.length * i]) {
+        rows[j + plateRows.length * i].wellPosition = plateRows[j] + (i + 1)
+      } else {
+        break
+      }
+    }
+    i++
+  }
+
   return rows
 }
 
