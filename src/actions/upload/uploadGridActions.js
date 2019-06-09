@@ -213,7 +213,7 @@ export function handleMRN(rowIndex) {
           rows: redactMRN(
             getState().upload.grid.rows,
             rowIndex,
-            response.data.patient_id
+            response.data.patient_id, "MRN REDACTED"
           ),
         })
       })
@@ -222,7 +222,7 @@ export function handleMRN(rowIndex) {
           type: HANDLE_MRN_FAIL,
 
           error: error,
-          rows: redactMRN(getState().upload.grid.rows, rowIndex, ''),
+          rows: redactMRN(getState().upload.grid.rows, rowIndex, '', "MRN INVALID"),
         })
         return error
       })

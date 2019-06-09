@@ -5,28 +5,16 @@
 
 export const generateGridData = (responseColumns, formValues) => {
   let grid = { columnFeatures: [], columnHeaders: [], rows: [] }
-  // delete responseColumns['CMO Patient ID']
   grid.columnFeatures = generateColumnFeatures(responseColumns, formValues)
   grid.columnHeaders = grid.columnFeatures.map(
-    function(a) {
-      // if (a.data != 'assay') {
-      return (
-        '<span class="' +
-        a.className +
-        '" title="' +
-        a.tooltip +
-        '">' +
-        a.columnHeader +
-        '</span>'
-      )
-      // }
-    }
-    // }
-    // '    <span class="has-tooltip" href="#">' +
-    // a.columnHeader +
-    // '<span class="tooltip-wrapper"><span class="tooltip">' +
-    // a.tooltip +
-    // '</span></span></span>'
+    a =>
+      '<span class="' +
+      a.className +
+      '" title="' +
+      a.tooltip +
+      '">' +
+      a.columnHeader +
+      '</span>'
   )
 
   grid.rows = generateRows(
@@ -81,6 +69,8 @@ function generateColumnFeatures(responseColumns, formValues) {
       //  assay dropdown needs invalids to allow for concatenation of selects
       if (responseColumns[i].data == 'assay') {
         columnFeatures[i].allowInvalid = true
+        columnFeatures[i].allowEmpty = true
+        columnFeatures[i].error = 'Something went wrong'
       } else {
         columnFeatures[i].allowInvalid = false
       }
@@ -106,6 +96,8 @@ function choosePatientIDFormatter(patientIDType) {
       return {
         pattern: 'd{8}',
         columnHeader: 'MRN',
+        tooltip:
+          'For non-MSKCC patient samples, mouse samples, or cell lines without patient origin, please use this field to provide us with group names i.e. compare this group (A) with this group (B). For CMO projects, fill out something unique and correspond with your PM for more information.',
         error:
           'MRN is incorrectly formatted, please correct, or speak to a project manager if unsure.',
 
@@ -279,17 +271,23 @@ export const findSubmission = (submissions, id) => {
   return null
 }
 
-export const redactMRN = (rows, index, id) => {
+export const redactMRN = (rows, index, id, msg) => {
   rows[index].cmoPatientId = id
-  rows[index].patientId = "MRN REDACTED"
+  rows[index].patientId = msg
   return rows
 }
 
 export const appendAssay = (rows, index, oldValue, newValue) => {
-  // console.log(rows)
-  // console.log(index)
-  // console.log(oldValue, newValue)
-  rows[index].assay = newValue + ',' + oldValue
-  // console.log(rows)
+  //  clear
+  if (newValue == '' || newValue == 'Assay Selection' || newValue == 'Blank') {
+    rows[index].assay = ''
+    //  delete
+  } else if (newValue.length < oldValue.length) {
+    rows[index].assay = newValue.replace(/(^,)|(,$)/g, '')
+  }
+  //  append
+  else {
+    rows[index].assay = newValue + ',' + oldValue
+  }
   return rows
 }

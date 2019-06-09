@@ -124,16 +124,19 @@ class UploadGrid extends React.Component {
                   if (prop == 'patientId' && /^([0-9]{8})$/.test(newValue)) {
                     let row_index = row
                     handleMRN(row_index)
-                    handleChange(changes) 
+                    handleChange(changes)
                   }
                   if (prop == 'assay') {
                     console.log(oldValue)
                     console.log(newValue)
-                    
-                    if (oldValue != '') {
+
+                    if (
+                      newValue != oldValue &&
+                      oldValue != '' &&
+                      oldValue != undefined
+                    ) {
                       handleAssay(row, oldValue, newValue)
                       handleChange(changes)
-                    
                     }
                   }
                 })
@@ -145,12 +148,23 @@ class UploadGrid extends React.Component {
               // let col = this.hotTableComponent.current.hotInstance.propToCol(prop)
               // alert("col.error")
               // let col = this.propToCol(prop)
+              console.log(grid.rows[row])
               if (!isValid) {
                 let col = this.hotTableComponent.current.hotInstance.propToCol(
                   prop
                 )
-
-                this.showError(grid.columnFeatures[col].error)
+                // assays are a very special case because of our multi select workaround
+                // if (
+                //   grid.columnFeatures[col].data == 'assay' &&
+                //   (grid.rows[row] == '' ||
+                //     grid.rows[row] == 'Assay Selection' ||
+                //     grid.rows[row] == 'Blank')
+                // ) {
+                //   this.showError(grid.columnFeatures[col].error)
+                // } else
+                if (grid.columnFeatures[col].data != 'assay') {
+                  this.showError(grid.columnFeatures[col].error)
+                }
               }
               // this.setState({
               //   status: isValid,
