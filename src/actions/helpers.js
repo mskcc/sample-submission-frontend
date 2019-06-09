@@ -5,22 +5,30 @@
 
 export const generateGridData = (responseColumns, formValues) => {
   let grid = { columnFeatures: [], columnHeaders: [], rows: [] }
+  // delete responseColumns['CMO Patient ID']
   grid.columnFeatures = generateColumnFeatures(responseColumns, formValues)
   grid.columnHeaders = grid.columnFeatures.map(
-    a =>
-      '<span class="' +
-      a.className +
-      '" title="' +
-      a.tooltip +
-      '">' +
-      a.columnHeader +
-      '</span>'
+    function(a) {
+      // if (a.data != 'assay') {
+      return (
+        '<span class="' +
+        a.className +
+        '" title="' +
+        a.tooltip +
+        '">' +
+        a.columnHeader +
+        '</span>'
+      )
+      // }
+    }
+    // }
     // '    <span class="has-tooltip" href="#">' +
     // a.columnHeader +
     // '<span class="tooltip-wrapper"><span class="tooltip">' +
     // a.tooltip +
     // '</span></span></span>'
   )
+
   grid.rows = generateRows(
     grid.columnFeatures,
     formValues,
@@ -38,9 +46,13 @@ function generateColumnFeatures(responseColumns, formValues) {
   let columnFeatures = []
 
   for (let i = 0; i < responseColumns.length; i++) {
+    // if (responseColumns[i].data == 'assay') {
+    //   continue
+    // }
     columnFeatures[i] = responseColumns[i]
 
     //  patient_id_type is only set if corresponding species was selected
+
     if (
       columnFeatures[i].data == 'patientId' &&
       (formValues.species == 'Mouse' ||
@@ -66,7 +78,12 @@ function generateColumnFeatures(responseColumns, formValues) {
       // TODO map backwards on submit or find way to keep tumorType id
       columnFeatures[i].source = extractValues(responseColumns[i].source)
       columnFeatures[i].trimDropdown = false
-      columnFeatures[i].allowInvalid = false
+      //  assay dropdown needs invalids to allow for concatenation of selects
+      if (responseColumns[i].data == 'assay') {
+        columnFeatures[i].allowInvalid = true
+      } else {
+        columnFeatures[i].allowInvalid = false
+      }
     }
     if ('optional' in responseColumns[i]) {
       // print(responseColumns)
@@ -264,5 +281,14 @@ export const findSubmission = (submissions, id) => {
 
 export const redactMRN = (rows, index, id) => {
   rows[index].patientId = id
+  return rows
+}
+
+export const appendAssay = (rows, index, oldValue, newValue) => {
+  console.log(rows)
+  console.log(index)
+  console.log(oldValue, newValue)
+  rows[index].assay = newValue + ',' + oldValue
+  console.log(rows)
   return rows
 }

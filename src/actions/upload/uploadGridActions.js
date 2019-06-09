@@ -10,6 +10,7 @@ import {
   generateSubmissionsGrid,
   updateRows,
   redactMRN,
+  appendAssay,
 } from '../helpers'
 
 // make global
@@ -143,10 +144,9 @@ export function addGridToBankedSample() {
         data: generateSubmitData(getState()),
       })
       .then(response => {
-        // Handsontable binds to your data source (list of arrays or list of objects) 
-        // by reference. Therefore, all the data entered in the grid 
+        // Handsontable binds to your data source (list of arrays or list of objects)
+        // by reference. Therefore, all the data entered in the grid
         // will alter the original data source.
-        
 
         dispatch({
           type: ADD_GRID_TO_BANKED_SAMPLE_SUCCESS,
@@ -168,7 +168,7 @@ export const EDIT_SUBMISSION = 'EDIT_SUBMISSION'
 export const EDIT_SUBMISSION_FAIL = 'EDIT_SUBMISSION_FAIL'
 export const EDIT_SUBMISSION_SUCCESS = 'EDIT_SUBMISSION_SUCCESS'
 export function editSubmission(id, ownProps) {
-  return (dispatch, getState,) => {
+  return (dispatch, getState) => {
     dispatch({ type: 'EDIT_SUBMISSION' })
     let submission = findSubmission(getState().user.submissions, id)
     if (submission) {
@@ -224,6 +224,24 @@ export function handleMRN(rowIndex) {
         })
         return error
       })
+  }
+}
+
+export const HANDLE_ASSAY = 'HANDLE_ASSAY'
+// export const HANDLE_ASSAY_FAIL = 'HANDLE_ASSAY_FAIL'
+// export const HANDLE_ASSAY_SUCCESS = 'HANDLE_ASSAY_SUCCESS'
+export function handleAssay(rowIndex, oldValue, newValue) {
+  return (dispatch, getState) => {
+    dispatch({
+      type: 'HANDLE_ASSAY_SUCCESS',
+      rows: appendAssay(
+        getState().upload.grid.rows,
+        rowIndex,
+        oldValue,
+        newValue
+      ),
+    })
+    // return dispatch(registerGridChange)
   }
 }
 

@@ -75,6 +75,7 @@ export default function uploadGridReducer(state = initialGridState, action) {
     case ActionTypes.HANDLE_MRN_SUCCESS:
       return {
         ...state,
+        rows: action.rows,
       }
 
     case ActionTypes.HANDLE_MRN_FAIL:
@@ -87,8 +88,11 @@ export default function uploadGridReducer(state = initialGridState, action) {
         ...state,
         rows: action.rows,
       }
-
-   
+    case ActionTypes.HANDLE_ASSAY_SUCCESS:
+      return {
+        ...state,
+        rows: action.rows,
+      }
 
     case ActionTypes.EDIT_SUBMISSION_SUCCESS:
       return {
@@ -97,7 +101,7 @@ export default function uploadGridReducer(state = initialGridState, action) {
         form: JSON.parse(action.payload.form_values),
       }
 
-       case FormActionTypes.SELECT:
+    case FormActionTypes.SELECT:
       if (action.payload.id == 'igo_request_id') {
         return {
           ...state,
@@ -113,8 +117,6 @@ export default function uploadGridReducer(state = initialGridState, action) {
           ...state,
         }
       }
-
-
 
     default:
       return state
