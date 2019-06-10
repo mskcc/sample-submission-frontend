@@ -64,12 +64,12 @@ export default function uploadGridReducer(state = initialGridState, action) {
       return {
         ...state,
         gridIsLoading: false,
-        error:
-          action.error.response.data +
-          ' ' +
-          action.material +
-          ' x ' +
-          action.application,
+        error: action.error,
+        // action.error.response.data +
+        // ' ' +
+        // action.material +
+        // ' x ' +
+        // action.application,
       }
 
     case ActionTypes.HANDLE_MRN_SUCCESS:
@@ -92,6 +92,11 @@ export default function uploadGridReducer(state = initialGridState, action) {
       return {
         ...state,
         rows: action.rows,
+      }
+    case ActionTypes.HANDLE_ERROR_SUCCESS:
+      return {
+        ...state,
+        // rows: action.rows,
       }
 
     case ActionTypes.EDIT_SUBMISSION_SUCCESS:

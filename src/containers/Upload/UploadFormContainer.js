@@ -22,7 +22,6 @@ export class UploadFormContainer extends React.Component {
   }
 
   handleMaterialChange = selectedMaterial => {
-    console.log(selectedMaterial)
     if (selectedMaterial) {
       // get possible applications for this material
       this.props.getApplicationsForMaterial(selectedMaterial)
@@ -48,7 +47,6 @@ export class UploadFormContainer extends React.Component {
     } else this.props.clearSpecies()
   }
   handleInputChange = (id, value) => {
-    console.log(id + value)
     if (value) {
       this.props.select(id, value)
     } else this.props.clear(id)

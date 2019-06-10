@@ -77,8 +77,9 @@ function generateColumnFeatures(responseColumns, formValues) {
       }
     }
     if ('pattern' in columnFeatures[i]) {
+      let regex = new RegExp(columnFeatures[i].pattern, 'g')
       columnFeatures[i].validator = (value, callback) => {
-        if (/responseColumns[i].pattern/.test(value)) {
+        if (value == '' || value == null || regex.test(value)) {
           callback(true)
         } else {
           callback(false)
@@ -86,8 +87,6 @@ function generateColumnFeatures(responseColumns, formValues) {
       }
     }
     if ('optional' in responseColumns[i]) {
-      // print(responseColumns)
-
       columnFeatures[i].allowEmpty = responseColumns[i].optional
       columnFeatures[i].className = responseColumns[i].optional
         ? 'optional'
@@ -328,7 +327,6 @@ export const redactMRN = (rows, index, id, msg) => {
   rows[index].patientId = msg
   return rows
 }
-
 export const appendAssay = (rows, index, oldValue, newValue) => {
   //  clear
   if (newValue == '' || newValue == 'Assay Selection' || newValue == 'Blank') {

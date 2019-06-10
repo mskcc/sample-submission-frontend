@@ -213,7 +213,8 @@ export function handleMRN(rowIndex) {
           rows: redactMRN(
             getState().upload.grid.rows,
             rowIndex,
-            response.data.patient_id, "MRN REDACTED"
+            response.data.patient_id,
+            'MRN REDACTED'
           ),
         })
       })
@@ -222,7 +223,12 @@ export function handleMRN(rowIndex) {
           type: HANDLE_MRN_FAIL,
 
           error: error,
-          rows: redactMRN(getState().upload.grid.rows, rowIndex, '', "MRN INVALID"),
+          rows: redactMRN(
+            getState().upload.grid.rows,
+            rowIndex,
+            '',
+            'MRN INVALID'
+          ),
         })
         return error
       })
@@ -234,7 +240,7 @@ export const HANDLE_ASSAY = 'HANDLE_ASSAY'
 // export const HANDLE_ASSAY_SUCCESS = 'HANDLE_ASSAY_SUCCESS'
 export function handleAssay(rowIndex, oldValue, newValue) {
   return (dispatch, getState) => {
-    dispatch({
+    return dispatch({
       type: 'HANDLE_ASSAY_SUCCESS',
       rows: appendAssay(
         getState().upload.grid.rows,
@@ -243,7 +249,6 @@ export function handleAssay(rowIndex, oldValue, newValue) {
         newValue
       ),
     })
-    // return dispatch(registerGridChange)
   }
 }
 

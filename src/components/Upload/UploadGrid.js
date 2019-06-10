@@ -21,9 +21,7 @@ class UploadGrid extends React.Component {
   getErrorMsg = () => {
     for (let i = 0; i < numberToAdd; i++) {}
   }
-  showError = error => {
-    console.log(error)
-
+  showError = (error, row, prop) => {
     swal(error)
   }
 
@@ -104,17 +102,6 @@ class UploadGrid extends React.Component {
             manualColumnResize={true}
             comments={true}
             ref={this.hotTableComponent}
-            // colWidths="190"
-            // cells={function(row, col, prop) {
-            //   // first row contains helptext
-            //   var cellProperties = {}
-            //   if (row === 0) {
-            //     cellProperties.readOnly = true
-            //     cellProperties.className = classes.tooltipCell
-            //     cellProperties.type = 'text'
-            //   }
-            //   return cellProperties
-            // }}
             afterChange={(changes, source) => {
               if (changes) {
                 if (source !== 'loadData') {
@@ -143,67 +130,18 @@ class UploadGrid extends React.Component {
               }
             }}
             afterValidate={(isValid, value, row, prop, source) => {
-              // let error = this.getErrorMsg(col)
-
-              // let col = this.hotTableComponent.current.hotInstance.propToCol(prop)
-              // alert("col.error")
-              // let col = this.propToCol(prop)
-              console.log(grid.rows[row])
               if (!isValid) {
                 let col = this.hotTableComponent.current.hotInstance.propToCol(
                   prop
                 )
-                // assays are a very special case because of our multi select workaround
-                // if (
-                //   grid.columnFeatures[col].data == 'assay' &&
-                //   (grid.rows[row] == '' ||
-                //     grid.rows[row] == 'Assay Selection' ||
-                //     grid.rows[row] == 'Blank')
-                // ) {
-                //   this.showError(grid.columnFeatures[col].error)
-                // } else
-                if (grid.columnFeatures[col].data != 'assay') {
-                  this.showError(grid.columnFeatures[col].error)
-                }
+                this.showError(grid.columnFeatures[col].error, row, prop)
+                this.hotTableComponent.current.hotInstance.setDataAtCell(
+                  row,
+                  col,
+                  null
+                )
               }
-              // this.setState({
-              //   status: isValid,
-              //   [col]: grid.columnFeatures[col].error,
-              // })
             }}
-            // afterChange={(changes, source) => {
-            //   if (source === 'edit') {
-            //     console.log(changes[0][1])
-            //     if (this.state.status === false) {
-            //       const TD = this.hotTableComponent.current.hotInstance.getCell(
-            //         changes[0][0],
-            //         this.hotTableComponent.current.hotInstance.propToCol(changes[0][1])
-            //       )
-            //       console.log(TD)
-
-            //       if (!this.state.invalidCells.includes(TD)) {
-            //         this.state.invalidCells.push(TD)
-            //       }
-
-            //       this.state.invalidCells.forEach((td, index) => {
-            //         if (!td.classList.contains('htInvalid')) {
-            //           td.classList.add('htInvalid')
-            //         }
-            //       })
-            //     }
-
-            //     if (this.state.invalidCells.length) {
-            //       this.state.invalidCells.forEach((td, index) => {
-            //         if (td.classList.contains('htNumeric')) {
-            //           td.classList.remove('htInvalid')
-            //           this.state.invalidCells.splice(index, 1)
-            //         } else {
-            //           td.classList.add('htInvalid')
-            //         }
-            //       })
-            //     }
-            //   }
-            // }}
             width="95%"
             stretchH="all"
             // height="10%"

@@ -24,14 +24,12 @@ class UploadGridContainer extends React.Component {
   handleChange = () => {
     this.props.registerGridChange()
   }
- handleMRN = (row_index) => {
+  handleMRN = row_index => {
     this.props.handleMRN(row_index)
   }
   handleAssay = (row, oldValue, newValue) => {
     this.props.handleAssay(row, oldValue, newValue)
   }
-
-
 
   handleSubmit = () => {
     this.props.addGridToBankedSample(this.props.grid)

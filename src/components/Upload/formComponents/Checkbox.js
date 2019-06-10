@@ -31,6 +31,7 @@ const CheckboxComponent = ({
     {({ translate }) => (
       <div className={classes.container}>
         <FormControlLabel
+          classes={{ label: classes.label }}
           control={
             <Checkbox
               icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
@@ -38,6 +39,7 @@ const CheckboxComponent = ({
               checked={checked}
               onChange={onChange(id)}
               value={id}
+              fontSize="small"
             />
           }
           label={translate('upload.form.' + id + '_label')}
@@ -79,12 +81,15 @@ const styles = theme => ({
     marginTop: -3 * theme.spacing(1),
 
     minWidth: 350,
-    fontSize: '.8em',
+  },
+  label: {
+    fontSize: '.9em',
   },
   card: {
     maxWidth: 350,
   },
   content: {
+    fontSize: '.6em',
     padding: '5px !important',
   },
 })
