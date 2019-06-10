@@ -85,6 +85,10 @@ function generateColumnFeatures(responseColumns, formValues) {
           callback(false)
         }
       }
+
+      columnFeatures[i].error = columnFeatures[i].error
+        ? columnFeatures[i].error
+        : 'Invalid format.'
     }
     if ('optional' in responseColumns[i]) {
       columnFeatures[i].allowEmpty = responseColumns[i].optional

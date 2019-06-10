@@ -50,9 +50,9 @@ code {
   grid-row-gap: 4em;
 }
 
-th {
-  background-color: $material-gray !important;
-}
+// th {
+//   background-color: $material-gray !important;
+// }
 .colHeader .optional {
   font-weight: 600;
   color: $mskcc-dark-turquoise;
@@ -72,9 +72,14 @@ th {
   margin-bottom: 28px;
 }
 
-.htColumnHeaders {
-  overflow: visible !important;
+// .htColumnHeaders {
+//   overflow: visible !important;
+// }
+
+.htDimmed {
+  background-color: $material-gray !important;
 }
+
 
 .handsontableEditor .autocompleteEditor .htMacScroll .handsontable .listbox {
   overflow: visible !important;
