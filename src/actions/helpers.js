@@ -52,6 +52,9 @@ function generateColumnFeatures(responseColumns, formValues) {
         columnHeader: 'Strain or Line Name',
       }
     }
+    if (columnFeatures[i].data == 'index') {
+      columnFeatures[i].barcodeHash = JSON.parse(columnFeatures[i].barcodeHash)
+    }
 
     if (
       columnFeatures[i].data == 'patientId' &&
@@ -327,10 +330,29 @@ export const findSubmission = (submissions, id) => {
 }
 
 export const redactMRN = (rows, index, id, msg) => {
-  rows[index].cmoPatientId = id
+  rows[index].cmoPatientId = 'C-' + id
   rows[index].patientId = msg
   return rows
 }
+
+//  barcode hash is saved in colFeatures.index when index is part of the getCols response
+export const findIndexSeq = (grid, colIndex, rowIndex, indexId) => {
+  let result = { success: false, rows: '' }
+  let barcodes = grid.columnFeatures[colIndex].barcodeHash
+  if (indexId == '') {
+    grid.rows[rowIndex].indexSequence = ''
+    return { success: true, rows: grid.rows }
+  }
+  if (indexId in barcodes) {
+    let indexSeq = barcodes[indexId].barcodeTag
+
+    grid.rows[rowIndex].indexSequence = indexSeq
+    return { success: true, rows: grid.rows }
+  }
+
+  return result
+}
+
 export const appendAssay = (rows, index, oldValue, newValue) => {
   //  clear
   if (newValue == '' || newValue == 'Assay Selection' || newValue == 'Blank') {

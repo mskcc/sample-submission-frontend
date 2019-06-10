@@ -24,11 +24,14 @@ class UploadGridContainer extends React.Component {
   handleChange = () => {
     this.props.registerGridChange()
   }
-  handleMRN = row_index => {
+  handleMRN = rowIndex => {
     this.props.handleMRN(row_index)
   }
-  handleAssay = (row, oldValue, newValue) => {
-    this.props.handleAssay(row, oldValue, newValue)
+  handleIndex = (colIndex, rowIndex, newValue) => {
+    this.props.handleIndex(colIndex, rowIndex, newValue)
+  }
+  handleAssay = (rowIndex, oldValue, newValue) => {
+    this.props.handleAssay(rowIndex, oldValue, newValue)
   }
 
   handleSubmit = () => {
@@ -67,6 +70,7 @@ class UploadGridContainer extends React.Component {
         grid={grid}
         user={user}
         handleMRN={this.handleMRN}
+        handleIndex={this.handleIndex}
         handleAssay={this.handleAssay}
         handleSubmit={this.handleSubmit}
         handleChange={this.handleChange}

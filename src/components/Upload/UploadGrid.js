@@ -62,6 +62,7 @@ class UploadGrid extends React.Component {
       user,
       handleMRN,
       handleAssay,
+      handleIndex,
     } = this.props
     // console.log(this.props.grid.rows.length)
     return (
@@ -108,10 +109,16 @@ class UploadGrid extends React.Component {
                   handleChange(changes)
                 }
                 changes.forEach(([row, prop, oldValue, newValue]) => {
+                  let rowIndex = row
                   if (prop == 'patientId' && /^([0-9]{8})$/.test(newValue)) {
-                    let row_index = row
                     handleMRN(row_index)
                     handleChange(changes)
+                  }
+                  if (prop == 'index' && newValue != oldValue) {
+                     let col = this.hotTableComponent.current.hotInstance.propToCol(
+                  prop
+                )
+                    handleIndex(col, rowIndex, newValue)
                   }
                   if (prop == 'assay') {
                     console.log(oldValue)
@@ -122,7 +129,7 @@ class UploadGrid extends React.Component {
                       oldValue != '' &&
                       oldValue != undefined
                     ) {
-                      handleAssay(row, oldValue, newValue)
+                      handleAssay(rowIndex, oldValue, newValue)
                       handleChange(changes)
                     }
                   }

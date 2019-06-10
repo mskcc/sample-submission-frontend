@@ -11,6 +11,7 @@ import {
   updateRows,
   redactMRN,
   appendAssay,
+  findIndexSeq,
 } from '../helpers'
 
 // make global
@@ -249,6 +250,31 @@ export function handleAssay(rowIndex, oldValue, newValue) {
         newValue
       ),
     })
+  }
+}
+
+export const HANDLE_INDEX_SUCCESS = 'HANDLE_INDEX_SUCCESS'
+export const HANDLE_INDEX_FAIL = 'HANDLE_INDEX_FAIL'
+export function handleIndex(colIndex, rowIndex, newValue) {
+  return (dispatch, getState) => {
+    let indexSeq = findIndexSeq(
+      getState().upload.grid,
+      colIndex,
+      rowIndex,
+      newValue
+    )
+    if (indexSeq.success) {
+      return dispatch({
+        type: HANDLE_INDEX_SUCCESS,
+        rows: indexSeq.rows,
+      })
+    } else {
+      return dispatch({
+        type: HANDLE_INDEX_FAIL,
+        message:
+          'Index Sequence could not be found. Are you sure the Index ID is correct?',
+      })
+    }
   }
 }
 
