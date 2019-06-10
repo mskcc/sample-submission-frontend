@@ -22,7 +22,6 @@ export const generateGridData = (responseColumns, formValues) => {
     formValues,
     formValues.number_of_samples
   )
- 
 
   return grid
 }
@@ -180,45 +179,41 @@ function generateRows(columns, formValues, numberToAdd) {
     }
   }
   for (let j = 0; j < columns.length; j++) {
-   if (columns[j].data == 'wellPosition'){
+    if (columns[j].data == 'wellPosition') {
       return setWellPos(rows)
       // break
-   }
+    }
   }
-
 
   return rows
 }
 
-// export const getWellPos = index => {
-//   index += 1
-//   let plateColumnLength = 8
-//   let plateCols = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
-//   // for (i = 0, i <= index, i++)
-//   if (index <= plateCols.length) {
-//     return plateCols[index] + index
-//   } else if (index <= plateColumnLength * 2) {
-//     return String.fromCharCode(96 + (index - plateColumnLength)) + 2
-//   } else if (index <= plateColumnLength * 3) {
-//     return String.fromCharCode(96 + (index - plateColumnLength * 2)) + 3
-//   } else if (index <= plateColumnLength * 4) {
-//     return String.fromCharCode(96 + (index - plateColumnLength * 3)) + 4
-//   }
-// }
+// pre-filling WellPosition for a plate of 96 wells
+// times = how many times bigger is the #samples than the plate rows (8 A-H) -
+// how many columns will have to be filled, used as end condition
+// i = counter indicating how often I stepped through A-H
+// plateColIndex = plate column
+//
 
 export const setWellPos = rows => {
   let plateRows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+  let plateColsLength = 12
   let times = Math.ceil(rows.length / plateRows.length)
   let i = 0
-  let wells = 0
-  while (i < times && i < 12) {
+  let plateColIndex = 0
+
+  //  step through as many times as you have to, and while you still have empty columns
+  while (i < times && plateColIndex < plateColsLength) {
+    // fill rows first
     for (let j = 0; j < plateRows.length; j++) {
       if (rows[j + plateRows.length * i]) {
+        // fill row at position plateRows * number of times you did this already
         rows[j + plateRows.length * i].wellPosition = plateRows[j] + (i + 1)
       } else {
         break
       }
     }
+    plateColIndex++
     i++
   }
 
