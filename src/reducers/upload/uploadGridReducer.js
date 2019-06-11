@@ -112,13 +112,13 @@ case ActionTypes.HANDLE_INDEX_FAIL:
       }
 
     case FormActionTypes.SELECT:
-      if (action.payload.id == 'igo_request_id') {
+      if (action.payload.id == 'service_id') {
         return {
           ...state,
           gridIsLoading: false,
           form: {
             ...state.form,
-            igo_request_id: 'IGO-' + action.payload.value,
+            service_id: 'IGO-' + action.payload.value,
           },
         }
       } else {

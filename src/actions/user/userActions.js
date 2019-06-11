@@ -254,7 +254,7 @@ export function deleteSubmission(id, username) {
     dispatch({ type: DELETE_SUBMISSION })
     return axios
       .post(Config.API_ROOT + '/deleteSubmission', {
-        data: { igo_request_id: id, username: username },
+        data: { service_id: id, username: username },
       })
       .then(response => {
         return dispatch({
@@ -284,7 +284,7 @@ export function downloadReceipt(id, username) {
     dispatch({ type: DOWNLOAD_RECEIPT })
     return axios
       .get(Config.API_ROOT + '/download', {
-        params: { igo_request_id: id, username: username },
+        params: { service_id: id, username: username },
         responseType: 'blob',
       })
       .then(response => {

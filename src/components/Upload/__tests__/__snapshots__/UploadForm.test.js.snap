@@ -449,9 +449,9 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
         <label
           className="MuiFormLabel-root-52 MuiFormLabel-filled-56 MuiInputLabel-root-41 MuiInputLabel-formControl-46 MuiInputLabel-animated-49 MuiInputLabel-shrink-48"
           data-shrink={true}
-          htmlFor="igo_request_id"
+          htmlFor="service_id"
         >
-          Missing translationId: upload.form.igo_request_id_label for language: \${ languageCode }
+          Missing translationId: upload.form.service_id_label for language: \${ languageCode }
         </label>
         <div
           className="MuiInputBase-root-72 MuiInput-root-59 MuiInput-underline-63 MuiInputBase-formControl-73 MuiInput-formControl-60 MuiInputBase-adornedStart-76"
@@ -467,11 +467,11 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
             </p>
           </div>
           <input
-            aria-describedby="igo_request_id-helper-text"
+            aria-describedby="service_id-helper-text"
             aria-invalid={false}
             className="MuiInputBase-input-82 MuiInput-input-67 MuiInputBase-inputType-85 MuiInput-inputType-70 MuiInputBase-inputAdornedStart-87"
             disabled={false}
-            id="igo_request_id"
+            id="service_id"
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
@@ -482,9 +482,9 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
         </div>
         <p
           className="MuiFormHelperText-root-112 MuiFormHelperText-filled-118"
-          id="igo_request_id-helper-text"
+          id="service_id-helper-text"
         >
-          Missing translationId: upload.form.igo_request_id_helptext for language: \${ languageCode }
+          Missing translationId: upload.form.service_id_helptext for language: \${ languageCode }
         </p>
       </div>
       <div

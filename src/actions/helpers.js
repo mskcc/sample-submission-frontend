@@ -400,7 +400,7 @@ export const generateSubmissionsGrid = response => {
   for (let i = 0; i < response.submissions.length; i++) {
     let submission = response.submissions[i]
     grid.data[i] = {
-      igo_request_id: submission.igo_request_id,
+      service_id: submission.service_id,
       transaction_id: submission.transaction_id,
       username: submission.username,
       sample_type: JSON.parse(submission.form_values).material,
@@ -425,7 +425,7 @@ export const generateSubmissionsGrid = response => {
 
 export const findSubmission = (submissions, id) => {
   for (let i = 0; i < submissions.length; i++) {
-    if (submissions[i].igo_request_id == id) {
+    if (submissions[i].service_id == id) {
       return submissions[i]
     }
   }

@@ -40,7 +40,7 @@ class SubmissionsTable extends React.Component {
             afterOnCellMouseDown={(event, coords, TD) => {
               if (coords.row != -1) {
                 let id = this.props.user.submissionsTable.data[coords.row]
-                  .igo_request_id
+                  .service_id
                 let submitted =
                   this.props.user.submissionsTable.data[coords.row].submitted ==
                   'yes'

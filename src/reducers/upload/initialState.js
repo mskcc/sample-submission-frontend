@@ -17,7 +17,7 @@ export const initialFormState = {
   selected: {
     application: 'AmpliSeq',
     material: 'DNA',
-    igo_request_id: '898989',
+    service_id: '898989',
     number_of_samples: '10',
     species: 'Mouse',
     container: 'Plates',

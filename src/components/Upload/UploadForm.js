@@ -20,7 +20,7 @@ class UploadForm extends React.Component {
       // values: {
       //   material: '',
       //   application: '',
-      //   igo_request_id: '',
+      //   service_id: '',
       //   number_of_samples: '',
       //   species: '',
       //   container: '',
@@ -32,7 +32,7 @@ class UploadForm extends React.Component {
       // values: {
       //   material: 'DNA',
       //   application: 'AmpliSeq',
-      //   igo_request_id: '444444',
+      //   service_id: '444444',
       //   number_of_samples: '1',
       //   species: 'Human',
       //   container: 'Plates',
@@ -41,7 +41,7 @@ class UploadForm extends React.Component {
       // values: {
       //   material: 'Tissue',
       //   application: 'CustomCapture',
-      //   igo_request_id: '444444',
+      //   service_id: '444444',
       //   number_of_samples: '400',
       //   species: 'Tuberculosis',
       //   container: 'Plates',
@@ -54,7 +54,7 @@ class UploadForm extends React.Component {
         // form: false,
         material: true,
         application: true,
-        igo_request_id: true,
+        service_id: true,
         number_of_samples: true,
         species: true,
         container: true,
@@ -91,7 +91,7 @@ class UploadForm extends React.Component {
     })
     // this.props.handleSelect(event.target.id,event.target.value)
     // let value =
-    //   event.target.id == 'igo_request_id'
+    //   event.target.id == 'service_id'
     //     ? 'IGO-' + event.target.value
     //     : event.target.value
     this.props.handleInputChange(event.target.id, event.target.value)
@@ -103,7 +103,7 @@ class UploadForm extends React.Component {
     this.setState({
       values: {
         ...this.state.values,
-        igo_request_id: date,
+        service_id: date,
       },
       [name]: event.target.checked,
     })
@@ -143,7 +143,7 @@ class UploadForm extends React.Component {
       handleParentSubmit({
         ...this.state.values,
 
-        igo_request_id: 'IGO-' + this.state.values.igo_request_id.toString(),
+        service_id: 'IGO-' + this.state.values.service_id.toString(),
       })
     }
     // } else alert('error')
@@ -158,7 +158,7 @@ class UploadForm extends React.Component {
     let values = this.state.values
     for (let value in values) {
       switch (value) {
-        case 'igo_request_id':
+        case 'service_id':
           formValid[value] =
             /\d{6}/g.test(values[value]) && values[value].length === 6
           break
@@ -235,10 +235,10 @@ class UploadForm extends React.Component {
 
   validateForm() {
     return (
-      this.state.formValid.igo_request_id &&
+      this.state.formValid.service_id &&
       this.state.formValid.material &&
       this.state.formValid.application &&
-      this.state.formValid.igo_request_id &&
+      this.state.formValid.service_id &&
       this.state.formValid.number_of_samples &&
       this.state.formValid.species &&
       this.state.formValid.container &&
@@ -383,9 +383,9 @@ class UploadForm extends React.Component {
               />
               <FormControl component="fieldset">
                 <Input
-                  id="igo_request_id"
-                  value={form.selected.igo_request_id}
-                  error={!formValid.igo_request_id}
+                  id="service_id"
+                  value={form.selected.service_id}
+                  error={!formValid.service_id}
                   onChange={this.handleChange}
                   inputProps={{
                     startAdornment: (

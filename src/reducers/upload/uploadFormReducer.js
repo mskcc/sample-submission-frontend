@@ -228,7 +228,7 @@ export default function uploadFormReducer(state = initialFormState, action) {
         ...state,
         selected: {
           ...form,
-          igo_request_id: form.igo_request_id.replace('IGO-', ''),
+          service_id: form.service_id.replace('IGO-', ''),
         },
       }
 

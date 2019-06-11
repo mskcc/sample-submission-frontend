@@ -41,7 +41,7 @@ class UploadGridContainer extends React.Component {
   handleSave = () => {
     if (
       this.submissionExists(
-        this.props.grid.form.igo_request_id,
+        this.props.grid.form.service_id,
         this.props.user.submissions
       )
     ) {
@@ -58,8 +58,8 @@ class UploadGridContainer extends React.Component {
     }
   }
 
-  submissionExists = (igo_request_id, submissions) => {
-    return submissions.some(e => e.igo_request_id === igo_request_id)
+  submissionExists = (service_id, submissions) => {
+    return submissions.some(e => e.service_id === service_id)
   }
 
   render() {
