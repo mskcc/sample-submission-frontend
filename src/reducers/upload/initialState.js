@@ -26,14 +26,14 @@ export const initialFormState = {
   //   grouping_checked: false,
   // },
     selected: {
-    application: undefined,
-    material: undefined,
-    service_id: undefined,
-    number_of_samples: undefined,
-    species: undefined,
-    container: undefined,
-    patient_id_type: undefined,
-    grouping_checked: undefined,
+    application: '',
+    material: '',
+    service_id: '',
+    number_of_samples: '',
+    species: '',
+    container: '',
+    patient_id_type: '',
+    grouping_checked: false,
   },
 }
 

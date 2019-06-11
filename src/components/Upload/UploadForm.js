@@ -71,6 +71,7 @@ class UploadForm extends React.Component {
         service_id: timestamp,
       },
       [name]: event.target.checked,
+      formValid: { ...this.state.formValid, service_id: true },
     })
     if (event.target.checked) {
       this.props.handleInputChange('service_id', timestamp)
@@ -89,7 +90,6 @@ class UploadForm extends React.Component {
   handleSubmit = (e, handleParentSubmit) => {
     e.preventDefault()
     e.stopPropagation()
-
     if (this.validate()) {
       handleParentSubmit({
         ...this.state.values,
@@ -104,11 +104,11 @@ class UploadForm extends React.Component {
     let valid
     let error
     let isValidOption
-    let values = this.state.values
+    let values = this.props.form.selected
     for (let value in values) {
       switch (value) {
         case 'service_id':
-          if (this.state.alt_service_id) {
+          if (this.state.alt_service_id == true && values[value].length > 0) {
             formValid[value] = true
           } else {
             formValid[value] =
