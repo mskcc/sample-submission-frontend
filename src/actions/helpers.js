@@ -223,7 +223,8 @@ function choosePatientIDFormatter(patientIDType) {
       return {
         pattern: '[0-9a-zA-Z]{4,}',
         columnHeader: 'Patient ID',
-        error: 'Invalid format. Please use at least four alpha-numeric characters.',
+        error:
+          'Invalid format. Please use at least four alpha-numeric characters.',
 
         validator: function(value, callback) {
           if (
@@ -243,7 +244,8 @@ function choosePatientIDFormatter(patientIDType) {
       return {
         pattern: '[0-9a-zA-Z]{4,}|d{8}',
         columnHeader: 'Patient ID',
-        error: 'Invalid format. Please use at least four alpha-numeric characters.',
+        error:
+          'Invalid format. Please use at least four alpha-numeric characters.',
 
         validator: function(value, callback) {
           if (
@@ -430,9 +432,12 @@ export const findSubmission = (submissions, id) => {
   return null
 }
 
-export const redactMRN = (rows, index, id, msg) => {
+export const redactMRN = (rows, index, id, msg, sex) => {
   rows[index].cmoPatientId = 'C-' + id
   rows[index].patientId = msg
+  if (sex != '') {
+    rows[index].gender = sex == 'Female' ? 'F' : 'M'
+  }
   return rows
 }
 

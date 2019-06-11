@@ -204,7 +204,8 @@ export function handleMRN(rowIndex) {
             getState().upload.grid.rows,
             rowIndex,
             response.data.patient_id,
-            'MRN REDACTED'
+            'MRN REDACTED',
+            response.data.sex,
           ),
         })
       })
@@ -217,7 +218,8 @@ export function handleMRN(rowIndex) {
             getState().upload.grid.rows,
             rowIndex,
             '',
-            'MRN INVALID'
+            'MRN INVALID',
+            ''
           ),
         })
         return error

@@ -25,7 +25,7 @@ class UploadGridContainer extends React.Component {
     this.props.registerGridChange()
   }
   handleMRN = rowIndex => {
-    this.props.handleMRN(row_index)
+    this.props.handleMRN(rowIndex)
   }
   handleIndex = (colIndex, rowIndex, newValue) => {
     this.props.handleIndex(colIndex, rowIndex, newValue)
