@@ -15,15 +15,25 @@ export const initialFormState = {
   filteredSpecies: [],
   
   patientIDTypeNeedsFormatting: false,
-  selected: {
-    application: 'AmpliSeq',
-    material: 'DNA',
-    service_id: '898989',
-    number_of_samples: '10',
-    species: 'Mouse',
-    container: 'Plates',
-    patient_id_type: '',
-    grouping_checked: false,
+  // selected: {
+  //   application: 'AmpliSeq',
+  //   material: 'DNA',
+  //   service_id: '898989',
+  //   number_of_samples: '10',
+  //   species: 'Mouse',
+  //   container: 'Plates',
+  //   patient_id_type: '',
+  //   grouping_checked: false,
+  // },
+    selected: {
+    application: undefined,
+    material: undefined,
+    service_id: undefined,
+    number_of_samples: undefined,
+    species: undefined,
+    container: undefined,
+    patient_id_type: undefined,
+    grouping_checked: undefined,
   },
 }
 

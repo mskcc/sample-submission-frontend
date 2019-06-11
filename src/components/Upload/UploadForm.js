@@ -317,6 +317,7 @@ class UploadForm extends React.Component {
                   label: option.value,
                 }))}
                 loading={form.formIsLoading}
+                dynamic
                 value={{
                   value: form.selected.container,
                   label: form.selected.container,
