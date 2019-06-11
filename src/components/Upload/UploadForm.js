@@ -184,7 +184,7 @@ class UploadForm extends React.Component {
           break
 
         case 'container':
-          isValidOption = this.props.form.containers.some(function(el) {
+          isValidOption = this.props.form.filteredContainers.some(function(el) {
             return el.value === values[value]
           })
           formValid[value] = isValidOption && values[value].length > 0

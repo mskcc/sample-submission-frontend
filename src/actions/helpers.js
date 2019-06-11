@@ -56,6 +56,13 @@ function generateColumnFeatures(responseColumns, formValues) {
       columnFeatures[i].barcodeHash = JSON.parse(columnFeatures[i].barcodeHash)
     }
 
+    //  overwrite response container with user selection
+    if ('container' in columnFeatures[i]) {
+      if (columnFeatures[i].container != formValues.container)
+        console.log('diff', columnFeatures[i].container, formValues.container)
+      columnFeatures[i] = overwriteContainer(formValues.container)
+    }
+
     if (
       columnFeatures[i].data == 'patientId' &&
       formValues.patient_id_type !== ''
@@ -79,14 +86,100 @@ function generateColumnFeatures(responseColumns, formValues) {
         columnFeatures[i].allowInvalid = false
       }
     }
+    // had to be hard coded, everything else caused laggy validation
     if ('pattern' in columnFeatures[i]) {
-      let regex = new RegExp(columnFeatures[i].pattern, 'g')
-      columnFeatures[i].validator = (value, callback) => {
-        if (value == '' || value == null || regex.test(value)) {
-          callback(true)
-        } else {
-          callback(false)
-        }
+      switch (columnFeatures[i].pattern) {
+        case 'userId':
+          columnFeatures[i].validator = (value, callback) => {
+            if (
+              value == '' ||
+              value == null ||
+              /^[A-Za-z0-9](?!.*__)[A-Za-z0-9\\,_-]{2}[A-Za-z0-9\\,_-]*$/.test(
+                value
+              )
+            ) {
+              callback(true)
+            } else {
+              callback(false)
+            }
+          }
+          break
+
+        case 'patientId':
+          if (!'validator' in columnFeatures[i]) {
+            columnFeatures[i].validator = (value, callback) => {
+              if (
+                value == '' ||
+                value == null ||
+                /^[A-Za-z0-9][A-Za-z0-9\\,_-]*$/.test(value)
+              ) {
+                callback(true)
+              } else {
+                callback(false)
+              }
+            }
+          }
+          break
+
+        case 'number':
+          columnFeatures[i].validator = (value, callback) => {
+            if (value == '' || value == null || /^[0-9.]*$/.test(value)) {
+              callback(true)
+            } else {
+              callback(false)
+            }
+          }
+          break
+
+        case 'collectionYear':
+          columnFeatures[i].validator = (value, callback) => {
+            if (value == '' || value == null || /\d{4}|^$/.test(value)) {
+              callback(true)
+            } else {
+              callback(false)
+            }
+          }
+          break
+        case 'wellPosition':
+          columnFeatures[i].validator = (value, callback) => {
+            if (value == '' || value == null || /[A-Za-z]+\d+|^$/.test(value)) {
+              callback(true)
+            } else {
+              callback(false)
+            }
+          }
+          break
+        case 'micronicTubeBarcode':
+          columnFeatures[i].validator = (value, callback) => {
+            if (value == '' || value == null || /^[0-9]{10}$/.test(value)) {
+              callback(true)
+            } else {
+              callback(false)
+            }
+          }
+          break
+        case 'alphanum':
+          columnFeatures[i].validator = (value, callback) => {
+            if (value == '' || value == null || /[0-9a-zA-Z]/.test(value)) {
+              callback(true)
+            } else {
+              callback(false)
+            }
+          }
+          break
+        case 'alphanumdash':
+          columnFeatures[i].validator = (value, callback) => {
+            if (
+              value == '' ||
+              value == null ||
+              /[A-Za-z0-9\\,_-]/.test(value)
+            ) {
+              callback(true)
+            } else {
+              callback(false)
+            }
+          }
+          break
       }
 
       columnFeatures[i].error = columnFeatures[i].error
@@ -119,7 +212,7 @@ function choosePatientIDFormatter(patientIDType) {
 
         type: 'text',
         validator: function(value, callback) {
-          if (/\d{8}/.test(value) || value == '') {
+          if (/\d{8}/.test(value) || value == '' || value == undefined) {
             callback(true)
           } else {
             callback(false)
@@ -130,10 +223,14 @@ function choosePatientIDFormatter(patientIDType) {
       return {
         pattern: '[0-9a-zA-Z]{4,}',
         columnHeader: 'Patient ID',
-        error: 'Invalid format. Please use only alpha-numeric values.',
+        error: 'Invalid format. Please use at least four alpha-numeric characters.',
 
         validator: function(value, callback) {
-          if (/[0-9a-zA-Z]{4,}/.test(value) || value == '') {
+          if (
+            /[0-9a-zA-Z]{4,}/.test(value) ||
+            value == '' ||
+            value == undefined
+          ) {
             callback(true)
           } else {
             callback(false)
@@ -146,10 +243,14 @@ function choosePatientIDFormatter(patientIDType) {
       return {
         pattern: '[0-9a-zA-Z]{4,}|d{8}',
         columnHeader: 'Patient ID',
-        error: 'Invalid format. Please use only alpha-numeric values.',
+        error: 'Invalid format. Please use at least four alpha-numeric characters.',
 
         validator: function(value, callback) {
-          if (/[0-9a-zA-Z]{4,}|d{8}/.test(value) || value == '') {
+          if (
+            /[0-9a-zA-Z]{4,}|d{8}/.test(value) ||
+            value == '' ||
+            value == undefined
+          ) {
             callback(true)
           } else {
             callback(false)
@@ -366,4 +467,46 @@ export const appendAssay = (rows, index, oldValue, newValue) => {
     rows[index].assay = newValue + ',' + oldValue
   }
   return rows
+}
+
+const overwriteContainer = userContainer => {
+  switch (userContainer) {
+    case 'Plates':
+      return {
+        name: 'Plate ID',
+        columnHeader: 'Plate ID',
+        data: 'plateId',
+        container: 'Plates',
+        pattern: 'alphanumdash',
+        tooltip:
+          'The plate ID is the barcode on your plate.  Please scan, or carefully type, the barcode ID into this field for all samples on the plate',
+      }
+      break
+
+    case 'Micronic Barcoded Tubes':
+      return {
+        name: 'Micronic Tube Barcode',
+        container: 'Micronic Barcoded Tubes',
+        columnHeader: 'Micronic Tube Barcode',
+        data: 'micronicTubeBarcode',
+        pattern: 'micronicTubeBarcode',
+        error: 'The Micronic Tube ID is a ten-digit number.',
+        tooltip:
+          'The Micronic Tube Barcode has been provided to you in advance by the sample receiving team.  If you cannot find it, the Micronic Tube Barcode is located on the side of the tube, and the 2D barcode can be scanned by a reader',
+      }
+      break
+
+    case 'Blocks/Slides/Tubes':
+      return {
+        name: 'Block/Slide/TubeID',
+        container: 'Blocks/Slides/Tubes',
+        columnHeader: 'Block/Slide/TubeID',
+        data: 'tubeId',
+        pattern: 'alphanumdash',
+        tooltip:
+          'The identifier on your tube, block or slide.  You can paste in directly from excel, and there are no formatting rules.  Please be as correct as possible, and ensure your tubes, blocks and slides are labeled clearly.',
+      }
+    default:
+      break
+  }
 }

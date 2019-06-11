@@ -14,12 +14,6 @@ import {
   findIndexSeq,
 } from '../helpers'
 
-// make global
-// let Config.API_ROOT = 'http://localhost:9004'
-// if (process.env.NODE_ENV === 'production') {
-//   Config.API_ROOT = 'https://delphi.mskcc.org/sample-receiving-backend/'
-//   // Config.API_ROOT = 'https://rex.mskcc.org/apps/auth/'
-// }
 
 import { Config } from '../../config.js'
 
@@ -66,7 +60,6 @@ export function getColumns(formValues) {
     // no grid? get inital columns
     if (getState().upload.grid.form.length == 0) {
       return dispatch(getInitialColumns(formValues))
-      // TODO smell to have this in an action
     } else {
       let diffValues = diff(getState().upload.grid.form, formValues)
       if (!diffValues || Object.entries(diffValues).length === 0) {
@@ -145,10 +138,6 @@ export function addGridToBankedSample() {
         data: generateSubmitData(getState()),
       })
       .then(response => {
-        // Handsontable binds to your data source (list of arrays or list of objects)
-        // by reference. Therefore, all the data entered in the grid
-        // will alter the original data source.
-
         dispatch({
           type: ADD_GRID_TO_BANKED_SAMPLE_SUCCESS,
           message: 'Submitted! Check your submissions.',

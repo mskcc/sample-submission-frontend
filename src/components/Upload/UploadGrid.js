@@ -111,7 +111,7 @@ class UploadGrid extends React.Component {
                 changes.forEach(([row, prop, oldValue, newValue]) => {
                   let rowIndex = row
                   if (prop == 'patientId' && /^([0-9]{8})$/.test(newValue)) {
-                    handleMRN(row_index)
+                    handleMRN(rowIndex)
                     handleChange(changes)
                   }
                   if (prop == 'index' && newValue != oldValue) {
