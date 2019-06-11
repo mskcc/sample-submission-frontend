@@ -108,7 +108,7 @@ class UploadForm extends React.Component {
     for (let value in values) {
       switch (value) {
         case 'service_id':
-          if (this.state.alt_service_id == true && values[value].length > 0) {
+          if (this.state.alt_service_id) {
             formValid[value] = true
           } else {
             formValid[value] =
