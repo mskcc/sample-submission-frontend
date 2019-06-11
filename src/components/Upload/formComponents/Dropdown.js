@@ -58,13 +58,12 @@ class Dropdown extends Component {
               }}
               defaultSelectedItem={value}
               getInputProps={() => ({
-                
                 id: id,
                 error: error,
                 label: error
                   ? translate('upload.form.fill_me')
                   : translate('upload.form.' + id + '_label'),
-                helperText: dynamic
+                helperText: items.length
                   ? translate('upload.form.' + id + '_helptext') +
                     ' (' +
                     items.length +
