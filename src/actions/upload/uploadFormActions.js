@@ -74,6 +74,7 @@ export function getMaterialsForApplication(selectedApplication) {
     return axios
       .get(Config.API_ROOT + '/columnDefinition', {
         params: {
+          // weird, legacy slash workaround, has to be changed in /LimsRest/getIntakeTerms
           recipe: selectedApplication.replace('/', '_PIPI_SLASH_'),
         },
       })
@@ -81,6 +82,7 @@ export function getMaterialsForApplication(selectedApplication) {
         dispatch({
           type: RECEIVE_MATERIALS_FOR_APPLICATION_SUCCESS,
           materials: response.data.choices,
+          species: response.data.species,
         })
         return response
       })

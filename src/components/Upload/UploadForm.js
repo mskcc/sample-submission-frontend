@@ -142,7 +142,7 @@ class UploadForm extends React.Component {
     if (this.validate()) {
       handleParentSubmit({
         ...this.state.values,
-        
+
         igo_request_id: 'IGO-' + this.state.values.igo_request_id.toString(),
       })
     }
@@ -191,7 +191,7 @@ class UploadForm extends React.Component {
           break
 
         case 'species':
-          isValidOption = this.props.form.allSpecies.some(function(el) {
+          isValidOption = this.props.form.filteredSpecies.some(function(el) {
             return el.value === values[value]
           })
           formValid[value] = isValidOption && values[value].length > 0
@@ -199,7 +199,11 @@ class UploadForm extends React.Component {
 
         case 'patient_id_type':
           // only validate if species mandates a format, else value will be disregarded anyway
-          if (this.state.values.species == 'Human ' && this.state.values.patient_id_type == "MSK-Patients (or derived from MSK Patients)") {
+          if (
+            this.state.values.species == 'Human ' &&
+            this.state.values.patient_id_type ==
+              'MSK-Patients (or derived from MSK Patients)'
+          ) {
             isValidOption = this.props.form.picklists.PatientIDTypes.some(
               function(el) {
                 return el.value === values[value]
@@ -257,7 +261,7 @@ class UploadForm extends React.Component {
     const buttonClassname = classNames({
       [classes.buttonSuccess]: !this.props.gridIsLoading,
     })
-    
+
     return (
       <Translate>
         {({ translate }) => (
@@ -306,7 +310,8 @@ class UploadForm extends React.Component {
                   error={!formValid.species}
                   onSelect={handleSpeciesChange}
                   onChange={this.handleDropdownChange}
-                  items={form.allSpecies.map(option => ({
+                  loading={form.formIsLoading}
+                  items={form.filteredSpecies.map(option => ({
                     value: option.value,
                     label: option.value,
                   }))}

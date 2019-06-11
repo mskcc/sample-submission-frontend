@@ -17,6 +17,7 @@ export const initialFormState = {
   picklists: {},
 
   allSpecies: [],
+  filteredSpecies: [],
   patientIDTypeNeedsFormatting: false,
   selected: {
     application: 'AmpliSeq',

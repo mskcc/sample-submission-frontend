@@ -20,6 +20,7 @@ export default function uploadFormReducer(state = initialFormState, action) {
         allMaterials: action.form_data.materials,
         allApplications: action.form_data.applications,
         allSpecies: action.form_data.species,
+        filteredSpecies: action.form_data.species,
         allContainers: action.form_data.containers,
         containers: action.form_data.containers,
 
@@ -107,11 +108,20 @@ export default function uploadFormReducer(state = initialFormState, action) {
         formIsLoading: true,
       }
     case ActionTypes.RECEIVE_MATERIALS_FOR_APPLICATION_SUCCESS:
-      return {
-        ...state,
-        formIsLoading: false,
-        filteredMaterials: action.materials,
-      }
+      return action.species.length > 0
+        ? {
+            ...state,
+            formIsLoading: false,
+            filteredMaterials: action.materials,
+            filteredSpecies: action.species,
+            selected: { ...state.selected, species: action.species[0].id },
+          }
+        : {
+            ...state,
+            formIsLoading: false,
+            filteredMaterials: action.materials,
+            filteredSpecies: state.allSpecies,
+          }
     case ActionTypes.RECEIVE_MATERIALS_FOR_APPLICATION_FAIL:
       return {
         ...state,
