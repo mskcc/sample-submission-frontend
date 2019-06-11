@@ -6,7 +6,7 @@
     "application_helptext": "Select Application",
     "species_label": "Species*",
     "species_helptext": "Select Species",
-    "species_checkbox_label": "Are your samples in groups, pairs or replicates?",
+    "grouping_checkbox_label": "Are your samples in groups, pairs or replicates?",
     "number_of_samples_label": "# Samples*",
     "number_of_samples_helptext": "Number of Samples",
     "service_id_label": "iLabs Service ID*",

@@ -13,6 +13,7 @@ export const initialFormState = {
 
   allSpecies: [],
   filteredSpecies: [],
+  
   patientIDTypeNeedsFormatting: false,
   selected: {
     application: 'AmpliSeq',
@@ -22,6 +23,7 @@ export const initialFormState = {
     species: 'Mouse',
     container: 'Plates',
     patient_id_type: '',
+    grouping_checked: false,
   },
 }
 

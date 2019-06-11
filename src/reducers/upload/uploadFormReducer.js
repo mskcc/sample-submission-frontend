@@ -22,7 +22,7 @@ export default function uploadFormReducer(state = initialFormState, action) {
         allSpecies: action.form_data.species,
         filteredSpecies: action.form_data.species,
         allContainers: action.form_data.containers,
-        containers: action.form_data.containers,
+        filteredContainers: action.form_data.containers,
 
         // patientIdFormats: action.data.patientIdFormats,
       }
@@ -67,7 +67,8 @@ export default function uploadFormReducer(state = initialFormState, action) {
         ...state,
         selected: {
           ...state.selected,
-          [action.payload.id]: '',
+          [action.payload.id]:
+            action.payload.id == 'grouping_checked' ? false : '',
         },
       }
 

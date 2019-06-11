@@ -42,16 +42,6 @@ function generateColumnFeatures(responseColumns, formValues) {
 
     //  patient_id_type is only set if corresponding species was selected
 
-    if (
-      columnFeatures[i].data == 'patientId' &&
-      (formValues.species == 'Mouse' ||
-        formValues.species == 'Mouse_GeneticallyModified')
-    ) {
-      columnFeatures[i] = {
-        ...columnFeatures[i],
-        columnHeader: 'Strain or Line Name',
-      }
-    }
     if (columnFeatures[i].data == 'index') {
       columnFeatures[i].barcodeHash = JSON.parse(columnFeatures[i].barcodeHash)
     }
@@ -63,12 +53,11 @@ function generateColumnFeatures(responseColumns, formValues) {
       columnFeatures[i] = overwriteContainer(formValues.container)
     }
 
-    if (
-      columnFeatures[i].data == 'patientId' &&
-      formValues.patient_id_type !== ''
-    ) {
+    if (columnFeatures[i].data == 'patientId') {
       let formattingAdjustments = choosePatientIDFormatter(
-        formValues.patient_id_type
+        formValues.patient_id_type,
+        formValues.species,
+        formValues.grouping_checked
       )
       columnFeatures[i] = { ...columnFeatures[i], ...formattingAdjustments }
     }
@@ -199,30 +188,13 @@ function generateColumnFeatures(responseColumns, formValues) {
   return columnFeatures
 }
 
-function choosePatientIDFormatter(patientIDType) {
-  switch (patientIDType) {
-    case 'MSK-Patients (or derived from MSK Patients)':
-      return {
-        pattern: 'd{8}',
-        columnHeader: 'MRN',
-        tooltip:
-          'For non-MSKCC patient samples, mouse samples, or cell lines without patient origin, please use this field to provide us with group names i.e. compare this group (A) with this group (B). For CMO projects, fill out something unique and correspond with your PM for more information.',
-        error:
-          'MRN is incorrectly formatted, please correct, or speak to a project manager if unsure.',
-
-        type: 'text',
-        validator: function(value, callback) {
-          if (/\d{8}/.test(value) || value == '' || value == undefined) {
-            callback(true)
-          } else {
-            callback(false)
-          }
-        },
-      }
-    case 'Non-MSK Patients':
+function choosePatientIDFormatter(patientIDType, species, groupingChecked) {
+  console.log(patientIDType, species, groupingChecked)
+  if (species == 'Mouse' || species == 'Mouse_GeneticallyModified') {
+    if (groupingChecked) {
       return {
         pattern: '[0-9a-zA-Z]{4,}',
-        columnHeader: 'Patient ID',
+        columnHeader: 'Grouping ID',
         error:
           'Invalid format. Please use at least four alpha-numeric characters.',
 
@@ -238,18 +210,16 @@ function choosePatientIDFormatter(patientIDType) {
           }
         },
       }
-    case 'Cell Lines, not from Patients':
-      return { columnHeader: 'Cell Line Name' }
-    case 'Both MSK-Patients and Non-MSK Patients':
+    } else {
       return {
-        pattern: '[0-9a-zA-Z]{4,}|d{8}',
-        columnHeader: 'Patient ID',
+        pattern: '[0-9a-zA-Z]{4,}',
+        columnHeader: 'Strain or Line Name',
         error:
           'Invalid format. Please use at least four alpha-numeric characters.',
 
         validator: function(value, callback) {
           if (
-            /[0-9a-zA-Z]{4,}|d{8}/.test(value) ||
+            /[0-9a-zA-Z]{4,}/.test(value) ||
             value == '' ||
             value == undefined
           ) {
@@ -259,8 +229,70 @@ function choosePatientIDFormatter(patientIDType) {
           }
         },
       }
-    default:
-      return { pattern: 'formatter not found' }
+    }
+  } else {
+    switch (patientIDType) {
+      case 'MSK-Patients (or derived from MSK Patients)':
+        return {
+          pattern: 'd{8}',
+          columnHeader: 'MRN',
+          tooltip:
+            'For non-MSKCC patient samples, mouse samples, or cell lines without patient origin, please use this field to provide us with group names i.e. compare this group (A) with this group (B). For CMO projects, fill out something unique and correspond with your PM for more information.',
+          error:
+            'MRN is incorrectly formatted, please correct, or speak to a project manager if unsure.',
+
+          type: 'text',
+          validator: function(value, callback) {
+            if (/\d{8}/.test(value) || value == '' || value == undefined) {
+              callback(true)
+            } else {
+              callback(false)
+            }
+          },
+        }
+      case 'Non-MSK Patients':
+        return {
+          pattern: '[0-9a-zA-Z]{4,}',
+          columnHeader: 'Patient ID',
+          error:
+            'Invalid format. Please use at least four alpha-numeric characters.',
+
+          validator: function(value, callback) {
+            if (
+              /[0-9a-zA-Z]{4,}/.test(value) ||
+              value == '' ||
+              value == undefined
+            ) {
+              callback(true)
+            } else {
+              callback(false)
+            }
+          },
+        }
+      case 'Cell Lines, not from Patients':
+        return { columnHeader: 'Cell Line Name' }
+      case 'Both MSK-Patients and Non-MSK Patients':
+        return {
+          pattern: '[0-9a-zA-Z]{4,}|d{8}',
+          columnHeader: 'Patient ID',
+          error:
+            'Invalid format. Please use at least four alpha-numeric characters.',
+
+          validator: function(value, callback) {
+            if (
+              /[0-9a-zA-Z]{4,}|d{8}/.test(value) ||
+              value == '' ||
+              value == undefined
+            ) {
+              callback(true)
+            } else {
+              callback(false)
+            }
+          },
+        }
+      default:
+        return { pattern: 'formatter not found' }
+    }
   }
 }
 
@@ -474,6 +506,7 @@ export const appendAssay = (rows, index, oldValue, newValue) => {
   return rows
 }
 
+// overwrites everything including data to properly feed back to BankedSample
 const overwriteContainer = userContainer => {
   switch (userContainer) {
     case 'Plates':

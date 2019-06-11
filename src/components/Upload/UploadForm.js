@@ -17,41 +17,11 @@ class UploadForm extends React.Component {
     super(props)
 
     this.state = {
-      // values: {
-      //   material: '',
-      //   application: '',
-      //   service_id: '',
-      //   number_of_samples: '',
-      //   species: '',
-      //   container: '',
-      //   patient_id_type: '',
-      // },
       values: {
         ...this.props.form.selected,
       },
-      // values: {
-      //   material: 'DNA',
-      //   application: 'AmpliSeq',
-      //   service_id: '444444',
-      //   number_of_samples: '1',
-      //   species: 'Human',
-      //   container: 'Plates',
-      //   patient_id_type: 'MSK-Patients (or derived from MSK Patients)',
-      // },
-      // values: {
-      //   material: 'Tissue',
-      //   application: 'CustomCapture',
-      //   service_id: '444444',
-      //   number_of_samples: '400',
-      //   species: 'Tuberculosis',
-      //   container: 'Plates',
-      //   patient_id_type: '',
-      // },
-      // formErrors: {},
       alt_service_id: false,
-      species_samples_checked: false,
       formValid: {
-        // form: false,
         material: true,
         application: true,
         service_id: true,
@@ -81,7 +51,6 @@ class UploadForm extends React.Component {
   }
 
   handleChange = () => {
-    // reset error
     this.setState({
       values: {
         ...this.state.values,
@@ -89,18 +58,12 @@ class UploadForm extends React.Component {
       },
       formValid: { ...this.state.formValid, [event.target.id]: true },
     })
-    // this.props.handleSelect(event.target.id,event.target.value)
-    // let value =
-    //   event.target.id == 'service_id'
-    //     ? 'IGO-' + event.target.value
-    //     : event.target.value
     this.props.handleInputChange(event.target.id, event.target.value)
   }
 
   handleServiceIdCheck = name => () => {
     var date = new Date()
     var timestamp = date.getTime()
-    // let date = this.getDate()
 
     this.setState({
       values: {
@@ -116,30 +79,11 @@ class UploadForm extends React.Component {
     }
   }
 
-  handleSpeciesCheck = name => () => {
+  handleGroupingCheck = name => () => {
     this.setState({
-      species_samples_checked: event.target.checked,
+      values: { ...this.state.values, grouping_checked: event.target.checked },
     })
-  }
-
-  getDate = () => {
-    let today = new Date()
-    let dd = today.getDate()
-    let mm = today.getMonth() + 1 //January is 0!
-    let yyyy = today
-      .getFullYear()
-      .toString()
-      .substr(-2)
-
-    if (dd < 10) {
-      dd = '0' + dd
-    }
-
-    if (mm < 10) {
-      mm = '0' + mm
-    }
-
-    return mm + dd + yyyy
+    this.props.handleInputChange('grouping_checked', event.target.checked)
   }
 
   handleSubmit = (e, handleParentSubmit) => {
@@ -153,11 +97,9 @@ class UploadForm extends React.Component {
         service_id: 'IGO-' + this.state.values.service_id.toString(),
       })
     }
-    // } else alert('error')
   }
 
   validate() {
-    // let formErrors = this.state.formErrors
     let formValid = this.state.formValid
     let valid
     let error
@@ -272,7 +214,6 @@ class UploadForm extends React.Component {
     const buttonClassname = classNames({
       [classes.buttonSuccess]: !this.props.gridIsLoading,
     })
-
     return (
       <Translate>
         {({ translate }) => (
@@ -336,9 +277,9 @@ class UploadForm extends React.Component {
                 values.species == 'Mouse' ||
                 values.species == 'Mouse_GeneticallyModified' ? (
                   <Checkbox
-                    id="species_checkbox"
-                    checked={this.state.species_samples_checked}
-                    onChange={this.handleSpeciesCheck}
+                    id="grouping_checkbox"
+                    checked={form.selected.grouping_checked}
+                    onChange={this.handleGroupingCheck}
                   />
                 ) : null}
               </FormControl>
@@ -346,11 +287,10 @@ class UploadForm extends React.Component {
               {// PatientID is needed when Human is selected or when Mouse* is selected and combined with species checkbox value
               this.props.form.patientIDTypeNeedsFormatting &&
               form.picklists.PatientIDTypes &&
-              (values.species == 'Human' &&
-                !this.state.species_samples_checked) ? (
+              (values.species == 'Human' && !this.state.grouping_checked) ? (
                 <Dropdown
                   id={
-                    this.state.species_samples_checked
+                    this.state.grouping_checked
                       ? 'group_id_type'
                       : 'patient_id_type'
                   }
