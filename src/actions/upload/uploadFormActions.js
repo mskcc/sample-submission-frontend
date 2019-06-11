@@ -1,7 +1,7 @@
 //TODO ERROR HANDLING
 import axios from 'axios'
 
-import {Config} from '../../config.js'
+import { Config } from '../../config.js'
 
 import { generateSubmissionsGrid } from '../helpers'
 
@@ -38,9 +38,10 @@ export function getInitialState() {
           dispatch({
             type: RECEIVE_INITIAL_STATE_SUCCESS,
             form_data: response.data,
-            user_data:{
-                        submissions: response.data.submissions,
-                        table: generateSubmissionsGrid(response.data),}
+            user_data: {
+              submissions: response.data.submissions,
+              table: generateSubmissionsGrid(response.data),
+            },
           })
           return response
         })
@@ -137,6 +138,7 @@ export function getApplicationsForMaterial(selectedMaterial) {
         dispatch({
           type: RECEIVE_APPLICATIONS_FOR_MATERIAL_SUCCESS,
           applications: response.data.choices,
+          containers: response.data.containers,
         })
         return response
       })
@@ -148,24 +150,6 @@ export function getApplicationsForMaterial(selectedMaterial) {
         return error
       })
   }
-}
-
-export const FILTER_CONTAINERS = 'FILTER_CONTAINERS'
-export const FILTER_CONTAINERS_FOR_BS = 'FILTER_CONTAINERS_FOR_BS'
-export const SHOW_ALL_CONTAINERS = 'SHOW_ALL_CONTAINERS'
-export function filterContainers(selectedMaterial) {
-  if (selectedMaterial === 'Blocks/Slides') {
-    return {
-      type: FILTER_CONTAINERS_FOR_BS,
-    }
-  } else if (BSTMaterials.includes(selectedMaterial.toLowerCase())) {
-    return {
-      type: SHOW_ALL_CONTAINERS,
-    }
-  } else
-    return {
-      type: FILTER_CONTAINERS,
-    }
 }
 
 export const SELECT_SPECIES_WITH_ID_FORMATTER =

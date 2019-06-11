@@ -28,8 +28,6 @@ export class UploadFormContainer extends React.Component {
     } else {
       this.props.clearMaterial()
     }
-    // show containers depending on material combination
-    this.props.filterContainers(selectedMaterial)
   }
 
   handleApplicationChange = selectedApplication => {

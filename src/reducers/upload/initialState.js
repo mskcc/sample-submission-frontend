@@ -5,14 +5,9 @@ export const initialFormState = {
   allPatientIdFormats: [],
   filteredApplications: [],
   containers: [],
+  filteredContainers: [],
   formIsLoading: false,
-  filteredContainers: [
-    { id: 'Plates', value: 'Plates' },
-    { id: 'Micronic Barcoded Tubes', value: 'Micronic Barcoded Tubes' },
-  ],
-  filteredContainersBS: [
-    { id: 'Blocks/Slides/Tubes', value: 'Blocks/Slides/Tubes' },
-  ],
+
   filteredMaterials: [],
   picklists: {},
 

@@ -77,22 +77,6 @@ export default function uploadFormReducer(state = initialFormState, action) {
         selected: { ...state.selected, material: action.selectedMaterial },
       }
 
-    case ActionTypes.FILTER_CONTAINERS:
-      return {
-        ...state,
-        filteredContainers: state.filteredContainers,
-      }
-
-    case ActionTypes.FILTER_CONTAINERS_FOR_BS:
-      return {
-        ...state,
-        filteredContainers: state.filteredContainersBS,
-      }
-    case ActionTypes.SHOW_ALL_CONTAINERS:
-      return {
-        ...state,
-        filteredContainers: state.allContainers,
-      }
     case ActionTypes.SELECT_APPLICATION:
       return {
         ...state,
@@ -135,11 +119,20 @@ export default function uploadFormReducer(state = initialFormState, action) {
         formIsLoading: true,
       }
     case ActionTypes.RECEIVE_APPLICATIONS_FOR_MATERIAL_SUCCESS:
-      return {
-        ...state,
-        formIsLoading: false,
-        filteredApplications: action.applications,
-      }
+      return action.containers.length > 0
+        ? {
+            ...state,
+            formIsLoading: false,
+            filteredApplications: action.applications,
+            filteredContainers: action.containers,
+            selected: { ...state.selected, container: action.containers[0].id },
+          }
+        : {
+            ...state,
+            formIsLoading: false,
+            filteredApplications: action.applications,
+            filteredContainers: state.allContainers,
+          }
     case ActionTypes.RECEIVE_APPLICATIONS_FOR_MATERIAL_FAIL:
       return {
         ...state,
@@ -211,6 +204,7 @@ export default function uploadFormReducer(state = initialFormState, action) {
       return {
         ...state,
         filteredApplications: state.allApplications,
+        filteredContainers: state.allContainers,
         selected: { ...state.selected, material: '' },
         formIsLoading: true,
       }
@@ -218,6 +212,7 @@ export default function uploadFormReducer(state = initialFormState, action) {
       return {
         ...state,
         filteredMaterials: state.allMaterials,
+        filteredSpecies: state.allSpecies,
         selected: { ...state.selected, application: '' },
         formIsLoading: true,
       }

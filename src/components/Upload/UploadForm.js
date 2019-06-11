@@ -361,7 +361,7 @@ class UploadForm extends React.Component {
                 id="container"
                 error={!formValid.container}
                 onChange={this.handleDropdownChange}
-                items={form.containers.map(option => ({
+                items={form.filteredContainers.map(option => ({
                   value: option.id,
                   label: option.value,
                 }))}
