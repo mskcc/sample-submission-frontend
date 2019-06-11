@@ -48,7 +48,7 @@ class UploadForm extends React.Component {
       //   patient_id_type: '',
       // },
       // formErrors: {},
-      igo_alternative_id: false,
+      alt_service_id: false,
       species_samples_checked: false,
       formValid: {
         // form: false,
@@ -97,16 +97,23 @@ class UploadForm extends React.Component {
     this.props.handleInputChange(event.target.id, event.target.value)
   }
 
-  handleIGOCheck = name => () => {
-    let date = this.getDate()
+  handleServiceIdCheck = name => () => {
+    var date = new Date()
+    var timestamp = date.getTime()
+    // let date = this.getDate()
 
     this.setState({
       values: {
         ...this.state.values,
-        service_id: date,
+        service_id: timestamp,
       },
       [name]: event.target.checked,
     })
+    if (event.target.checked) {
+      this.props.handleInputChange('service_id', timestamp)
+    } else {
+      this.props.handleInputChange('service_id', '')
+    }
   }
 
   handleSpeciesCheck = name => () => {
@@ -159,8 +166,12 @@ class UploadForm extends React.Component {
     for (let value in values) {
       switch (value) {
         case 'service_id':
-          formValid[value] =
-            /\d{6}/g.test(values[value]) && values[value].length === 6
+          if (this.state.alt_service_id) {
+            formValid[value] = true
+          } else {
+            formValid[value] =
+              /\d{6}/g.test(values[value]) && values[value].length === 6
+          }
           break
         case 'material':
           // validate whether selected value in dynamic fields is in controlled options
@@ -388,15 +399,16 @@ class UploadForm extends React.Component {
                   error={!formValid.service_id}
                   onChange={this.handleChange}
                   inputProps={{
+                    disabled: this.state.alt_service_id,
                     startAdornment: (
                       <InputAdornment position="start">IGO-</InputAdornment>
                     ),
                   }}
                 />
                 <Checkbox
-                  id="igo_alternative_id"
-                  checked={this.state.igo_alternative_id}
-                  onChange={this.handleIGOCheck}
+                  id="alt_service_id"
+                  checked={this.state.alt_service_id}
+                  onChange={this.handleServiceIdCheck}
                   hasHelptext
                 />
               </FormControl>
