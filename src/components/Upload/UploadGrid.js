@@ -22,7 +22,9 @@ class UploadGrid extends React.Component {
     for (let i = 0; i < numberToAdd; i++) {}
   }
   showError = (error, row, prop) => {
-    swal(error)
+    if (error) {
+      swal(error)
+    }
   }
 
   handleSave = () => {

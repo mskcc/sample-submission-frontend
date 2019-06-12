@@ -72,7 +72,6 @@ function generateColumnFeatures(responseColumns, formValues) {
         columnFeatures[i].allowEmpty = true
         columnFeatures[i].error = 'Something went wrong'
       } else {
-        columnFeatures[i].allowInvalid = false
       }
     }
     // had to be hard coded, everything else caused laggy validation
