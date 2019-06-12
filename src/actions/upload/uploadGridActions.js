@@ -12,8 +12,8 @@ import {
   redactMRN,
   appendAssay,
   findIndexSeq,
+  createValidators,
 } from '../helpers'
-
 
 import { Config } from '../../config.js'
 
@@ -205,7 +205,7 @@ export function handleMRN(rowIndex) {
             rowIndex,
             response.data.patient_id,
             'MRN REDACTED',
-            response.data.sex,
+            response.data.sex
           ),
         })
       })
@@ -275,3 +275,16 @@ export const RESET_GRID_ERROR_MESSAGE = 'RESET_GRID_ERROR_MESSAGE'
 export const resetGridErrorMessage = () => ({
   type: RESET_GRID_ERROR_MESSAGE,
 })
+
+export const ADD_VALIDATORS_SUCCESS = 'ADD_VALIDATORS_SUCCESS'
+
+export const addValidators = () => {
+  return (dispatch, getState) => {
+    console.log(getState().upload.grid)
+    let colFeatures = createValidators(getState().upload.grid)
+    return dispatch({
+      type: ADD_VALIDATORS_SUCCESS,
+      columnFeatures: colFeatures,
+    })
+  }
+}

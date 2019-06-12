@@ -548,3 +548,113 @@ const overwriteContainer = userContainer => {
       break
   }
 }
+
+export const createValidators = grid => {
+  let columnFeatures = grid.columnFeatures
+  let formValues = grid.form
+  for (let i = 0; i < columnFeatures.length; i++) {
+    if ('pattern' in columnFeatures[i] && !('validator' in columnFeatures[i])) {
+      switch (columnFeatures[i].pattern) {
+        case 'userId':
+          columnFeatures[i].validator = (value, callback) => {
+            if (
+              value == '' ||
+              value == null ||
+              /^[A-Za-z0-9](?!.*__)[A-Za-z0-9\\,_-]{2}[A-Za-z0-9\\,_-]*$/.test(
+                value
+              )
+            ) {
+              callback(true)
+            } else {
+              callback(false)
+            }
+          }
+          break
+
+        case 'patientId':
+          console.log(columnFeatures[i])
+          columnFeatures[i].validator = (value, callback) => {
+            if (
+              value == '' ||
+              value == null ||
+              /^[A-Za-z0-9][A-Za-z0-9\\,_-]*$/.test(value)
+            ) {
+              callback(true)
+            } else {
+              callback(false)
+            }
+          }
+          break
+
+        case 'number':
+          columnFeatures[i].validator = (value, callback) => {
+            if (value == '' || value == null || /^[0-9.]*$/.test(value)) {
+              callback(true)
+            } else {
+              callback(false)
+            }
+          }
+          break
+
+        case 'collectionYear':
+          columnFeatures[i].validator = (value, callback) => {
+            if (value == '' || value == null || /\d{4}|^$/.test(value)) {
+              callback(true)
+            } else {
+              callback(false)
+            }
+          }
+          break
+        case 'wellPosition':
+          columnFeatures[i].validator = (value, callback) => {
+            if (value == '' || value == null || /[A-Za-z]+\d+|^$/.test(value)) {
+              callback(true)
+            } else {
+              callback(false)
+            }
+          }
+          break
+        case 'micronicTubeBarcode':
+          columnFeatures[i].validator = (value, callback) => {
+            if (value == '' || value == null || /^[0-9]{10}$/.test(value)) {
+              callback(true)
+            } else {
+              callback(false)
+            }
+          }
+          break
+        case 'alphanum':
+          columnFeatures[i].validator = (value, callback) => {
+            if (value == '' || value == null || /[0-9a-zA-Z]/.test(value)) {
+              callback(true)
+            } else {
+              callback(false)
+            }
+          }
+          break
+        case 'alphanumdash':
+          columnFeatures[i].validator = (value, callback) => {
+            if (
+              value == '' ||
+              value == null ||
+              /[A-Za-z0-9\\,_-]/.test(value)
+            ) {
+              callback(true)
+            } else {
+              callback(false)
+            }
+          }
+          break
+      }
+      if (columnFeatures[i].data == 'patientId') {
+        let formattingAdjustments = choosePatientIDFormatter(
+          formValues.patient_id_type,
+          formValues.species,
+          formValues.grouping_checked
+        )
+        columnFeatures[i] = { ...columnFeatures[i], ...formattingAdjustments }
+      }
+    }
+  }
+  return columnFeatures
+}

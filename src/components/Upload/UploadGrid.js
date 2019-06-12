@@ -64,7 +64,6 @@ class UploadGrid extends React.Component {
       handleAssay,
       handleIndex,
     } = this.props
-    // console.log(this.props.grid.rows.length)
     return (
       <div>
         <div className={classes.container}>
@@ -115,15 +114,12 @@ class UploadGrid extends React.Component {
                     handleChange(changes)
                   }
                   if (prop == 'index' && newValue != oldValue) {
-                     let col = this.hotTableComponent.current.hotInstance.propToCol(
-                  prop
-                )
+                    let col = this.hotTableComponent.current.hotInstance.propToCol(
+                      prop
+                    )
                     handleIndex(col, rowIndex, newValue)
                   }
                   if (prop == 'assay') {
-                    console.log(oldValue)
-                    console.log(newValue)
-
                     if (
                       newValue != oldValue &&
                       oldValue != '' &&

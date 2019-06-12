@@ -14,11 +14,18 @@ class UploadGridContainer extends React.Component {
     super(props)
   }
 
-  componentDidMount(prevProps, prevState) {
-    // console.log('prevState')
-    // console.log(prevState)
-    // console.log('state')
-    // console.log(this.state)
+  // componentDidMount(prevProps, prevState) {
+
+  // console.log('prevState')
+  // console.log(prevState)
+  // console.log('state')
+  // console.log(this.state)
+  // }
+
+  componentDidMount() {
+    if (this.props.grid.columnFeatures) {
+      this.props.addValidators()
+    }
   }
 
   handleChange = () => {

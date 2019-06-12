@@ -98,10 +98,16 @@ export default function uploadGridReducer(state = initialGridState, action) {
         ...state,
         rows: action.rows,
       }
-case ActionTypes.HANDLE_INDEX_FAIL:
+    case ActionTypes.HANDLE_INDEX_FAIL:
       return {
         ...state,
         message: action.message,
+      }
+
+    case ActionTypes.ADD_VALIDATORS_SUCCESS:
+      return {
+        ...state,
+        columnFeatures: action.columnFeatures,
       }
 
     case ActionTypes.EDIT_SUBMISSION_SUCCESS:
