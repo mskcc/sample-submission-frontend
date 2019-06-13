@@ -1,5 +1,7 @@
 // actions should not have this much BL, will change once it gets too convoluted
 import axios from 'axios'
+import swal from '@sweetalert/with-react'
+
 import {
   diff,
   findSubmission,
@@ -12,6 +14,7 @@ import {
   redactMRN,
   appendAssay,
   findIndexSeq,
+  validateGrid,
   createValidators,
 } from '../helpers'
 
@@ -24,7 +27,6 @@ axios.interceptors.request.use(
     if (token && !config.headers['Authorization']) {
       config.headers['Authorization'] = `Bearer ${token}`
     }
-
     return config
   },
 
@@ -34,8 +36,32 @@ axios.interceptors.request.use(
 )
 
 export const REGISTER_GRID_CHANGE = 'REGISTER_GRID_CHANGE'
+export const REGISTER_GRID_CHANGE_PRE_VALIDATE =
+  'REGISTER_GRID_CHANGE_PRE_VALIDATE'
+
+export const REGISTER_GRID_CHANGE_POST_VALIDATE =
+  'REGISTER_GRID_CHANGE_POST_VALIDATE'
+export const RESET_MESSAGE = 'RESET_MESSAGE'
 export const registerGridChange = changes => {
-  return { type: REGISTER_GRID_CHANGE }
+  return (dispatch, getState) => {
+    let result = validateGrid(changes, getState().upload.grid)
+    // dispatch({ type: RESET_MESSAGE })
+    swal(result.errors)
+    return dispatch({
+      type: REGISTER_GRID_CHANGE_POST_VALIDATE,
+      payload: result,
+      message: result.errors,
+    })
+  }
+}
+
+export const preValidate = () => {
+  return dispatch => {
+    dispatch({
+      type: REGISTER_GRID_CHANGE_PRE_VALIDATE,
+      message: 'Pasting large set, please be patient.',
+    })
+  }
 }
 
 export const GET_COLUMNS = 'GET_COLUMNS'

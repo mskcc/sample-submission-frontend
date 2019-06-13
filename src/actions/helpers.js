@@ -49,8 +49,7 @@ function generateColumnFeatures(responseColumns, formValues) {
     //  overwrite response container with user selection
     if ('container' in columnFeatures[i]) {
       if (columnFeatures[i].container != formValues.container)
-        console.log('diff', columnFeatures[i].container, formValues.container)
-      columnFeatures[i] = overwriteContainer(formValues.container)
+        columnFeatures[i] = overwriteContainer(formValues.container)
     }
 
     if (columnFeatures[i].data == 'patientId') {
@@ -188,7 +187,6 @@ function generateColumnFeatures(responseColumns, formValues) {
 }
 
 function choosePatientIDFormatter(patientIDType, species, groupingChecked) {
-  console.log(patientIDType, species, groupingChecked)
   if (species == 'Mouse' || species == 'Mouse_GeneticallyModified') {
     if (groupingChecked) {
       return {
@@ -307,7 +305,7 @@ function generateRows(columns, formValues, numberToAdd) {
       //     // readOnly: true,
       //   }
       // } else {
-      // console.log(columns[j].data)
+      //
       if (columns[j].data == 'species' || columns[j].data == 'organism') {
         rows[i] = { ...rows[i], [columns[j].data]: formValues.species }
         // } else if (columns[j].data == 'wellPosition') {
@@ -417,7 +415,6 @@ export const generateSubmitData = state => {
   // TODO use this for save/edit
   data.transaction_id = date
 
-  console.log(data)
   return data
 }
 
@@ -571,7 +568,6 @@ export const createValidators = grid => {
           break
 
         case 'patientId':
-          console.log(columnFeatures[i])
           columnFeatures[i].validator = (value, callback) => {
             if (
               value == '' ||
@@ -656,4 +652,53 @@ export const createValidators = grid => {
     }
   }
   return columnFeatures
+}
+
+export const validateGrid = (changes, grid) => {
+  let errors = new Set([])
+  // let errors = new Set([])
+  for (let i = 0; i < changes.length; i++) {
+    let newValue = changes[i][3]
+    let rowIndex = changes[i][0]
+    let columnName = changes[i][1]
+
+    let columnIndex = grid.columnFeatures.findIndex(c => c.data == columnName)
+    if ('validator' in grid.columnFeatures[columnIndex]) {
+      grid.columnFeatures[columnIndex].validator(newValue, function(valid) {
+        if (!valid) {
+          errors.add(
+            'Invalid data in ' +
+              grid.columnFeatures[columnIndex].name +
+              '. ' +
+              grid.columnFeatures[columnIndex].error +
+              '\n'
+          )
+          grid.rows[rowIndex][columnName] = ''
+        }
+      })
+    }
+    if ('source' in grid.columnFeatures[columnIndex]) {
+      if (!grid.columnFeatures[columnIndex].source.includes(newValue)) {
+        errors.add(
+          'Invalid data in ' +
+            grid.columnFeatures[columnIndex].name +
+            '. ' +
+            grid.columnFeatures[columnIndex].error +
+            '\n'
+        )
+        grid.rows[rowIndex][columnName] = ''
+      }
+    }
+  }
+  console.log(errors)
+  buildErrorMessage(errors)
+  // console.log(buildErrorMessage(errors))
+
+  return { grid, errors: buildErrorMessage(errors) }
+}
+
+export const buildErrorMessage = errors => {
+  let message = ''
+  errors.forEach(a => (message = message.concat(a)))
+  return message
 }

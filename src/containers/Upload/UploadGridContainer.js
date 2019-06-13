@@ -15,7 +15,6 @@ class UploadGridContainer extends React.Component {
   }
 
   // componentDidMount(prevProps, prevState) {
-
   // console.log('prevState')
   // console.log(prevState)
   // console.log('state')
@@ -28,8 +27,8 @@ class UploadGridContainer extends React.Component {
     }
   }
 
-  handleChange = () => {
-    this.props.registerGridChange()
+  handleChange = (changes) => {
+    this.props.registerGridChange(changes)
   }
   handleMRN = rowIndex => {
     this.props.handleMRN(rowIndex)
@@ -82,6 +81,7 @@ class UploadGridContainer extends React.Component {
         handleSubmit={this.handleSubmit}
         handleChange={this.handleChange}
         handleSave={this.handleSave}
+        preValidate={this.props.preValidate}
       />
     ) : null
   }

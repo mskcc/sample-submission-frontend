@@ -22,6 +22,7 @@ class UploadGrid extends React.Component {
     for (let i = 0; i < numberToAdd; i++) {}
   }
   showError = (error, row, prop) => {
+    this.props.grid.rows[row].prop = ''
     if (error) {
       swal(error)
     }
@@ -104,49 +105,48 @@ class UploadGrid extends React.Component {
             manualColumnResize={true}
             comments={true}
             ref={this.hotTableComponent}
+            beforeChange={(changes, source) => {
+              if (changes.length > 100) {
+                this.props.preValidate()
+              }
+            }}
             afterChange={(changes, source) => {
               if (changes) {
+                let i = 0
                 if (source !== 'loadData') {
-                  handleChange(changes)
-                }
-                changes.forEach(([row, prop, oldValue, newValue]) => {
-                  let rowIndex = row
-                  if (prop == 'patientId' && /^([0-9]{8})$/.test(newValue)) {
-                    handleMRN(rowIndex)
+                  changes.forEach(([row, prop, oldValue, newValue]) => {
+                    i++
+                    let rowIndex = row
+                    if (prop == 'patientId' && /^([0-9]{8})$/.test(newValue)) {
+                      handleMRN(rowIndex)
+                    }
+                    if (prop == 'index' && newValue != oldValue) {
+                      let col = this.hotTableComponent.current.hotInstance.propToCol(
+                        prop
+                      )
+                      handleIndex(col, rowIndex, newValue)
+                    }
+                    if (prop == 'assay') {
+                      if (
+                        newValue != oldValue &&
+                        oldValue != '' &&
+                        oldValue != undefined
+                      ) {
+                        handleAssay(rowIndex, oldValue, newValue)
+                      }
+                    }
+                  })
+                  console.log(i)
+                  console.log(changes.length)
+                  if (i == changes.length) {
+                    console.log(changes)
+                    console.log(this.state)
                     handleChange(changes)
                   }
-                  if (prop == 'index' && newValue != oldValue) {
-                    let col = this.hotTableComponent.current.hotInstance.propToCol(
-                      prop
-                    )
-                    handleIndex(col, rowIndex, newValue)
-                  }
-                  if (prop == 'assay') {
-                    if (
-                      newValue != oldValue &&
-                      oldValue != '' &&
-                      oldValue != undefined
-                    ) {
-                      handleAssay(rowIndex, oldValue, newValue)
-                      handleChange(changes)
-                    }
-                  }
-                })
+                }
               }
             }}
-            afterValidate={(isValid, value, row, prop, source) => {
-              if (!isValid) {
-                let col = this.hotTableComponent.current.hotInstance.propToCol(
-                  prop
-                )
-                this.showError(grid.columnFeatures[col].error, row, prop)
-                this.hotTableComponent.current.hotInstance.setDataAtCell(
-                  row,
-                  col,
-                  null
-                )
-              }
-            }}
+            afterPaste={console.log('pasted')}
             width="95%"
             stretchH="all"
             // height="10%"
@@ -188,90 +188,3 @@ const styles = theme => ({
 })
 
 export default withStyles(styles)(UploadGrid)
-
-// Syntax Examples
-// colHeaders: [
-//   'ID',
-//   'Country',
-//   'Code',
-//   'Currency',
-//   'Level',
-//   'Units',
-//   'Date',
-//   'Change'
-// ],
-
-// columns: [
-//    {
-//      data: 'id',
-//      type: 'numeric',
-//      width: 40
-//    },
-//    {
-//      data: 'flag',
-//      renderer: flagRenderer
-//    },
-//    {
-//      data: 'currencyCode',
-//      type: 'text'
-//    },
-//    {
-//      data: 'currency',
-//      type: 'text'
-//    },
-//    {
-//      data: 'level',
-//      type: 'numeric',
-//      numericFormat: {
-//        pattern: '0.0000'
-//      }
-//    },
-//    {
-//      data: 'units',
-//      type: 'text'
-//    },
-//    {
-//      data: 'asOf',
-//      type: 'date',
-//      dateFormat: 'MM/DD/YYYY'
-//    },
-//    {
-//      data: 'onedChng',
-//      type: 'numeric',
-//      numericFormat: {
-//        pattern: '0.00%'
-//      }
-//    }
-//  ],
-
-// dataObject = [
-// {
-//   id: 1,
-//   flag: 'EUR',
-//   currencyCode: 'EUR',
-//   currency: 'Euro',
-//   level: 0.9033,
-//   units: 'EUR / USD',
-//   asOf: '08/19/2019',
-//   onedChng: 0.0026
-// },
-// {
-//   id: 2,
-//   flag: 'JPY',
-//   currencyCode: 'JPY',
-//   currency: 'Japanese Yen',
-//   level: 124.3870,
-//   units: 'JPY / USD',
-//   asOf: '08/19/2019',
-//   onedChng: 0.0001
-// },
-// {
-//   id: 3,
-//   flag: 'GBP',
-//   currencyCode: 'GBP',
-//   currency: 'Pound Sterling',
-//   level: 0.6396,
-//   units: 'GBP / USD',
-//   asOf: '08/19/2019',
-//   onedChng: 0.00
-// }]
