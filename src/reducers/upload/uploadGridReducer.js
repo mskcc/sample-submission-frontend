@@ -24,7 +24,6 @@ export default function uploadGridReducer(state = initialGridState, action) {
         ...state,
         gridIsLoading: false,
         rows: action.payload.grid.rows,
-        message: action.payload.errors
       }
 
     case ActionTypes.GET_COLUMNS:

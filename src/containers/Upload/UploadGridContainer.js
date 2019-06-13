@@ -21,11 +21,11 @@ class UploadGridContainer extends React.Component {
   // console.log(this.state)
   // }
 
-  componentDidMount() {
-    if (this.props.grid.columnFeatures) {
-      this.props.addValidators()
-    }
-  }
+  // componentDidMount() {
+  //   if (this.props.grid.columnFeatures) {
+  //     this.props.addValidators()
+  //   }
+  // }
 
   handleChange = (changes) => {
     this.props.registerGridChange(changes)

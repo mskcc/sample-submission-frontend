@@ -1,7 +1,7 @@
 // actions should not have this much BL, will change once it gets too convoluted
+import React from 'react'
 import axios from 'axios'
-import swal from '@sweetalert/with-react'
-
+import Swal from 'sweetalert2'
 import {
   diff,
   findSubmission,
@@ -15,7 +15,6 @@ import {
   appendAssay,
   findIndexSeq,
   validateGrid,
-  createValidators,
 } from '../helpers'
 
 import { Config } from '../../config.js'
@@ -45,13 +44,29 @@ export const RESET_MESSAGE = 'RESET_MESSAGE'
 export const registerGridChange = changes => {
   return (dispatch, getState) => {
     let result = validateGrid(changes, getState().upload.grid)
-    // dispatch({ type: RESET_MESSAGE })
-    swal(result.errors)
-    return dispatch({
-      type: REGISTER_GRID_CHANGE_POST_VALIDATE,
-      payload: result,
-      message: result.errors,
-    })
+    dispatch({ type: RESET_MESSAGE })
+    // would prefer to have this in reducer
+    if (result.numErrors > 1) {
+      Swal.fire({
+        title: 'Invalid Values',
+        html: result.errorMessage,
+        footer: 'To avoid mistakes, invalid cells are cleared immediately.',
+        type: 'error',
+        animation: false,
+        confirmButtonText: 'Dismiss',
+        customClass: { content: 'alert' },
+      })
+      return dispatch({
+        type: REGISTER_GRID_CHANGE_POST_VALIDATE,
+        payload: result,
+      })
+    } else {
+      return dispatch({
+        type: REGISTER_GRID_CHANGE_POST_VALIDATE,
+        payload: result,
+        message: result.errorMessage.replace(/<br>/g, ''),
+      })
+    }
   }
 }
 
@@ -302,15 +317,3 @@ export const resetGridErrorMessage = () => ({
   type: RESET_GRID_ERROR_MESSAGE,
 })
 
-export const ADD_VALIDATORS_SUCCESS = 'ADD_VALIDATORS_SUCCESS'
-
-export const addValidators = () => {
-  return (dispatch, getState) => {
-    console.log(getState().upload.grid)
-    let colFeatures = createValidators(getState().upload.grid)
-    return dispatch({
-      type: ADD_VALIDATORS_SUCCESS,
-      columnFeatures: colFeatures,
-    })
-  }
-}
