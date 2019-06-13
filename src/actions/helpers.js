@@ -146,7 +146,6 @@ function generateRows(columns, formValues, numberToAdd) {
   let rows = []
   for (let i = 0; i < numberToAdd; i++) {
     for (let j = 0; j < columns.length; j++) {
-
       if (columns[j].data == 'species' || columns[j].data == 'organism') {
         rows[i] = { ...rows[i], [columns[j].data]: formValues.species }
       } else {
@@ -310,6 +309,7 @@ export const redactMRN = (rows, index, id, msg, sex) => {
 //  barcode hash is saved in colFeatures.index when index is part of the getCols response
 export const findIndexSeq = (grid, colIndex, rowIndex, indexId) => {
   let result = { success: false, rows: '' }
+  indexId = indexId.toLowerCase()
   let barcodes = grid.columnFeatures[colIndex].barcodeHash
   if (indexId == '') {
     grid.rows[rowIndex].indexSequence = ''
@@ -323,6 +323,17 @@ export const findIndexSeq = (grid, colIndex, rowIndex, indexId) => {
   }
 
   return result
+}
+
+export const findSingleIndexSeq = (indexId, indexSequenceHash) => {
+  if (indexId == '') {
+    return ''
+  }
+  if (indexId in barcodes) {
+    return barcodes[indexId].barcodeTag
+  } else {
+    return ''
+  }
 }
 
 export const appendAssay = (rows, index, oldValue, newValue) => {
@@ -401,6 +412,19 @@ export const validateGrid = (changes, grid) => {
         'The number of columns you tried to paste is larger than the number of columns on the current grid.'
       )
       break
+    }
+
+    if (columnName == 'index') {
+     let indexResult = findIndexSeq(grid, columnIndex, rowIndex, newValue)
+      if (!indexResult.success) {
+        errors.add(
+          grid.columnFeatures[columnIndex].name +
+            ': ' +
+            grid.columnFeatures[columnIndex].error
+        )
+
+        grid.rows[rowIndex][columnName] = ''
+      }
     }
 
     if ('pattern' in grid.columnFeatures[columnIndex]) {

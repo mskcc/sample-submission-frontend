@@ -44,7 +44,7 @@ export const RESET_MESSAGE = 'RESET_MESSAGE'
 export const registerGridChange = changes => {
   return (dispatch, getState) => {
     let result = validateGrid(changes, getState().upload.grid)
-    dispatch({ type: RESET_MESSAGE })
+    // dispatch({ type: RESET_MESSAGE })
     // would prefer to have this in reducer
     if (result.numErrors > 1) {
       Swal.fire({

@@ -120,12 +120,7 @@ class UploadGrid extends React.Component {
                     if (prop == 'patientId' && /^([0-9]{8})$/.test(newValue)) {
                       handleMRN(rowIndex)
                     }
-                    if (prop == 'index' && newValue != oldValue) {
-                      let col = this.hotTableComponent.current.hotInstance.propToCol(
-                        prop
-                      )
-                      handleIndex(col, rowIndex, newValue)
-                    }
+                   
                     if (prop == 'assay') {
                       if (
                         newValue != oldValue &&
