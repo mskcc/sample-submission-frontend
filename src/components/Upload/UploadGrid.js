@@ -151,7 +151,7 @@ class UploadGrid extends React.Component {
               else if (grid.rows.length >= 15) return '500'
               else if (grid.rows.length >= 10) return '400'
               else if (grid.rows.length >= 5) return '200'
-              else if (grid.rows.length < 5) return '150'
+              else if (grid.rows.length < 5) return '350'
             }}
           />
         </div>
@@ -169,6 +169,7 @@ const styles = theme => ({
     width: '95vw',
     // maxHeight: 600,
     overflow: 'hidden',
+    marginBottom: '5em',
   },
   buttons: {},
   tooltipCell: {
