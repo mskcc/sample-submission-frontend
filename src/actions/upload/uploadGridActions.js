@@ -227,44 +227,51 @@ export const HANDLE_MRN_SUCCESS = 'HANDLE_MRN_SUCCESS'
 export function handleMRN(rowIndex) {
   return (dispatch, getState) => {
     dispatch({ type: 'HANDLE_MRN' })
-    return axios
-      .post(
-        Config.API_ROOT + '/patientIdConverter',
-
-        {
-          data: {
-            patient_id: getState().upload.grid.rows[rowIndex].patientId,
-          },
-        }
-      )
-      .then(response => {
-        dispatch({
-          type: HANDLE_MRN_SUCCESS,
-          message: 'MRN redacted.',
-          rows: redactMRN(
-            getState().upload.grid.rows,
-            rowIndex,
-            response.data.patient_id,
-            'MRN REDACTED',
-            response.data.sex
-          ),
-        })
+    if (getState().upload.grid.rows[rowIndex].patientId == '') {
+      return dispatch({
+        type: HANDLE_MRN_SUCCESS,
+        rows: redactMRN(getState().upload.grid.rows, rowIndex, '', '', ''),
       })
-      .catch(error => {
-        dispatch({
-          type: HANDLE_MRN_FAIL,
+    } else {
+      return axios
+        .post(
+          Config.API_ROOT + '/patientIdConverter',
 
-          error: error,
-          rows: redactMRN(
-            getState().upload.grid.rows,
-            rowIndex,
-            '',
-            'MRN INVALID',
-            ''
-          ),
+          {
+            data: {
+              patient_id: getState().upload.grid.rows[rowIndex].patientId,
+            },
+          }
+        )
+        .then(response => {
+          dispatch({
+            type: HANDLE_MRN_SUCCESS,
+            message: 'MRN redacted.',
+            rows: redactMRN(
+              getState().upload.grid.rows,
+              rowIndex,
+              response.data.patient_id,
+              'MRN REDACTED',
+              response.data.sex
+            ),
+          })
         })
-        return error
-      })
+        .catch(error => {
+          dispatch({
+            type: HANDLE_MRN_FAIL,
+
+            error: error,
+            rows: redactMRN(
+              getState().upload.grid.rows,
+              rowIndex,
+              '',
+              'MRN INVALID',
+              ''
+            ),
+          })
+          return error
+        })
+    }
   }
 }
 
@@ -316,4 +323,3 @@ export const RESET_GRID_ERROR_MESSAGE = 'RESET_GRID_ERROR_MESSAGE'
 export const resetGridErrorMessage = () => ({
   type: RESET_GRID_ERROR_MESSAGE,
 })
-
