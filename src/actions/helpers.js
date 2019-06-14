@@ -173,20 +173,38 @@ function generateRows(columns, formValues, numberToAdd) {
 export const setWellPos = rows => {
   let plateRows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
   let plateColsLength = 12
-  let times = Math.ceil(rows.length / plateRows.length)
-  let i = 0
-  let plateColIndex = 0
 
-  //  step through as many times as you have to, and while you still have empty columns
-  while (i < times && plateColIndex < plateColsLength) {
+  let numPlates = Math.ceil(rows.length / plateRows.length)
+  let i = 0
+  
+  // multiply available plateRows by how many plates will be filled in this submission
+  for (let k = 0; k < numPlates; k++) {
+    plateRows = plateRows.concat(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'])
+  }
+  let plateColIndex = 1
+  let rowCounter = 0
+  //  step through as many plates as you have to
+  while (i < numPlates) {
     // fill rows first
     for (let j = 0; j < plateRows.length; j++) {
+      // if rows A-H have been filled, flip colIndex
+      if (rowCounter == 8) {
+        rowCounter = 0
+        plateColIndex += 1
+      }
+      // if colIndes reaches 13, all wells have been filled, colIndex flips back to 1 and a new plate is filled
+      if (plateColIndex == 13) {
+        plateColIndex = 1
+      }
+
       if (rows[j + plateRows.length * i]) {
-        // fill row at position plateRows * number of times you did this already
-        rows[j + plateRows.length * i].wellPosition = plateRows[j] + (i + 1)
+        // fill row at position plateRows * number of plates you did this with already
+        rows[j + plateRows.length * i].wellPosition =
+          plateRows[j] + plateColIndex
       } else {
         break
       }
+      rowCounter++
     }
     plateColIndex++
     i++
@@ -194,7 +212,6 @@ export const setWellPos = rows => {
 
   return rows
 }
-
 // helper to compare header.formState and grid.formValues to see which columns need to be updated
 // returns obj2 where it differs from obj1
 // returns undefined if they are the same
