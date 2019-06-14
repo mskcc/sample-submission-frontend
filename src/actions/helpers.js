@@ -41,7 +41,6 @@ function generateColumnFeatures(responseColumns, formValues) {
     columnFeatures[i] = responseColumns[i]
 
     //  patient_id_type is only set if corresponding species was selected
-
     if (columnFeatures[i].data == 'index') {
       columnFeatures[i].barcodeHash = JSON.parse(columnFeatures[i].barcodeHash)
     }
@@ -49,8 +48,7 @@ function generateColumnFeatures(responseColumns, formValues) {
     //  overwrite response container with user selection
     if ('container' in columnFeatures[i]) {
       if (columnFeatures[i].container != formValues.container)
-        console.log('diff', columnFeatures[i].container, formValues.container)
-      columnFeatures[i] = overwriteContainer(formValues.container)
+        columnFeatures[i] = overwriteContainer(formValues.container)
     }
 
     if (columnFeatures[i].data == 'patientId') {
@@ -74,106 +72,11 @@ function generateColumnFeatures(responseColumns, formValues) {
       } else {
       }
     }
-    // had to be hard coded, everything else caused laggy validation
-    if ('pattern' in columnFeatures[i]) {
-      switch (columnFeatures[i].pattern) {
-        case 'userId':
-          columnFeatures[i].validator = (value, callback) => {
-            if (
-              value == '' ||
-              value == null ||
-              /^[A-Za-z0-9](?!.*__)[A-Za-z0-9\\,_-]{2}[A-Za-z0-9\\,_-]*$/.test(
-                value
-              )
-            ) {
-              callback(true)
-            } else {
-              callback(false)
-            }
-          }
-          break
 
-        case 'patientId':
-          if (!'validator' in columnFeatures[i]) {
-            columnFeatures[i].validator = (value, callback) => {
-              if (
-                value == '' ||
-                value == null ||
-                /^[A-Za-z0-9][A-Za-z0-9\\,_-]*$/.test(value)
-              ) {
-                callback(true)
-              } else {
-                callback(false)
-              }
-            }
-          }
-          break
+    columnFeatures[i].error = columnFeatures[i].error
+      ? columnFeatures[i].error
+      : 'Invalid format.'
 
-        case 'number':
-          columnFeatures[i].validator = (value, callback) => {
-            if (value == '' || value == null || /^[0-9.]*$/.test(value)) {
-              callback(true)
-            } else {
-              callback(false)
-            }
-          }
-          break
-
-        case 'collectionYear':
-          columnFeatures[i].validator = (value, callback) => {
-            if (value == '' || value == null || /\d{4}|^$/.test(value)) {
-              callback(true)
-            } else {
-              callback(false)
-            }
-          }
-          break
-        case 'wellPosition':
-          columnFeatures[i].validator = (value, callback) => {
-            if (value == '' || value == null || /[A-Za-z]+\d+|^$/.test(value)) {
-              callback(true)
-            } else {
-              callback(false)
-            }
-          }
-          break
-        case 'micronicTubeBarcode':
-          columnFeatures[i].validator = (value, callback) => {
-            if (value == '' || value == null || /^[0-9]{10}$/.test(value)) {
-              callback(true)
-            } else {
-              callback(false)
-            }
-          }
-          break
-        case 'alphanum':
-          columnFeatures[i].validator = (value, callback) => {
-            if (value == '' || value == null || /[0-9a-zA-Z]/.test(value)) {
-              callback(true)
-            } else {
-              callback(false)
-            }
-          }
-          break
-        case 'alphanumdash':
-          columnFeatures[i].validator = (value, callback) => {
-            if (
-              value == '' ||
-              value == null ||
-              /[A-Za-z0-9\\,_-]/.test(value)
-            ) {
-              callback(true)
-            } else {
-              callback(false)
-            }
-          }
-          break
-      }
-
-      columnFeatures[i].error = columnFeatures[i].error
-        ? columnFeatures[i].error
-        : 'Invalid format.'
-    }
     if ('optional' in responseColumns[i]) {
       columnFeatures[i].allowEmpty = responseColumns[i].optional
       columnFeatures[i].className = responseColumns[i].optional
@@ -188,7 +91,6 @@ function generateColumnFeatures(responseColumns, formValues) {
 }
 
 function choosePatientIDFormatter(patientIDType, species, groupingChecked) {
-  console.log(patientIDType, species, groupingChecked)
   if (species == 'Mouse' || species == 'Mouse_GeneticallyModified') {
     if (groupingChecked) {
       return {
@@ -196,18 +98,6 @@ function choosePatientIDFormatter(patientIDType, species, groupingChecked) {
         columnHeader: 'Grouping ID',
         error:
           'Invalid format. Please use at least four alpha-numeric characters.',
-
-        validator: function(value, callback) {
-          if (
-            /[0-9a-zA-Z]{4,}/.test(value) ||
-            value == '' ||
-            value == undefined
-          ) {
-            callback(true)
-          } else {
-            callback(false)
-          }
-        },
       }
     } else {
       return {
@@ -215,18 +105,6 @@ function choosePatientIDFormatter(patientIDType, species, groupingChecked) {
         columnHeader: 'Strain or Line Name',
         error:
           'Invalid format. Please use at least four alpha-numeric characters.',
-
-        validator: function(value, callback) {
-          if (
-            /[0-9a-zA-Z]{4,}/.test(value) ||
-            value == '' ||
-            value == undefined
-          ) {
-            callback(true)
-          } else {
-            callback(false)
-          }
-        },
       }
     }
   } else {
@@ -241,13 +119,6 @@ function choosePatientIDFormatter(patientIDType, species, groupingChecked) {
             'MRN is incorrectly formatted, please correct, or speak to a project manager if unsure.',
 
           type: 'text',
-          validator: function(value, callback) {
-            if (/\d{8}/.test(value) || value == '' || value == undefined) {
-              callback(true)
-            } else {
-              callback(false)
-            }
-          },
         }
       case 'Non-MSK Patients':
         return {
@@ -255,18 +126,6 @@ function choosePatientIDFormatter(patientIDType, species, groupingChecked) {
           columnHeader: 'Patient ID',
           error:
             'Invalid format. Please use at least four alpha-numeric characters.',
-
-          validator: function(value, callback) {
-            if (
-              /[0-9a-zA-Z]{4,}/.test(value) ||
-              value == '' ||
-              value == undefined
-            ) {
-              callback(true)
-            } else {
-              callback(false)
-            }
-          },
         }
       case 'Cell Lines, not from Patients':
         return { columnHeader: 'Cell Line Name' }
@@ -276,18 +135,6 @@ function choosePatientIDFormatter(patientIDType, species, groupingChecked) {
           columnHeader: 'Patient ID',
           error:
             'Invalid format. Please use at least four alpha-numeric characters.',
-
-          validator: function(value, callback) {
-            if (
-              /[0-9a-zA-Z]{4,}|d{8}/.test(value) ||
-              value == '' ||
-              value == undefined
-            ) {
-              callback(true)
-            } else {
-              callback(false)
-            }
-          },
         }
       default:
         return { pattern: 'formatter not found' }
@@ -299,23 +146,11 @@ function generateRows(columns, formValues, numberToAdd) {
   let rows = []
   for (let i = 0; i < numberToAdd; i++) {
     for (let j = 0; j < columns.length; j++) {
-      // first row is helptexts and readonly
-      // if (!update && i === 0) {
-      //   rows[i] = {
-      //     ...rows[i],
-      //     [columns[j].data]: columns[j].tooltip,
-      //     // readOnly: true,
-      //   }
-      // } else {
-      // console.log(columns[j].data)
       if (columns[j].data == 'species' || columns[j].data == 'organism') {
         rows[i] = { ...rows[i], [columns[j].data]: formValues.species }
-        // } else if (columns[j].data == 'wellPosition') {
-        //   rows[i] = { ...rows[i], [columns[j].data]: getWellPos(i) }
       } else {
         rows[i] = { ...rows[i], [columns[j].data]: '' }
       }
-      // }
     }
   }
   for (let j = 0; j < columns.length; j++) {
@@ -417,7 +252,6 @@ export const generateSubmitData = state => {
   // TODO use this for save/edit
   data.transaction_id = date
 
-  console.log(data)
   return data
 }
 
@@ -475,6 +309,7 @@ export const redactMRN = (rows, index, id, msg, sex) => {
 //  barcode hash is saved in colFeatures.index when index is part of the getCols response
 export const findIndexSeq = (grid, colIndex, rowIndex, indexId) => {
   let result = { success: false, rows: '' }
+  indexId = indexId.toLowerCase()
   let barcodes = grid.columnFeatures[colIndex].barcodeHash
   if (indexId == '') {
     grid.rows[rowIndex].indexSequence = ''
@@ -488,6 +323,17 @@ export const findIndexSeq = (grid, colIndex, rowIndex, indexId) => {
   }
 
   return result
+}
+
+export const findSingleIndexSeq = (indexId, indexSequenceHash) => {
+  if (indexId == '') {
+    return ''
+  }
+  if (indexId in barcodes) {
+    return barcodes[indexId].barcodeTag
+  } else {
+    return ''
+  }
 }
 
 export const appendAssay = (rows, index, oldValue, newValue) => {
@@ -514,7 +360,9 @@ const overwriteContainer = userContainer => {
         columnHeader: 'Plate ID',
         data: 'plateId',
         container: 'Plates',
-        pattern: 'alphanumdash',
+        pattern: '[A-Za-z0-9\\,_-]',
+        error: 'Only letters, digits and –, please.',
+
         tooltip:
           'The plate ID is the barcode on your plate.  Please scan, or carefully type, the barcode ID into this field for all samples on the plate',
       }
@@ -526,7 +374,7 @@ const overwriteContainer = userContainer => {
         container: 'Micronic Barcoded Tubes',
         columnHeader: 'Micronic Tube Barcode',
         data: 'micronicTubeBarcode',
-        pattern: 'micronicTubeBarcode',
+        pattern: '^[0-9]{10}$',
         error: 'The Micronic Tube ID is a ten-digit number.',
         tooltip:
           'The Micronic Tube Barcode has been provided to you in advance by the sample receiving team.  If you cannot find it, the Micronic Tube Barcode is located on the side of the tube, and the 2D barcode can be scanned by a reader',
@@ -539,7 +387,9 @@ const overwriteContainer = userContainer => {
         container: 'Blocks/Slides/Tubes',
         columnHeader: 'Block/Slide/TubeID',
         data: 'tubeId',
-        pattern: 'alphanumdash',
+        pattern: '[A-Za-z0-9\\,_-]',
+        error: 'Only letters, digits and –, please.',
+
         tooltip:
           'The identifier on your tube, block or slide.  You can paste in directly from excel, and there are no formatting rules.  Please be as correct as possible, and ensure your tubes, blocks and slides are labeled clearly.',
       }
@@ -548,112 +398,68 @@ const overwriteContainer = userContainer => {
   }
 }
 
-export const createValidators = grid => {
-  let columnFeatures = grid.columnFeatures
-  let formValues = grid.form
-  for (let i = 0; i < columnFeatures.length; i++) {
-    if ('pattern' in columnFeatures[i] && !('validator' in columnFeatures[i])) {
-      switch (columnFeatures[i].pattern) {
-        case 'userId':
-          columnFeatures[i].validator = (value, callback) => {
-            if (
-              value == '' ||
-              value == null ||
-              /^[A-Za-z0-9](?!.*__)[A-Za-z0-9\\,_-]{2}[A-Za-z0-9\\,_-]*$/.test(
-                value
-              )
-            ) {
-              callback(true)
-            } else {
-              callback(false)
-            }
-          }
-          break
+export const validateGrid = (changes, grid) => {
+  let errors = new Set([])
+  // let errors = new Set([])
+  for (let i = 0; i < changes.length; i++) {
+    let newValue = changes[i][3]
+    let rowIndex = changes[i][0]
 
-        case 'patientId':
-          console.log(columnFeatures[i])
-          columnFeatures[i].validator = (value, callback) => {
-            if (
-              value == '' ||
-              value == null ||
-              /^[A-Za-z0-9][A-Za-z0-9\\,_-]*$/.test(value)
-            ) {
-              callback(true)
-            } else {
-              callback(false)
-            }
-          }
-          break
+    let columnName = changes[i][1]
+    let columnIndex = grid.columnFeatures.findIndex(c => c.data == columnName)
+    if (columnIndex == -1) {
+      errors.add(
+        'The number of columns you tried to paste is larger than the number of columns on the current grid.'
+      )
+      break
+    }
 
-        case 'number':
-          columnFeatures[i].validator = (value, callback) => {
-            if (value == '' || value == null || /^[0-9.]*$/.test(value)) {
-              callback(true)
-            } else {
-              callback(false)
-            }
-          }
-          break
-
-        case 'collectionYear':
-          columnFeatures[i].validator = (value, callback) => {
-            if (value == '' || value == null || /\d{4}|^$/.test(value)) {
-              callback(true)
-            } else {
-              callback(false)
-            }
-          }
-          break
-        case 'wellPosition':
-          columnFeatures[i].validator = (value, callback) => {
-            if (value == '' || value == null || /[A-Za-z]+\d+|^$/.test(value)) {
-              callback(true)
-            } else {
-              callback(false)
-            }
-          }
-          break
-        case 'micronicTubeBarcode':
-          columnFeatures[i].validator = (value, callback) => {
-            if (value == '' || value == null || /^[0-9]{10}$/.test(value)) {
-              callback(true)
-            } else {
-              callback(false)
-            }
-          }
-          break
-        case 'alphanum':
-          columnFeatures[i].validator = (value, callback) => {
-            if (value == '' || value == null || /[0-9a-zA-Z]/.test(value)) {
-              callback(true)
-            } else {
-              callback(false)
-            }
-          }
-          break
-        case 'alphanumdash':
-          columnFeatures[i].validator = (value, callback) => {
-            if (
-              value == '' ||
-              value == null ||
-              /[A-Za-z0-9\\,_-]/.test(value)
-            ) {
-              callback(true)
-            } else {
-              callback(false)
-            }
-          }
-          break
-      }
-      if (columnFeatures[i].data == 'patientId') {
-        let formattingAdjustments = choosePatientIDFormatter(
-          formValues.patient_id_type,
-          formValues.species,
-          formValues.grouping_checked
+    if (columnName == 'index') {
+     let indexResult = findIndexSeq(grid, columnIndex, rowIndex, newValue)
+      if (!indexResult.success) {
+        errors.add(
+          grid.columnFeatures[columnIndex].name +
+            ': ' +
+            grid.columnFeatures[columnIndex].error
         )
-        columnFeatures[i] = { ...columnFeatures[i], ...formattingAdjustments }
+
+        grid.rows[rowIndex][columnName] = ''
+      }
+    }
+
+    if ('pattern' in grid.columnFeatures[columnIndex]) {
+      let regex = new RegExp(grid.columnFeatures[columnIndex].pattern)
+      let valid = newValue == '' || newValue == null || regex.test(newValue)
+      if (!valid) {
+        errors.add(
+          grid.columnFeatures[columnIndex].name +
+            ': ' +
+            grid.columnFeatures[columnIndex].error
+        )
+        grid.rows[rowIndex][columnName] = ''
+      }
+    }
+    if ('source' in grid.columnFeatures[columnIndex]) {
+      if (!grid.columnFeatures[columnIndex].source.includes(newValue)) {
+        errors.add(
+          grid.columnFeatures[columnIndex].name +
+            ': ' +
+            grid.columnFeatures[columnIndex].error
+        )
+        grid.rows[rowIndex][columnName] = ''
       }
     }
   }
-  return columnFeatures
+  buildErrorMessage(errors)
+  return {
+    grid,
+    errorMessage: buildErrorMessage(errors),
+    numErrors: errors.size,
+  }
+}
+
+export const buildErrorMessage = errors => {
+  let message = ''
+  errors.forEach(a => (message = message.concat('<br>' + a + '<br>')))
+  return message
 }

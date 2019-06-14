@@ -1,5 +1,7 @@
 // actions should not have this much BL, will change once it gets too convoluted
+import React from 'react'
 import axios from 'axios'
+import Swal from 'sweetalert2'
 import {
   diff,
   findSubmission,
@@ -12,7 +14,7 @@ import {
   redactMRN,
   appendAssay,
   findIndexSeq,
-  createValidators,
+  validateGrid,
 } from '../helpers'
 
 import { Config } from '../../config.js'
@@ -24,7 +26,6 @@ axios.interceptors.request.use(
     if (token && !config.headers['Authorization']) {
       config.headers['Authorization'] = `Bearer ${token}`
     }
-
     return config
   },
 
@@ -34,8 +35,48 @@ axios.interceptors.request.use(
 )
 
 export const REGISTER_GRID_CHANGE = 'REGISTER_GRID_CHANGE'
+export const REGISTER_GRID_CHANGE_PRE_VALIDATE =
+  'REGISTER_GRID_CHANGE_PRE_VALIDATE'
+
+export const REGISTER_GRID_CHANGE_POST_VALIDATE =
+  'REGISTER_GRID_CHANGE_POST_VALIDATE'
+export const RESET_MESSAGE = 'RESET_MESSAGE'
 export const registerGridChange = changes => {
-  return { type: REGISTER_GRID_CHANGE }
+  return (dispatch, getState) => {
+    let result = validateGrid(changes, getState().upload.grid)
+    // dispatch({ type: RESET_MESSAGE })
+    // would prefer to have this in reducer
+    if (result.numErrors > 1) {
+      Swal.fire({
+        title: 'Invalid Values',
+        html: result.errorMessage,
+        footer: 'To avoid mistakes, invalid cells are cleared immediately.',
+        type: 'error',
+        animation: false,
+        confirmButtonText: 'Dismiss',
+        customClass: { content: 'alert' },
+      })
+      return dispatch({
+        type: REGISTER_GRID_CHANGE_POST_VALIDATE,
+        payload: result,
+      })
+    } else {
+      return dispatch({
+        type: REGISTER_GRID_CHANGE_POST_VALIDATE,
+        payload: result,
+        message: result.errorMessage.replace(/<br>/g, ''),
+      })
+    }
+  }
+}
+
+export const preValidate = () => {
+  return dispatch => {
+    dispatch({
+      type: REGISTER_GRID_CHANGE_PRE_VALIDATE,
+      message: 'Pasting large set, please be patient.',
+    })
+  }
 }
 
 export const GET_COLUMNS = 'GET_COLUMNS'
@@ -186,44 +227,51 @@ export const HANDLE_MRN_SUCCESS = 'HANDLE_MRN_SUCCESS'
 export function handleMRN(rowIndex) {
   return (dispatch, getState) => {
     dispatch({ type: 'HANDLE_MRN' })
-    return axios
-      .post(
-        Config.API_ROOT + '/patientIdConverter',
-
-        {
-          data: {
-            patient_id: getState().upload.grid.rows[rowIndex].patientId,
-          },
-        }
-      )
-      .then(response => {
-        dispatch({
-          type: HANDLE_MRN_SUCCESS,
-          message: 'MRN redacted.',
-          rows: redactMRN(
-            getState().upload.grid.rows,
-            rowIndex,
-            response.data.patient_id,
-            'MRN REDACTED',
-            response.data.sex
-          ),
-        })
+    if (getState().upload.grid.rows[rowIndex].patientId == '') {
+      return dispatch({
+        type: HANDLE_MRN_SUCCESS,
+        rows: redactMRN(getState().upload.grid.rows, rowIndex, '', '', ''),
       })
-      .catch(error => {
-        dispatch({
-          type: HANDLE_MRN_FAIL,
+    } else {
+      return axios
+        .post(
+          Config.API_ROOT + '/patientIdConverter',
 
-          error: error,
-          rows: redactMRN(
-            getState().upload.grid.rows,
-            rowIndex,
-            '',
-            'MRN INVALID',
-            ''
-          ),
+          {
+            data: {
+              patient_id: getState().upload.grid.rows[rowIndex].patientId,
+            },
+          }
+        )
+        .then(response => {
+          dispatch({
+            type: HANDLE_MRN_SUCCESS,
+            message: 'MRN redacted.',
+            rows: redactMRN(
+              getState().upload.grid.rows,
+              rowIndex,
+              response.data.patient_id,
+              'MRN REDACTED',
+              response.data.sex
+            ),
+          })
         })
-        return error
-      })
+        .catch(error => {
+          dispatch({
+            type: HANDLE_MRN_FAIL,
+
+            error: error,
+            rows: redactMRN(
+              getState().upload.grid.rows,
+              rowIndex,
+              '',
+              'MRN INVALID',
+              ''
+            ),
+          })
+          return error
+        })
+    }
   }
 }
 
@@ -275,16 +323,3 @@ export const RESET_GRID_ERROR_MESSAGE = 'RESET_GRID_ERROR_MESSAGE'
 export const resetGridErrorMessage = () => ({
   type: RESET_GRID_ERROR_MESSAGE,
 })
-
-export const ADD_VALIDATORS_SUCCESS = 'ADD_VALIDATORS_SUCCESS'
-
-export const addValidators = () => {
-  return (dispatch, getState) => {
-    console.log(getState().upload.grid)
-    let colFeatures = createValidators(getState().upload.grid)
-    return dispatch({
-      type: ADD_VALIDATORS_SUCCESS,
-      columnFeatures: colFeatures,
-    })
-  }
-}

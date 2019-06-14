@@ -15,21 +15,20 @@ class UploadGridContainer extends React.Component {
   }
 
   // componentDidMount(prevProps, prevState) {
-
   // console.log('prevState')
   // console.log(prevState)
   // console.log('state')
   // console.log(this.state)
   // }
 
-  componentDidMount() {
-    if (this.props.grid.columnFeatures) {
-      this.props.addValidators()
-    }
-  }
+  // componentDidMount() {
+  //   if (this.props.grid.columnFeatures) {
+  //     this.props.addValidators()
+  //   }
+  // }
 
-  handleChange = () => {
-    this.props.registerGridChange()
+  handleChange = (changes) => {
+    this.props.registerGridChange(changes)
   }
   handleMRN = rowIndex => {
     this.props.handleMRN(rowIndex)
@@ -82,6 +81,7 @@ class UploadGridContainer extends React.Component {
         handleSubmit={this.handleSubmit}
         handleChange={this.handleChange}
         handleSave={this.handleSave}
+        preValidate={this.props.preValidate}
       />
     ) : null
   }
