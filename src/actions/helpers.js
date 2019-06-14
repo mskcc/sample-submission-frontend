@@ -176,7 +176,7 @@ export const setWellPos = rows => {
 
   let numPlates = Math.ceil(rows.length / plateRows.length)
   let i = 0
-  
+
   // multiply available plateRows by how many plates will be filled in this submission
   for (let k = 0; k < numPlates; k++) {
     plateRows = plateRows.concat(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'])
@@ -337,6 +337,9 @@ export const findIndexSeq = (grid, colIndex, rowIndex, indexId) => {
 
     grid.rows[rowIndex].indexSequence = indexSeq
     return { success: true, rows: grid.rows }
+  } else {
+    grid.rows[rowIndex].indexSequence = ''
+    return { success: false, rows: grid.rows }
   }
 
   return result
@@ -432,7 +435,7 @@ export const validateGrid = (changes, grid) => {
     }
 
     if (columnName == 'index') {
-     let indexResult = findIndexSeq(grid, columnIndex, rowIndex, newValue)
+      let indexResult = findIndexSeq(grid, columnIndex, rowIndex, newValue)
       if (!indexResult.success) {
         errors.add(
           grid.columnFeatures[columnIndex].name +

@@ -57,11 +57,22 @@ class Root extends Component {
     // making sure BE and FE versions match - shows info message if not
     this.props.checkVersion(this.props.common.version)
     this.props.refreshToken()
+    document.addEventListener('keydown', this.escFunction, false)
+  }
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.escFunction, false)
   }
 
   handleMsgClose = () => {
     this.props.resetMessage()
     // this.props.resetErrorMessage()
+  }
+
+  escFunction = event => {
+    if (event.keyCode === 27) {
+      //Do whatever when esc is pressed
+      this.props.resetMessage()
+    }
   }
 
   render() {
