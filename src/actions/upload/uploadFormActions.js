@@ -100,7 +100,15 @@ export const SELECT = 'SELECT'
 
 export function select(id, value) {
   return dispatch => {
-    dispatch({ type: SELECT, payload: { id: id, value: value } })
+    if (id == 'service_id') {
+      dispatch({
+        type: SELECT,
+        payload: { id: id, value: value },
+        message: 'Service Id updated.',
+      })
+    } else {
+      dispatch({ type: SELECT, payload: { id: id, value: value } })
+    }
   }
 }
 export const CLEAR = 'CLEAR'

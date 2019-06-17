@@ -40,7 +40,7 @@ export default function uploadGridReducer(state = initialGridState, action) {
     case ActionTypes.NO_CHANGE_RESET:
       return {
         ...state,
-
+        gridIsLoading: false,
         nothingToChange: false,
       }
     case ActionTypes.UPDATE_NUM_OF_ROWS:

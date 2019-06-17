@@ -55,6 +55,7 @@ export const registerGridChange = changes => {
         type: 'error',
         animation: false,
         confirmButtonText: 'Dismiss',
+        confirmButtonColor: '#007cba',
         customClass: { content: 'alert' },
       })
       return dispatch({
@@ -105,6 +106,14 @@ export function getColumns(formValues) {
     } else {
       let diffValues = diff(getState().upload.grid.form, formValues)
       if (!diffValues || Object.entries(diffValues).length === 0) {
+        Swal.fire({
+          title: 'Nothing to change.',
+          type: 'info',
+          animation: false,
+          confirmButtonColor: '#007cba',
+          confirmButtonText: 'Dismiss',
+        })
+
         dispatch({ type: NO_CHANGE })
         return setTimeout(() => {
           dispatch({ type: NO_CHANGE_RESET })
@@ -121,11 +130,29 @@ export function getColumns(formValues) {
         let rows = updateRows(formValues, getState().upload.grid)
         return dispatch({
           type: UPDATE_NUM_OF_ROWS_SUCCESS,
+          message: 'Number of rows updated.',
           rows: rows,
           form: formValues,
         })
       } else
-        return dispatch(getInitialColumns(formValues, getState().user.role))
+        Swal.fire({
+          title: 'Are you sure?',
+          text:
+            'Changing Material, Application, Species, Patient ID Type or Container causes the grid to be cleared and re-generated.',
+          type: 'warning',
+          showCancelButton: true,
+          animation: false,
+          confirmButtonColor: '#df4602',
+          cancelButtonColor: '#007cba',
+          confirmButtonText: 'Yes, re-generate!',
+        }).then(result => {
+          if (result.value) {
+            return dispatch(getInitialColumns(formValues, getState().user.role))
+          }
+          else {
+            return dispatch({type: NO_CHANGE_RESET})
+          }
+        })
     }
   }
 }
