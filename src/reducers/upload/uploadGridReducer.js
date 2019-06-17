@@ -95,6 +95,12 @@ export default function uploadGridReducer(state = initialGridState, action) {
         ...state,
       }
 
+    case ActionTypes.HANDLE_PATIENT_ID_SUCCESS:
+      return {
+        ...state,
+        rows: action.rows,
+      }
+
     case ActionTypes.UPDATE_CELLS:
       return {
         ...state,

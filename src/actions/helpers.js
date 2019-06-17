@@ -147,7 +147,12 @@ function generateRows(columns, formValues, numberToAdd) {
   for (let i = 0; i < numberToAdd; i++) {
     for (let j = 0; j < columns.length; j++) {
       if (columns[j].data == 'species' || columns[j].data == 'organism') {
-        rows[i] = { ...rows[i], [columns[j].data]: formValues.species }
+        rows[i] = { ...rows[i], organism: formValues.species }
+      } else if (
+        columns[j].data == 'patientId' &&
+        columns[j].columnHeader == 'Cell Line Name'
+      ) {
+        rows[i] = { ...rows[i], specimenType: 'CellLine' }
       } else {
         rows[i] = { ...rows[i], [columns[j].data]: '' }
       }
@@ -314,12 +319,20 @@ export const findSubmission = (submissions, id) => {
   return null
 }
 
-export const redactMRN = (rows, index, id, msg, sex) => {
-  rows[index].cmoPatientId = 'C-' + id
+export const redactMRN = (rows, index, crdbId, msg, sex) => {
+  rows[index].cmoPatientId = crdbId.length > 0 ? 'C-' + crdbId : ''
   rows[index].patientId = msg
+  rows[index].normalizedPatientId = msg
   if (sex != '') {
     rows[index].gender = sex == 'Female' ? 'F' : 'M'
   }
+  return rows
+}
+
+export const createPatientId = (rows, index, crdbId, normalizedPatientID) => {
+  rows[index].cmoPatientId = crdbId.length > 0 ? 'C-' + crdbId : ''
+  rows[index].normalizedPatientId = normalizedPatientID
+
   return rows
 }
 

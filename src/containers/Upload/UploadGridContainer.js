@@ -82,6 +82,7 @@ class UploadGridContainer extends React.Component {
         handleChange={this.handleChange}
         handleSave={this.handleSave}
         preValidate={this.props.preValidate}
+        handlePatientId={this.props.handlePatientId}
       />
     ) : null
   }
