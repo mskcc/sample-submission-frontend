@@ -20,7 +20,6 @@ class UploadForm extends React.Component {
       values: {
         ...this.props.form.selected,
       },
-      alt_service_id: false,
       formValid: {
         material: true,
         application: true,
@@ -69,14 +68,17 @@ class UploadForm extends React.Component {
       values: {
         ...this.state.values,
         service_id: timestamp,
+        [name]: event.target.checked,
       },
-      [name]: event.target.checked,
+
       formValid: { ...this.state.formValid, service_id: true },
     })
     if (event.target.checked) {
       this.props.handleInputChange('service_id', timestamp)
+      this.props.handleInputChange('alt_service_id', true)
     } else {
       this.props.handleInputChange('service_id', '')
+      this.props.handleInputChange('alt_service_id', false)
     }
   }
 
@@ -108,7 +110,7 @@ class UploadForm extends React.Component {
     for (let value in values) {
       switch (value) {
         case 'service_id':
-          if (this.state.alt_service_id) {
+          if (values.alt_service_id) {
             formValid[value] = true
           } else {
             formValid[value] =
@@ -339,7 +341,7 @@ class UploadForm extends React.Component {
                   error={!formValid.service_id}
                   onChange={this.handleChange}
                   inputProps={{
-                    disabled: this.state.alt_service_id,
+                    disabled: form.selected.alt_service_id,
                     startAdornment: (
                       <InputAdornment position="start">IGO-</InputAdornment>
                     ),
@@ -347,7 +349,7 @@ class UploadForm extends React.Component {
                 />
                 <Checkbox
                   id="alt_service_id"
-                  checked={this.state.alt_service_id}
+                  checked={form.selected.alt_service_id}
                   onChange={this.handleServiceIdCheck}
                   hasHelptext
                 />

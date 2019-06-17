@@ -68,7 +68,9 @@ export default function uploadFormReducer(state = initialFormState, action) {
         selected: {
           ...state.selected,
           [action.payload.id]:
-            action.payload.id == 'grouping_checked' ? false : '',
+            action.payload.id == 'grouping_checked' || 'alt_service_id'
+              ? false
+              : '',
         },
       }
 
