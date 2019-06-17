@@ -102,6 +102,7 @@ class UploadGrid extends React.Component {
             colHeaders={grid.columns}
             columns={grid.columnFeatures}
             rowHeaders={true}
+            hiddenColumns={grid.hiddenColumns}
             headerTooltips={true}
             manualColumnResize={true}
             comments={true}

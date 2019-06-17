@@ -101,7 +101,7 @@ export function getColumns(formValues) {
 
     // no grid? get inital columns
     if (getState().upload.grid.form.length == 0) {
-      return dispatch(getInitialColumns(formValues))
+      return dispatch(getInitialColumns(formValues, getState().user.role))
     } else {
       let diffValues = diff(getState().upload.grid.form, formValues)
       if (!diffValues || Object.entries(diffValues).length === 0) {
@@ -124,12 +124,13 @@ export function getColumns(formValues) {
           rows: rows,
           form: formValues,
         })
-      } else return dispatch(getInitialColumns(formValues))
+      } else
+        return dispatch(getInitialColumns(formValues, getState().user.role))
     }
   }
 }
 
-export function getInitialColumns(formValues) {
+export function getInitialColumns(formValues, userRole) {
   let material = formValues.material
   let application = formValues.application
   return dispatch => {
@@ -205,15 +206,16 @@ export function editSubmission(id, ownProps) {
     let submission = findSubmission(getState().user.submissions, id)
     if (submission) {
       //  decided to rebuild grid instead of saving colFeatues and headers to avoid version
-      dispatch(getInitialColumns(JSON.parse(submission.form_values))).then(
-        () => {
-          dispatch({
-            type: 'EDIT_SUBMISSION_SUCCESS',
-            payload: submission,
-          })
-          return ownProps.history.push('upload')
-        }
-      )
+      dispatch(
+        getInitialColumns(JSON.parse(submission.form_values)),
+        getState().user.role
+      ).then(() => {
+        dispatch({
+          type: 'EDIT_SUBMISSION_SUCCESS',
+          payload: submission,
+        })
+        return ownProps.history.push('upload')
+      })
     } else {
       return dispatch({
         type: 'EDIT_SUBMISSION_FAIL',
@@ -249,7 +251,7 @@ export function handlePatientId(rowIndex) {
           '_' +
           getState().upload.grid.rows[rowIndex].patientId
       }
-
+      let message = {}
       return axios
         .post(Config.API_ROOT + '/patientIdConverter', {
           data: {
@@ -257,9 +259,14 @@ export function handlePatientId(rowIndex) {
           },
         })
         .then(response => {
+          if (getState().user.role != 'user') {
+            message = {
+              message: 'Patient ID normalized for IGO internal use.',
+            }
+          }
           dispatch({
             type: HANDLE_PATIENT_ID_SUCCESS,
-            message: 'Patient ID normalized for IGO internal use.',
+            // ...message,
             rows: createPatientId(
               getState().upload.grid.rows,
               rowIndex,
@@ -327,13 +334,7 @@ export function handleMRN(rowIndex, patientId) {
           type: HANDLE_MRN_FAIL,
 
           error: error,
-          rows: redactMRN(
-            getState().upload.grid.rows,
-            rowIndex,
-            '',
-            'MRN INVALID',
-            ''
-          ),
+          rows: redactMRN(getState().upload.grid.rows, rowIndex, '', '', ''),
         })
         return error
       })

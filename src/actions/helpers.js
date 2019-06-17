@@ -3,7 +3,7 @@
 // features = field/data name, patterns, dropdowns...
 // rows = data object, will be modified in place by hands on table
 
-export const generateGridData = (responseColumns, formValues) => {
+export const generateGridData = (responseColumns, formValues, userRole) => {
   let grid = { columnFeatures: [], columnHeaders: [], rows: [] }
   grid.columnFeatures = generateColumnFeatures(responseColumns, formValues)
   grid.columnHeaders = grid.columnFeatures.map(
@@ -22,6 +22,8 @@ export const generateGridData = (responseColumns, formValues) => {
     formValues,
     formValues.number_of_samples
   )
+
+  grid.hiddenColumns = hideColumns(grid.columnFeatures, userRole)
 
   return grid
 }
@@ -90,6 +92,21 @@ function generateColumnFeatures(responseColumns, formValues) {
   return columnFeatures
 }
 
+function hideColumns(columnFeatures, userRole) {
+  if (userRole == 'user') {
+    let cmoPatientIdIndex = columnFeatures.findIndex(
+      obj => obj.data == 'cmoPatientId'
+    )
+    let normalizedPatientIdIndex = columnFeatures.findIndex(
+      obj => obj.data == 'normalizedPatientId'
+    )
+    return {
+      columns: [cmoPatientIdIndex, normalizedPatientIdIndex],
+      indicators: false,
+    }
+  } else return []
+}
+
 function choosePatientIDFormatter(patientIDType, species, groupingChecked) {
   if (species == 'Mouse' || species == 'Mouse_GeneticallyModified') {
     if (groupingChecked) {
@@ -111,7 +128,7 @@ function choosePatientIDFormatter(patientIDType, species, groupingChecked) {
     switch (patientIDType) {
       case 'MSK-Patients (or derived from MSK Patients)':
         return {
-          pattern: 'd{8}',
+          pattern: '^\\d{8}$',
           columnHeader: 'MRN',
           tooltip:
             'For non-MSKCC patient samples, mouse samples, or cell lines without patient origin, please use this field to provide us with group names i.e. compare this group (A) with this group (B). For CMO projects, fill out something unique and correspond with your PM for more information.',
@@ -131,7 +148,7 @@ function choosePatientIDFormatter(patientIDType, species, groupingChecked) {
         return { columnHeader: 'Cell Line Name' }
       case 'Both MSK-Patients and Non-MSK Patients':
         return {
-          pattern: '[0-9a-zA-Z]{4,}|d{8}',
+          pattern: '[0-9a-zA-Z]{4,}|^\\d{8}$',
           columnHeader: 'Patient ID',
           error:
             'Invalid format. Please use at least four alpha-numeric characters.',
@@ -464,6 +481,9 @@ export const validateGrid = (changes, grid) => {
       let regex = new RegExp(grid.columnFeatures[columnIndex].pattern)
       let valid = newValue == '' || newValue == null || regex.test(newValue)
       if (!valid) {
+        console.log(regex)
+        console.log(newValue)
+        console.log(valid)
         errors.add(
           grid.columnFeatures[columnIndex].name +
             ': ' +

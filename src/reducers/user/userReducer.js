@@ -52,6 +52,7 @@ function userReducer(state = initialState, action) {
         loggedIn: true,
         loading: false,
         username: action.payload.username,
+        role: action.payload.role,
         submissionsTable: action.table,
         submissions: action.payload.submissions,
         // message: action.payload.message,

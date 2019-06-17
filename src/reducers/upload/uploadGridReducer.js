@@ -66,6 +66,7 @@ export default function uploadGridReducer(state = initialGridState, action) {
         ...state,
         gridIsLoading: false,
         columns: action.grid.columnHeaders,
+        hiddenColumns: action.grid.hiddenColumns,
         columnFeatures: action.grid.columnFeatures,
         rows: action.grid.rows,
         // rows: action.rows,
