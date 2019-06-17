@@ -4,7 +4,7 @@ import { GridButton } from '../index'
 import { HotTable } from '@handsontable/react'
 import Handsontable from 'handsontable'
 import 'handsontable/dist/handsontable.full.css'
-import swal from '@sweetalert/with-react'
+import Swal from 'sweetalert2'
 
 // after comparing agGrid, react-data-grid, canvas-datagrid, react-data-sheet, ReactHandsOnTable won
 class UploadGrid extends React.Component {
@@ -32,7 +32,21 @@ class UploadGrid extends React.Component {
     this.props.handleSave()
   }
   handleClear = () => {
-    this.hotTableComponent.current.hotInstance.clear()
+    Swal.fire({
+      title: 'Are you sure you want to clear the grid?',
+      text:
+        "You won't be able to revert this unless you have a saved partial submission.",
+      type: 'warning',
+      showCancelButton: true,
+      animation: false,
+      confirmButtonColor: '#df4602',
+      cancelButtonColor: '#007cba',
+      confirmButtonText: 'Yes, delete it!',
+    }).then(result => {
+      if (result.value) {
+        this.hotTableComponent.current.hotInstance.clear()
+      }
+    })
   }
   handleSubmit = () => {
     const { columnFeatures, rows } = this.props.grid
@@ -51,7 +65,15 @@ class UploadGrid extends React.Component {
     }
 
     if (emptyColumns.size > 0) {
-      swal('Required', [...emptyColumns].join('\n '), 'error')
+      Swal.fire({
+        title: 'Required Fields',
+        html: [...emptyColumns].join('<br> '),
+        // footer: 'To avoid mistakes, invalid cells are cleared immediately.',
+        type: 'error',
+        animation: false,
+        confirmButtonText: 'Dismiss',
+        // customClass: { content: 'alert' },
+      })
     } else {
       this.props.handleSubmit()
     }
@@ -147,9 +169,9 @@ class UploadGrid extends React.Component {
               if (grid.rows.length >= 25) return '700'
               // else if (grid.rows.length >= 900) return '100vh'
               else if (grid.rows.length >= 20) return '510'
-              else if (grid.rows.length >= 15) return '500'
-              else if (grid.rows.length >= 10) return '400'
-              else if (grid.rows.length >= 5) return '200'
+              else if (grid.rows.length >= 15) return '650'
+              else if (grid.rows.length >= 10) return '550'
+              else if (grid.rows.length >= 5) return '450'
               else if (grid.rows.length < 5) return '350'
             }}
           />

@@ -13,6 +13,7 @@ import UploadGridContainer from './UploadGridContainer'
 export class UploadPage extends Component {
   handleFormSubmit = formValues => {
     // TODO When do people update sample number?
+
     this.props.getColumns(formValues)
   }
   handleGridSubmit = formValues => {
