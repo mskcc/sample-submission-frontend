@@ -5,7 +5,7 @@ import {Config} from '../config.js'
 // Add a request interceptor
 axios.interceptors.request.use(
   config => {
-    let token = localStorage.getItem('access_token')
+    let token = sessionStorage.getItem('access_token')
     if (token && !config.headers['Authorization']) {
       config.headers['Authorization'] = `Bearer ${token}`
     }
