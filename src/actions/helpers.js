@@ -28,11 +28,6 @@ export const generateGridData = (responseColumns, formValues, userRole) => {
   return grid
 }
 
-function extractValues(mappings) {
-  let result = mappings.map(a => a.value)
-  return result
-}
-
 function generateColumnFeatures(responseColumns, formValues) {
   let columnFeatures = []
 
@@ -64,7 +59,12 @@ function generateColumnFeatures(responseColumns, formValues) {
     // dropdown in column?
     if ('source' in responseColumns[i]) {
       // TODO map backwards on submit or find way to keep tumorType id
-      columnFeatures[i].source = extractValues(responseColumns[i].source)
+      if (responseColumns[i].data == 'cancerType') {
+        columnFeatures[i].source = cancerTypeOptions(responseColumns[i].source)
+      } else {
+        columnFeatures[i].source = extractValues(responseColumns[i].source)
+      }
+
       columnFeatures[i].trimDropdown = false
       //  assay dropdown needs invalids to allow for concatenation of selects
       if (responseColumns[i].data == 'assay') {
@@ -90,6 +90,16 @@ function generateColumnFeatures(responseColumns, formValues) {
   }
 
   return columnFeatures
+}
+
+function extractValues(mappings) {
+  let result = mappings.map(a => a.value)
+  return result
+}
+
+function cancerTypeOptions(types) {
+  let result = types.map(a => a.value + ' – ID: ' + a.id)
+  return result
 }
 
 function hideColumns(columnFeatures, userRole) {
@@ -282,6 +292,7 @@ export const updateRows = (formValues, grid) => {
 
 export const generateSubmitData = state => {
   let data = {}
+
   data.version = state.common.version
   data.grid_values = state.upload.grid.rows
   data.form_values = state.upload.grid.form
@@ -481,9 +492,6 @@ export const validateGrid = (changes, grid) => {
       let regex = new RegExp(grid.columnFeatures[columnIndex].pattern)
       let valid = newValue == '' || newValue == null || regex.test(newValue)
       if (!valid) {
-        console.log(regex)
-        console.log(newValue)
-        console.log(valid)
         errors.add(
           grid.columnFeatures[columnIndex].name +
             ': ' +

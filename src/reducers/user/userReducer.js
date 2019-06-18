@@ -11,7 +11,6 @@ const initialState = {
   saved: false,
   submissionsTable: {},
   isSaving: false,
-
 }
 
 function userReducer(state = initialState, action) {
@@ -34,6 +33,8 @@ function userReducer(state = initialState, action) {
         ...state,
         loggedIn: true,
         loading: false,
+        isSaving: false,
+
         username: action.payload.username,
         // message: 'Welcome back, ' + action.payload.username + '.',
       }
