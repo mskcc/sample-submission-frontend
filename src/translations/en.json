@@ -26,6 +26,7 @@
   },
   "upload": {
     "form_submit_label": "Generate Table",
+    "form_clear_label": "Clear Form",
     "grid_submit_label": "Submit",
     "grid_save_label": "Save Table",
     "grid_save_msg": "Saved!",

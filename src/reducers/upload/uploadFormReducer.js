@@ -65,6 +65,7 @@ export default function uploadFormReducer(state = initialFormState, action) {
     case ActionTypes.CLEAR:
       return {
         ...state,
+
         selected: {
           ...state.selected,
           [action.payload.id]:
@@ -74,6 +75,12 @@ export default function uploadFormReducer(state = initialFormState, action) {
         },
       }
 
+    case ActionTypes.CLEAR_FORM:
+      return {
+        ...state,
+        initialFetched: false,
+        selected: { ...initialFormState.selected },
+      }
     case ActionTypes.SELECT_MATERIAL:
       return {
         ...state,

@@ -52,8 +52,9 @@ export function refreshToken() {
         )
         .then(response => {
           localStorage.setItem('access_token', response.data.access_token)
-          return dispatch({
+           dispatch({
             type: REFRESH_TOKEN_VALID,
+            message: '',
             payload: response.data,
           })
         })
@@ -68,10 +69,6 @@ export function refreshToken() {
               type: REFRESH_TOKEN_INVALID,
               error: error,
             })
-            // return dispatch({
-            //   type: LOGOUT_SUCCESS,
-            //   error: error,
-            // })
           } else {
             dispatch({
               type: SERVER_ERROR,
@@ -79,9 +76,6 @@ export function refreshToken() {
             })
           }
         })
-      // storage.getToken()
-      //   ? dispatch({ type: REFRESH_TOKEN_VALID })
-      //   : dispatch({ type: SESSION_INVALID })
     } else
       dispatch({
         type: REFRESH_TOKEN_INVALID,

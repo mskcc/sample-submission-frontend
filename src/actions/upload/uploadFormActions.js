@@ -115,7 +115,14 @@ export const CLEAR = 'CLEAR'
 
 export function clear(id) {
   return dispatch => {
-    dispatch({ type: CLEAR, payload: { id: id } })
+    return dispatch({ type: CLEAR, payload: { id: id } })
+  }
+}
+export const CLEAR_FORM = 'CLEAR_FORM'
+export function clearForm() {
+  return dispatch => {
+    dispatch({ type: CLEAR_FORM })
+    dispatch(getInitialState())
   }
 }
 

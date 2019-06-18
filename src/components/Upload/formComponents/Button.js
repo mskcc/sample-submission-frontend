@@ -7,17 +7,27 @@ import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
 import { Translate } from 'react-localize-redux'
 
-const Button = ({ id, formId, isLoading, nothingToSubmit, title, classes }) => (
+const Button = ({
+  id,
+  formId,
+  isLoading,
+  nothingToSubmit,
+  title,
+  color,
+  classes,
+  onClick,
+}) => (
   <Translate>
     {({ translate }) => (
-      <div className={classes.wrapper}>
+      <React.Fragment>
         <MuiButton
           variant="contained"
           type="submit"
           form={formId}
           className={classes.button}
-          color="secondary"
+          color={color}
           disabled={isLoading}
+          onClick={onClick}
         >
           {translate('upload.' + id + '_label')}
         </MuiButton>
@@ -28,14 +38,13 @@ const Button = ({ id, formId, isLoading, nothingToSubmit, title, classes }) => (
             className={classes.buttonProgress}
           />
         )}
-        
-          <Fade in={nothingToSubmit}>
-            <div className={classes.nothingToSubmit}>
-              {translate('upload.form.nothing_to_change')}
-            </div>
-          </Fade>
-        
-      </div>
+
+        <Fade in={nothingToSubmit}>
+          <div className={classes.nothingToSubmit}>
+            {translate('upload.form.nothing_to_change')}
+          </div>
+        </Fade>
+        </React.Fragment>
     )}
   </Translate>
 )
@@ -45,7 +54,7 @@ const styles = theme => ({
     margin: theme.spacing(1),
     height: 50,
     display: 'inline-block',
-    width: 300,
+    width: 180,
   },
   wrapper: {
     margin: theme.spacing(1),

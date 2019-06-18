@@ -355,12 +355,23 @@ class UploadForm extends React.Component {
                 />
               </FormControl>
             </form>
-            <Button
-              id="form_submit"
-              formId="upload-form"
-              isLoading={gridIsLoading}
-              nothingToSubmit={nothingToChange}
-            />{' '}
+            <div>
+              <Button
+                color="primary"
+                id="form_submit"
+                formId="upload-form"
+                isLoading={gridIsLoading}
+                nothingToSubmit={nothingToChange}
+              />
+
+              <Button
+                color="secondary"
+                id="form_clear"
+                onClick={this.props.handleClear}
+                isLoading={false}
+                nothingToSubmit={false}
+              />
+            </div>
           </Paper>
         )}
       </Translate>
@@ -402,8 +413,9 @@ const styles = theme => ({
     gridArea: 'form',
     display: 'grid',
     justifyItems: 'center',
-    width: '50%',
+    width: '80%',
     margin: '2em auto',
+    marginBottom: '4em',
   },
   form: {
     display: 'flex',
@@ -418,16 +430,7 @@ const styles = theme => ({
   menu: {
     width: 200,
   },
-  button: {
-    margin: theme.spacing(1),
-    height: 50,
-    display: 'inline-block',
-    width: 300,
-  },
-  wrapper: {
-    margin: theme.spacing(1),
-    position: 'relative',
-  },
+
   buttonProgress: {
     position: 'absolute',
     top: '50%',

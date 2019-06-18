@@ -99,7 +99,7 @@ class UploadGrid extends React.Component {
               onClick={this.handleSubmit}
               isLoading={false}
               nothingToSubmit={false}
-              color="secondary"
+              color="primary"
             />
             <GridButton
               id="grid_save"
@@ -114,7 +114,7 @@ class UploadGrid extends React.Component {
               onClick={this.handleClear}
               isLoading={false}
               nothingToSubmit={false}
-              color="primary"
+              color="secondary"
             />
           </div>
           <HotTable

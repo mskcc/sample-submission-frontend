@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 import PropTypes from 'prop-types'
+import Swal from 'sweetalert2'
 
 import { connect } from 'react-redux'
 import { uploadFormActions } from '../../actions'
@@ -50,6 +51,25 @@ export class UploadFormContainer extends React.Component {
     } else this.props.clear(id)
   }
 
+  handleClear = () => {
+    Swal.fire({
+      title: 'Are you sure?',
+
+      type: 'warning',
+      showCancelButton: true,
+      animation: false,
+      confirmButtonColor: '#df4602',
+      cancelButtonColor: '#007cba',
+      confirmButtonText: 'Yes, clear it!',
+    }).then(result => {
+      if (result.value) {
+        this.props.clearForm()
+        // it works!
+        location.reload()
+      }
+    })
+  }
+
   render() {
     const {
       classes,
@@ -68,6 +88,7 @@ export class UploadFormContainer extends React.Component {
         handleApplicationChange={this.handleApplicationChange}
         handleSpeciesChange={this.handleSpeciesChange}
         handleInputChange={this.handleInputChange}
+        handleClear={this.handleClear}
       />
     ) : (
       <div />
