@@ -10,7 +10,7 @@ import { Config } from '../../config.js'
 // Add a request interceptor
 axios.interceptors.request.use(
   config => {
-    let token = localStorage.getItem('access_token')
+    let token = sessionStorage.getItem('access_token')
     if (token && !config.headers['Authorization']) {
       config.headers['Authorization'] = `Bearer ${token}`
     }
@@ -40,7 +40,7 @@ export const REFRESH_TOKEN_INVALID = 'REFRESH_TOKEN_INVALID'
 
 export function refreshToken() {
   return dispatch => {
-    let token = localStorage.getItem('refresh_token')
+    let token = sessionStorage.getItem('refresh_token')
     if (token) {
       dispatch({ type: REFRESH_TOKEN_REQUEST })
 
@@ -51,7 +51,7 @@ export function refreshToken() {
           {}
         )
         .then(response => {
-          localStorage.setItem('access_token', response.data.access_token)
+          sessionStorage.setItem('access_token', response.data.access_token)
            dispatch({
             type: REFRESH_TOKEN_VALID,
             message: '',
@@ -60,8 +60,8 @@ export function refreshToken() {
         })
 
         .catch(error => {
-          localStorage.removeItem('refresh_token')
-          localStorage.removeItem('access_token')
+          sessionStorage.removeItem('refresh_token')
+          sessionStorage.removeItem('access_token')
           sessionStorage.removeItem('persist:root')
 
           if (error.response) {
@@ -100,8 +100,8 @@ export function login(username, password) {
         },
       })
       .then(response => {
-        localStorage.setItem('access_token', response.data.access_token)
-        localStorage.setItem('refresh_token', response.data.refresh_token)
+        sessionStorage.setItem('access_token', response.data.access_token)
+        sessionStorage.setItem('refresh_token', response.data.refresh_token)
 
         return dispatch({
           type: LOGIN_SUCCESS,
@@ -132,14 +132,14 @@ export function logout() {
     dispatch({ type: LOGOUT_REQUEST })
     sessionStorage.removeItem('persist:root')
 
-    let access_token = localStorage.getItem('access_token')
-    let refresh_token = localStorage.getItem('refresh_token')
+    let access_token = sessionStorage.getItem('access_token')
+    let refresh_token = sessionStorage.getItem('refresh_token')
 
     if (access_token) {
       axios
         .get(Config.API_ROOT + '/logoutAccess', {})
         .then(response => {
-          localStorage.removeItem('access_token')
+          sessionStorage.removeItem('access_token')
         })
         .catch(error => {
           return dispatch({
@@ -148,9 +148,9 @@ export function logout() {
           })
         })
     }
-    let token = localStorage.getItem('refresh_token')
+    let token = sessionStorage.getItem('refresh_token')
     if (refresh_token) {
-      localStorage.removeItem('refresh_token')
+      sessionStorage.removeItem('refresh_token')
       axios
         .get(
           Config.API_ROOT + '/logoutRefresh',
