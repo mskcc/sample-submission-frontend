@@ -148,9 +148,8 @@ export function getColumns(formValues) {
         }).then(result => {
           if (result.value) {
             return dispatch(getInitialColumns(formValues, getState().user.role))
-          }
-          else {
-            return dispatch({type: NO_CHANGE_RESET})
+          } else {
+            return dispatch({ type: NO_CHANGE_RESET })
           }
         })
     }
@@ -199,7 +198,7 @@ export const ADD_GRID_TO_BANKED_SAMPLE_FAIL = 'ADD_GRID_TO_BANKED_SAMPLE_FAIL'
 export const ADD_GRID_TO_BANKED_SAMPLE_SUCCESS =
   'ADD_GRID_TO_BANKED_SAMPLE_SUCCESS'
 export const BUTTON_RESET = 'BUTTON_RESET'
-export function addGridToBankedSample() {
+export function addGridToBankedSample(ownProps) {
   return (dispatch, getState) => {
     dispatch({ type: ADD_GRID_TO_BANKED_SAMPLE })
 
@@ -210,9 +209,25 @@ export function addGridToBankedSample() {
       .then(response => {
         dispatch({
           type: ADD_GRID_TO_BANKED_SAMPLE_SUCCESS,
-          message: 'Submitted! Check your submissions.',
         })
-        return response
+
+        Swal.fire({
+          title: 'Submitted!',
+          text: 'Download your Receipt under My Submissions.',
+          type: 'success',
+          showCancelButton: true,
+          animation: false,
+          confirmButtonColor: '#007cba',
+          cancelButtonColor: '#4c8b2b',
+          confirmButtonText: 'Dismiss',
+          cancelButtonText: 'To My Submissions',
+        }).then(result => {
+          if (result.value) {
+            return ownProps.history.push('upload')
+          } else {
+            return ownProps.history.push('submissions')
+          }
+        })
       })
       .catch(error => {
         dispatch({

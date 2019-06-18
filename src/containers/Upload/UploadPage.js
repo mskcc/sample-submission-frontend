@@ -17,7 +17,7 @@ export class UploadPage extends Component {
     this.props.getColumns(formValues)
   }
   handleGridSubmit = formValues => {
-    // this.props.resetErrorMessage()
+    this.props.addGridToBankedSample(this.props)
   }
 
   handleDialogClose = () => {

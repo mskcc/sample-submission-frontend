@@ -136,6 +136,19 @@ export default function uploadGridReducer(state = initialGridState, action) {
         form: JSON.parse(action.payload.form_values),
       }
 
+    case ActionTypes.ADD_GRID_TO_BANKED_SAMPLE:
+      return {
+        ...state,
+      }
+    case ActionTypes.ADD_GRID_TO_BANKED_SAMPLE_FAIL:
+      return {
+        ...state,
+      }
+    case ActionTypes.ADD_GRID_TO_BANKED_SAMPLE_SUCCESS:
+      return {
+        ...initialGridState,
+      }
+
     case FormActionTypes.SELECT:
       if (action.payload.id == 'service_id') {
         return {

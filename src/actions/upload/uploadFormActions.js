@@ -123,6 +123,7 @@ export function clearForm() {
   return dispatch => {
     dispatch({ type: CLEAR_FORM })
     dispatch(getInitialState())
+    
   }
 }
 
