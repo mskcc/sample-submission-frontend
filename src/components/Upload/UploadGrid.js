@@ -44,7 +44,8 @@ class UploadGrid extends React.Component {
       confirmButtonText: 'Yes, delete it!',
     }).then(result => {
       if (result.value) {
-        this.hotTableComponent.current.hotInstance.clear()
+        this.props.handleClear()
+        // this.hotTableComponent.current.hotInstance.clear()
       }
     })
   }
@@ -138,6 +139,7 @@ class UploadGrid extends React.Component {
               if (changes) {
                 let i = 0
                 if (source !== 'loadData') {
+                  console.log(changes, source)
                   changes.forEach(([row, prop, oldValue, newValue]) => {
                     i++
                     let rowIndex = row
@@ -161,7 +163,6 @@ class UploadGrid extends React.Component {
                 }
               }
             }}
-            afterPaste={console.log('pasted')}
             width="95%"
             stretchH="all"
             // height="10%"

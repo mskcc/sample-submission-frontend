@@ -121,7 +121,7 @@ function choosePatientIDFormatter(patientIDType, species, groupingChecked) {
   if (species == 'Mouse' || species == 'Mouse_GeneticallyModified') {
     if (groupingChecked) {
       return {
-        pattern: '[0-9a-zA-Z]{4,}',
+        pattern: '[A-Za-z0-9\\,_-]{4,}',
         columnHeader: 'Grouping ID',
         error:
           'Invalid format. Please use at least four alpha-numeric characters.',
@@ -138,7 +138,7 @@ function choosePatientIDFormatter(patientIDType, species, groupingChecked) {
     switch (patientIDType) {
       case 'MSK-Patients (or derived from MSK Patients)':
         return {
-          pattern: '^\\d{8}$',
+          pattern: '^[0-9]{8}$',
           columnHeader: 'MRN',
           tooltip:
             'For non-MSKCC patient samples, mouse samples, or cell lines without patient origin, please use this field to provide us with group names i.e. compare this group (A) with this group (B). For CMO projects, fill out something unique and correspond with your PM for more information.',
@@ -149,19 +149,19 @@ function choosePatientIDFormatter(patientIDType, species, groupingChecked) {
         }
       case 'Non-MSK Patients':
         return {
-          pattern: '[0-9a-zA-Z]{4,}',
+          pattern: '[A-Za-z0-9\\,_-]{4,}',
           columnHeader: 'Patient ID',
           error:
-            'Invalid format. Please use at least four alpha-numeric characters.',
+            'Invalid format. Please use at least four alpha-numeric characters. Dashes and underscores are allowed.',
         }
       case 'Cell Lines, not from Patients':
         return { columnHeader: 'Cell Line Name' }
       case 'Both MSK-Patients and Non-MSK Patients':
         return {
-          pattern: '[0-9a-zA-Z]{4,}|^\\d{8}$',
+          pattern: '[A-Za-z0-9\\,_-]{4,}|^[0-9]{8}$',
           columnHeader: 'Patient ID',
           error:
-            'Invalid format. Please use at least four alpha-numeric characters.',
+            'Invalid format. Please use at least four alpha-numeric characters. Dashes and underscores are allowed.',
         }
       default:
         return { pattern: 'formatter not found' }
@@ -169,7 +169,10 @@ function choosePatientIDFormatter(patientIDType, species, groupingChecked) {
   }
 }
 
-function generateRows(columns, formValues, numberToAdd) {
+export const generateRows = (columns, formValues, numberToAdd) => {
+  console.log(columns)
+  console.log(formValues)
+  console.log(numberToAdd)
   let rows = []
   for (let i = 0; i < numberToAdd; i++) {
     for (let j = 0; j < columns.length; j++) {
@@ -464,6 +467,9 @@ export const validateGrid = (changes, grid) => {
   // let errors = new Set([])
   for (let i = 0; i < changes.length; i++) {
     let newValue = changes[i][3]
+    if (newValue == '') {
+      continue
+    }
     let rowIndex = changes[i][0]
 
     let columnName = changes[i][1]

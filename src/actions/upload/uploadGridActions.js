@@ -134,7 +134,7 @@ export function getColumns(formValues) {
           rows: rows,
           form: formValues,
         })
-      } else
+      } else {
         Swal.fire({
           title: 'Are you sure?',
           text:
@@ -152,6 +152,7 @@ export function getColumns(formValues) {
             return dispatch({ type: NO_CHANGE_RESET })
           }
         })
+      }
     }
   }
 }
@@ -271,17 +272,31 @@ export const HANDLE_PATIENT_ID_FAIL = 'HANDLE_PATIENT_ID_FAIL'
 export const HANDLE_PATIENT_ID_SUCCESS = 'HANDLE_PATIENT_ID_SUCCESS'
 export function handlePatientId(rowIndex) {
   return (dispatch, getState) => {
+    if (getState().upload.grid.rows[rowIndex].patientId == '') {
+      return dispatch({
+        type: HANDLE_PATIENT_ID_SUCCESS,
+        rows: redactMRN(getState().upload.grid.rows, rowIndex, '', '', ''),
+      })
+    }
+
+    let patientIdType = getState().upload.grid.columnFeatures.find(
+      element => element.data == 'patientId'
+    )
     let rows = getState().upload.grid.rows
     dispatch({ type: 'HANDLE_PATIENT_ID' })
-    if (/[0-9]{8}/.test(rows[rowIndex].patientId)) {
+
+    if (
+      /^[0-9]{8}$/.test(rows[rowIndex].patientId) ||
+      patientIdType.columnHeader == 'MRN'
+    ) {
       return dispatch(handleMRN(rowIndex, rows[rowIndex].patientId))
     }
     let normalizedPatientID = ''
-    if (/[0-9a-zA-Z]/.test(rows[rowIndex].patientId)) {
-      if (
-        getState().upload.grid.form.patient_id_type ==
-        'Cell Lines, not from Patients'
-      ) {
+    let regex = new RegExp(patientIdType.pattern)
+    let valid = regex.test(rows[rowIndex].patientId)
+    if (valid) {
+      console.log('match')
+      if (patientIdType.columnHeader == 'Cell Line Name') {
         normalizedPatientID =
           'CELLLINE_' +
           getState()
@@ -323,21 +338,16 @@ export function handlePatientId(rowIndex) {
             type: HANDLE_PATIENT_ID_FAIL,
 
             error: error,
-            rows: createPatientId(
-              getState().upload.grid.rows,
-              rowIndex,
-              response.data.patient_id,
-              ''
-            ),
+            rows: redactMRN(getState().upload.grid.rows, rowIndex, '', '', ''),
           })
           return error
         })
       return dispatch({ type: REGISTER_GRID_CHANGE })
-    }
+    } else {
+      dispatch({
+        type: HANDLE_PATIENT_ID_FAIL,
 
-    if (getState().upload.grid.rows[rowIndex].patientId == '') {
-      return dispatch({
-        type: HANDLE_PATIENT_ID_SUCCESS,
+        message: patientIdType.error,
         rows: redactMRN(getState().upload.grid.rows, rowIndex, '', '', ''),
       })
     }
@@ -396,6 +406,22 @@ export function handleAssay(rowIndex, oldValue, newValue) {
         rowIndex,
         oldValue,
         newValue
+      ),
+    })
+  }
+}
+
+// export const HANDLE_CLEAR = 'HANDLE_CLEAR'
+// export const HANDLE_CLEAR_FAIL = 'HANDLE_CLEAR_FAIL'
+export const HANDLE_CLEAR_SUCCESS = 'HANDLE_CLEAR_SUCCESS'
+export function handleClear() {
+  return (dispatch, getState) => {
+    return dispatch({
+      type: HANDLE_CLEAR_SUCCESS,
+      rows: generateRows(
+        getState().upload.grid.columnFeatures,
+        getState().upload.grid.form,
+        getState().upload.grid.rows.length
       ),
     })
   }

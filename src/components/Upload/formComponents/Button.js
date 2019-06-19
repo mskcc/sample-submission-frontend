@@ -54,7 +54,7 @@ const styles = theme => ({
     margin: theme.spacing(1),
     height: 50,
     display: 'inline-block',
-    width: 180,
+    maxWidth: 180,
   },
   wrapper: {
     margin: theme.spacing(1),

@@ -123,6 +123,12 @@ export default function uploadGridReducer(state = initialGridState, action) {
         message: action.message,
       }
 
+    case ActionTypes.HANDLE_CLEAR_SUCCESS:
+      return {
+        ...state,
+        rows: action.rows,
+      }
+
     case ActionTypes.ADD_VALIDATORS_SUCCESS:
       return {
         ...state,

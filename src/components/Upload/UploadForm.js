@@ -410,11 +410,14 @@ UploadForm.propTypes = {
 
 const styles = theme => ({
   container: {
+    // backgroundColor: "rgba(143, 199, 232, .1)",
     gridArea: 'form',
     display: 'grid',
     justifyItems: 'center',
     width: '80%',
+    maxWidth: '1200px',
     margin: '2em auto',
+    padding: '2em',
     marginBottom: '4em',
   },
   form: {
