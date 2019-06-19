@@ -32,22 +32,7 @@ class UploadGrid extends React.Component {
     this.props.handleSave()
   }
   handleClear = () => {
-    Swal.fire({
-      title: 'Are you sure?',
-      text:
-        "You won't be able to revert this unless you have a saved partial submission.",
-      type: 'warning',
-      showCancelButton: true,
-      animation: false,
-      confirmButtonColor: '#df4602',
-      cancelButtonColor: '#007cba',
-      confirmButtonText: 'Yes, delete it!',
-    }).then(result => {
-      if (result.value) {
-        this.props.handleClear()
-        // this.hotTableComponent.current.hotInstance.clear()
-      }
-    })
+    this.props.handleClear()
   }
   handleSubmit = () => {
     const { columnFeatures, rows } = this.props.grid
@@ -78,6 +63,21 @@ class UploadGrid extends React.Component {
     } else {
       this.props.handleSubmit()
     }
+  }
+
+  showRowWarning = count => {
+    Swal.fire({
+      title: 'Too many rows.',
+      text:
+        'Please increase the number of samples in the header to at least ' +
+        count +
+        ' and re-generate the grid before you paste this data.',
+      // footer: 'To avoid mistakes, invalid cells are cleared immediately.',
+      type: 'warning',
+      animation: false,
+      confirmButtonText: 'Dismiss',
+      // customClass: { content: 'alert' },
+    })
   }
 
   render() {
@@ -131,6 +131,12 @@ class UploadGrid extends React.Component {
             comments={true}
             ref={this.hotTableComponent}
             beforeChange={(changes, source) => {
+              //  only do something if rows can fit the changes/if
+                // last changes[] element's row index is <= rows
+              if (changes[changes.length - 1][0] > grid.rows.length) {
+                this.showRowWarning(changes[changes.length - 1][0])
+                return false
+              }
               if (changes.length > 100) {
                 this.props.preValidate()
               }
@@ -139,7 +145,6 @@ class UploadGrid extends React.Component {
               if (changes) {
                 let i = 0
                 if (source !== 'loadData') {
-                  console.log(changes, source)
                   changes.forEach(([row, prop, oldValue, newValue]) => {
                     i++
                     let rowIndex = row

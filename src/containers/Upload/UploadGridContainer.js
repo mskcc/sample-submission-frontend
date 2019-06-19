@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 
 import PropTypes from 'prop-types'
+import Swal from 'sweetalert2'
 
 import { connect } from 'react-redux'
 import { uploadGridActions, userActions } from '../../actions'
+
 
 import CircularProgress from '@material-ui/core/CircularProgress'
 
@@ -27,7 +29,7 @@ class UploadGridContainer extends React.Component {
   //   }
   // }
 
-  handleChange = (changes) => {
+  handleChange = changes => {
     this.props.registerGridChange(changes)
   }
   handleMRN = rowIndex => {
@@ -38,6 +40,26 @@ class UploadGridContainer extends React.Component {
   }
   handleAssay = (rowIndex, oldValue, newValue) => {
     this.props.handleAssay(rowIndex, oldValue, newValue)
+  }
+
+
+  handleClear = () => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text:
+        "You won't be able to revert this unless you have a saved partial submission.",
+      type: 'warning',
+      showCancelButton: true,
+      animation: false,
+      confirmButtonColor: '#df4602',
+      cancelButtonColor: '#007cba',
+      confirmButtonText: 'Yes, delete it!',
+    }).then(result => {
+      if (result.value) {
+        this.props.handleClear()
+        // this.hotTableComponent.current.hotInstance.clear()
+      }
+    })
   }
 
   handleSubmit = () => {
@@ -83,6 +105,7 @@ class UploadGridContainer extends React.Component {
         handleSave={this.handleSave}
         preValidate={this.props.preValidate}
         handlePatientId={this.props.handlePatientId}
+        handleClear={this.props.handleClear}
       />
     ) : null
   }
