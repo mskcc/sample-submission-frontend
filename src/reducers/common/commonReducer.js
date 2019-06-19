@@ -58,9 +58,16 @@ function commonReducer(state = initialState, action) {
       }
     }
   } else if (message) {
-    return {
-      ...state,
-      message: action.message,
+    if (message == 'reset') {
+      return {
+        ...state,
+        message: '',
+      }
+    } else {
+      return {
+        ...state,
+        message: action.message,
+      }
     }
   } else {
     switch (action.type) {

@@ -155,6 +155,11 @@ export default function uploadGridReducer(state = initialGridState, action) {
         ...initialGridState,
       }
 
+    case FormActionTypes.CLEAR_FORM:
+      return {
+        ...initialGridState,
+      }
+
     case FormActionTypes.SELECT:
       if (action.payload.id == 'service_id') {
         return {

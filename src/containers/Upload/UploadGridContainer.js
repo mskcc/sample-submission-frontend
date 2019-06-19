@@ -23,11 +23,6 @@ class UploadGridContainer extends React.Component {
   // console.log(this.state)
   // }
 
-  // componentDidMount() {
-  //   if (this.props.grid.columnFeatures) {
-  //     this.props.addValidators()
-  //   }
-  // }
 
   handleChange = changes => {
     this.props.registerGridChange(changes)
@@ -105,7 +100,7 @@ class UploadGridContainer extends React.Component {
         handleSave={this.handleSave}
         preValidate={this.props.preValidate}
         handlePatientId={this.props.handlePatientId}
-        handleClear={this.props.handleClear}
+        handleClear={this.handleClear}
       />
     ) : null
   }

@@ -52,7 +52,7 @@ export function refreshToken() {
         )
         .then(response => {
           sessionStorage.setItem('access_token', response.data.access_token)
-           dispatch({
+          dispatch({
             type: REFRESH_TOKEN_VALID,
             message: '',
             payload: response.data,
@@ -115,7 +115,6 @@ export function login(username, password) {
       })
 
       .catch(error => {
-        console.log(error)
         return dispatch({
           type: LOGIN_FAIL,
           error: error,

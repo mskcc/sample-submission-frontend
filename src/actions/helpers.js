@@ -32,9 +32,6 @@ function generateColumnFeatures(responseColumns, formValues) {
   let columnFeatures = []
 
   for (let i = 0; i < responseColumns.length; i++) {
-    // if (responseColumns[i].data == 'assay') {
-    //   continue
-    // }
     columnFeatures[i] = responseColumns[i]
 
     //  patient_id_type is only set if corresponding species was selected
@@ -170,9 +167,6 @@ function choosePatientIDFormatter(patientIDType, species, groupingChecked) {
 }
 
 export const generateRows = (columns, formValues, numberToAdd) => {
-  console.log(columns)
-  console.log(formValues)
-  console.log(numberToAdd)
   let rows = []
   for (let i = 0; i < numberToAdd; i++) {
     for (let j = 0; j < columns.length; j++) {
@@ -426,9 +420,8 @@ const overwriteContainer = userContainer => {
         container: 'Plates',
         pattern: '[A-Za-z0-9\\,_-]',
         error: 'Only letters, digits and –, please.',
-
         tooltip:
-          'The plate ID is the barcode on your plate.  Please scan, or carefully type, the barcode ID into this field for all samples on the plate',
+          'The plate ID is the barcode on your plate. Please scan, or carefully type, the barcode ID into this field for all samples on the plate',
       }
       break
 
@@ -464,21 +457,20 @@ const overwriteContainer = userContainer => {
 
 export const validateGrid = (changes, grid) => {
   let errors = new Set([])
-  // let errors = new Set([])
   for (let i = 0; i < changes.length; i++) {
+    // empties are fine, this isn't submit
     let newValue = changes[i][3]
     if (newValue == '') {
       continue
     }
     let rowIndex = changes[i][0]
-
     let columnName = changes[i][1]
     let columnIndex = grid.columnFeatures.findIndex(c => c.data == columnName)
     if (columnIndex == -1) {
       errors.add(
-        'The number of columns you tried to paste is larger than the number of columns on the current grid.'
+        'The number of columns you tried to paste is larger than the number of columns on the current grid. The surplus got cut off.'
       )
-      break
+      continue
     }
 
     if (columnName == 'index') {
@@ -489,7 +481,6 @@ export const validateGrid = (changes, grid) => {
             ': ' +
             grid.columnFeatures[columnIndex].error
         )
-
         grid.rows[rowIndex][columnName] = ''
       }
     }

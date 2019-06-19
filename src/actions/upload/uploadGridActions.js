@@ -61,6 +61,7 @@ export const registerGridChange = changes => {
       return dispatch({
         type: REGISTER_GRID_CHANGE_POST_VALIDATE,
         payload: result,
+        message: 'reset',
       })
     } else {
       return dispatch({
@@ -202,6 +203,26 @@ export const BUTTON_RESET = 'BUTTON_RESET'
 export function addGridToBankedSample(ownProps) {
   return (dispatch, getState) => {
     dispatch({ type: ADD_GRID_TO_BANKED_SAMPLE })
+    if (
+      getState().upload.form.selected.material !=
+      getState().upload.grid.form.material
+    ) {
+      Swal.fire({
+        title: 'Header does not match grid',
+        html:
+          'Please make sure your header and grid match up. Your header material is ' +
+          getState().upload.form.selected.material +
+          ', but ' +
+          getState().upload.grid.form.material +
+          ' was used to generate this grid.',
+        // footer: 'To avoid mistakes, invalid cells are cleared immediately.',
+        type: 'error',
+        animation: false,
+        confirmButtonText: 'Dismiss',
+        // customClass: { content: 'alert' },
+      })
+      return
+    }
 
     return axios
       .post(Config.API_ROOT + '/addBankedSamples', {

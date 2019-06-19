@@ -10,6 +10,8 @@ const BSTMaterials = ['tissue', 'cells', 'blood', 'buffy coat', 'other']
 const PatientIDSpecies = ['human']
 // const PatientIDSpecies = ['human', 'mouse', 'mouse_geneticallymodified']
 
+export const MESSAGE = 'MESSAGE'
+
 export const REQUEST_MATERIALS_AND_APPLICATIONS =
   'REQUEST_MATERIALS_AND_APPLICATIONS'
 
@@ -72,6 +74,7 @@ export function getMaterialsForApplication(selectedApplication) {
   return dispatch => {
     dispatch({ type: SELECT_APPLICATION, selectedApplication })
     dispatch({ type: REQUEST_MATERIALS_FOR_APPLICATION })
+    dispatch(checkForChange('application', selectedApplication))
     return axios
       .get(Config.API_ROOT + '/columnDefinition', {
         params: {
@@ -106,6 +109,8 @@ export function select(id, value) {
         payload: { id: id, value: value },
         message: 'Service Id updated.',
       })
+    } else if (id == 'container') {
+      dispatch(checkForChange('container', value))
     } else {
       dispatch({ type: SELECT, payload: { id: id, value: value } })
     }
@@ -123,7 +128,6 @@ export function clearForm() {
   return dispatch => {
     dispatch({ type: CLEAR_FORM })
     dispatch(getInitialState())
-    
   }
 }
 
@@ -141,9 +145,10 @@ export const RECEIVE_APPLICATIONS_FOR_MATERIAL_FAIL =
 // get applications that can be combined with material
 // SelectedMaterial impacts applications and containers, containers are filtered in FormContainer
 export function getApplicationsForMaterial(selectedMaterial) {
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch({ type: SELECT_MATERIAL, selectedMaterial })
     dispatch({ type: REQUEST_APPLICATIONS_FOR_MATERIAL })
+    dispatch(checkForChange('material', selectedMaterial))
     return axios
       .get(Config.API_ROOT + '/columnDefinition', {
         params: {
@@ -175,6 +180,7 @@ export const SELECT_SPECIES_WITHOUT_ID_FORMATTER =
 export const CLEAR_SPECIES = 'CLEAR_SPECIES'
 export function getFormatterForSpecies(selectedSpecies) {
   return dispatch => {
+    dispatch(checkForChange('species', selectedSpecies))
     if (PatientIDSpecies.includes(selectedSpecies.toLowerCase())) {
       let formatter = 'PatientIDTypes'
 
@@ -237,5 +243,19 @@ export const cleared = () => {
     return setTimeout(() => {
       dispatch({ type: CLEARED })
     }, 500)
+  }
+}
+
+export const checkForChange = (field, value) => {
+  return (dispatch, getState) => {
+    if (
+      getState().upload.grid.form[field] &&
+      getState().upload.grid.form[field] != value
+    ) {
+      dispatch({
+        type: MESSAGE,
+        message: 'Make sure to gnerate your grid to persist this change.',
+      })
+    }
   }
 }

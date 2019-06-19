@@ -71,7 +71,7 @@ class UploadGrid extends React.Component {
       text:
         'Please increase the number of samples in the header to at least ' +
         count +
-        ' and re-generate the grid before you paste this data.',
+        ' and re-generate the grid before you paste this data. Make sure you paste starting at the first cell if you want to paste the full grid.',
       // footer: 'To avoid mistakes, invalid cells are cleared immediately.',
       type: 'warning',
       animation: false,
@@ -137,7 +137,7 @@ class UploadGrid extends React.Component {
                 this.showRowWarning(changes[changes.length - 1][0])
                 return false
               }
-              if (changes.length > 100) {
+              if (changes.length > 50) {
                 this.props.preValidate()
               }
             }}
