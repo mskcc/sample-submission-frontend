@@ -1,11 +1,7 @@
 //TODO ERROR HANDLING
 import axios from 'axios'
 
-let API_ROOT = 'http://localhost:9004'
-if (process.env.NODE_ENV === 'production') {
-  API_ROOT = 'https://delphi.mskcc.org/sample-receiving-backend/'
-  // API_ROOT = 'https://rex.mskcc.org/apps/auth/'
-}
+import { Config } from '../../config.js'
 
 import { generateSubmissionsGrid } from '../helpers'
 
@@ -13,6 +9,8 @@ import { generateSubmissionsGrid } from '../helpers'
 const BSTMaterials = ['tissue', 'cells', 'blood', 'buffy coat', 'other']
 const PatientIDSpecies = ['human']
 // const PatientIDSpecies = ['human', 'mouse', 'mouse_geneticallymodified']
+
+export const MESSAGE = 'MESSAGE'
 
 export const REQUEST_MATERIALS_AND_APPLICATIONS =
   'REQUEST_MATERIALS_AND_APPLICATIONS'
@@ -37,21 +35,22 @@ export function getInitialState() {
     else {
       dispatch({ type: REQUEST_INITIAL_STATE })
       return axios
-        .get(API_ROOT + '/upload/initialState')
+        .get(Config.API_ROOT + '/upload/initialState')
         .then(response => {
           dispatch({
             type: RECEIVE_INITIAL_STATE_SUCCESS,
             form_data: response.data,
-            user_data:{
-                        submissions: response.data.submissions,
-                        table: generateSubmissionsGrid(response.data),}
+            user_data: {
+              submissions: response.data.submissions,
+              table: generateSubmissionsGrid(response.data),
+            },
           })
           return response
         })
         .catch(error =>
           dispatch({
             type: RECEIVE_INITIAL_STATE_FAIL,
-            error: error.message,
+            error: error,
           })
         )
     }
@@ -75,9 +74,11 @@ export function getMaterialsForApplication(selectedApplication) {
   return dispatch => {
     dispatch({ type: SELECT_APPLICATION, selectedApplication })
     dispatch({ type: REQUEST_MATERIALS_FOR_APPLICATION })
+    dispatch(checkForChange('application', selectedApplication))
     return axios
-      .get(API_ROOT + '/columnDefinition', {
+      .get(Config.API_ROOT + '/columnDefinition', {
         params: {
+          // weird, legacy slash workaround, has to be changed in /LimsRest/getIntakeTerms
           recipe: selectedApplication.replace('/', '_PIPI_SLASH_'),
         },
       })
@@ -85,13 +86,14 @@ export function getMaterialsForApplication(selectedApplication) {
         dispatch({
           type: RECEIVE_MATERIALS_FOR_APPLICATION_SUCCESS,
           materials: response.data.choices,
+          species: response.data.species,
         })
         return response
       })
       .catch(error => {
         dispatch({
           type: RECEIVE_MATERIALS_FOR_APPLICATION_FAIL,
-          error: error.message,
+          error: error,
         })
         return error
       })
@@ -101,14 +103,31 @@ export const SELECT = 'SELECT'
 
 export function select(id, value) {
   return dispatch => {
-    dispatch({ type: SELECT, payload: { id: id, value: value } })
+    if (id == 'service_id') {
+      dispatch({
+        type: SELECT,
+        payload: { id: id, value: value },
+        message: 'Service Id updated.',
+      })
+    } else if (id == 'container') {
+      dispatch(checkForChange('container', value))
+    } else {
+      dispatch({ type: SELECT, payload: { id: id, value: value } })
+    }
   }
 }
 export const CLEAR = 'CLEAR'
 
 export function clear(id) {
   return dispatch => {
-    dispatch({ type: CLEAR, payload: { id: id } })
+    return dispatch({ type: CLEAR, payload: { id: id } })
+  }
+}
+export const CLEAR_FORM = 'CLEAR_FORM'
+export function clearForm() {
+  return dispatch => {
+    dispatch({ type: CLEAR_FORM })
+    dispatch(getInitialState())
   }
 }
 
@@ -126,11 +145,12 @@ export const RECEIVE_APPLICATIONS_FOR_MATERIAL_FAIL =
 // get applications that can be combined with material
 // SelectedMaterial impacts applications and containers, containers are filtered in FormContainer
 export function getApplicationsForMaterial(selectedMaterial) {
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch({ type: SELECT_MATERIAL, selectedMaterial })
     dispatch({ type: REQUEST_APPLICATIONS_FOR_MATERIAL })
+    dispatch(checkForChange('material', selectedMaterial))
     return axios
-      .get(API_ROOT + '/columnDefinition', {
+      .get(Config.API_ROOT + '/columnDefinition', {
         params: {
           type: selectedMaterial.replace('/', '_PIPI_SLASH_'),
         },
@@ -139,35 +159,18 @@ export function getApplicationsForMaterial(selectedMaterial) {
         dispatch({
           type: RECEIVE_APPLICATIONS_FOR_MATERIAL_SUCCESS,
           applications: response.data.choices,
+          containers: response.data.containers,
         })
         return response
       })
       .catch(error => {
         dispatch({
           type: RECEIVE_APPLICATIONS_FOR_MATERIAL_FAIL,
-          error: error.message,
+          error: error,
         })
         return error
       })
   }
-}
-
-export const FILTER_CONTAINERS = 'FILTER_CONTAINERS'
-export const FILTER_CONTAINERS_FOR_BS = 'FILTER_CONTAINERS_FOR_BS'
-export const SHOW_ALL_CONTAINERS = 'SHOW_ALL_CONTAINERS'
-export function filterContainers(selectedMaterial) {
-  if (selectedMaterial === 'Blocks/Slides') {
-    return {
-      type: FILTER_CONTAINERS_FOR_BS,
-    }
-  } else if (BSTMaterials.includes(selectedMaterial.toLowerCase())) {
-    return {
-      type: SHOW_ALL_CONTAINERS,
-    }
-  } else
-    return {
-      type: FILTER_CONTAINERS,
-    }
 }
 
 export const SELECT_SPECIES_WITH_ID_FORMATTER =
@@ -177,6 +180,7 @@ export const SELECT_SPECIES_WITHOUT_ID_FORMATTER =
 export const CLEAR_SPECIES = 'CLEAR_SPECIES'
 export function getFormatterForSpecies(selectedSpecies) {
   return dispatch => {
+    dispatch(checkForChange('species', selectedSpecies))
     if (PatientIDSpecies.includes(selectedSpecies.toLowerCase())) {
       let formatter = 'PatientIDTypes'
 
@@ -204,7 +208,7 @@ export function getPicklist(picklist) {
   return dispatch => {
     dispatch({ type: REQUEST_PICKLIST, picklist })
     return axios
-      .get(API_ROOT + '/listValues/' + picklist)
+      .get(Config.API_ROOT + '/listValues/' + picklist)
 
       .then(response => {
         dispatch({ type: RECEIVE_PICKLIST_SUCCESS, picklist: response.data })
@@ -213,7 +217,7 @@ export function getPicklist(picklist) {
       .catch(error => {
         dispatch({
           type: RECEIVE_PICKLIST_FAIL,
-          error: error.message,
+          error: error,
         })
         return error
       })
@@ -239,5 +243,19 @@ export const cleared = () => {
     return setTimeout(() => {
       dispatch({ type: CLEARED })
     }, 500)
+  }
+}
+
+export const checkForChange = (field, value) => {
+  return (dispatch, getState) => {
+    if (
+      getState().upload.grid.form[field] &&
+      getState().upload.grid.form[field] != value
+    ) {
+      dispatch({
+        type: MESSAGE,
+        message: 'Make sure to gnerate your grid to persist this change.',
+      })
+    }
   }
 }

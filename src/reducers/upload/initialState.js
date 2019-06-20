@@ -5,34 +5,45 @@ export const initialFormState = {
   allPatientIdFormats: [],
   filteredApplications: [],
   containers: [],
+  filteredContainers: [],
   formIsLoading: false,
-  filteredContainers: [
-    { id: 'Plates', value: 'Plates' },
-    { id: 'Micronic Barcoded Tubes', value: 'Micronic Barcoded Tubes' },
-  ],
-  filteredContainersBS: [
-    { id: 'Blocks/Slides/Tubes', value: 'Blocks/Slides/Tubes' },
-  ],
+
   filteredMaterials: [],
   picklists: {},
 
   allSpecies: [],
+  filteredSpecies: [],
+
   patientIDTypeNeedsFormatting: false,
-  selected: {
-    application: 'AmpliSeq',
-    material: 'DNA',
-    igo_request_id: '898989',
-    number_of_samples: '10',
-    species: 'Mouse',
-    container: 'Plates',
+  // selected: {
+  //   application: 'AmpliSeq',
+  //   material: 'DNA',
+  //   service_id: '898989',
+  //   number_of_samples: '10',
+  //   species: 'Mouse',
+  //   container: 'Plates',
+  //   patient_id_type: '',
+  //   grouping_checked: false,
+  //   alt_service_id: false,
+  // },
+    selected: {
+    application: '',
+    material: '',
+    service_id: '',
+    number_of_samples: '',
+    species: '',
+    container: '',
     patient_id_type: '',
+    grouping_checked: false,
+  alt_service_id: false,
+
   },
 }
 
 export const initialGridState = {
   columns: [],
   rows: [],
-  error: '',
+  gridError: '',
   form: [],
   gridIsLoading: false,
   isSaving: false,

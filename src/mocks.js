@@ -44,7 +44,7 @@ export const filledGridStateMock = {
       form: {
         material: 'Tissue',
         application: 'CustomCapture',
-        igo_request_id: '444444',
+        service_id: '444444',
         number_of_samples: '4',
         species: 'Tuberculosis',
         container: 'Plates',
@@ -138,7 +138,7 @@ export const filledFullStateMock = {
       form: {
         material: 'Tissue',
         application: 'CustomCapture',
-        igo_request_id: '444444',
+        service_id: '444444',
         number_of_samples: '4',
         species: 'Tuberculosis',
         container: 'Plates',
@@ -173,7 +173,7 @@ export const filledFullStateMock = {
 export const formValuesMock = {
   application: 'CustomCapture',
   container: 'Plates',
-  igo_request_id: '444444',
+  service_id: '444444',
   material: 'Tissue',
   number_of_samples: '2',
   patient_id_type: '',

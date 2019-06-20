@@ -5,6 +5,8 @@ import {
   uploadGridActions as ActionTypes,
 } from '../../actions'
 
+import Swal from 'sweetalert2'
+
 const initialState = {
   version: '2.0',
   error: false,
@@ -16,7 +18,7 @@ const initialState = {
 // global errors and messages
 function commonReducer(state = initialState, action) {
   const { type, error, message, serverError } = action
-
+  // const { status } = error.response
   if (serverError) {
     return {
       ...state,
@@ -26,19 +28,46 @@ function commonReducer(state = initialState, action) {
         'Our backend is experiencing some downtime. Please refresh, check back later or message an admin.',
     }
   } else if (error) {
-    return {
-      ...state,
-      error: true,
-      message: action.error.response
-        ? action.error.response.data.message
-        : action.error.message
+    if (error.response && status == 401) {
+      return {
+        ...state,
+        error: true,
+        message: 'Your session expired. Please log back in.',
+      }
+    } else if (error.response && error.response.status == 403) {
+      Swal.fire({
+        title: 'Not authorized',
+        html:
+          'You are not in the group of authorized users for this page. If you would like to request access, please email <a href="mailto:someone@yoursite.com?subject=Sample Receiving Site Access Request">the Sample Receiving Team.</a>',
+        type: 'info',
+
+        animation: false,
+        confirmButtonColor: '#007cba',
+        confirmButtonText: 'Dismiss',
+      })
+      return {
+        ...state,
+      }
+    } else {
+      return {
+        ...state,
+        error: true,
+        message: action.error.response
+          ? action.error.response.data.message
+          : action.error.message,
+      }
     }
   } else if (message) {
-    console.log(message)
-    console.log(action)
-    return {
-      ...state,
-      message: action.message,
+    if (message == 'reset') {
+      return {
+        ...state,
+        message: '',
+      }
+    } else {
+      return {
+        ...state,
+        message: action.message,
+      }
     }
   } else {
     switch (action.type) {

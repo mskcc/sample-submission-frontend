@@ -5,15 +5,12 @@ import {
   findSubmission,
 } from '../helpers'
 
-let API_ROOT = 'http://localhost:9004'
-if (process.env.NODE_ENV === 'production') {
-  API_ROOT = 'https://delphi.mskcc.org/sample-receiving-backend/'
-}
+import { Config } from '../../config.js'
 
 // Add a request interceptor
 axios.interceptors.request.use(
   config => {
-    let token = localStorage.getItem('access_token')
+    let token = sessionStorage.getItem('access_token')
     if (token && !config.headers['Authorization']) {
       config.headers['Authorization'] = `Bearer ${token}`
     }
@@ -43,31 +40,35 @@ export const REFRESH_TOKEN_INVALID = 'REFRESH_TOKEN_INVALID'
 
 export function refreshToken() {
   return dispatch => {
-    let token = localStorage.getItem('refresh_token')
+    let token = sessionStorage.getItem('refresh_token')
+    localStorage.removeItem('refresh_token')
+    localStorage.removeItem('access_token')
+    localStorage.removeItem('persist:root')
     if (token) {
       dispatch({ type: REFRESH_TOKEN_REQUEST })
 
       return axios
         .get(
-          API_ROOT + '/refresh',
+          Config.API_ROOT + '/refresh',
           { headers: { Authorization: `Bearer ${token}` } },
           {}
         )
         .then(response => {
-          localStorage.setItem('access_token', response.data.access_token)
-          return dispatch({
+          sessionStorage.setItem('access_token', response.data.access_token)
+          dispatch({
             type: REFRESH_TOKEN_VALID,
+            message: '',
             payload: response.data,
           })
         })
 
         .catch(error => {
-          localStorage.removeItem('refresh_token')
-          localStorage.removeItem('access_token')
-          localStorage.removeItem('persist:root')
+          sessionStorage.removeItem('refresh_token')
+          sessionStorage.removeItem('access_token')
+          sessionStorage.removeItem('persist:root')
 
           if (error.response) {
-            dispatch({
+            return dispatch({
               type: REFRESH_TOKEN_INVALID,
               error: error,
             })
@@ -78,9 +79,6 @@ export function refreshToken() {
             })
           }
         })
-      // storage.getToken()
-      //   ? dispatch({ type: REFRESH_TOKEN_VALID })
-      //   : dispatch({ type: SESSION_INVALID })
     } else
       dispatch({
         type: REFRESH_TOKEN_INVALID,
@@ -98,15 +96,15 @@ export function login(username, password) {
   return dispatch => {
     dispatch({ type: LOGIN_REQUEST })
     return axios
-      .post(API_ROOT + '/login', {
+      .post(Config.API_ROOT + '/login', {
         data: {
           username: username,
           password: password,
         },
       })
       .then(response => {
-        localStorage.setItem('access_token', response.data.access_token)
-        localStorage.setItem('refresh_token', response.data.refresh_token)
+        sessionStorage.setItem('access_token', response.data.access_token)
+        sessionStorage.setItem('refresh_token', response.data.refresh_token)
 
         return dispatch({
           type: LOGIN_SUCCESS,
@@ -120,7 +118,6 @@ export function login(username, password) {
       })
 
       .catch(error => {
-        console.log(error)
         return dispatch({
           type: LOGIN_FAIL,
           error: error,
@@ -135,15 +132,16 @@ export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
 export function logout() {
   return dispatch => {
     dispatch({ type: LOGOUT_REQUEST })
-    localStorage.removeItem('persist:root')
-    let access_token = localStorage.getItem('access_token')
-    let refresh_token = localStorage.getItem('refresh_token')
+    sessionStorage.removeItem('persist:root')
+
+    let access_token = sessionStorage.getItem('access_token')
+    let refresh_token = sessionStorage.getItem('refresh_token')
 
     if (access_token) {
       axios
-        .get(API_ROOT + '/logoutAccess', {})
+        .get(Config.API_ROOT + '/logoutAccess', {})
         .then(response => {
-          localStorage.removeItem('access_token')
+          sessionStorage.removeItem('access_token')
         })
         .catch(error => {
           return dispatch({
@@ -152,12 +150,12 @@ export function logout() {
           })
         })
     }
-    let token = localStorage.getItem('refresh_token')
+    let token = sessionStorage.getItem('refresh_token')
     if (refresh_token) {
-      localStorage.removeItem('refresh_token')
+      sessionStorage.removeItem('refresh_token')
       axios
         .get(
-          API_ROOT + '/logoutRefresh',
+          Config.API_ROOT + '/logoutRefresh',
           { headers: { Authorization: `Bearer ${token}` } },
           {}
         )
@@ -188,7 +186,7 @@ export function savePartialSubmission(grid) {
     dispatch({ type: SAVE_PARTIAL_SUBMISSION })
 
     return axios
-      .post(API_ROOT + '/saveSubmission', {
+      .post(Config.API_ROOT + '/saveSubmission', {
         data: {
           ...generateSubmitData(getState()),
           username: getState().user.username,
@@ -224,9 +222,8 @@ export function getSubmissions() {
   return dispatch => {
     dispatch({ type: GET_SUBMISSIONS })
     return axios
-      .get(API_ROOT + '/getSubmissions', {})
+      .get(Config.API_ROOT + '/getSubmissions', {})
       .then(response => {
-        console.log(response.data)
         return dispatch({
           type: GET_SUBMISSIONS_SUCCESS,
           payload: {
@@ -248,11 +245,13 @@ export function getSubmissions() {
 export const DELETE_SUBMISSION = 'DELETE_SUBMISSION'
 export const DELETE_SUBMISSION_FAIL = 'DELETE_SUBMISSION_FAIL'
 export const DELETE_SUBMISSION_SUCCESS = 'DELETE_SUBMISSION_SUCCESS'
-export function deleteSubmission(id) {
+export function deleteSubmission(id, username) {
   return dispatch => {
     dispatch({ type: DELETE_SUBMISSION })
     return axios
-      .post(API_ROOT + '/deleteSubmission', { data: { igo_request_id: id } })
+      .post(Config.API_ROOT + '/deleteSubmission', {
+        data: { service_id: id, username: username },
+      })
       .then(response => {
         return dispatch({
           type: DELETE_SUBMISSION_SUCCESS,
@@ -266,6 +265,37 @@ export function deleteSubmission(id) {
       .catch(error => {
         return dispatch({
           type: DELETE_SUBMISSION_FAIL,
+          error: error,
+        })
+        return error
+      })
+  }
+}
+
+export const DOWNLOAD_RECEIPT = 'DOWNLOAD_RECEIPT'
+export const DOWNLOAD_RECEIPT_FAIL = 'DOWNLOAD_RECEIPT_FAIL'
+export const DOWNLOAD_RECEIPT_SUCCESS = 'DOWNLOAD_RECEIPT_SUCCESS'
+export function downloadReceipt(id, username) {
+  return dispatch => {
+    dispatch({ type: DOWNLOAD_RECEIPT })
+    return axios
+      .get(Config.API_ROOT + '/download', {
+        params: { service_id: id, username: username },
+        responseType: 'blob',
+      })
+      .then(response => {
+        dispatch({
+          type: DOWNLOAD_RECEIPT_SUCCESS,
+          file: response.data,
+          filename: 'Receipt-' + id + '-' + username, // payload: {
+          //   submissions: response.data.submissions,
+          //   table: generateSubmissionsGrid(response.data),
+          // },
+        })
+      })
+      .catch(error => {
+        return dispatch({
+          type: DOWNLOAD_RECEIPT_FAIL,
           error: error,
         })
         return error
@@ -300,7 +330,7 @@ export function deleteSubmission(id) {
 //   return dispatch => {
 //     dispatch({ type: GET_SUBMISSIONS_EXISTS })
 //     return axios
-//       .post(API_ROOT + '/submissionExists', {
+//       .post(Config.API_ROOT + '/submissionExists', {
 //         data: {
 //           username: username,
 //           request_id: request_id,

@@ -1,15 +1,27 @@
 import {
-  uploadFormActions as UploadActionTypes,
+  uploadFormActions as FormActionTypes,
   userActions as ActionTypes,
 } from '../../actions'
-
+import FileSaver from 'file-saver'
 const initialState = {
   submissions: {},
+  username: '',
   loading: false,
   loggedIn: false,
+  saved: false,
+  submissionsTable: {},
+  isSaving: false,
 }
 
 function userReducer(state = initialState, action) {
+  const { error } = action
+
+  if (error && error.response && error.response.status == 401) {
+    return {
+      ...state,
+      loggedIn: false,
+    }
+  }
   switch (action.type) {
     case ActionTypes.REFRESH_TOKEN_REQUEST:
       return {
@@ -21,6 +33,8 @@ function userReducer(state = initialState, action) {
         ...state,
         loggedIn: true,
         loading: false,
+        isSaving: false,
+
         username: action.payload.username,
         // message: 'Welcome back, ' + action.payload.username + '.',
       }
@@ -39,6 +53,7 @@ function userReducer(state = initialState, action) {
         loggedIn: true,
         loading: false,
         username: action.payload.username,
+        role: action.payload.role,
         submissionsTable: action.table,
         submissions: action.payload.submissions,
         // message: action.payload.message,
@@ -53,11 +68,7 @@ function userReducer(state = initialState, action) {
 
     case ActionTypes.LOGOUT_SUCCESS:
       return {
-        ...state,
-        loggedIn: false,
-        loading: false,
-        username: '',
-        // message: 'Successfully logged out.',
+        ...initialState,
       }
 
     case ActionTypes.LOGOUT_FAIL:
@@ -68,7 +79,7 @@ function userReducer(state = initialState, action) {
         // message: action.message,
       }
 
-    case UploadActionTypes.RECEIVE_INITIAL_STATE_SUCCESS:
+    case FormActionTypes.RECEIVE_INITIAL_STATE_SUCCESS:
       return {
         ...state,
         submissionsTable: action.user_data.table,
@@ -139,6 +150,28 @@ function userReducer(state = initialState, action) {
     case ActionTypes.BUTTON_RESET: {
       return { ...state, submitted: false, saved: false }
     }
+
+    case ActionTypes.DOWNLOAD_RECEIPT:
+      return {
+        ...state,
+      }
+
+    case ActionTypes.DOWNLOAD_RECEIPT_FAIL:
+      return {
+        ...state,
+      }
+    case ActionTypes.DOWNLOAD_RECEIPT_SUCCESS:
+      FileSaver.saveAs(
+        new Blob([action.file], {
+          type:
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        }),
+        action.filename + '.xlsx'
+      )
+
+      return {
+        ...state,
+      }
 
     default:
       return state

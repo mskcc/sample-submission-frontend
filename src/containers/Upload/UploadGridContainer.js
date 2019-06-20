@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 
 import PropTypes from 'prop-types'
+import Swal from 'sweetalert2'
 
 import { connect } from 'react-redux'
 import { uploadGridActions, userActions } from '../../actions'
+
 
 import CircularProgress from '@material-ui/core/CircularProgress'
 
@@ -14,25 +16,55 @@ class UploadGridContainer extends React.Component {
     super(props)
   }
 
-  componentDidMount(prevProps, prevState) {
-    // console.log('prevState')
-    // console.log(prevState)
-    // console.log('state')
-    // console.log(this.state)
+  // componentDidMount(prevProps, prevState) {
+  // console.log('prevState')
+  // console.log(prevState)
+  // console.log('state')
+  // console.log(this.state)
+  // }
+
+
+  handleChange = changes => {
+    this.props.registerGridChange(changes)
+  }
+  handleMRN = rowIndex => {
+    this.props.handleMRN(rowIndex)
+  }
+  handleIndex = (colIndex, rowIndex, newValue) => {
+    this.props.handleIndex(colIndex, rowIndex, newValue)
+  }
+  handleAssay = (rowIndex, oldValue, newValue) => {
+    this.props.handleAssay(rowIndex, oldValue, newValue)
   }
 
-  handleChange = () => {
-    this.props.registerGridChange()
+
+  handleClear = () => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text:
+        "You won't be able to revert this unless you have a saved partial submission.",
+      type: 'warning',
+      showCancelButton: true,
+      animation: false,
+      confirmButtonColor: '#df4602',
+      cancelButtonColor: '#007cba',
+      confirmButtonText: 'Yes, delete it!',
+    }).then(result => {
+      if (result.value) {
+        this.props.handleClear()
+        // this.hotTableComponent.current.hotInstance.clear()
+      }
+    })
   }
 
   handleSubmit = () => {
-    this.props.addGridToBankedSample(this.props.grid)
+    this.props.handleSubmit()
   }
 
   handleSave = () => {
     if (
       this.submissionExists(
-        this.props.grid.form.igo_request_id,
+        this.props.grid.form.service_id,
         this.props.user.submissions
       )
     ) {
@@ -49,8 +81,8 @@ class UploadGridContainer extends React.Component {
     }
   }
 
-  submissionExists = (igo_request_id, submissions) => {
-    return submissions.some(e => e.igo_request_id === igo_request_id)
+  submissionExists = (service_id, submissions) => {
+    return submissions.some(e => e.service_id === service_id)
   }
 
   render() {
@@ -60,9 +92,15 @@ class UploadGridContainer extends React.Component {
       <UploadGrid
         grid={grid}
         user={user}
-        handleChange={this.handleChange}
+        handleMRN={this.handleMRN}
+        handleIndex={this.handleIndex}
+        handleAssay={this.handleAssay}
         handleSubmit={this.handleSubmit}
+        handleChange={this.handleChange}
         handleSave={this.handleSave}
+        preValidate={this.props.preValidate}
+        handlePatientId={this.props.handlePatientId}
+        handleClear={this.handleClear}
       />
     ) : null
   }

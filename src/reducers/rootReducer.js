@@ -5,19 +5,18 @@ import uploadReducer from './upload/uploadReducer'
 import commonReducer from './common/commonReducer'
 import userReducer from './user/userReducer'
 import { persistReducer } from 'redux-persist'
-import storage from 'redux-persist/lib/storage' // defaults to localStorage for web and AsyncStorage for react-native
+// import storage from 'redux-persist/lib/storage' // defaults to localStorage for web and AsyncStorage for react-native
+import sessionStorage from 'redux-persist/lib/storage/session' // defaults to localStorage for web and AsyncStorage for react-native
 
 import { commonActions } from '../actions'
 
 const persistConfig = {
   key: 'root',
-  storage,
-  whitelist: ['upload', 'user']
+  storage: sessionStorage,
+  whitelist: ['upload', 'user'],
 }
 
-
-
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   upload: uploadReducer,
   common: commonReducer,
   user: userReducer,
@@ -28,5 +27,19 @@ const rootReducer = combineReducers({
   // loginReducer,
   localize: localizeReducer,
 })
+
+const rootReducer = (state, action) => {
+  if (action.type === 'LOGOUT_SUCCESS') {
+    console.log('goodbye')
+    state = {
+      upload: undefined,
+      user: undefined,
+      common: undefined,
+      localize: state.localize,
+    }
+  }
+
+  return appReducer(state, action)
+}
 
 export default persistReducer(persistConfig, rootReducer)

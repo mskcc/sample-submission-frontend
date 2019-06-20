@@ -4,7 +4,7 @@ import { GridButton } from '../index'
 import { HotTable } from '@handsontable/react'
 import Handsontable from 'handsontable'
 import 'handsontable/dist/handsontable.full.css'
-import swal from '@sweetalert/with-react'
+import Swal from 'sweetalert2'
 
 // after comparing agGrid, react-data-grid, canvas-datagrid, react-data-sheet, ReactHandsOnTable won
 class UploadGrid extends React.Component {
@@ -21,14 +21,18 @@ class UploadGrid extends React.Component {
   getErrorMsg = () => {
     for (let i = 0; i < numberToAdd; i++) {}
   }
-  showError = error => {
-    console.log(error)
-
-    swal(error)
+  showError = (error, row, prop) => {
+    this.props.grid.rows[row].prop = ''
+    if (error) {
+      swal(error)
+    }
   }
 
   handleSave = () => {
     this.props.handleSave()
+  }
+  handleClear = () => {
+    this.props.handleClear()
   }
   handleSubmit = () => {
     const { columnFeatures, rows } = this.props.grid
@@ -47,29 +51,60 @@ class UploadGrid extends React.Component {
     }
 
     if (emptyColumns.size > 0) {
-      swal('Required', [...emptyColumns].join('\n '), 'error')
+      Swal.fire({
+        title: 'Required Fields',
+        html: [...emptyColumns].join('<br> '),
+        // footer: 'To avoid mistakes, invalid cells are cleared immediately.',
+        type: 'error',
+        animation: false,
+        confirmButtonText: 'Dismiss',
+        // customClass: { content: 'alert' },
+      })
     } else {
       this.props.handleSubmit()
     }
   }
 
+  showRowWarning = count => {
+    Swal.fire({
+      title: 'Too many rows.',
+      text:
+        'Please increase the number of samples in the header to at least ' +
+        count +
+        ' and re-generate the grid before you paste this data. Make sure you paste starting at the first cell if you want to paste the full grid.',
+      // footer: 'To avoid mistakes, invalid cells are cleared immediately.',
+      type: 'warning',
+      animation: false,
+      confirmButtonText: 'Dismiss',
+      // customClass: { content: 'alert' },
+    })
+  }
+
   render() {
-    const { classes, grid, handleChange, user } = this.props
-    // console.log(this.props.grid.rows.length)
+    const {
+      classes,
+      grid,
+      handleChange,
+      user,
+      handleMRN,
+      handleAssay,
+      handleIndex,
+      handlePatientId,
+    } = this.props
     return (
       <div>
         <div className={classes.container}>
           <div className={classes.buttons}>
             <GridButton
               id="grid_submit"
-              onSubmit={this.handleSubmit}
+              onClick={this.handleSubmit}
               isLoading={false}
               nothingToSubmit={false}
-              color="secondary"
+              color="primary"
             />
             <GridButton
               id="grid_save"
-              onSubmit={this.handleSave}
+              onClick={this.handleSave}
               isLoading={user.isSaving}
               done={user.saved}
               msg={'Saved!'}
@@ -77,10 +112,10 @@ class UploadGrid extends React.Component {
             />{' '}
             <GridButton
               id="grid_clear"
-              // onSubmit={this.handleSubmit}
+              onClick={this.handleClear}
               isLoading={false}
               nothingToSubmit={false}
-              color="primary"
+              color="secondary"
             />
           </div>
           <HotTable
@@ -90,77 +125,49 @@ class UploadGrid extends React.Component {
             colHeaders={grid.columns}
             columns={grid.columnFeatures}
             rowHeaders={true}
+            hiddenColumns={grid.hiddenColumns}
             headerTooltips={true}
             manualColumnResize={true}
             comments={true}
             ref={this.hotTableComponent}
-            // colWidths="190"
-            // cells={function(row, col, prop) {
-            //   // first row contains helptext
-            //   var cellProperties = {}
-            //   if (row === 0) {
-            //     cellProperties.readOnly = true
-            //     cellProperties.className = classes.tooltipCell
-            //     cellProperties.type = 'text'
-            //   }
-            //   return cellProperties
-            // }}
-            afterChange={(change, source) => {
-              if (source !== 'loadData') {
-                handleChange(change)
+            beforeChange={(changes, source) => {
+              //  only do something if rows can fit the changes/if
+                // last changes[] element's row index is <= rows
+              if (changes[changes.length - 1][0] > grid.rows.length) {
+                this.showRowWarning(changes[changes.length - 1][0])
+                return false
+              }
+              if (changes.length > 50) {
+                this.props.preValidate()
               }
             }}
-            afterValidate={(isValid, value, row, prop, source) => {
-              // let error = this.getErrorMsg(col)
+            afterChange={(changes, source) => {
+              if (changes) {
+                let i = 0
+                if (source !== 'loadData') {
+                  changes.forEach(([row, prop, oldValue, newValue]) => {
+                    i++
+                    let rowIndex = row
+                    if (prop == 'patientId') {
+                      handlePatientId(rowIndex)
+                    }
 
-              // let col = this.hotTableComponent.current.hotInstance.propToCol(prop)
-              // alert("col.error")
-              // let col = this.propToCol(prop)
-              if (!isValid) {
-                let col = this.hotTableComponent.current.hotInstance.propToCol(
-                  prop
-                )
-
-                this.showError(grid.columnFeatures[col].error)
+                    if (prop == 'assay') {
+                      if (
+                        newValue != oldValue &&
+                        oldValue != '' &&
+                        oldValue != undefined
+                      ) {
+                        handleAssay(rowIndex, oldValue, newValue)
+                      }
+                    }
+                  })
+                  if (i == changes.length) {
+                    handleChange(changes)
+                  }
+                }
               }
-              // this.setState({
-              //   status: isValid,
-              //   [col]: grid.columnFeatures[col].error,
-              // })
             }}
-            // afterChange={(changes, source) => {
-            //   if (source === 'edit') {
-            //     console.log(changes[0][1])
-            //     if (this.state.status === false) {
-            //       const TD = this.hotTableComponent.current.hotInstance.getCell(
-            //         changes[0][0],
-            //         this.hotTableComponent.current.hotInstance.propToCol(changes[0][1])
-            //       )
-            //       console.log(TD)
-
-            //       if (!this.state.invalidCells.includes(TD)) {
-            //         this.state.invalidCells.push(TD)
-            //       }
-
-            //       this.state.invalidCells.forEach((td, index) => {
-            //         if (!td.classList.contains('htInvalid')) {
-            //           td.classList.add('htInvalid')
-            //         }
-            //       })
-            //     }
-
-            //     if (this.state.invalidCells.length) {
-            //       this.state.invalidCells.forEach((td, index) => {
-            //         if (td.classList.contains('htNumeric')) {
-            //           td.classList.remove('htInvalid')
-            //           this.state.invalidCells.splice(index, 1)
-            //         } else {
-            //           td.classList.add('htInvalid')
-            //         }
-            //       })
-            //     }
-            //   }
-            // }}
             width="95%"
             stretchH="all"
             // height="10%"
@@ -168,10 +175,10 @@ class UploadGrid extends React.Component {
               if (grid.rows.length >= 25) return '700'
               // else if (grid.rows.length >= 900) return '100vh'
               else if (grid.rows.length >= 20) return '510'
-              else if (grid.rows.length >= 15) return '500'
-              else if (grid.rows.length >= 10) return '400'
-              else if (grid.rows.length >= 5) return '200'
-              else if (grid.rows.length < 5) return '150'
+              else if (grid.rows.length >= 15) return '650'
+              else if (grid.rows.length >= 10) return '550'
+              else if (grid.rows.length >= 5) return '450'
+              else if (grid.rows.length < 5) return '350'
             }}
           />
         </div>
@@ -189,6 +196,7 @@ const styles = theme => ({
     width: '95vw',
     // maxHeight: 600,
     overflow: 'hidden',
+    marginBottom: '5em',
   },
   buttons: {},
   tooltipCell: {
@@ -202,90 +210,3 @@ const styles = theme => ({
 })
 
 export default withStyles(styles)(UploadGrid)
-
-// Syntax Examples
-// colHeaders: [
-//   'ID',
-//   'Country',
-//   'Code',
-//   'Currency',
-//   'Level',
-//   'Units',
-//   'Date',
-//   'Change'
-// ],
-
-// columns: [
-//    {
-//      data: 'id',
-//      type: 'numeric',
-//      width: 40
-//    },
-//    {
-//      data: 'flag',
-//      renderer: flagRenderer
-//    },
-//    {
-//      data: 'currencyCode',
-//      type: 'text'
-//    },
-//    {
-//      data: 'currency',
-//      type: 'text'
-//    },
-//    {
-//      data: 'level',
-//      type: 'numeric',
-//      numericFormat: {
-//        pattern: '0.0000'
-//      }
-//    },
-//    {
-//      data: 'units',
-//      type: 'text'
-//    },
-//    {
-//      data: 'asOf',
-//      type: 'date',
-//      dateFormat: 'MM/DD/YYYY'
-//    },
-//    {
-//      data: 'onedChng',
-//      type: 'numeric',
-//      numericFormat: {
-//        pattern: '0.00%'
-//      }
-//    }
-//  ],
-
-// dataObject = [
-// {
-//   id: 1,
-//   flag: 'EUR',
-//   currencyCode: 'EUR',
-//   currency: 'Euro',
-//   level: 0.9033,
-//   units: 'EUR / USD',
-//   asOf: '08/19/2019',
-//   onedChng: 0.0026
-// },
-// {
-//   id: 2,
-//   flag: 'JPY',
-//   currencyCode: 'JPY',
-//   currency: 'Japanese Yen',
-//   level: 124.3870,
-//   units: 'JPY / USD',
-//   asOf: '08/19/2019',
-//   onedChng: 0.0001
-// },
-// {
-//   id: 3,
-//   flag: 'GBP',
-//   currencyCode: 'GBP',
-//   currency: 'Pound Sterling',
-//   level: 0.6396,
-//   units: 'GBP / USD',
-//   asOf: '08/19/2019',
-//   onedChng: 0.00
-// }]

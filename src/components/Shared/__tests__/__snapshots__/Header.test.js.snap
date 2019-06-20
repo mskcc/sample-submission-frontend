@@ -2,31 +2,30 @@
 
 exports[`Render Header render Header correctly 1`] = `
 <header
-  className="MuiPaper-root-14 MuiPaper-elevation4-20 MuiAppBar-root-5 MuiAppBar-positionStatic-9 MuiAppBar-colorPrimary-12 Header-header-1"
+  className="MuiPaper-root MuiPaper-elevation4 MuiAppBar-root MuiAppBar-positionStatic Header-header-1 MuiAppBar-colorPrimary"
   title="msk.png"
 >
   <div
-    className="MuiToolbar-root-41 MuiToolbar-regular-43 MuiToolbar-gutters-42"
+    className="MuiToolbar-root MuiToolbar-regular MuiToolbar-gutters"
   >
     <div
-      className="MuiAvatar-root-45"
+      className="MuiAvatar-root"
     >
       <img
         alt="mskcc logo"
-        className="MuiAvatar-img-47"
+        className="MuiAvatar-img"
         src="msk.png"
       />
     </div>
     <h6
-      className="MuiTypography-root-48 MuiTypography-h6-65 MuiTypography-colorInherit-77 Header-title-2"
+      className="MuiTypography-root Header-title-2 MuiTypography-h6 MuiTypography-colorInherit"
     >
       SampleReceiving V2
     </h6>
     <button
-      className="MuiButtonBase-root-110 MuiButton-root-84 MuiButton-text-86 MuiButton-flat-89"
+      className="MuiButtonBase-root MuiButton-root MuiButton-text"
       disabled={false}
       onBlur={[Function]}
-      onContextMenu={[Function]}
       onFocus={[Function]}
       onKeyDown={[Function]}
       onKeyUp={[Function]}
@@ -36,11 +35,11 @@ exports[`Render Header render Header correctly 1`] = `
       onTouchEnd={[Function]}
       onTouchMove={[Function]}
       onTouchStart={[Function]}
-      tabIndex="0"
+      tabIndex={0}
       type="button"
     >
       <span
-        className="MuiButton-label-85"
+        className="MuiButton-label"
       >
         <a
           aria-current={null}
@@ -49,15 +48,12 @@ exports[`Render Header render Header correctly 1`] = `
           onClick={[Function]}
         >
           <h6
-            className="MuiTypography-root-48 MuiTypography-h6-65 MuiTypography-colorInherit-77"
+            className="MuiTypography-root MuiTypography-h6 MuiTypography-colorInherit"
           >
             Login
           </h6>
         </a>
       </span>
-      <span
-        className="MuiTouchRipple-root-113"
-      />
     </button>
   </div>
 </header>

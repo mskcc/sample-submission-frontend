@@ -17,44 +17,13 @@ class UploadForm extends React.Component {
     super(props)
 
     this.state = {
-      // values: {
-      //   material: '',
-      //   application: '',
-      //   igo_request_id: '',
-      //   number_of_samples: '',
-      //   species: '',
-      //   container: '',
-      //   patient_id_type: '',
-      // },
       values: {
         ...this.props.form.selected,
       },
-      // values: {
-      //   material: 'DNA',
-      //   application: 'AmpliSeq',
-      //   igo_request_id: '444444',
-      //   number_of_samples: '1',
-      //   species: 'Human',
-      //   container: 'Plates',
-      //   patient_id_type: 'MSK-Patients (or derived from MSK Patients)',
-      // },
-      // values: {
-      //   material: 'Tissue',
-      //   application: 'CustomCapture',
-      //   igo_request_id: '444444',
-      //   number_of_samples: '400',
-      //   species: 'Tuberculosis',
-      //   container: 'Plates',
-      //   patient_id_type: '',
-      // },
-      // formErrors: {},
-      igo_alternative_id: false,
-      species_samples_checked: false,
       formValid: {
-        // form: false,
         material: true,
         application: true,
-        igo_request_id: true,
+        service_id: true,
         number_of_samples: true,
         species: true,
         container: true,
@@ -81,7 +50,6 @@ class UploadForm extends React.Component {
   }
 
   handleChange = () => {
-    // reset error
     this.setState({
       values: {
         ...this.state.values,
@@ -89,78 +57,65 @@ class UploadForm extends React.Component {
       },
       formValid: { ...this.state.formValid, [event.target.id]: true },
     })
-    // this.props.handleSelect(event.target.id,event.target.value)
-    // let value =
-    //   event.target.id == 'igo_request_id'
-    //     ? 'IGO-' + event.target.value
-    //     : event.target.value
     this.props.handleInputChange(event.target.id, event.target.value)
   }
 
-  handleIGOCheck = name => () => {
-    let date = this.getDate()
+  handleServiceIdCheck = name => () => {
+    var date = new Date()
+    var timestamp = date.getTime()
 
     this.setState({
       values: {
         ...this.state.values,
-        igo_request_id: date,
+        service_id: timestamp,
+        [name]: event.target.checked,
       },
-      [name]: event.target.checked,
+
+      formValid: { ...this.state.formValid, service_id: true },
     })
+    if (event.target.checked) {
+      this.props.handleInputChange('service_id', timestamp)
+      this.props.handleInputChange('alt_service_id', true)
+    } else {
+      this.props.handleInputChange('service_id', '')
+      this.props.handleInputChange('alt_service_id', false)
+    }
   }
 
-  handleSpeciesCheck = name => () => {
+  handleGroupingCheck = name => () => {
     this.setState({
-      species_samples_checked: event.target.checked,
+      values: { ...this.state.values, grouping_checked: event.target.checked },
     })
-  }
-
-  getDate = () => {
-    let today = new Date()
-    let dd = today.getDate()
-    let mm = today.getMonth() + 1 //January is 0!
-    let yyyy = today
-      .getFullYear()
-      .toString()
-      .substr(-2)
-
-    if (dd < 10) {
-      dd = '0' + dd
-    }
-
-    if (mm < 10) {
-      mm = '0' + mm
-    }
-
-    return mm + dd + yyyy
+    this.props.handleInputChange('grouping_checked', event.target.checked)
   }
 
   handleSubmit = (e, handleParentSubmit) => {
     e.preventDefault()
     e.stopPropagation()
-
     if (this.validate()) {
       handleParentSubmit({
         ...this.state.values,
-        
-        igo_request_id: 'IGO-' + this.state.values.igo_request_id.toString(),
+
+        service_id: 'IGO-' + this.state.values.service_id.toString(),
       })
     }
-    // } else alert('error')
   }
 
   validate() {
-    // let formErrors = this.state.formErrors
     let formValid = this.state.formValid
     let valid
     let error
     let isValidOption
-    let values = this.state.values
+    let values = this.props.form.selected
     for (let value in values) {
       switch (value) {
-        case 'igo_request_id':
-          formValid[value] =
-            /\d{6}/g.test(values[value]) && values[value].length === 6
+        case 'service_id':
+          if (values.alt_service_id) {
+            formValid[value] = true
+          } else {
+            formValid[value] =
+              /\d{6}/g.test(values[value]) && values[value].length === 6
+          }
           break
         case 'material':
           // validate whether selected value in dynamic fields is in controlled options
@@ -184,14 +139,14 @@ class UploadForm extends React.Component {
           break
 
         case 'container':
-          isValidOption = this.props.form.containers.some(function(el) {
+          isValidOption = this.props.form.filteredContainers.some(function(el) {
             return el.value === values[value]
           })
           formValid[value] = isValidOption && values[value].length > 0
           break
 
         case 'species':
-          isValidOption = this.props.form.allSpecies.some(function(el) {
+          isValidOption = this.props.form.filteredSpecies.some(function(el) {
             return el.value === values[value]
           })
           formValid[value] = isValidOption && values[value].length > 0
@@ -199,7 +154,11 @@ class UploadForm extends React.Component {
 
         case 'patient_id_type':
           // only validate if species mandates a format, else value will be disregarded anyway
-          if (this.props.form.patientIDTypeNeedsFormatting) {
+          if (
+            this.state.values.species == 'Human ' &&
+            this.state.values.patient_id_type ==
+              'MSK-Patients (or derived from MSK Patients)'
+          ) {
             isValidOption = this.props.form.picklists.PatientIDTypes.some(
               function(el) {
                 return el.value === values[value]
@@ -231,10 +190,10 @@ class UploadForm extends React.Component {
 
   validateForm() {
     return (
-      this.state.formValid.igo_request_id &&
+      this.state.formValid.service_id &&
       this.state.formValid.material &&
       this.state.formValid.application &&
-      this.state.formValid.igo_request_id &&
+      this.state.formValid.service_id &&
       this.state.formValid.number_of_samples &&
       this.state.formValid.species &&
       this.state.formValid.container &&
@@ -257,7 +216,6 @@ class UploadForm extends React.Component {
     const buttonClassname = classNames({
       [classes.buttonSuccess]: !this.props.gridIsLoading,
     })
-    
     return (
       <Translate>
         {({ translate }) => (
@@ -306,7 +264,8 @@ class UploadForm extends React.Component {
                   error={!formValid.species}
                   onSelect={handleSpeciesChange}
                   onChange={this.handleDropdownChange}
-                  items={form.allSpecies.map(option => ({
+                  loading={form.formIsLoading}
+                  items={form.filteredSpecies.map(option => ({
                     value: option.value,
                     label: option.value,
                   }))}
@@ -320,9 +279,9 @@ class UploadForm extends React.Component {
                 values.species == 'Mouse' ||
                 values.species == 'Mouse_GeneticallyModified' ? (
                   <Checkbox
-                    id="species_checkbox"
-                    checked={this.state.species_samples_checked}
-                    onChange={this.handleSpeciesCheck}
+                    id="grouping_checkbox"
+                    checked={form.selected.grouping_checked}
+                    onChange={this.handleGroupingCheck}
                   />
                 ) : null}
               </FormControl>
@@ -330,11 +289,10 @@ class UploadForm extends React.Component {
               {// PatientID is needed when Human is selected or when Mouse* is selected and combined with species checkbox value
               this.props.form.patientIDTypeNeedsFormatting &&
               form.picklists.PatientIDTypes &&
-              (values.species == 'Human' &&
-                !this.state.species_samples_checked) ? (
+              (values.species == 'Human' && !this.state.grouping_checked) ? (
                 <Dropdown
                   id={
-                    this.state.species_samples_checked
+                    this.state.grouping_checked
                       ? 'group_id_type'
                       : 'patient_id_type'
                   }
@@ -356,7 +314,7 @@ class UploadForm extends React.Component {
                 id="container"
                 error={!formValid.container}
                 onChange={this.handleDropdownChange}
-                items={form.containers.map(option => ({
+                items={form.filteredContainers.map(option => ({
                   value: option.id,
                   label: option.value,
                 }))}
@@ -378,30 +336,42 @@ class UploadForm extends React.Component {
               />
               <FormControl component="fieldset">
                 <Input
-                  id="igo_request_id"
-                  value={form.selected.igo_request_id}
-                  error={!formValid.igo_request_id}
+                  id="service_id"
+                  value={form.selected.service_id}
+                  error={!formValid.service_id}
                   onChange={this.handleChange}
                   inputProps={{
+                    disabled: form.selected.alt_service_id,
                     startAdornment: (
                       <InputAdornment position="start">IGO-</InputAdornment>
                     ),
                   }}
                 />
                 <Checkbox
-                  id="igo_alternative_id"
-                  checked={this.state.igo_alternative_id}
-                  onChange={this.handleIGOCheck}
+                  id="alt_service_id"
+                  checked={form.selected.alt_service_id}
+                  onChange={this.handleServiceIdCheck}
                   hasHelptext
                 />
               </FormControl>
             </form>
-            <Button
-              id="form_submit"
-              formId="upload-form"
-              isLoading={gridIsLoading}
-              nothingToSubmit={nothingToChange}
-            />{' '}
+            <div>
+              <Button
+                color="primary"
+                id="form_submit"
+                formId="upload-form"
+                isLoading={gridIsLoading}
+                nothingToSubmit={nothingToChange}
+              />
+
+              <Button
+                color="secondary"
+                id="form_clear"
+                onClick={this.props.handleClear}
+                isLoading={false}
+                nothingToSubmit={false}
+              />
+            </div>
           </Paper>
         )}
       </Translate>
@@ -440,11 +410,15 @@ UploadForm.propTypes = {
 
 const styles = theme => ({
   container: {
+    // backgroundColor: "rgba(143, 199, 232, .1)",
     gridArea: 'form',
     display: 'grid',
     justifyItems: 'center',
-    width: '50%',
+    width: '80%',
+    maxWidth: '1200px',
     margin: '2em auto',
+    padding: '2em',
+    marginBottom: '4em',
   },
   form: {
     display: 'flex',
@@ -459,16 +433,7 @@ const styles = theme => ({
   menu: {
     width: 200,
   },
-  button: {
-    margin: theme.spacing(1),
-    height: 50,
-    display: 'inline-block',
-    width: 300,
-  },
-  wrapper: {
-    margin: theme.spacing(1),
-    position: 'relative',
-  },
+
   buttonProgress: {
     position: 'absolute',
     top: '50%',

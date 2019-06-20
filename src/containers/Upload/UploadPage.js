@@ -13,10 +13,11 @@ import UploadGridContainer from './UploadGridContainer'
 export class UploadPage extends Component {
   handleFormSubmit = formValues => {
     // TODO When do people update sample number?
+
     this.props.getColumns(formValues)
   }
   handleGridSubmit = formValues => {
-    // this.props.resetErrorMessage()
+    this.props.addGridToBankedSample(this.props)
   }
 
   handleDialogClose = () => {
@@ -31,7 +32,7 @@ export class UploadPage extends Component {
     return (
       <React.Fragment>
         <Dialog
-          open={this.props.grid.error.length > 0}
+          open={this.props.grid.gridError.length > 0}
           handleClose={this.handleDialogClose}
           msg={this.props.grid.error}
         />

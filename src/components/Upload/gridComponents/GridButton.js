@@ -9,14 +9,14 @@ import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
 import { Translate } from 'react-localize-redux'
 
-const Button = ({ id, onSubmit, isLoading, done, title, classes, color }) => (
+const Button = ({ id, onClick, isLoading, done, title, classes, color }) => (
   <Translate>
     {({ translate }) => (
       <React.Fragment>
         <MuiButton
           variant="contained"
           type="submit"
-          onClick={onSubmit}
+          onClick={onClick}
           className={classes.button}
           color={color}
           disabled={isLoading}

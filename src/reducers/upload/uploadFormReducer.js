@@ -20,8 +20,9 @@ export default function uploadFormReducer(state = initialFormState, action) {
         allMaterials: action.form_data.materials,
         allApplications: action.form_data.applications,
         allSpecies: action.form_data.species,
+        filteredSpecies: action.form_data.species,
         allContainers: action.form_data.containers,
-        containers: action.form_data.containers,
+        filteredContainers: action.form_data.containers,
 
         // patientIdFormats: action.data.patientIdFormats,
       }
@@ -64,34 +65,28 @@ export default function uploadFormReducer(state = initialFormState, action) {
     case ActionTypes.CLEAR:
       return {
         ...state,
+
         selected: {
           ...state.selected,
-          [action.payload.id]: '',
+          [action.payload.id]:
+            action.payload.id == 'grouping_checked' || 'alt_service_id'
+              ? false
+              : '',
         },
       }
 
+    case ActionTypes.CLEAR_FORM:
+      return {
+        ...state,
+        initialFetched: false,
+        selected: { ...initialFormState.selected },
+      }
     case ActionTypes.SELECT_MATERIAL:
       return {
         ...state,
         selected: { ...state.selected, material: action.selectedMaterial },
       }
 
-    case ActionTypes.FILTER_CONTAINERS:
-      return {
-        ...state,
-        filteredContainers: state.filteredContainers,
-      }
-
-    case ActionTypes.FILTER_CONTAINERS_FOR_BS:
-      return {
-        ...state,
-        filteredContainers: state.filteredContainersBS,
-      }
-    case ActionTypes.SHOW_ALL_CONTAINERS:
-      return {
-        ...state,
-        filteredContainers: state.allContainers,
-      }
     case ActionTypes.SELECT_APPLICATION:
       return {
         ...state,
@@ -107,11 +102,20 @@ export default function uploadFormReducer(state = initialFormState, action) {
         formIsLoading: true,
       }
     case ActionTypes.RECEIVE_MATERIALS_FOR_APPLICATION_SUCCESS:
-      return {
-        ...state,
-        formIsLoading: false,
-        filteredMaterials: action.materials,
-      }
+      return action.species.length > 0
+        ? {
+            ...state,
+            formIsLoading: false,
+            filteredMaterials: action.materials,
+            filteredSpecies: action.species,
+            selected: { ...state.selected, species: action.species[0].id },
+          }
+        : {
+            ...state,
+            formIsLoading: false,
+            filteredMaterials: action.materials,
+            filteredSpecies: state.allSpecies,
+          }
     case ActionTypes.RECEIVE_MATERIALS_FOR_APPLICATION_FAIL:
       return {
         ...state,
@@ -125,11 +129,20 @@ export default function uploadFormReducer(state = initialFormState, action) {
         formIsLoading: true,
       }
     case ActionTypes.RECEIVE_APPLICATIONS_FOR_MATERIAL_SUCCESS:
-      return {
-        ...state,
-        formIsLoading: false,
-        filteredApplications: action.applications,
-      }
+      return action.containers.length > 0
+        ? {
+            ...state,
+            formIsLoading: false,
+            filteredApplications: action.applications,
+            filteredContainers: action.containers,
+            selected: { ...state.selected, container: action.containers[0].id },
+          }
+        : {
+            ...state,
+            formIsLoading: false,
+            filteredApplications: action.applications,
+            filteredContainers: state.allContainers,
+          }
     case ActionTypes.RECEIVE_APPLICATIONS_FOR_MATERIAL_FAIL:
       return {
         ...state,
@@ -201,6 +214,7 @@ export default function uploadFormReducer(state = initialFormState, action) {
       return {
         ...state,
         filteredApplications: state.allApplications,
+        filteredContainers: state.allContainers,
         selected: { ...state.selected, material: '' },
         formIsLoading: true,
       }
@@ -208,6 +222,7 @@ export default function uploadFormReducer(state = initialFormState, action) {
       return {
         ...state,
         filteredMaterials: state.allMaterials,
+        filteredSpecies: state.allSpecies,
         selected: { ...state.selected, application: '' },
         formIsLoading: true,
       }
@@ -223,7 +238,7 @@ export default function uploadFormReducer(state = initialFormState, action) {
         ...state,
         selected: {
           ...form,
-          igo_request_id: form.igo_request_id.replace('IGO-', ''),
+          service_id: form.service_id.replace('IGO-', ''),
         },
       }
 
