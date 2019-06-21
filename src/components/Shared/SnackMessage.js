@@ -1,3 +1,8 @@
+// Non-disruptive message at the bottom of any page. Used for messaged like
+// - successful login
+// - single validation error
+// - expired token error
+
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
@@ -39,7 +44,6 @@ class SimpleSnackbar extends React.Component {
     return (
       <div>
         <Snackbar
-         
           anchorOrigin={{
             vertical: 'bottom',
             horizontal: 'center',

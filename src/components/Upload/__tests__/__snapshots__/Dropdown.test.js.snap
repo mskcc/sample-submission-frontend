@@ -90,7 +90,7 @@ exports[`Render Dropdown render Dropdown correctly 1`] = `
       <p
         className="MuiFormHelperText-root"
       >
-        Missing translationId: upload.form.test_me_helptext for language: \${ languageCode }
+        Missing translationId: upload.form.test_me_helptext for language: \${ languageCode } (2 choices)
       </p>
     </div>
   </div>

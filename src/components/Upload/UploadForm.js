@@ -275,8 +275,7 @@ class UploadForm extends React.Component {
                   }}
                   dynamic
                 />
-                {// this.props.form.patientIDTypeNeedsFormatting &&
-                values.species == 'Mouse' ||
+                {values.species == 'Mouse' ||
                 values.species == 'Mouse_GeneticallyModified' ? (
                   <Checkbox
                     id="grouping_checkbox"
@@ -381,24 +380,41 @@ class UploadForm extends React.Component {
 
 UploadForm.defaultProps = {
   form: {
-    allContainers: [{ id: 'id', value: 'value' }],
-    allApplications: [{ id: 'id', value: 'value' }],
-    allMaterials: [{ id: 'id', value: 'value' }],
-    allpatientIDTypes: [],
-    applications: [{ id: 'id', value: 'value' }],
-    containers: [{ id: 'id', value: 'value' }],
+    initialFetched: false,
+    allContainers: [{ id: 'test', value: 'test' }],
+    allApplications: [{ id: 'test', value: 'test' }],
+    allMaterials: [{ id: 'test', value: 'test' }],
+    allPatientIdFormats: [{ id: 'test', value: 'test' }],
+    filteredApplications: [{ id: 'test', value: 'test' }],
+    filteredSpecies: [{ id: 'test', value: 'test' }],
+    filteredMaterials: [{ id: 'test', value: 'test' }],
     formIsLoading: false,
-    filteredContainers: [{ id: 'id', value: 'value' }],
-    filteredContainersBS: [{ id: 'id', value: 'value' }],
-    materials: [{ id: 'id', value: 'value' }],
-    selectedApplication: '',
-    selectedMaterial: '',
-    species: [{ id: 'id', value: 'value' }],
+    filteredContainers: [
+      { id: 'Plates', value: 'Plates' },
+      { id: 'Micronic Barcoded Tubes', value: 'Micronic Barcoded Tubes' },
+    ],
+
+    allSpecies: [{ id: 'test', value: 'test' }],
     patientIDTypeNeedsFormatting: false,
-    picklists: { PatientIDTypes: [{ id: 'id', value: 'value' }] },
+    selected: {
+      application: '',
+      material: '',
+      service_id: '',
+      number_of_samples: '',
+      species: '',
+      container: '',
+      patient_id_type: '',
+      grouping_checked: false,
+      alt_service_id: false,
+    },
+
+    handleSubmit: () => {},
+    handleApplicationChange: () => {},
+    handleMaterialChange: () => {},
+    handleSpeciesChange: () => {},
+    gridIsLoading: () => {},
+    nothingToChange: () => {},
   },
-  gridIsLoading: false,
-  nothingToChange: false,
 }
 
 UploadForm.propTypes = {

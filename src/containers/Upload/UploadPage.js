@@ -12,16 +12,10 @@ import UploadGridContainer from './UploadGridContainer'
 
 export class UploadPage extends Component {
   handleFormSubmit = formValues => {
-    // TODO When do people update sample number?
-
     this.props.getColumns(formValues)
   }
   handleGridSubmit = formValues => {
     this.props.addGridToBankedSample(this.props)
-  }
-
-  handleDialogClose = () => {
-    this.props.resetGridErrorMessage()
   }
 
   componentDidMount() {
@@ -31,11 +25,6 @@ export class UploadPage extends Component {
   render() {
     return (
       <React.Fragment>
-        <Dialog
-          open={this.props.grid.gridError.length > 0}
-          handleClose={this.handleDialogClose}
-          msg={this.props.grid.error}
-        />
         <UploadFormContainer
           handleSubmit={this.handleFormSubmit}
           gridIsLoading={this.props.grid.gridIsLoading}
@@ -47,18 +36,18 @@ export class UploadPage extends Component {
   }
 }
 
+UploadPage.defaultProps = {
+  grid: {},
+}
+
 const mapStateToProps = state => ({
-  errorMessage: state.errorMessage,
   grid: state.upload.grid,
-  loggedIn: state.user.loggedIn,
-  loading: state.user.loading,
 })
 
 export default withLocalize(
   connect(
     mapStateToProps,
     {
-      // resetErrorMessage,
       ...uploadGridActions,
       ...userActions,
     }

@@ -220,15 +220,16 @@ export function getPicklist(picklist) {
       .get(Config.API_ROOT + '/listValues/' + picklist)
 
       .then(response => {
-        dispatch({ type: RECEIVE_PICKLIST_SUCCESS, picklist: response.data })
-        return response
+        return dispatch({
+          type: RECEIVE_PICKLIST_SUCCESS,
+          picklist: response.data,
+        })
       })
       .catch(error => {
-        dispatch({
+        return dispatch({
           type: RECEIVE_PICKLIST_FAIL,
           error: error,
         })
-        return error
       })
   }
 }

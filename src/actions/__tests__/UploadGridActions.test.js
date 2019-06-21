@@ -37,7 +37,6 @@ describe('upload grid actions', () => {
 
   it('should execute getColumns and getInitialColumns', () => {
     const store = mockStore(gridTestStore)
-
     moxios.wait(() => {
       const request = moxios.requests.mostRecent()
       request.respondWith({
@@ -47,13 +46,13 @@ describe('upload grid actions', () => {
     })
     const expectedActions = [
       {
-        type: 'REQUEST_COLUMNS',
+        type: 'GET_COLUMNS',
       },
       {
-        type: 'REQUEST_INITIAL_COLUMNS',
+        type: 'GET_INITIAL_COLUMNS',
       },
       {
-        type: 'RECEIVE_COLUMNS_SUCCESS',
+        type: 'GET_COLUMNS_SUCCESS',
         grid: gridMock,
         form: formValuesMock,
       },
@@ -80,10 +79,10 @@ describe('upload grid actions', () => {
     })
     const expectedActions = [
       {
-        type: 'REQUEST_INITIAL_COLUMNS',
+        type: 'GET_INITIAL_COLUMNS',
       },
       {
-        type: 'RECEIVE_COLUMNS_FAIL',
+        type: 'GET_COLUMNS_FAIL',
         material: 'Cells',
         application: 'AmpliSeq',
         error: errResp,
@@ -111,7 +110,7 @@ describe('upload grid actions', () => {
     let formValues = formValuesMock
     const expectedActions = [
       {
-        type: 'REQUEST_COLUMNS',
+        type: 'GET_COLUMNS',
       },
       {
         type: 'UPDATE_NUM_OF_ROWS',
@@ -120,11 +119,12 @@ describe('upload grid actions', () => {
         type: 'UPDATE_NUM_OF_ROWS_SUCCESS',
         rows: [{ tubeId: '', userId: '' }, { tubeId: '', userId: '' }],
         form: formValuesMock,
+        message: 'Number of rows updated.',
       },
     ]
-// expect(store.getState().upload.grid.rows.length).toEqual(
-//   parseInt(oldNumber)
-// )
+    // expect(store.getState().upload.grid.rows.length).toEqual(
+    //   parseInt(oldNumber)
+    // )
     store.dispatch(uploadGridActions.getColumns(formValuesMock))
 
     const actions = store.getActions()

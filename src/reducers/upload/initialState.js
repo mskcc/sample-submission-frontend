@@ -4,10 +4,9 @@ export const initialFormState = {
   allMaterials: [],
   allPatientIdFormats: [],
   filteredApplications: [],
-  containers: [],
   filteredContainers: [],
   formIsLoading: false,
-
+  initialFetched: false,
   filteredMaterials: [],
   picklists: {},
 
@@ -37,7 +36,7 @@ export const initialFormState = {
   //   grouping_checked: false,
   //   alt_service_id: false,
   // },
-    selected: {
+  selected: {
     application: '',
     material: '',
     service_id: '',
@@ -46,8 +45,7 @@ export const initialFormState = {
     container: '',
     patient_id_type: '',
     grouping_checked: false,
-  alt_service_id: false,
-
+    alt_service_id: false,
   },
 }
 

@@ -98,6 +98,15 @@ export class UploadFormContainer extends React.Component {
 
 UploadFormContainer.defaultProps = {
   getInitialState: () => {},
+  form: {},
+  gridIsLoading: false,
+  nothingToChange: false,
+  handleSubmit: () => {},
+  handleMaterialChange: () => {},
+  handleApplicationChange: () => {},
+  handleSpeciesChange: () => {},
+  handleInputChange: () => {},
+  handleClear: () => {},
 }
 
 const mapStateToProps = state => ({

@@ -175,23 +175,25 @@ export function getInitialColumns(formValues, userRole) {
       })
       .then(response => {
         // Handsontable binds to your data source (list of arrays or list of objects) by reference. Therefore, all the data entered in the grid will alter the original data source.
-        let grid = generateGridData(response.data.columnDefs, formValues, userRole)
+        let grid = generateGridData(
+          response.data.columnDefs,
+          formValues,
+          userRole
+        )
 
-        dispatch({
+        return dispatch({
           type: GET_COLUMNS_SUCCESS,
           grid: grid,
           form: formValues,
         })
-        return response
       })
       .catch(error => {
-        dispatch({
+        return dispatch({
           type: GET_COLUMNS_FAIL,
           error: error,
           application: application,
           material: material,
         })
-        return error
       })
   }
 }

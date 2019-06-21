@@ -11,22 +11,6 @@ describe('upload form reducers', () => {
     expect(uploadFormReducer(undefined, {})).toEqual(formTestStore)
   })
 
-  it('handles container filtering', () => {
-    const action = { type: 'FILTER_CONTAINERS_FOR_BS' }
-
-    expect(uploadFormReducer(formTestStore, action)).toEqual({
-      ...formTestStore,
-      containers: formTestStore.filteredContainersBS,
-    })
-
-    const action2 = { type: 'SHOW_ALL_CONTAINERS' }
-
-    expect(uploadFormReducer(formTestStore, action2)).toEqual({
-      ...formTestStore,
-      containers: formTestStore.allContainers,
-    })
-  })
-
   it('handles materials for selected application', () => {
     const expectedMaterials = [
       { id: 'RNA', value: 'RNA' },
@@ -35,14 +19,13 @@ describe('upload form reducers', () => {
     const action = {
       type: 'RECEIVE_MATERIALS_FOR_APPLICATION_SUCCESS',
       materials: expectedMaterials,
+      species: [],
     }
 
     expect(uploadFormReducer(formTestStore, action)).toEqual({
       ...formTestStore,
-      materials: expectedMaterials,
+      filteredMaterials: expectedMaterials,
       formIsLoading: false,
     })
   })
-
-
 })
