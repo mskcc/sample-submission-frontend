@@ -30,21 +30,22 @@ const Button = ({
           onClick={onClick}
         >
           {translate('upload.' + id + '_label')}
+
+          {isLoading && (
+            <CircularProgress
+              color="inherit"
+              size={24}
+              className={classes.buttonProgress}
+            />
+          )}
         </MuiButton>
-        {isLoading && (
-          <CircularProgress
-            color="secondary"
-            size={24}
-            className={classes.buttonProgress}
-          />
-        )}
 
         <Fade in={nothingToSubmit}>
           <div className={classes.nothingToSubmit}>
             {translate('upload.form.nothing_to_change')}
           </div>
         </Fade>
-        </React.Fragment>
+      </React.Fragment>
     )}
   </Translate>
 )
@@ -62,10 +63,7 @@ const styles = theme => ({
   },
   buttonProgress: {
     position: 'absolute',
-    top: '50%',
-    left: '50%',
-    marginTop: -12,
-    marginLeft: -12,
+    left: '45%',
   },
   nothingToSubmit: {
     position: 'absolute',
