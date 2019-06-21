@@ -515,6 +515,51 @@ export const validateGrid = (changes, grid) => {
     numErrors: errors.size,
   }
 }
+export const checkGridAndForm = (form, grid) => {
+  let errors = new Set([])
+
+  let result = { sucess: true, message: '' }
+  if (form.material != grid.material) {
+    errors.add('Material: ' + form.material + ' vs. ' + grid.material)
+  }
+
+  if (form.application != grid.application) {
+    errors.add('Application: ' + form.application + ' vs. ' + grid.application)
+  }
+
+  if (form.species != grid.species) {
+    errors.add('Species: ' + form.species + ' vs. ' + grid.species)
+  }
+  if (form.patient_id_type != grid.patient_id_type) {
+    errors.add(
+      'Patient ID Type: ' +
+        form.patient_id_type +
+        ' vs. ' +
+        grid.patient_id_type
+    )
+  }
+  if (form.grouping_checked != grid.grouping_checked) {
+    errors.add(
+      'Groups pairs or replicates: ' +
+        (form.grouping_checked ? 'yes' : 'no') +
+        ' vs. ' +
+        (grid.grouping_checked ? 'yes' : 'no')
+    )
+  }
+
+  if (form.container != grid.container) {
+    errors.add('Container: ' + form.container + ' vs. ' + grid.container)
+  }
+
+  if (form.species != grid.species) {
+    errors.add('Species: ' + form.species + ' vs. ' + grid.species)
+  }
+
+  if (errors.size > 0) {
+    return { sucess: false, message: buildErrorMessage(errors) }
+  }
+  return result
+}
 
 export const buildErrorMessage = errors => {
   let message = ''

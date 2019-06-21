@@ -161,6 +161,15 @@ export function getApplicationsForMaterial(selectedMaterial) {
           applications: response.data.choices,
           containers: response.data.containers,
         })
+        //   response.data.choices.includes({
+        //     id: getState().upload.form.selected.application,
+        //     value: getState().upload.form.selected.application,
+        //   })
+        // if (
+        //   getState().upload.form.selected.application in response.data.choices
+        // ) {
+        //   console.log('not here')
+        // }
         return response
       })
       .catch(error => {

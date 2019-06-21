@@ -16,6 +16,7 @@ import {
   appendAssay,
   findIndexSeq,
   validateGrid,
+  checkGridAndForm,
 } from '../helpers'
 
 import { Config } from '../../config.js'
@@ -203,18 +204,16 @@ export const BUTTON_RESET = 'BUTTON_RESET'
 export function addGridToBankedSample(ownProps) {
   return (dispatch, getState) => {
     dispatch({ type: ADD_GRID_TO_BANKED_SAMPLE })
-    if (
-      getState().upload.form.selected.material !=
-      getState().upload.grid.form.material
-    ) {
+    let match = checkGridAndForm(
+      getState().upload.form.selected,
+      getState().upload.grid.form
+    )
+    if (!match.success) {
       Swal.fire({
         title: 'Header does not match grid',
         html:
-          'Please make sure your header and grid match up. Your header material is ' +
-          getState().upload.form.selected.material +
-          ', but ' +
-          getState().upload.grid.form.material +
-          ' was used to generate this grid.',
+          'Please make sure your current header values match the ones used to generate the grid. <br>(Header value x Grid value) <br>' +
+          match.message,
         // footer: 'To avoid mistakes, invalid cells are cleared immediately.',
         type: 'error',
         animation: false,
