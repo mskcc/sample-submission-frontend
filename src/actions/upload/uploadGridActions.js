@@ -175,7 +175,7 @@ export function getInitialColumns(formValues, userRole) {
       })
       .then(response => {
         // Handsontable binds to your data source (list of arrays or list of objects) by reference. Therefore, all the data entered in the grid will alter the original data source.
-        let grid = generateGridData(response.data.columnDefs, formValues)
+        let grid = generateGridData(response.data.columnDefs, formValues, userRole)
 
         dispatch({
           type: GET_COLUMNS_SUCCESS,
@@ -212,7 +212,7 @@ export function addGridToBankedSample(ownProps) {
       Swal.fire({
         title: 'Header does not match grid',
         html:
-          'Please make sure your current header values match the ones used to generate the grid. <br>(Header value x Grid value) <br>' +
+          'Please make sure your current header values match the ones used to generate the table. <br>(Header value x Table value) <br>' +
           match.message,
         // footer: 'To avoid mistakes, invalid cells are cleared immediately.',
         type: 'error',

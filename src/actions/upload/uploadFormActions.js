@@ -263,7 +263,7 @@ export const checkForChange = (field, value) => {
     ) {
       dispatch({
         type: MESSAGE,
-        message: 'Make sure to gnerate your grid to persist this change.',
+        message: 'Make sure to re-generate your table to persist this change.',
       })
     }
   }

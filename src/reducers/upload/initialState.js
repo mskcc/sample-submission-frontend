@@ -16,6 +16,17 @@ export const initialFormState = {
 
   patientIDTypeNeedsFormatting: false,
   // selected: {
+  //   application: 'HumanWholeGenome',
+  //   material: 'DNA',
+  //   service_id: '898989',
+  //   number_of_samples: '10',
+  //   species: 'Human',
+  //   container: 'Plates',
+  //   patient_id_type: 'MSK Patients',
+  //   grouping_checked: false,
+  //   alt_service_id: false,
+  // },
+  // selected: {
   //   application: 'AmpliSeq',
   //   material: 'DNA',
   //   service_id: '898989',
