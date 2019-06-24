@@ -2,7 +2,6 @@
 // columnHeaders = displayed column names
 // features = field/data name, patterns, dropdowns...
 // rows = data object, will be modified in place by hands on table
-
 export const generateGridData = (responseColumns, formValues, userRole) => {
   let grid = { columnFeatures: [], columnHeaders: [], rows: [] }
   grid.columnFeatures = generateColumnFeatures(responseColumns, formValues)
@@ -28,6 +27,8 @@ export const generateGridData = (responseColumns, formValues, userRole) => {
   return grid
 }
 
+// columnFeatures like validation or adjustments based on user selections
+// that are not considered by the LIMS picklists
 function generateColumnFeatures(responseColumns, formValues) {
   let columnFeatures = []
 
@@ -46,7 +47,7 @@ function generateColumnFeatures(responseColumns, formValues) {
     }
 
     if (columnFeatures[i].data == 'patientId') {
-      let formattingAdjustments = choosePatientIDFormatter(
+      let formattingAdjustments = choosePatientIdValidator(
         formValues.patient_id_type,
         formValues.species,
         formValues.grouping_checked
@@ -57,7 +58,7 @@ function generateColumnFeatures(responseColumns, formValues) {
     if ('source' in responseColumns[i]) {
       // TODO map backwards on submit or find way to keep tumorType id
       if (responseColumns[i].data == 'cancerType') {
-        columnFeatures[i].source = cancerTypeOptions(responseColumns[i].source)
+        columnFeatures[i].source = tumorTypeOptions(responseColumns[i].source)
       } else {
         columnFeatures[i].source = extractValues(responseColumns[i].source)
       }
@@ -94,7 +95,8 @@ function extractValues(mappings) {
   return result
 }
 
-function cancerTypeOptions(types) {
+// workaroung to have tumor type and id available in the dropdown options
+function tumorTypeOptions(types) {
   let result = types.map(a => a.value + ' – ID: ' + a.id)
   return result
 }
@@ -113,8 +115,8 @@ function hideColumns(columnFeatures, userRole) {
     }
   } else return []
 }
-
-function choosePatientIDFormatter(patientIDType, species, groupingChecked) {
+// patient id is validated depending on what id type user selected
+function choosePatientIdValidator(patientIDType, species, groupingChecked) {
   if (species == 'Mouse' || species == 'Mouse_GeneticallyModified') {
     if (groupingChecked) {
       return {
@@ -164,6 +166,7 @@ function choosePatientIDFormatter(patientIDType, species, groupingChecked) {
   }
 }
 
+// generate rows depending on whether we need to add or substract rows, prefill some
 export const generateRows = (columns, formValues, numberToAdd) => {
   let rows = []
   for (let i = 0; i < numberToAdd; i++) {
@@ -195,8 +198,6 @@ export const generateRows = (columns, formValues, numberToAdd) => {
 // how many columns will have to be filled, used as end condition
 // i = counter indicating how often I stepped through A-H
 // plateColIndex = plate column
-//
-
 export const setWellPos = rows => {
   let plateRows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
   let plateColsLength = 12
@@ -285,6 +286,8 @@ export const updateRows = (formValues, grid) => {
   return rows
 }
 
+// generate data object to send to sample-rec-backend for
+// partial submission save or banked sample
 export const generateSubmitData = state => {
   let data = {}
 
@@ -294,13 +297,13 @@ export const generateSubmitData = state => {
 
   let now = Date.now()
   let date = Math.floor(now / 1000)
-  // TODO use this for save/edit
+
   data.transaction_id = date
 
   return data
 }
 
-// edit: links back to /upload, onClick the grid_valyes of that row is fed into
+// edit: links back to /upload, onClick the grid_values of that row are fed into
 // the state (see SubmissionsTable for the onClick)
 export const generateSubmissionsGrid = response => {
   let grid = { columnHeaders: [], data: [], columnFeatures: [] }
@@ -319,6 +322,7 @@ export const generateSubmissionsGrid = response => {
       submitted: submission.submitted ? 'yes' : 'no',
       created_on: submission.created_on,
       submitted_on: submission.submitted_on,
+      // available actions depend on submitted status
       edit: submission.submitted
         ? '<span class="grid-action-disabled">edit</span>'
         : '<span class="grid-action">edit</span>',
@@ -333,6 +337,7 @@ export const generateSubmissionsGrid = response => {
   return grid
 }
 
+// find submission in user (or all if current user is member/super) submission
 export const findSubmission = (submissions, id) => {
   for (let i = 0; i < submissions.length; i++) {
     if (submissions[i].service_id == id) {
@@ -342,6 +347,7 @@ export const findSubmission = (submissions, id) => {
   return null
 }
 
+// make sure MRNs are always redacted and all depending fields handled accordingly
 export const redactMRN = (rows, index, crdbId, msg, sex) => {
   rows[index].cmoPatientId = crdbId.length > 0 ? 'C-' + crdbId : ''
   rows[index].patientId = msg
@@ -352,6 +358,7 @@ export const redactMRN = (rows, index, crdbId, msg, sex) => {
   return rows
 }
 
+// handle patient ids
 export const createPatientId = (rows, index, crdbId, normalizedPatientID) => {
   rows[index].cmoPatientId = crdbId.length > 0 ? 'C-' + crdbId : ''
   rows[index].normalizedPatientId = normalizedPatientID
