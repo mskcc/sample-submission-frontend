@@ -406,7 +406,15 @@ export const appendAssay = (rows, index, oldValue, newValue) => {
   }
   //  append
   else {
-    rows[index].assay = newValue + ',' + oldValue
+    if (oldValue == '') {
+      rows[index].assay = newValue
+      return rows
+    } else {
+      let assay = oldValue + ',' + newValue
+      // assay =assay.replace(/^,*|,$/g, '').trim()
+      assay = assay.replace(/[,]+/g, ',').trim()
+      rows[index].assay = assay
+    }
   }
   return rows
 }
