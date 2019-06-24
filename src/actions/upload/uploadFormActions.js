@@ -161,6 +161,15 @@ export function getApplicationsForMaterial(selectedMaterial) {
           applications: response.data.choices,
           containers: response.data.containers,
         })
+        //   response.data.choices.includes({
+        //     id: getState().upload.form.selected.application,
+        //     value: getState().upload.form.selected.application,
+        //   })
+        // if (
+        //   getState().upload.form.selected.application in response.data.choices
+        // ) {
+        //   console.log('not here')
+        // }
         return response
       })
       .catch(error => {
@@ -211,15 +220,16 @@ export function getPicklist(picklist) {
       .get(Config.API_ROOT + '/listValues/' + picklist)
 
       .then(response => {
-        dispatch({ type: RECEIVE_PICKLIST_SUCCESS, picklist: response.data })
-        return response
+        return dispatch({
+          type: RECEIVE_PICKLIST_SUCCESS,
+          picklist: response.data,
+        })
       })
       .catch(error => {
-        dispatch({
+        return dispatch({
           type: RECEIVE_PICKLIST_FAIL,
           error: error,
         })
-        return error
       })
   }
 }
@@ -254,7 +264,7 @@ export const checkForChange = (field, value) => {
     ) {
       dispatch({
         type: MESSAGE,
-        message: 'Make sure to gnerate your grid to persist this change.',
+        message: 'Make sure to re-generate your table to persist this change.',
       })
     }
   }

@@ -11,6 +11,7 @@ const initialState = {
   saved: false,
   submissionsTable: {},
   isSaving: false,
+  role: ''
 }
 
 function userReducer(state = initialState, action) {

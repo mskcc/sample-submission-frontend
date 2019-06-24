@@ -6,7 +6,6 @@ import Swal from 'sweetalert2'
 import { connect } from 'react-redux'
 import { uploadGridActions, userActions } from '../../actions'
 
-
 import CircularProgress from '@material-ui/core/CircularProgress'
 
 import { UploadGrid } from '../../components'
@@ -23,7 +22,6 @@ class UploadGridContainer extends React.Component {
   // console.log(this.state)
   // }
 
-
   handleChange = changes => {
     this.props.registerGridChange(changes)
   }
@@ -36,7 +34,6 @@ class UploadGridContainer extends React.Component {
   handleAssay = (rowIndex, oldValue, newValue) => {
     this.props.handleAssay(rowIndex, oldValue, newValue)
   }
-
 
   handleClear = () => {
     Swal.fire({
@@ -104,6 +101,20 @@ class UploadGridContainer extends React.Component {
       />
     ) : null
   }
+}
+
+UploadGridContainer.defaultProps = {
+  grid: {},
+  user: {},
+  handleMRN: () => {},
+  handleIndex: () => {},
+  handleAssay: () => {},
+  handleSubmit: () => {},
+  handleChange: () => {},
+  handleSave: () => {},
+  preValidate: () => {},
+  handlePatientId: () => {},
+  handleClear: () => {},
 }
 
 const mapStateToProps = state => ({

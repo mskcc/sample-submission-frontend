@@ -16,6 +16,7 @@ import {
   appendAssay,
   findIndexSeq,
   validateGrid,
+  checkGridAndForm,
 } from '../helpers'
 
 import { Config } from '../../config.js'
@@ -174,23 +175,27 @@ export function getInitialColumns(formValues, userRole) {
       })
       .then(response => {
         // Handsontable binds to your data source (list of arrays or list of objects) by reference. Therefore, all the data entered in the grid will alter the original data source.
-        let grid = generateGridData(response.data.columnDefs, formValues)
+        let grid = generateGridData(
+          response.data.columnDefs,
+          formValues,
+          userRole
+        )
 
-        dispatch({
+        return dispatch({
           type: GET_COLUMNS_SUCCESS,
           grid: grid,
           form: formValues,
+          message:
+            'Grid generated for ' + material + ' and ' + application + '.',
         })
-        return response
       })
       .catch(error => {
-        dispatch({
+        return dispatch({
           type: GET_COLUMNS_FAIL,
           error: error,
           application: application,
           material: material,
         })
-        return error
       })
   }
 }
@@ -203,18 +208,16 @@ export const BUTTON_RESET = 'BUTTON_RESET'
 export function addGridToBankedSample(ownProps) {
   return (dispatch, getState) => {
     dispatch({ type: ADD_GRID_TO_BANKED_SAMPLE })
-    if (
-      getState().upload.form.selected.material !=
-      getState().upload.grid.form.material
-    ) {
+    let match = checkGridAndForm(
+      getState().upload.form.selected,
+      getState().upload.grid.form
+    )
+    if (!match.success) {
       Swal.fire({
         title: 'Header does not match grid',
         html:
-          'Please make sure your header and grid match up. Your header material is ' +
-          getState().upload.form.selected.material +
-          ', but ' +
-          getState().upload.grid.form.material +
-          ' was used to generate this grid.',
+          'Please make sure your current header values match the ones used to generate the table. <br>(Header value x Table value) <br>' +
+          match.message,
         // footer: 'To avoid mistakes, invalid cells are cleared immediately.',
         type: 'error',
         animation: false,
@@ -305,18 +308,14 @@ export function handlePatientId(rowIndex) {
     )
     let rows = getState().upload.grid.rows
     dispatch({ type: 'HANDLE_PATIENT_ID' })
-
-    if (
-      /^[0-9]{8}$/.test(rows[rowIndex].patientId) ||
-      patientIdType.columnHeader == 'MRN'
-    ) {
+    // handle as MRN whenever 8 digit id is entered
+    if (/^[0-9]{8}$/.test(rows[rowIndex].patientId)) {
       return dispatch(handleMRN(rowIndex, rows[rowIndex].patientId))
     }
     let normalizedPatientID = ''
     let regex = new RegExp(patientIdType.pattern)
     let valid = regex.test(rows[rowIndex].patientId)
     if (valid) {
-      console.log('match')
       if (patientIdType.columnHeader == 'Cell Line Name') {
         normalizedPatientID =
           'CELLLINE_' +

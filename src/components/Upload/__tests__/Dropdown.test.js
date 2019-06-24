@@ -8,15 +8,7 @@ const Dropdown = props => <TestDropdown onChange={onChange} {...props} />
 
 describe('Render Dropdown', () => {
   it('render Dropdown correctly', () => {
-    const DropdownComponent = renderer
-      .create(<Dropdown/>)
-      .toJSON()
+    const DropdownComponent = renderer.create(<Dropdown />).toJSON()
     expect(DropdownComponent).toMatchSnapshot()
-  })
-
-  it('render Dropdown correctly with loading animation', () => {
-    const wrapper = mount(<Dropdown loading={true} />)
-    const progress = wrapper.find('LinearProgress').first()
-    expect(progress.exists()).toBe(true)
   })
 })

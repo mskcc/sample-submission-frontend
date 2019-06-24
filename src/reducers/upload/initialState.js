@@ -4,10 +4,9 @@ export const initialFormState = {
   allMaterials: [],
   allPatientIdFormats: [],
   filteredApplications: [],
-  containers: [],
   filteredContainers: [],
   formIsLoading: false,
-
+  initialFetched: false,
   filteredMaterials: [],
   picklists: {},
 
@@ -15,6 +14,17 @@ export const initialFormState = {
   filteredSpecies: [],
 
   patientIDTypeNeedsFormatting: false,
+  // selected: {
+  //   application: 'HumanWholeGenome',
+  //   material: 'DNA',
+  //   service_id: '898989',
+  //   number_of_samples: '10',
+  //   species: 'Human',
+  //   container: 'Plates',
+  //   patient_id_type: 'MSK Patients',
+  //   grouping_checked: false,
+  //   alt_service_id: false,
+  // },
   // selected: {
   //   application: 'AmpliSeq',
   //   material: 'DNA',
@@ -26,7 +36,7 @@ export const initialFormState = {
   //   grouping_checked: false,
   //   alt_service_id: false,
   // },
-    selected: {
+  selected: {
     application: '',
     material: '',
     service_id: '',
@@ -35,8 +45,7 @@ export const initialFormState = {
     container: '',
     patient_id_type: '',
     grouping_checked: false,
-  alt_service_id: false,
-
+    alt_service_id: false,
   },
 }
 

@@ -35,13 +35,20 @@ class UploadGrid extends React.Component {
     this.props.handleClear()
   }
   handleSubmit = () => {
-    const { columnFeatures, rows } = this.props.grid
+    const { columnFeatures, hiddenColumns, rows } = this.props.grid
 
     // run through grid required columns
     let emptyColumns = new Set()
+
     for (let i = 0; i < columnFeatures.length; i++) {
       for (let j = 0; j < rows.length; j++) {
         if (
+          hiddenColumns.columns &&
+          (columnFeatures[i].columnHeader == 'CMO Patient Id' ||
+            columnFeatures[i].columnHeader == 'Normalized Patient Id')
+        ) {
+          continue
+        } else if (
           columnFeatures[i].optional == false &&
           !rows[j][columnFeatures[i].data]
         ) {
@@ -132,7 +139,7 @@ class UploadGrid extends React.Component {
             ref={this.hotTableComponent}
             beforeChange={(changes, source) => {
               //  only do something if rows can fit the changes/if
-                // last changes[] element's row index is <= rows
+              // last changes[] element's row index is <= rows
               if (changes[changes.length - 1][0] > grid.rows.length) {
                 this.showRowWarning(changes[changes.length - 1][0])
                 return false

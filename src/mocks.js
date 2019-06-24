@@ -3,22 +3,30 @@ export const initialFormStateMock = {
   allApplications: [],
   allMaterials: [],
   allPatientIdFormats: [],
-  applications: [],
-  containers: [],
+  filteredApplications: [],
+  filteredContainers: [],
   formIsLoading: true,
-  filteredContainers: [
-    { id: 'Plates', value: 'Plates' },
-    { id: 'Micronic Barcoded Tubes', value: 'Micronic Barcoded Tubes' },
-  ],
-  filteredContainersBS: [
-    { id: 'Blocks/Slides/Tubes', value: 'Blocks/Slides/Tubes' },
-  ],
-  materials: [],
+  initialFetched: false,
+
+  filteredMaterials: [],
   picklists: {},
-  selectedApplication: '',
-  selectedMaterial: '',
-  species: [],
+
+  allSpecies: [],
+  filteredSpecies: [],
+
   patientIDTypeNeedsFormatting: false,
+
+  selected: {
+    application: '',
+    material: '',
+    service_id: '',
+    number_of_samples: '',
+    species: '',
+    container: '',
+    patient_id_type: '',
+    grouping_checked: false,
+    alt_service_id: false,
+  },
 }
 
 export const initialGridStateMock = {
@@ -42,13 +50,15 @@ export const filledGridStateMock = {
       ],
       error: '',
       form: {
-        material: 'Tissue',
-        application: 'CustomCapture',
-        service_id: '444444',
-        number_of_samples: '4',
-        species: 'Tuberculosis',
+        application: 'AmpliSeq',
+        material: 'DNA',
+        service_id: '898989',
+        number_of_samples: '5',
+        species: 'Mouse',
         container: 'Plates',
         patient_id_type: '',
+        grouping_checked: false,
+        alt_service_id: false,
       },
       gridIsLoading: false,
       nothingToChange: false,
@@ -69,32 +79,41 @@ export const filledGridStateMock = {
 export const initialFullStateMock = {
   upload: {
     form: {
-      allContainers: [],
-      allApplications: [],
-      allMaterials: [],
-      allPatientIdFormats: [],
-      applications: [],
-      containers: [],
+      initialFetched: false,
+      allContainers: [{ id: 'test', value: 'test' }],
+      allApplications: [{ id: 'test', value: 'test' }],
+      allMaterials: [{ id: 'test', value: 'test' }],
+      allPatientIdFormats: [{ id: 'test', value: 'test' }],
+      filteredApplications: [{ id: 'test', value: 'test' }],
+      filteredMaterials: [{ id: 'test', value: 'test' }],
       formIsLoading: false,
       filteredContainers: [
         { id: 'Plates', value: 'Plates' },
         { id: 'Micronic Barcoded Tubes', value: 'Micronic Barcoded Tubes' },
       ],
-      filteredContainersBS: [
-        { id: 'Blocks/Slides/Tubes', value: 'Blocks/Slides/Tubes' },
-      ],
-      materials: [],
-      selectedApplication: '',
-      selectedMaterial: '',
-      species: [],
+
+      allSpecies: [{ id: 'test', value: 'test' }],
+      filteredSpecies: [{ id: 'test', value: 'test' }],
       patientIDTypeNeedsFormatting: false,
+      selected: {
+        application: '',
+        material: '',
+        service_id: '',
+        number_of_samples: '',
+        species: '',
+        container: '',
+        patient_id_type: '',
+        grouping_checked: false,
+        alt_service_id: false,
+      },
     },
     grid: {
       columns: [],
       rows: [],
-      error: '',
+      gridError: '',
       form: [],
       gridIsLoading: false,
+      isSaving: false,
       nothingToChange: false,
     },
   },
@@ -106,30 +125,48 @@ export const initialFullStateMock = {
     message: '',
     loading: true,
   },
+  user: {
+    submissions: {},
+    username: '',
+    loading: false,
+    loggedIn: false,
+    saved: false,
+    submissionsTable: {},
+    isSaving: false,
+    role: '',
+  },
 }
 
 export const filledFullStateMock = {
   upload: {
     form: {
+      initialFetched: false,
       allContainers: [{ id: 'test', value: 'test' }],
       allApplications: [{ id: 'test', value: 'test' }],
       allMaterials: [{ id: 'test', value: 'test' }],
       allPatientIdFormats: [{ id: 'test', value: 'test' }],
-      applications: [{ id: 'test', value: 'test' }],
-      containers: [{ id: 'test', value: 'test' }],
+      filteredApplications: [{ id: 'test', value: 'test' }],
+      filteredMaterials: [{ id: 'test', value: 'test' }],
       formIsLoading: false,
       filteredContainers: [
         { id: 'Plates', value: 'Plates' },
         { id: 'Micronic Barcoded Tubes', value: 'Micronic Barcoded Tubes' },
       ],
-      filteredContainersBS: [
-        { id: 'Blocks/Slides/Tubes', value: 'Blocks/Slides/Tubes' },
-      ],
-      materials: [{ id: 'test', value: 'test' }],
-      selectedApplication: '',
-      selectedMaterial: '',
-      species: [{ id: 'test', value: 'test' }],
+
+      allSpecies: [{ id: 'test', value: 'test' }],
+      filteredSpecies: [{ id: 'test', value: 'test' }],
       patientIDTypeNeedsFormatting: false,
+      selected: {
+        application: '',
+        material: '',
+        service_id: '',
+        number_of_samples: '',
+        species: '',
+        container: '',
+        patient_id_type: '',
+        grouping_checked: false,
+        alt_service_id: false,
+      },
     },
     grid: {
       columns: ['Block/Slide/TubeID', 'Sample ID'],
@@ -168,16 +205,29 @@ export const filledFullStateMock = {
     message: '',
     loading: true,
   },
+
+  user: {
+    submissions: {},
+    username: '',
+    loading: false,
+    loggedIn: false,
+    role: '',
+    saved: false,
+    submissionsTable: {},
+    isSaving: false,
+  },
 }
 
 export const formValuesMock = {
-  application: 'CustomCapture',
-  container: 'Plates',
-  service_id: '444444',
-  material: 'Tissue',
+  application: 'AmpliSeq',
+  material: 'DNA',
+  service_id: '898989',
   number_of_samples: '2',
+  species: 'Mouse',
+  container: 'Plates',
   patient_id_type: '',
-  species: 'Tuberculosis',
+  grouping_checked: false,
+  alt_service_id: false,
 }
 
 export const columnDefsResponseMock = {
@@ -185,6 +235,7 @@ export const columnDefsResponseMock = {
     {
       columnHeader: 'Block/Slide/TubeID',
       data: 'tubeId',
+      error: 'Invalid format.',
       editableCellTemplate:
         '<div><form name="inputForm"><input class="form-control inputheight" type="INPUT_TYPE" ng-class="\'colt\' + col.uid" ui-grid-editor ng-model="MODEL_COL_FIELD" ng-paste="grid.appScope.handleCellPaste($event)"></form></div>',
       headerCellClass: 'required',
@@ -195,6 +246,7 @@ export const columnDefsResponseMock = {
     {
       columnHeader: 'Sample ID',
       data: 'userId',
+      error: 'Invalid format.',
       editableCellTemplate:
         '<div><form name="inputForm"><input class="form-control inputheight" type="INPUT_TYPE" ng-class="\'colt\' + col.uid" ui-grid-editor ng-model="MODEL_COL_FIELD" ng-paste="grid.appScope.handleCellPaste($event)"></form></div>',
       headerCellClass: 'required',
@@ -204,7 +256,9 @@ export const columnDefsResponseMock = {
     },
     {
       columnHeader: 'Species',
+      allowInvalid: false,
       data: 'organism',
+      error: 'Invalid format.',
       editableCellTemplate: 'ui-grid/dropdownEditor',
       headerCellClass: 'required',
       tooltip:
@@ -237,11 +291,24 @@ export const columnDefsResponseMock = {
 }
 
 export const gridMock = {
+  // form: {
+  //   application: 'AmpliSeq',
+  //   material: 'DNA',
+  //   service_id: '898989',
+  //   number_of_samples: '10',
+  //   species: 'Mouse',
+  //   container: 'Plates',
+  //   patient_id_type: '',
+  //   grouping_checked: false,
+  //   alt_service_id: false,
+  // },
+  hiddenColumns: [],
   columnFeatures: [
     {
       columnHeader: 'Block/Slide/TubeID',
 
       data: 'tubeId',
+      error: 'Invalid format.',
       editableCellTemplate: `<div><form name="inputForm"><input class="form-control inputheight" type="INPUT_TYPE" ng-class="'colt' + col.uid" ui-grid-editor ng-model="MODEL_COL_FIELD" ng-paste="grid.appScope.handleCellPaste($event)"></form></div>`,
       headerCellClass: 'required',
       tooltip:
@@ -252,6 +319,7 @@ export const gridMock = {
       columnHeader: 'Sample ID',
 
       data: 'userId',
+      error: 'Invalid format.',
       editableCellTemplate: `<div><form name="inputForm"><input class="form-control inputheight" type="INPUT_TYPE" ng-class="'colt' + col.uid" ui-grid-editor ng-model="MODEL_COL_FIELD" ng-paste="grid.appScope.handleCellPaste($event)"></form></div>`,
       headerCellClass: 'required',
       tooltip:
@@ -261,7 +329,9 @@ export const gridMock = {
     {
       columnHeader: 'Species',
       allowInvalid: false,
+      allowInvalid: false,
       data: 'organism',
+      error: 'Invalid format.',
       editableCellTemplate: 'ui-grid/dropdownEditor',
       headerCellClass: 'required',
       tooltip:
@@ -300,12 +370,12 @@ export const gridMock = {
     {
       tubeId: '',
       userId: '',
-      organism: 'Tuberculosis',
+      organism: 'Mouse',
     },
     {
       tubeId: '',
       userId: '',
-      organism: 'Tuberculosis',
+      organism: 'Mouse',
     },
   ],
 }

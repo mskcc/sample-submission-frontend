@@ -59,22 +59,18 @@ describe('does sth', () => {
   it('handles material change', () => {
     const clearMaterial = jest.fn()
     const getApplicationsForMaterial = jest.fn()
-    const filterContainers = jest.fn()
 
     const wrapper = mount(
       <UploadFormContainer
         clearMaterial={clearMaterial}
         getApplicationsForMaterial={getApplicationsForMaterial}
-        filterContainers={filterContainers}
       />
     )
     const instance = wrapper.instance()
     instance.handleMaterialChange('cells')
     expect(getApplicationsForMaterial).toHaveBeenCalled()
-    expect(filterContainers).toHaveBeenCalled()
     instance.handleMaterialChange()
     expect(clearMaterial).toHaveBeenCalled()
-    expect(filterContainers).toHaveBeenCalled()
   })
 
   it('handles application change', () => {
