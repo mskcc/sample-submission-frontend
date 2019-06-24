@@ -53,6 +53,7 @@ describe('upload grid actions', () => {
       },
       {
         type: 'GET_COLUMNS_SUCCESS',
+        message: 'Grid generated for DNA and AmpliSeq.',
         grid: gridMock,
         form: formValuesMock,
       },

@@ -185,7 +185,8 @@ export function getInitialColumns(formValues, userRole) {
           type: GET_COLUMNS_SUCCESS,
           grid: grid,
           form: formValues,
-          message: "Grid generated for " + material + " and " + application + "."
+          message:
+            'Grid generated for ' + material + ' and ' + application + '.',
         })
       })
       .catch(error => {
