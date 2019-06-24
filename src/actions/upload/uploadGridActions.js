@@ -185,6 +185,7 @@ export function getInitialColumns(formValues, userRole) {
           type: GET_COLUMNS_SUCCESS,
           grid: grid,
           form: formValues,
+          message: "Grid generated for " + material + " and " + application + "."
         })
       })
       .catch(error => {
@@ -306,18 +307,14 @@ export function handlePatientId(rowIndex) {
     )
     let rows = getState().upload.grid.rows
     dispatch({ type: 'HANDLE_PATIENT_ID' })
-
-    if (
-      /^[0-9]{8}$/.test(rows[rowIndex].patientId) ||
-      patientIdType.columnHeader == 'MRN'
-    ) {
+    // handle as MRN whenever 8 digit id is entered
+    if (/^[0-9]{8}$/.test(rows[rowIndex].patientId)) {
       return dispatch(handleMRN(rowIndex, rows[rowIndex].patientId))
     }
     let normalizedPatientID = ''
     let regex = new RegExp(patientIdType.pattern)
     let valid = regex.test(rows[rowIndex].patientId)
     if (valid) {
-      console.log('match')
       if (patientIdType.columnHeader == 'Cell Line Name') {
         normalizedPatientID =
           'CELLLINE_' +
