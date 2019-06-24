@@ -160,11 +160,8 @@ class UploadGrid extends React.Component {
                     }
 
                     if (prop == 'assay') {
-                      if (
-                        newValue != oldValue &&
-                        oldValue != '' &&
-                        oldValue != undefined
-                      ) {
+                      console.log(row, prop, oldValue, newValue)
+                      if (newValue != oldValue && oldValue != undefined) {
                         handleAssay(rowIndex, oldValue, newValue)
                       }
                     }

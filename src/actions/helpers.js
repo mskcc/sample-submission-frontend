@@ -403,9 +403,6 @@ export const appendAssay = (rows, index, oldValue, newValue) => {
   //  clear
   if (newValue == '' || newValue == 'Assay Selection' || newValue == 'Blank') {
     rows[index].assay = ''
-    //  delete
-  } else if (newValue.length < oldValue.length) {
-    rows[index].assay = newValue.replace(/(^,)|(,$)/g, '')
   }
   //  append
   else {
@@ -477,6 +474,9 @@ export const validateGrid = (changes, grid) => {
       )
       continue
     }
+    if (columnName == 'assay') {
+      continue
+    }
 
     if (columnName == 'index') {
       let indexResult = findIndexSeq(grid, columnIndex, rowIndex, newValue)
@@ -520,10 +520,12 @@ export const validateGrid = (changes, grid) => {
     numErrors: errors.size,
   }
 }
+
+// compare grid and header for inconsistencies
 export const checkGridAndForm = (form, grid) => {
   let errors = new Set([])
 
-  let result = { sucess: true, message: '' }
+  let result = { success: true, message: '' }
   if (form.material != grid.material) {
     errors.add('Material: ' + form.material + ' vs. ' + grid.material)
   }
@@ -561,7 +563,7 @@ export const checkGridAndForm = (form, grid) => {
   }
 
   if (errors.size > 0) {
-    return { sucess: false, message: buildErrorMessage(errors) }
+    return { success: false, message: buildErrorMessage(errors) }
   }
   return result
 }
