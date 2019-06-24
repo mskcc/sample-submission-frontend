@@ -103,7 +103,8 @@ export function getColumns(formValues) {
     dispatch({ type: GET_COLUMNS })
 
     // no grid? get inital columns
-    if (getState().upload.grid.form.length == 0) {
+    console.log(getState().upload.grid)
+    if (getState().upload.grid.columns.length == 0) {
       return dispatch(getInitialColumns(formValues, getState().user.role))
     } else {
       let diffValues = diff(getState().upload.grid.form, formValues)
