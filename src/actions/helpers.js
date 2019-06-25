@@ -44,6 +44,7 @@ function generateColumnFeatures(responseColumns, formValues) {
 
     //  overwrite response container with user selection
     if ('container' in columnFeatures[i]) {
+
       if (columnFeatures[i].container != formValues.container)
         columnFeatures[i] = overwriteContainer(formValues.container)
     }
@@ -122,14 +123,14 @@ function choosePatientIdValidator(patientIDType, species, groupingChecked) {
   if (species == 'Mouse' || species == 'Mouse_GeneticallyModified') {
     if (groupingChecked) {
       return {
-        pattern: '[A-Za-z0-9\\,_-]{4,}',
+        pattern: '[^A-Za-z0-9\\,_-]{4,}',
         columnHeader: 'Grouping ID',
         error:
           'Invalid format. Please use at least four alpha-numeric characters. Every 8 digit ID is considered a MRN.',
       }
     } else {
       return {
-        pattern: '[0-9a-zA-Z]{4,}',
+        pattern: '[^0-9a-zA-Z]{4,}',
         columnHeader: 'Strain or Line Name',
         error:
           'Invalid format. Please use at least four alpha-numeric characters. Every 8 digit ID is considered a MRN.',
@@ -307,7 +308,7 @@ export const generateSubmitData = state => {
 
 function rowsWithRowIndex(rows) {
   for (let i = 0; i < rows.length; i++) {
-    rows[i].rowIndex = i+1
+    rows[i].rowIndex = i + 1
   }
   return rows
 }
@@ -463,7 +464,7 @@ const overwriteContainer = userContainer => {
         container: 'Blocks/Slides/Tubes',
         columnHeader: 'Block/Slide/TubeID',
         data: 'tubeId',
-        pattern: '[A-Za-z0-9\\,_-]',
+        pattern: '[^A-Za-z0-9\\,_-]+',
         error: 'Only letters, digits and –, please.',
 
         tooltip:
