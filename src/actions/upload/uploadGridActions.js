@@ -186,7 +186,7 @@ export function getInitialColumns(formValues, userRole) {
           grid: grid,
           form: formValues,
           message:
-            'Grid generated for ' + material + ' and ' + application + '.',
+            'Grid generated for ' + material + ' and ' + application + '. Green columns are optional.',
         })
       })
       .catch(error => {
