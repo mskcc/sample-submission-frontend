@@ -99,6 +99,17 @@ export function getMaterialsForApplication(selectedApplication) {
       })
   }
 }
+
+export const UPDATE_HEADER = 'UPDATE_HEADER'
+
+export function updateHeader(formValues) {
+  return dispatch => {
+    dispatch(getApplicationsForMaterial(formValues.material))
+    dispatch(getMaterialsForApplication(formValues.application))
+    dispatch(getFormatterForSpecies(formValues.species))
+  }
+}
+
 export const SELECT = 'SELECT'
 
 export function select(id, value) {
@@ -116,6 +127,7 @@ export function select(id, value) {
     }
   }
 }
+
 export const CLEAR = 'CLEAR'
 
 export function clear(id) {

@@ -2,6 +2,8 @@
 import React from 'react'
 import axios from 'axios'
 import Swal from 'sweetalert2'
+import { updateHeader } from './uploadFormActions'
+
 import {
   diff,
   findSubmission,
@@ -186,7 +188,11 @@ export function getInitialColumns(formValues, userRole) {
           grid: grid,
           form: formValues,
           message:
-            'Grid generated for ' + material + ' and ' + application + '. Green columns are optional.',
+            'Grid generated for ' +
+            material +
+            ' and ' +
+            application +
+            '. Green columns are optional.',
         })
       })
       .catch(error => {
@@ -233,7 +239,7 @@ export function addGridToBankedSample(ownProps) {
         .then(response => {
           dispatch({
             type: ADD_GRID_TO_BANKED_SAMPLE_SUCCESS,
-            message: 'reset'
+            message: 'reset',
           })
 
           Swal.fire({
@@ -274,14 +280,13 @@ export function editSubmission(id, ownProps) {
     let submission = findSubmission(getState().user.submissions, id)
     if (submission) {
       //  decided to rebuild grid instead of saving colFeatues and headers to avoid version
-      dispatch(
-        getInitialColumns(JSON.parse(submission.form_values)),
-        getState().user.role
-      ).then(() => {
+      let formValues = JSON.parse(submission.form_values)
+      dispatch(getInitialColumns(formValues), getState().user.role).then(() => {
+        dispatch(updateHeader(formValues))
         dispatch({
           type: 'EDIT_SUBMISSION_SUCCESS',
           payload: submission,
-          message: 'Loaded!'
+          message: 'Loaded!',
         })
         return ownProps.history.push('upload')
       })
