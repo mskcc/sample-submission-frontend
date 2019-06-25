@@ -292,7 +292,7 @@ export const generateSubmitData = state => {
   let data = {}
 
   data.version = state.common.version
-  data.grid_values = state.upload.grid.rows
+  data.grid_values = rowsWithRowIndex(state.upload.grid.rows)
   data.form_values = state.upload.grid.form
 
   let now = Date.now()
@@ -301,6 +301,13 @@ export const generateSubmitData = state => {
   data.transaction_id = date
 
   return data
+}
+
+function rowsWithRowIndex(rows) {
+  for (let i = 0; i < rows.length; i++) {
+    rows[i].rowIndex = i+1
+  }
+  return rows
 }
 
 // edit: links back to /upload, onClick the grid_values of that row are fed into

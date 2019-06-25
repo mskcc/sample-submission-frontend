@@ -226,42 +226,42 @@ export function addGridToBankedSample(ownProps) {
         // customClass: { content: 'alert' },
       })
       return
+    } else {
+      return axios
+        .post(Config.API_ROOT + '/addBankedSamples', {
+          data: generateSubmitData(getState()),
+        })
+        .then(response => {
+          dispatch({
+            type: ADD_GRID_TO_BANKED_SAMPLE_SUCCESS,
+          })
+
+          Swal.fire({
+            title: 'Submitted!',
+            text: 'Download your Receipt under My Submissions.',
+            type: 'success',
+            showCancelButton: true,
+            animation: false,
+            confirmButtonColor: '#007cba',
+            cancelButtonColor: '#4c8b2b',
+            confirmButtonText: 'Dismiss',
+            cancelButtonText: 'To My Submissions',
+          }).then(result => {
+            if (result.value) {
+              return ownProps.history.push('upload')
+            } else {
+              return ownProps.history.push('submissions')
+            }
+          })
+        })
+        .catch(error => {
+          dispatch({
+            type: ADD_GRID_TO_BANKED_SAMPLE_FAIL,
+            error: error,
+          })
+          return error
+        })
     }
-
-    return axios
-      .post(Config.API_ROOT + '/addBankedSamples', {
-        data: generateSubmitData(getState()),
-      })
-      .then(response => {
-        dispatch({
-          type: ADD_GRID_TO_BANKED_SAMPLE_SUCCESS,
-        })
-
-        Swal.fire({
-          title: 'Submitted!',
-          text: 'Download your Receipt under My Submissions.',
-          type: 'success',
-          showCancelButton: true,
-          animation: false,
-          confirmButtonColor: '#007cba',
-          cancelButtonColor: '#4c8b2b',
-          confirmButtonText: 'Dismiss',
-          cancelButtonText: 'To My Submissions',
-        }).then(result => {
-          if (result.value) {
-            return ownProps.history.push('upload')
-          } else {
-            return ownProps.history.push('submissions')
-          }
-        })
-      })
-      .catch(error => {
-        dispatch({
-          type: ADD_GRID_TO_BANKED_SAMPLE_FAIL,
-          error: error,
-        })
-        return error
-      })
   }
 }
 
