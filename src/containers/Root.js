@@ -55,7 +55,7 @@ class Root extends Component {
 
   componentDidMount() {
     // making sure BE and FE versions match - shows info message if not
-    this.props.checkVersion(this.props.common.version)
+    this.props.checkVersion()
     this.props.refreshToken()
     document.addEventListener('keydown', this.escFunction, false)
   }

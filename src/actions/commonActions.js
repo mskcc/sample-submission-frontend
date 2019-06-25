@@ -36,13 +36,13 @@ export const RECEIVE_CHECK_VERSION_SUCCESS = 'RECEIVE_CHECK_VERSION_SUCCESS'
 export const RECEIVE_CHECK_VERSION_FAIL = 'RECEIVE_CHECK_VERSION_FAIL'
 export const RECEIVE_SERVER_ERROR = 'RECEIVE_SERVER_ERROR'
 
-export function checkVersion(version) {
+export function checkVersion() {
   return dispatch => {
     dispatch({ type: REQUEST_CHECK_VERSION })
     return axios
       .get(Config.API_ROOT + '/checkVersion?', {
         params: {
-          version: version,
+          version: Config.VERSION,
         },
       })
       .then(response => {

@@ -1,3 +1,5 @@
+import { Config } from '../config.js'
+
 // prep response data for HandsOnTable
 // columnHeaders = displayed column names
 // features = field/data name, patterns, dropdowns...
@@ -291,7 +293,7 @@ export const updateRows = (formValues, grid) => {
 export const generateSubmitData = state => {
   let data = {}
 
-  data.version = state.common.version
+  data.version = Config.VERSION
   data.grid_values = rowsWithRowIndex(state.upload.grid.rows)
   data.form_values = state.upload.grid.form
 
