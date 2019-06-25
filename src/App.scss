@@ -55,7 +55,7 @@ code {
 // }
 .colHeader .optional {
   font-weight: 600;
-  color: $mskcc-dark-turquoise;
+  color: $mskcc-dark-green;
 }
 
 .colHeader .required {
@@ -95,4 +95,9 @@ code {
 }
 .alert #swal2-content {
   text-align: left !important;
+}
+
+.handsontable.listbox tr td.current,
+.handsontable.listbox tr:hover td {
+  background: #8fc7e8 !important;
 }
