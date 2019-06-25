@@ -103,7 +103,6 @@ export function getColumns(formValues) {
     dispatch({ type: GET_COLUMNS })
 
     // no grid? get inital columns
-    console.log(getState().upload.grid)
     if (getState().upload.grid.columns.length == 0) {
       return dispatch(getInitialColumns(formValues, getState().user.role))
     } else {
@@ -208,7 +207,7 @@ export const ADD_GRID_TO_BANKED_SAMPLE_SUCCESS =
 export const BUTTON_RESET = 'BUTTON_RESET'
 export function addGridToBankedSample(ownProps) {
   return (dispatch, getState) => {
-    dispatch({ type: ADD_GRID_TO_BANKED_SAMPLE })
+    dispatch({ type: ADD_GRID_TO_BANKED_SAMPLE, message: 'Submitting...' })
     let match = checkGridAndForm(
       getState().upload.form.selected,
       getState().upload.grid.form
@@ -234,6 +233,7 @@ export function addGridToBankedSample(ownProps) {
         .then(response => {
           dispatch({
             type: ADD_GRID_TO_BANKED_SAMPLE_SUCCESS,
+            message: 'reset'
           })
 
           Swal.fire({
@@ -270,7 +270,7 @@ export const EDIT_SUBMISSION_FAIL = 'EDIT_SUBMISSION_FAIL'
 export const EDIT_SUBMISSION_SUCCESS = 'EDIT_SUBMISSION_SUCCESS'
 export function editSubmission(id, ownProps) {
   return (dispatch, getState) => {
-    dispatch({ type: 'EDIT_SUBMISSION' })
+    dispatch({ type: 'EDIT_SUBMISSION', message: 'Loading...' })
     let submission = findSubmission(getState().user.submissions, id)
     if (submission) {
       //  decided to rebuild grid instead of saving colFeatues and headers to avoid version
@@ -281,6 +281,7 @@ export function editSubmission(id, ownProps) {
         dispatch({
           type: 'EDIT_SUBMISSION_SUCCESS',
           payload: submission,
+          message: 'Loaded!'
         })
         return ownProps.history.push('upload')
       })
