@@ -31,8 +31,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   width: 100vw;
-  font-size: 16px;
-  overflow: auto;
+  font-size: 15px;
+  // overflow: auto;
 }
 
 code {
@@ -80,10 +80,6 @@ code {
   background-color: $material-gray !important;
 }
 
-.handsontableEditor .autocompleteEditor .htMacScroll .handsontable .listbox {
-  overflow: visible !important;
-}
-
 .grid-action {
   color: black;
   font-weight: bold;
@@ -101,3 +97,19 @@ code {
 .handsontable.listbox tr:hover td {
   background: #8fc7e8 !important;
 }
+
+// .ht_master.handsontable {
+//   overflow-y: scroll;
+// }
+
+.ht_master {
+  overflow: unset;
+}
+.ht_master.wtHolder {
+  // overflow-y: scroll;
+  overflow: auto;
+}
+
+// .handsontableEditor.autocompleteEditor.htMacScroll.handsontable.listbox {
+//   overflow: visible !important;
+// }
