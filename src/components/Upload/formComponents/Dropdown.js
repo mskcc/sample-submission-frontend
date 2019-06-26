@@ -59,6 +59,7 @@ class Dropdown extends Component {
               defaultSelectedItem={value}
               getInputProps={() => ({
                 id: id,
+                className: classes.input,
                 error: error,
                 label: error
                   ? translate('upload.form.fill_me')
@@ -103,9 +104,12 @@ Dropdown.propTypes = {
 }
 
 const styles = theme => ({
+  input: {
+    fontSize: '1em',
+  },
   textField: {
     margin: 2 * theme.spacing(1),
-    minWidth: 350,
+    minWidth: 310,
   },
 })
 

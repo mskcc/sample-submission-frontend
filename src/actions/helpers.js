@@ -100,6 +100,7 @@ function extractValues(mappings) {
 // workaroung to have tumor type and id available in the dropdown options
 function tumorTypeOptions(types) {
   let result = types.map(a => a.value + ' – ID: ' + a.id)
+  result.unshift('Normal')
   return result
 }
 
@@ -307,7 +308,7 @@ export const generateSubmitData = state => {
 
 function rowsWithRowIndex(rows) {
   for (let i = 0; i < rows.length; i++) {
-    rows[i].rowIndex = i+1
+    rows[i].rowIndex = i + 1
   }
   return rows
 }
@@ -493,6 +494,24 @@ export const validateGrid = (changes, grid) => {
     }
     if (columnName == 'assay') {
       continue
+    }
+
+    if (columnName == 'userId') {
+      let count = 0
+      for (let j = 0; j < grid.rows.length; j++) {
+        if (grid.rows[j].userId == newValue) {
+          count++
+        }
+      }
+      let valid = count <= 1
+      if (!valid) {
+        errors.add(
+          grid.columnFeatures[columnIndex].name +
+            ': ' +
+            grid.columnFeatures[columnIndex].uniqueError
+        )
+        grid.rows[rowIndex][columnName] = ''
+      }
     }
 
     if (columnName == 'index') {
