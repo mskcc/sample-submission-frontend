@@ -22,6 +22,8 @@ import Login from './Login'
 import Logout from './Logout'
 import ErrorPage from './ErrorPage'
 
+const isIE = /*@cc_on!@*/ false || !!document.documentMode
+
 function PrivateRoute({ component: Component, loggedIn, ...rest }) {
   return (
     <Route
@@ -76,6 +78,7 @@ class Root extends Component {
   }
 
   render() {
+    console.log(isIE)
     return (
       <MuiThemeProvider theme={theme}>
         <Router basename="sample-receiving">
