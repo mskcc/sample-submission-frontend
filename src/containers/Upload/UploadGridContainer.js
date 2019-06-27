@@ -35,6 +35,10 @@ class UploadGridContainer extends React.Component {
     this.props.handleAssay(rowIndex, oldValue, newValue)
   }
 
+   handleTumorType = (rowIndex, colIndex, oldValue, newValue) => {
+    this.props.handleTumorType(rowIndex, colIndex, oldValue, newValue)
+  }
+
   handleClear = () => {
     Swal.fire({
       title: 'Are you sure?',
@@ -92,6 +96,7 @@ class UploadGridContainer extends React.Component {
         handleMRN={this.handleMRN}
         handleIndex={this.handleIndex}
         handleAssay={this.handleAssay}
+        handleTumorType={this.handleTumorType}
         handleSubmit={this.handleSubmit}
         handleChange={this.handleChange}
         handleSave={this.handleSave}

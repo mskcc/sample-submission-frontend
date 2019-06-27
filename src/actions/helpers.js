@@ -409,6 +409,57 @@ export const findSingleIndexSeq = (indexId, indexSequenceHash) => {
   }
 }
 
+export const translateTumorTypes = (
+  rows,
+  tumorTypes,
+  index,
+  oldValue,
+  newValue
+) => {
+  //  clear
+  if (newValue == '') {
+    rows[index].cancerType = ''
+  }
+  // normal
+  if (newValue == 'Normal') {
+    rows[index].cancerType = 'Normal'
+  }
+  //  translate to ID
+  else {
+    let tumorId = ''
+    for (let i = 0; i < tumorTypes.length; i++) {
+      let el = tumorTypes[i]
+      if (el == 'Normal') {
+        continue
+      }
+      let id = el.split(/ ID: /)[1]
+
+      if (el == newValue || id == newValue.toUpperCase()) {
+        tumorId = el.split(/ ID: /)[1]
+        break
+      }
+    }
+    rows[index].cancerType = tumorId
+  }
+  return rows
+}
+
+const findTumorType = (tumorTypes, newValue) => {
+  if (newValue == '' || newValue == 'Normal') {
+    return true
+  } else {
+    for (let i = 0; i < tumorTypes.length; i++) {
+      let el = tumorTypes[i]
+      let id = el.split(/ ID: /)[1]
+
+      if (el == newValue || id == newValue.toUpperCase()) {
+        return true
+      }
+    }
+  }
+  return false
+}
+
 export const appendAssay = (rows, index, oldValue, newValue) => {
   //  clear
   if (newValue == '' || newValue == 'Assay Selection' || newValue == 'Blank') {
@@ -512,6 +563,23 @@ export const validateGrid = (changes, grid) => {
         )
         grid.rows[rowIndex][columnName] = ''
       }
+    }
+
+    if (columnName == 'cancerType') {
+      let tumorTypeInList = findTumorType(
+        grid.columnFeatures[columnIndex].source,
+        newValue
+      )
+
+      if (!tumorTypeInList) {
+        errors.add(
+          grid.columnFeatures[columnIndex].name +
+            ': ' +
+            grid.columnFeatures[columnIndex].error
+        )
+        grid.rows[rowIndex][columnName] = ''
+      }
+      continue
     }
 
     if (columnName == 'index') {

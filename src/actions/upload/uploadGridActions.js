@@ -16,6 +16,7 @@ import {
   redactMRN,
   createPatientId,
   appendAssay,
+  translateTumorTypes,
   findIndexSeq,
   validateGrid,
   checkGridAndForm,
@@ -430,6 +431,24 @@ export function handleAssay(rowIndex, oldValue, newValue) {
       type: 'HANDLE_ASSAY_SUCCESS',
       rows: appendAssay(
         getState().upload.grid.rows,
+        rowIndex,
+        oldValue,
+        newValue
+      ),
+    })
+  }
+}
+
+export const HANDLE_TUMOR_TYPE = 'HANDLE_TUMOR_TYPE'
+// export const HANDLE_TUMOR_TYPE_FAIL = 'HANDLE_TUMOR_TYPE_FAIL'
+// export const HANDLE_TUMOR_TYPE_SUCCESS = 'HANDLE_TUMOR_TYPE_SUCCESS'
+export function handleTumorType(rowIndex, colIndex, oldValue, newValue) {
+  return (dispatch, getState) => {
+    return dispatch({
+      type: 'HANDLE_TUMOR_TYPE_SUCCESS',
+      rows: translateTumorTypes(
+        getState().upload.grid.rows,
+        getState().upload.grid.columnFeatures[colIndex].source,
         rowIndex,
         oldValue,
         newValue
