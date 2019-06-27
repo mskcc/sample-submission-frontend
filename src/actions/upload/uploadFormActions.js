@@ -120,8 +120,6 @@ export function select(id, value) {
         payload: { id: id, value: value },
         message: 'Service Id updated.',
       })
-    } else if (id == 'container') {
-      dispatch(checkForChange('container', value))
     } else {
       dispatch({ type: SELECT, payload: { id: id, value: value } })
     }
