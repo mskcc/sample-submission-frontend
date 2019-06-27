@@ -73,7 +73,7 @@ class Dropdown extends Component {
               })}
               loading={loading}
               includeFooter={dynamic}
-              menuItemCount={10}
+              menuItemCount={5}
               focusOnClear
             />
           </div>

@@ -286,7 +286,7 @@ export const updateRows = (formValues, grid) => {
       rows[i] = grid.rows[i]
     }
   }
-  return rows
+  return setWellPos(rows)
 }
 
 // generate data object to send to sample-rec-backend for
