@@ -115,13 +115,20 @@ export const SELECT = 'SELECT'
 export function select(id, value) {
   return dispatch => {
     if (id == 'service_id') {
-      dispatch({
+     return dispatch({
         type: SELECT,
         payload: { id: id, value: value },
         message: 'Service Id updated.',
       })
+    }
+     if (value == 'Expanded_Genomics') {
+      return dispatch({
+        type: SELECT,
+        payload: { id: id, value: value },
+        message: 'Select any container in the dropdown, you’ll be able to specify multiple containers in the submission grid.',
+      })
     } else {
-      dispatch({ type: SELECT, payload: { id: id, value: value } })
+      return dispatch({ type: SELECT, payload: { id: id, value: value } })
     }
   }
 }

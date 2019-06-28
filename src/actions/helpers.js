@@ -44,7 +44,10 @@ function generateColumnFeatures(responseColumns, formValues) {
 
     //  overwrite response container with user selection
     if ('container' in columnFeatures[i]) {
-      if (columnFeatures[i].container != formValues.container)
+      if (
+        columnFeatures[i].container != formValues.container &&
+        formValues.application != 'Expanded_Genomics'
+      )
         columnFeatures[i] = overwriteContainer(formValues.container)
     }
 
