@@ -41,6 +41,7 @@ class Dropdown extends Component {
       onSelect,
       loading,
       value,
+      autofocus,
       classes,
     } = this.props
     const { filteredItems } = this.state
@@ -60,6 +61,7 @@ class Dropdown extends Component {
               getInputProps={() => ({
                 id: id,
                 className: classes.input,
+                autoFocus: autofocus,
                 error: error,
                 label: error
                   ? translate('upload.form.fill_me')

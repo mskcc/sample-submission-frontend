@@ -42,6 +42,8 @@ class Login extends React.Component {
                 // className={classes.textField}
                 // ref={this.username}
                 margin="normal"
+                const
+                inputProps={{ autoFocus: true }}
               />
               <TextField
                 id="password"

@@ -226,6 +226,7 @@ class UploadForm extends React.Component {
                 error={!formValid.material}
                 onSelect={handleMaterialChange}
                 onChange={this.handleDropdownChange}
+                autofocus={true}
                 items={form.filteredMaterials.map(option => ({
                   value: option.id,
                   label: option.value,
