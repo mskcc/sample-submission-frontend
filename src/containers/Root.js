@@ -22,6 +22,8 @@ import Login from './Login'
 import Logout from './Logout'
 import ErrorPage from './ErrorPage'
 
+const isIE = /*@cc_on!@*/ false || !!document.documentMode
+
 function PrivateRoute({ component: Component, loggedIn, ...rest }) {
   return (
     <Route
@@ -55,7 +57,7 @@ class Root extends Component {
 
   componentDidMount() {
     // making sure BE and FE versions match - shows info message if not
-    this.props.checkVersion(this.props.common.version)
+    this.props.checkVersion()
     this.props.refreshToken()
     document.addEventListener('keydown', this.escFunction, false)
   }
@@ -76,6 +78,7 @@ class Root extends Component {
   }
 
   render() {
+    console.log(isIE)
     return (
       <MuiThemeProvider theme={theme}>
         <Router basename="sample-receiving">

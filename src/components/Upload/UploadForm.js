@@ -154,11 +154,7 @@ class UploadForm extends React.Component {
 
         case 'patient_id_type':
           // only validate if species mandates a format, else value will be disregarded anyway
-          if (
-            this.state.values.species == 'Human ' &&
-            this.state.values.patient_id_type ==
-              'MSK-Patients (or derived from MSK Patients)'
-          ) {
+          if (values.species == 'Human') {
             isValidOption = this.props.form.picklists.PatientIDTypes.some(
               function(el) {
                 return el.value === values[value]
@@ -230,6 +226,7 @@ class UploadForm extends React.Component {
                 error={!formValid.material}
                 onSelect={handleMaterialChange}
                 onChange={this.handleDropdownChange}
+                autofocus={true}
                 items={form.filteredMaterials.map(option => ({
                   value: option.id,
                   label: option.value,

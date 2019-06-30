@@ -19,7 +19,7 @@ const Input = ({ id, classes, type, value, onChange, inputProps, error }) => (
             : translate('upload.form.' + id + '_label')
         }
         helperText={translate('upload.form.' + id + '_helptext')}
-        InputProps={inputProps}
+        InputProps={{ ...inputProps, className: classes.input }}
         type="number"
       />
     )}
@@ -44,6 +44,9 @@ const styles = theme => ({
   textField: {
     margin: 2 * theme.spacing(1),
     minWidth: 350,
+  },
+  input: {
+    fontSize: '1em',
   },
 })
 

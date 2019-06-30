@@ -41,6 +41,7 @@ class Dropdown extends Component {
       onSelect,
       loading,
       value,
+      autofocus,
       classes,
     } = this.props
     const { filteredItems } = this.state
@@ -59,6 +60,8 @@ class Dropdown extends Component {
               defaultSelectedItem={value}
               getInputProps={() => ({
                 id: id,
+                className: classes.input,
+                autoFocus: autofocus,
                 error: error,
                 label: error
                   ? translate('upload.form.fill_me')
@@ -72,7 +75,7 @@ class Dropdown extends Component {
               })}
               loading={loading}
               includeFooter={dynamic}
-              menuItemCount={10}
+              menuItemCount={5}
               focusOnClear
             />
           </div>
@@ -103,9 +106,12 @@ Dropdown.propTypes = {
 }
 
 const styles = theme => ({
+  input: {
+    fontSize: '1em',
+  },
   textField: {
     margin: 2 * theme.spacing(1),
-    minWidth: 350,
+    minWidth: 310,
   },
 })
 

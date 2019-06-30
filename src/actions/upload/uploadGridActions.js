@@ -2,6 +2,8 @@
 import React from 'react'
 import axios from 'axios'
 import Swal from 'sweetalert2'
+import { updateHeader } from './uploadFormActions'
+
 import {
   diff,
   findSubmission,
@@ -14,6 +16,7 @@ import {
   redactMRN,
   createPatientId,
   appendAssay,
+  translateTumorTypes,
   findIndexSeq,
   validateGrid,
   checkGridAndForm,
@@ -103,7 +106,7 @@ export function getColumns(formValues) {
     dispatch({ type: GET_COLUMNS })
 
     // no grid? get inital columns
-    if (getState().upload.grid.form.length == 0) {
+    if (getState().upload.grid.columns.length == 0) {
       return dispatch(getInitialColumns(formValues, getState().user.role))
     } else {
       let diffValues = diff(getState().upload.grid.form, formValues)
@@ -186,7 +189,11 @@ export function getInitialColumns(formValues, userRole) {
           grid: grid,
           form: formValues,
           message:
-            'Grid generated for ' + material + ' and ' + application + '.',
+            'Grid generated for ' +
+            material +
+            ' and ' +
+            application +
+            '. Green columns are optional.',
         })
       })
       .catch(error => {
@@ -207,7 +214,7 @@ export const ADD_GRID_TO_BANKED_SAMPLE_SUCCESS =
 export const BUTTON_RESET = 'BUTTON_RESET'
 export function addGridToBankedSample(ownProps) {
   return (dispatch, getState) => {
-    dispatch({ type: ADD_GRID_TO_BANKED_SAMPLE })
+    dispatch({ type: ADD_GRID_TO_BANKED_SAMPLE, message: 'Submitting...' })
     let match = checkGridAndForm(
       getState().upload.form.selected,
       getState().upload.grid.form
@@ -225,42 +232,43 @@ export function addGridToBankedSample(ownProps) {
         // customClass: { content: 'alert' },
       })
       return
+    } else {
+      return axios
+        .post(Config.API_ROOT + '/addBankedSamples', {
+          data: generateSubmitData(getState()),
+        })
+        .then(response => {
+          dispatch({
+            type: ADD_GRID_TO_BANKED_SAMPLE_SUCCESS,
+            message: 'reset',
+          })
+
+          Swal.fire({
+            title: 'Submitted!',
+            text: 'Download your Receipt under My Submissions.',
+            type: 'success',
+            showCancelButton: true,
+            animation: false,
+            confirmButtonColor: '#007cba',
+            cancelButtonColor: '#4c8b2b',
+            confirmButtonText: 'Dismiss',
+            cancelButtonText: 'To My Submissions',
+          }).then(result => {
+            if (result.value) {
+              return ownProps.history.push('upload')
+            } else {
+              return ownProps.history.push('submissions')
+            }
+          })
+        })
+        .catch(error => {
+          dispatch({
+            type: ADD_GRID_TO_BANKED_SAMPLE_FAIL,
+            error: error,
+          })
+          return error
+        })
     }
-
-    return axios
-      .post(Config.API_ROOT + '/addBankedSamples', {
-        data: generateSubmitData(getState()),
-      })
-      .then(response => {
-        dispatch({
-          type: ADD_GRID_TO_BANKED_SAMPLE_SUCCESS,
-        })
-
-        Swal.fire({
-          title: 'Submitted!',
-          text: 'Download your Receipt under My Submissions.',
-          type: 'success',
-          showCancelButton: true,
-          animation: false,
-          confirmButtonColor: '#007cba',
-          cancelButtonColor: '#4c8b2b',
-          confirmButtonText: 'Dismiss',
-          cancelButtonText: 'To My Submissions',
-        }).then(result => {
-          if (result.value) {
-            return ownProps.history.push('upload')
-          } else {
-            return ownProps.history.push('submissions')
-          }
-        })
-      })
-      .catch(error => {
-        dispatch({
-          type: ADD_GRID_TO_BANKED_SAMPLE_FAIL,
-          error: error,
-        })
-        return error
-      })
   }
 }
 
@@ -269,17 +277,17 @@ export const EDIT_SUBMISSION_FAIL = 'EDIT_SUBMISSION_FAIL'
 export const EDIT_SUBMISSION_SUCCESS = 'EDIT_SUBMISSION_SUCCESS'
 export function editSubmission(id, ownProps) {
   return (dispatch, getState) => {
-    dispatch({ type: 'EDIT_SUBMISSION' })
+    dispatch({ type: 'EDIT_SUBMISSION', message: 'Loading...' })
     let submission = findSubmission(getState().user.submissions, id)
     if (submission) {
       //  decided to rebuild grid instead of saving colFeatues and headers to avoid version
-      dispatch(
-        getInitialColumns(JSON.parse(submission.form_values)),
-        getState().user.role
-      ).then(() => {
+      let formValues = JSON.parse(submission.form_values)
+      dispatch(getInitialColumns(formValues), getState().user.role).then(() => {
+        dispatch(updateHeader(formValues))
         dispatch({
           type: 'EDIT_SUBMISSION_SUCCESS',
           payload: submission,
+          message: 'Loaded!',
         })
         return ownProps.history.push('upload')
       })
@@ -423,6 +431,24 @@ export function handleAssay(rowIndex, oldValue, newValue) {
       type: 'HANDLE_ASSAY_SUCCESS',
       rows: appendAssay(
         getState().upload.grid.rows,
+        rowIndex,
+        oldValue,
+        newValue
+      ),
+    })
+  }
+}
+
+export const HANDLE_TUMOR_TYPE = 'HANDLE_TUMOR_TYPE'
+// export const HANDLE_TUMOR_TYPE_FAIL = 'HANDLE_TUMOR_TYPE_FAIL'
+// export const HANDLE_TUMOR_TYPE_SUCCESS = 'HANDLE_TUMOR_TYPE_SUCCESS'
+export function handleTumorType(rowIndex, colIndex, oldValue, newValue) {
+  return (dispatch, getState) => {
+    return dispatch({
+      type: 'HANDLE_TUMOR_TYPE_SUCCESS',
+      rows: translateTumorTypes(
+        getState().upload.grid.rows,
+        getState().upload.grid.columnFeatures[colIndex].source,
         rowIndex,
         oldValue,
         newValue

@@ -95,6 +95,7 @@ class UploadGrid extends React.Component {
       user,
       handleMRN,
       handleAssay,
+      handleTumorType,
       handleIndex,
       handlePatientId,
     } = this.props
@@ -160,12 +161,15 @@ class UploadGrid extends React.Component {
                     }
 
                     if (prop == 'assay') {
-                      if (
-                        newValue != oldValue &&
-                        oldValue != '' &&
-                        oldValue != undefined
-                      ) {
+                      if (newValue != oldValue && oldValue != undefined) {
                         handleAssay(rowIndex, oldValue, newValue)
+                      }
+                    }
+                    if (prop == 'cancerType') {
+                      
+                      if (newValue != oldValue && oldValue != undefined) {
+                        let col = this.hotTableComponent.current.hotInstance.propToCol(prop)
+                        handleTumorType(rowIndex, col, oldValue, newValue)
                       }
                     }
                   })

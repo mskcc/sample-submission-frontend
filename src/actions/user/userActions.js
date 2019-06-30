@@ -79,11 +79,15 @@ export function refreshToken() {
             })
           }
         })
-    } else
+    } else {
+      sessionStorage.removeItem('refresh_token')
+      sessionStorage.removeItem('access_token')
+      sessionStorage.removeItem('persist:root')
       dispatch({
         type: REFRESH_TOKEN_INVALID,
         message: 'Your session expired. Please log in again.',
       })
+    }
   }
 }
 

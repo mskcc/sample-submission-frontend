@@ -108,7 +108,8 @@ export default function uploadFormReducer(state = initialFormState, action) {
             formIsLoading: false,
             filteredMaterials: action.materials,
             filteredSpecies: action.species,
-            selected: { ...state.selected, species: action.species[0].id },
+            // does not update input value quite yet,so don't change to allow validation to pick it up
+            // selected: { ...state.selected, species: action.species[0].id },
           }
         : {
             ...state,
@@ -135,7 +136,8 @@ export default function uploadFormReducer(state = initialFormState, action) {
             formIsLoading: false,
             filteredApplications: action.applications,
             filteredContainers: action.containers,
-            selected: { ...state.selected, container: action.containers[0].id },
+            // does not update input value quite yet,so don't change to allow validation to pick it up
+            // selected: { ...state.selected, container: action.containers[0].id },
           }
         : {
             ...state,

@@ -1,8 +1,9 @@
+import { Config } from '../config.js'
+
 // prep response data for HandsOnTable
 // columnHeaders = displayed column names
 // features = field/data name, patterns, dropdowns...
 // rows = data object, will be modified in place by hands on table
-
 export const generateGridData = (responseColumns, formValues, userRole) => {
   let grid = { columnFeatures: [], columnHeaders: [], rows: [] }
   grid.columnFeatures = generateColumnFeatures(responseColumns, formValues)
@@ -28,6 +29,8 @@ export const generateGridData = (responseColumns, formValues, userRole) => {
   return grid
 }
 
+// columnFeatures like validation or adjustments based on user selections
+// that are not considered by the LIMS picklists
 function generateColumnFeatures(responseColumns, formValues) {
   let columnFeatures = []
 
@@ -41,12 +44,15 @@ function generateColumnFeatures(responseColumns, formValues) {
 
     //  overwrite response container with user selection
     if ('container' in columnFeatures[i]) {
-      if (columnFeatures[i].container != formValues.container)
+      if (
+        columnFeatures[i].container != formValues.container &&
+        formValues.application != 'Expanded_Genomics'
+      )
         columnFeatures[i] = overwriteContainer(formValues.container)
     }
 
     if (columnFeatures[i].data == 'patientId') {
-      let formattingAdjustments = choosePatientIDFormatter(
+      let formattingAdjustments = choosePatientIdValidator(
         formValues.patient_id_type,
         formValues.species,
         formValues.grouping_checked
@@ -57,7 +63,7 @@ function generateColumnFeatures(responseColumns, formValues) {
     if ('source' in responseColumns[i]) {
       // TODO map backwards on submit or find way to keep tumorType id
       if (responseColumns[i].data == 'cancerType') {
-        columnFeatures[i].source = cancerTypeOptions(responseColumns[i].source)
+        columnFeatures[i].source = tumorTypeOptions(responseColumns[i].source)
       } else {
         columnFeatures[i].source = extractValues(responseColumns[i].source)
       }
@@ -94,8 +100,10 @@ function extractValues(mappings) {
   return result
 }
 
-function cancerTypeOptions(types) {
+// workaroung to have tumor type and id available in the dropdown options
+function tumorTypeOptions(types) {
   let result = types.map(a => a.value + ' – ID: ' + a.id)
+  result.unshift('Normal')
   return result
 }
 
@@ -113,8 +121,8 @@ function hideColumns(columnFeatures, userRole) {
     }
   } else return []
 }
-
-function choosePatientIDFormatter(patientIDType, species, groupingChecked) {
+// patient id is validated depending on what id type user selected
+function choosePatientIdValidator(patientIDType, species, groupingChecked) {
   if (species == 'Mouse' || species == 'Mouse_GeneticallyModified') {
     if (groupingChecked) {
       return {
@@ -164,6 +172,7 @@ function choosePatientIDFormatter(patientIDType, species, groupingChecked) {
   }
 }
 
+// generate rows depending on whether we need to add or substract rows, prefill some
 export const generateRows = (columns, formValues, numberToAdd) => {
   let rows = []
   for (let i = 0; i < numberToAdd; i++) {
@@ -195,8 +204,6 @@ export const generateRows = (columns, formValues, numberToAdd) => {
 // how many columns will have to be filled, used as end condition
 // i = counter indicating how often I stepped through A-H
 // plateColIndex = plate column
-//
-
 export const setWellPos = rows => {
   let plateRows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
   let plateColsLength = 12
@@ -282,25 +289,34 @@ export const updateRows = (formValues, grid) => {
       rows[i] = grid.rows[i]
     }
   }
-  return rows
+  return setWellPos(rows)
 }
 
+// generate data object to send to sample-rec-backend for
+// partial submission save or banked sample
 export const generateSubmitData = state => {
   let data = {}
 
-  data.version = state.common.version
-  data.grid_values = state.upload.grid.rows
+  data.version = Config.VERSION
+  data.grid_values = rowsWithRowIndex(state.upload.grid.rows)
   data.form_values = state.upload.grid.form
 
   let now = Date.now()
   let date = Math.floor(now / 1000)
-  // TODO use this for save/edit
+
   data.transaction_id = date
 
   return data
 }
 
-// edit: links back to /upload, onClick the grid_valyes of that row is fed into
+function rowsWithRowIndex(rows) {
+  for (let i = 0; i < rows.length; i++) {
+    rows[i].rowIndex = i + 1
+  }
+  return rows
+}
+
+// edit: links back to /upload, onClick the grid_values of that row are fed into
 // the state (see SubmissionsTable for the onClick)
 export const generateSubmissionsGrid = response => {
   let grid = { columnHeaders: [], data: [], columnFeatures: [] }
@@ -319,6 +335,7 @@ export const generateSubmissionsGrid = response => {
       submitted: submission.submitted ? 'yes' : 'no',
       created_on: submission.created_on,
       submitted_on: submission.submitted_on,
+      // available actions depend on submitted status
       edit: submission.submitted
         ? '<span class="grid-action-disabled">edit</span>'
         : '<span class="grid-action">edit</span>',
@@ -333,6 +350,7 @@ export const generateSubmissionsGrid = response => {
   return grid
 }
 
+// find submission in user (or all if current user is member/super) submission
 export const findSubmission = (submissions, id) => {
   for (let i = 0; i < submissions.length; i++) {
     if (submissions[i].service_id == id) {
@@ -342,6 +360,7 @@ export const findSubmission = (submissions, id) => {
   return null
 }
 
+// make sure MRNs are always redacted and all depending fields handled accordingly
 export const redactMRN = (rows, index, crdbId, msg, sex) => {
   rows[index].cmoPatientId = crdbId.length > 0 ? 'C-' + crdbId : ''
   rows[index].patientId = msg
@@ -352,6 +371,7 @@ export const redactMRN = (rows, index, crdbId, msg, sex) => {
   return rows
 }
 
+// handle patient ids
 export const createPatientId = (rows, index, crdbId, normalizedPatientID) => {
   rows[index].cmoPatientId = crdbId.length > 0 ? 'C-' + crdbId : ''
   rows[index].normalizedPatientId = normalizedPatientID
@@ -392,17 +412,73 @@ export const findSingleIndexSeq = (indexId, indexSequenceHash) => {
   }
 }
 
+export const translateTumorTypes = (
+  rows,
+  tumorTypes,
+  index,
+  oldValue,
+  newValue
+) => {
+  //  clear
+  if (newValue == '') {
+    rows[index].cancerType = ''
+  }
+  // normal
+  if (newValue == 'Normal') {
+    rows[index].cancerType = 'Normal'
+  }
+  //  translate to ID
+  else {
+    let tumorId = ''
+    for (let i = 0; i < tumorTypes.length; i++) {
+      let el = tumorTypes[i]
+      if (el == 'Normal') {
+        continue
+      }
+      let id = el.split(/ ID: /)[1]
+
+      if (el == newValue || id == newValue.toUpperCase()) {
+        tumorId = el.split(/ ID: /)[1]
+        break
+      }
+    }
+    rows[index].cancerType = tumorId
+  }
+  return rows
+}
+
+const findTumorType = (tumorTypes, newValue) => {
+  if (newValue == '' || newValue == 'Normal') {
+    return true
+  } else {
+    for (let i = 0; i < tumorTypes.length; i++) {
+      let el = tumorTypes[i]
+      let id = el.split(/ ID: /)[1]
+
+      if (el == newValue || id == newValue.toUpperCase()) {
+        return true
+      }
+    }
+  }
+  return false
+}
+
 export const appendAssay = (rows, index, oldValue, newValue) => {
   //  clear
   if (newValue == '' || newValue == 'Assay Selection' || newValue == 'Blank') {
     rows[index].assay = ''
-    //  delete
-  } else if (newValue.length < oldValue.length) {
-    rows[index].assay = newValue.replace(/(^,)|(,$)/g, '')
   }
   //  append
   else {
-    rows[index].assay = newValue + ',' + oldValue
+    if (oldValue == '') {
+      rows[index].assay = newValue
+      return rows
+    } else {
+      let assay = oldValue + ',' + newValue
+      // assay =assay.replace(/^,*|,$/g, '').trim()
+      assay = assay.replace(/[,]+/g, ',').trim()
+      rows[index].assay = assay
+    }
   }
   return rows
 }
@@ -470,6 +546,44 @@ export const validateGrid = (changes, grid) => {
       )
       continue
     }
+    if (columnName == 'assay') {
+      continue
+    }
+
+    if (columnName == 'userId') {
+      let count = 0
+      for (let j = 0; j < grid.rows.length; j++) {
+        if (grid.rows[j].userId == newValue) {
+          count++
+        }
+      }
+      let valid = count <= 1
+      if (!valid) {
+        errors.add(
+          grid.columnFeatures[columnIndex].name +
+            ': ' +
+            grid.columnFeatures[columnIndex].uniqueError
+        )
+        grid.rows[rowIndex][columnName] = ''
+      }
+    }
+
+    if (columnName == 'cancerType') {
+      let tumorTypeInList = findTumorType(
+        grid.columnFeatures[columnIndex].source,
+        newValue
+      )
+
+      if (!tumorTypeInList) {
+        errors.add(
+          grid.columnFeatures[columnIndex].name +
+            ': ' +
+            grid.columnFeatures[columnIndex].error
+        )
+        grid.rows[rowIndex][columnName] = ''
+      }
+      continue
+    }
 
     if (columnName == 'index') {
       let indexResult = findIndexSeq(grid, columnIndex, rowIndex, newValue)
@@ -513,10 +627,12 @@ export const validateGrid = (changes, grid) => {
     numErrors: errors.size,
   }
 }
+
+// compare grid and header for inconsistencies
 export const checkGridAndForm = (form, grid) => {
   let errors = new Set([])
 
-  let result = { sucess: true, message: '' }
+  let result = { success: true, message: '' }
   if (form.material != grid.material) {
     errors.add('Material: ' + form.material + ' vs. ' + grid.material)
   }
@@ -554,7 +670,7 @@ export const checkGridAndForm = (form, grid) => {
   }
 
   if (errors.size > 0) {
-    return { sucess: false, message: buildErrorMessage(errors) }
+    return { success: false, message: buildErrorMessage(errors) }
   }
   return result
 }
