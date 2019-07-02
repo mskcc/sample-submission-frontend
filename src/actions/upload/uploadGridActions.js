@@ -317,8 +317,8 @@ export function handlePatientId(rowIndex) {
     let rows = getState().upload.grid.rows
     dispatch({ type: 'HANDLE_PATIENT_ID' })
     // handle as MRN whenever 8 digit id is entered
-    if (/^[0-9]{8}$/.test(rows[rowIndex].patientId)) {
-      return dispatch(handleMRN(rowIndex, rows[rowIndex].patientId))
+    if (/^[0-9]{8}$/.test(rows[rowIndex].patientId.trim())) {
+      return dispatch(handleMRN(rowIndex, rows[rowIndex].patientId.trim()))
     }
     let normalizedPatientID = ''
     let regex = new RegExp(patientIdType.pattern)
