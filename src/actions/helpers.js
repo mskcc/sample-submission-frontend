@@ -492,7 +492,7 @@ const overwriteContainer = userContainer => {
         columnHeader: 'Plate ID',
         data: 'plateId',
         container: 'Plates',
-        pattern: '[A-Za-z0-9\\,_-]',
+        pattern: '^[A-Za-z0-9](?!.*__)[A-Za-z0-9\\,_-]{2}[A-Za-z0-9\\,_-]*$',
         error: 'Only letters, digits and –, please.',
         tooltip:
           'The plate ID is the barcode on your plate. Please scan, or carefully type, the barcode ID into this field for all samples on the plate',
@@ -518,7 +518,7 @@ const overwriteContainer = userContainer => {
         container: 'Blocks/Slides/Tubes',
         columnHeader: 'Block/Slide/TubeID',
         data: 'tubeId',
-        pattern: '[A-Za-z0-9\\,_-]',
+        pattern: '[^[A-Za-z0-9](?!.*__)[A-Za-z0-9\\,_-]{2}[A-Za-z0-9\\,_-]*$',
         error: 'Only letters, digits and –, please.',
 
         tooltip:

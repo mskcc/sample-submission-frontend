@@ -34,6 +34,7 @@ class UploadGrid extends React.Component {
   handleClear = () => {
     this.props.handleClear()
   }
+
   handleSubmit = () => {
     const { columnFeatures, hiddenColumns, rows } = this.props.grid
 
@@ -166,9 +167,10 @@ class UploadGrid extends React.Component {
                       }
                     }
                     if (prop == 'cancerType') {
-                      
                       if (newValue != oldValue && oldValue != undefined) {
-                        let col = this.hotTableComponent.current.hotInstance.propToCol(prop)
+                        let col = this.hotTableComponent.current.hotInstance.propToCol(
+                          prop
+                        )
                         handleTumorType(rowIndex, col, oldValue, newValue)
                       }
                     }

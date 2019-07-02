@@ -41,9 +41,6 @@ export const REFRESH_TOKEN_INVALID = 'REFRESH_TOKEN_INVALID'
 export function refreshToken() {
   return dispatch => {
     let token = sessionStorage.getItem('refresh_token')
-    localStorage.removeItem('refresh_token')
-    localStorage.removeItem('access_token')
-    localStorage.removeItem('persist:root')
     if (token) {
       dispatch({ type: REFRESH_TOKEN_REQUEST })
 

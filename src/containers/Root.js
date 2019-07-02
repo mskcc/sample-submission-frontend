@@ -78,7 +78,7 @@ class Root extends Component {
   }
 
   render() {
-    console.log(isIE)
+    // console.log(isIE)
     return (
       <MuiThemeProvider theme={theme}>
         <Router basename="sample-receiving">
