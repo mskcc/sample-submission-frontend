@@ -15,6 +15,14 @@ class UploadGridContainer extends React.Component {
     super(props)
   }
 
+  // while grid is open, refresh token every ten minutes
+  // not too risky since refresh token is set to expire after few hours
+  componentDidMount() {
+    setInterval(async () => {
+      this.props.refreshToken()
+    }, 600000)
+  }
+
   // componentDidMount(prevProps, prevState) {
   // console.log('prevState')
   // console.log(prevState)
@@ -35,7 +43,7 @@ class UploadGridContainer extends React.Component {
     this.props.handleAssay(rowIndex, oldValue, newValue)
   }
 
-   handleTumorType = (rowIndex, colIndex, oldValue, newValue) => {
+  handleTumorType = (rowIndex, colIndex, oldValue, newValue) => {
     this.props.handleTumorType(rowIndex, colIndex, oldValue, newValue)
   }
 
