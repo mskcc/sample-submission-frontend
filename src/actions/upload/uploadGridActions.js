@@ -425,7 +425,7 @@ export function handleMRN(rowIndex, patientId) {
 export const HANDLE_ASSAY = 'HANDLE_ASSAY'
 // export const HANDLE_ASSAY_FAIL = 'HANDLE_ASSAY_FAIL'
 // export const HANDLE_ASSAY_SUCCESS = 'HANDLE_ASSAY_SUCCESS'
-export function handleAssay(rowIndex, oldValue, newValue) {
+export function handleAssay(rowIndex, colIndex, oldValue, newValue) {
   return (dispatch, getState) => {
     return dispatch({
       type: 'HANDLE_ASSAY_SUCCESS',
@@ -433,7 +433,8 @@ export function handleAssay(rowIndex, oldValue, newValue) {
         getState().upload.grid.rows,
         rowIndex,
         oldValue,
-        newValue
+        newValue,
+        getState().upload.grid.columnFeatures[colIndex].source
       ),
     })
   }

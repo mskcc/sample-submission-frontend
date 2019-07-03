@@ -463,7 +463,7 @@ const findTumorType = (tumorTypes, newValue) => {
   return false
 }
 
-export const appendAssay = (rows, index, oldValue, newValue) => {
+export const appendAssay = (rows, index, oldValue, newValue, assays) => {
   //  clear
   if (newValue == '' || newValue == 'Assay Selection' || newValue == 'Blank') {
     rows[index].assay = ''
@@ -474,13 +474,34 @@ export const appendAssay = (rows, index, oldValue, newValue) => {
       rows[index].assay = newValue
       return rows
     } else {
-      let assay = oldValue + ',' + newValue
-      // assay =assay.replace(/^,*|,$/g, '').trim()
-      assay = assay.replace(/[,]+/g, ',').trim()
-      rows[index].assay = assay
+      if (isAssay(newValue, assays)) {
+        let assay = oldValue + ',' + newValue
+        assay = assay.replace(/[,]+/g, ',').trim()
+        rows[index].assay = assay
+      } else {
+        // might mean something got deleted
+        if (oldValue.length > newValue.length) {
+          let assay = newValue
+          assay = assay.substring(0, assay.lastIndexOf(','))
+          rows[index].assay = assay
+          return rows
+        } else {
+          rows[index].assay = oldValue
+          return rows
+        }
+      }
     }
   }
   return rows
+}
+
+const isAssay = (newValue, assays) => {
+  for (let j = 0; j < assays.length; j++) {
+    if (newValue == assays[j]) {
+      return true
+    }
+  }
+  return false
 }
 
 // overwrites everything including data to properly feed back to BankedSample
@@ -518,7 +539,7 @@ const overwriteContainer = userContainer => {
         container: 'Blocks/Slides/Tubes',
         columnHeader: 'Block/Slide/TubeID',
         data: 'tubeId',
-        pattern: '[^[A-Za-z0-9](?!.*__)[A-Za-z0-9\\,_-]{2}[A-Za-z0-9\\,_-]*$',
+        pattern: '^.{1,35}$',
         error: 'Only letters, digits and –, please.',
 
         tooltip:

@@ -163,7 +163,10 @@ class UploadGrid extends React.Component {
 
                     if (prop == 'assay') {
                       if (newValue != oldValue && oldValue != undefined) {
-                        handleAssay(rowIndex, oldValue, newValue)
+                        let col = this.hotTableComponent.current.hotInstance.propToCol(
+                          prop
+                        )
+                        handleAssay(rowIndex, col, oldValue, newValue)
                       }
                     }
                     if (prop == 'cancerType') {
