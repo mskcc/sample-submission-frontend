@@ -179,48 +179,12 @@ export function logout() {
 }
 
 export const BUTTON_RESET = 'BUTTON_RESET'
-export const SAVE_PARTIAL_SUBMISSION = 'SAVE_PARTIAL_SUBMISSION'
-export const SAVE_PARTIAL_SUBMISSION_FAIL = 'SAVE_PARTIAL_SUBMISSION_FAIL'
-export const SAVE_PARTIAL_SUBMISSION_SUCCESS = 'SAVE_PARTIAL_SUBMISSION_SUCCESS'
-export function savePartialSubmission(grid) {
-  return (dispatch, getState) => {
-    dispatch({ type: SAVE_PARTIAL_SUBMISSION })
 
-    return axios
-      .post(Config.API_ROOT + '/saveSubmission', {
-        data: {
-          ...generateSubmitData(getState()),
-          username: getState().user.username,
-        },
-      })
-      .then(response => {
-        // Handsontable binds to your data source (list of arrays or list of objects) by reference. Therefore, all the data entered in the grid will alter the original data source.
-        dispatch({
-          type: SAVE_PARTIAL_SUBMISSION_SUCCESS,
-          payload: {
-            submissions: response.data.submissions,
-            table: generateSubmissionsGrid(response.data),
-          },
-          message: 'Saved!',
-        })
-        return setTimeout(() => {
-          dispatch({ type: BUTTON_RESET })
-        }, 2000)
-      })
-      .catch(error => {
-        dispatch({
-          type: SAVE_PARTIAL_SUBMISSION_FAIL,
-          error: error,
-        })
-        return error
-      })
-  }
-}
 export const GET_SUBMISSIONS = 'GET_SUBMISSIONS'
 export const GET_SUBMISSIONS_FAIL = 'GET_SUBMISSIONS_FAIL'
 export const GET_SUBMISSIONS_SUCCESS = 'GET_SUBMISSIONS_SUCCESS'
 export function getSubmissions() {
-  return dispatch => {
+  return dispatch => { 
     dispatch({ type: GET_SUBMISSIONS })
     return axios
       .get(Config.API_ROOT + '/getSubmissions', {})

@@ -360,6 +360,20 @@ export const findSubmission = (submissions, id) => {
   return null
 }
 
+export const submissionExists = (
+  service_id,
+  material,
+  username,
+  submissions
+) => {
+  return submissions.some(
+    e =>
+      e.service_id === service_id &&
+      e.username === username &&
+      e.material === material
+  )
+}
+
 // make sure MRNs are always redacted and all depending fields handled accordingly
 export const redactMRN = (rows, index, crdbId, msg, sex) => {
   rows[index].cmoPatientId = crdbId.length > 0 ? 'C-' + crdbId : ''

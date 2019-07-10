@@ -20,6 +20,7 @@ import {
   findIndexSeq,
   validateGrid,
   checkGridAndForm,
+  submissionExists,
 } from '../helpers'
 
 import { Config } from '../../config.js'
@@ -268,6 +269,90 @@ export function addGridToBankedSample(ownProps) {
           })
           return error
         })
+    }
+  }
+}
+
+//  to save a submission, first check wether header matches grid
+//  then check wether submission exists
+export const SAVE_PARTIAL_SUBMISSION = 'SAVE_PARTIAL_SUBMISSION'
+export const SAVE_PARTIAL_SUBMISSION_CANCEL = 'SAVE_PARTIAL_SUBMISSION_CANCEL'
+export const SAVE_PARTIAL_SUBMISSION_FAIL = 'SAVE_PARTIAL_SUBMISSION_FAIL'
+export const SAVE_PARTIAL_SUBMISSION_SUCCESS = 'SAVE_PARTIAL_SUBMISSION_SUCCESS'
+export function savePartialSubmission(grid) {
+  return (dispatch, getState) => {
+    let user = getState().user
+    dispatch({ type: SAVE_PARTIAL_SUBMISSION })
+
+    let match = checkGridAndForm(
+      getState().upload.form.selected,
+      getState().upload.grid.form
+    )
+    if (!match.success) {
+      Swal.fire({
+        title: 'Header does not match grid',
+        html:
+          'Please make sure your current header values match the ones used to generate the table. <br>(Header value x Table value) <br>' +
+          match.message,
+        // footer: 'To avoid mistakes, invalid cells are cleared immediately.',
+        type: 'error',
+        animation: false,
+        confirmButtonText: 'Dismiss',
+        // customClass: { content: 'alert' },
+      })
+      return
+    } else {
+      if (
+        submissionExists(
+          grid.form.service_id,
+          grid.form.material,
+          user.username,
+          user.submissions
+        )
+      ) {
+        swal(
+          'A request for ' +
+            grid.form.material +
+            ' with this IGO ID and your username already exists. Are you sure you want to overwrite it?',
+          { buttons: ['Cancel', true] }
+        ).then(value => {
+          if (value) {
+            return axios
+              .post(Config.API_ROOT + '/saveSubmission', {
+                data: {
+                  ...generateSubmitData(getState()),
+                  username: getState().user.username,
+                },
+              })
+              .then(response => {
+                // Handsontable binds to your data source (list of arrays or list of objects) by reference. Therefore, all the data entered in the grid will alter the original data source.
+                dispatch({
+                  type: SAVE_PARTIAL_SUBMISSION_SUCCESS,
+                  payload: {
+                    submissions: response.data.submissions,
+                    table: generateSubmissionsGrid(response.data),
+                  },
+                  message: 'Saved!',
+                })
+                // used to reset saved! msg on button
+                // return setTimeout(() => {
+                //   dispatch({ type: BUTTON_RESET })
+                // }, 2000)
+              })
+              .catch(error => {
+                dispatch({
+                  type: SAVE_PARTIAL_SUBMISSION_FAIL,
+                  error: error,
+                })
+                return error
+              })
+          } else {
+            return dispatch({
+              type: SAVE_PARTIAL_SUBMISSION_CANCEL,
+            })
+          }
+        })
+      }
     }
   }
 }
