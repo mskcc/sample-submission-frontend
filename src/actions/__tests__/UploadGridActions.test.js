@@ -118,7 +118,7 @@ describe('upload grid actions', () => {
       },
       {
         type: 'UPDATE_NUM_OF_ROWS_SUCCESS',
-        rows: [{ tubeId: '', userId: '' }, { tubeId: '', userId: '' }],
+        rows: [{ tubeId: '', userId: '', wellPosition: 'A1' }, { tubeId: '', userId: '', wellPosition: 'B1' }],
         form: formValuesMock,
         message: 'Number of rows updated.',
       },
