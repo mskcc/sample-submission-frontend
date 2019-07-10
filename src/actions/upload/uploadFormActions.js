@@ -115,17 +115,29 @@ export const SELECT = 'SELECT'
 export function select(id, value) {
   return dispatch => {
     if (id == 'service_id') {
-     return dispatch({
+      return dispatch({
         type: SELECT,
         payload: { id: id, value: value },
         message: 'Service Id updated.',
       })
     }
-     if (value == 'Expanded_Genomics') {
+
+    if (id == 'number_of_samples') {
+      if (value > 999) {
+        return dispatch({
+          type: SELECT,
+          payload: { id: id, value: value },
+          message:
+            'A sample set this large might lead to performance issues. We recommend keeping it below 1000 and submitting mutliple requests if necessary.',
+        })
+      }
+    }
+    if (value == 'Expanded_Genomics') {
       return dispatch({
         type: SELECT,
         payload: { id: id, value: value },
-        message: 'Select any container in the dropdown, you’ll be able to specify multiple containers in the submission grid.',
+        message:
+          'Select any container in the dropdown, you’ll be able to specify multiple containers in the submission grid.',
       })
     } else {
       return dispatch({ type: SELECT, payload: { id: id, value: value } })

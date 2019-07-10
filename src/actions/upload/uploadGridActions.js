@@ -310,12 +310,24 @@ export function savePartialSubmission(grid) {
           user.submissions
         )
       ) {
-        swal(
-          'A request for ' +
+        Swal.fire({
+          title: 'Duplicate found',
+          html:
+            'A request for ' +
             grid.form.material +
-            ' with this IGO ID and your username already exists. Are you sure you want to overwrite it?',
-          { buttons: ['Cancel', true] }
-        ).then(value => {
+            ' with this Service ID and your username already exists. Are you sure you want to overwrite it?',
+          footer:
+            'If you need to split up a large request into multiple smaller ones, we recommend you select "I don\'t have an iLabs ID" to avoid the duplicate check on "Save Table" and fill in the correct ID on submission.',
+          type: 'info',
+          animation: 'false',
+
+          showCancelButton: true,
+          animation: false,
+          confirmButtonColor: '#df4602',
+          cancelButtonColor: '#007cba',
+          confirmButtonText: 'Overwrite',
+          cancelButtonText: 'Cancel',
+        }).then(value => {
           if (value) {
             return axios
               .post(Config.API_ROOT + '/saveSubmission', {
