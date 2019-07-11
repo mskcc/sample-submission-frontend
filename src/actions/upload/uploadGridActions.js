@@ -364,6 +364,36 @@ export function savePartialSubmission(grid) {
             })
           }
         })
+      } else {
+        return axios
+          .post(Config.API_ROOT + '/saveSubmission', {
+            data: {
+              ...generateSubmitData(getState()),
+              username: getState().user.username,
+            },
+          })
+          .then(response => {
+            // Handsontable binds to your data source (list of arrays or list of objects) by reference. Therefore, all the data entered in the grid will alter the original data source.
+            dispatch({
+              type: SAVE_PARTIAL_SUBMISSION_SUCCESS,
+              payload: {
+                submissions: response.data.submissions,
+                table: generateSubmissionsGrid(response.data),
+              },
+              message: 'Saved!',
+            })
+            // used to reset saved! msg on button
+            // return setTimeout(() => {
+            //   dispatch({ type: BUTTON_RESET })
+            // }, 2000)
+          })
+          .catch(error => {
+            dispatch({
+              type: SAVE_PARTIAL_SUBMISSION_FAIL,
+              error: error,
+            })
+            return error
+          })
       }
     }
   }

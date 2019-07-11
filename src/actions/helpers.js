@@ -63,6 +63,7 @@ function generateColumnFeatures(responseColumns, formValues) {
     if ('source' in responseColumns[i]) {
       // TODO map backwards on submit or find way to keep tumorType id
       if (responseColumns[i].data == 'cancerType') {
+        columnFeatures[i].allowInvalid = true
         columnFeatures[i].source = tumorTypeOptions(responseColumns[i].source)
       } else {
         columnFeatures[i].source = extractValues(responseColumns[i].source)
