@@ -257,9 +257,9 @@ export function savePartialSubmission(grid) {
                   message: 'Saved!',
                 })
                 // used to reset saved! msg on button
-                // return setTimeout(() => {
-                //   dispatch({ type: BUTTON_RESET })
-                // }, 2000)
+                return setTimeout(() => {
+                  dispatch({ type: BUTTON_RESET })
+                }, 2000)
               })
               .catch(error => {
                 dispatch({
@@ -293,9 +293,9 @@ export function savePartialSubmission(grid) {
               message: 'Saved!',
             })
             // used to reset saved! msg on button
-            // return setTimeout(() => {
-            //   dispatch({ type: BUTTON_RESET })
-            // }, 2000)
+            return setTimeout(() => {
+              dispatch({ type: BUTTON_RESET })
+            }, 2000)
           })
           .catch(error => {
             dispatch({
