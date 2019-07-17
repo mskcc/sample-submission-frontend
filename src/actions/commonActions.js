@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import {Config} from '../config.js'
+import { Config } from '../config.js'
 
 // Add a request interceptor
 axios.interceptors.request.use(
@@ -55,14 +55,14 @@ export function checkVersion() {
       .catch(error => {
         if (error.response) {
           dispatch({
-            type: RECEIVE_CHECK_VERSION_FAIL,
+            type: SERVER_ERROR,
+            serverError: true,
             error: error,
           })
         } else {
           dispatch({
             type: SERVER_ERROR,
             serverError: true,
-            
           })
         }
       })
@@ -77,13 +77,10 @@ export const setErrorMessage = () => ({
   type: SET_ERROR_MESSAGE,
 })
 
-
 // Resets the currently visible error message.
 export const resetErrorMessage = () => ({
   type: RESET_ERROR_MESSAGE,
 })
-
-
 
 export const RESET_MESSAGE = 'RESET_MESSAGE'
 export const SET_MESSAGE = 'SET_MESSAGE'
@@ -93,10 +90,7 @@ export const setMessage = () => ({
   type: SET_MESSAGE,
 })
 
-
 // Resets the currently visible error message.
 export const resetMessage = () => ({
   type: RESET_MESSAGE,
 })
-
-
