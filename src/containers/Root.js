@@ -81,7 +81,7 @@ class Root extends Component {
     // console.log(isIE)
     return (
       <MuiThemeProvider theme={theme}>
-        <Router basename="sample-receiving">
+        <Router basename="sample-submission">
           <div>
             <div className="app">
               <Header loggedIn={this.props.loggedIn} />

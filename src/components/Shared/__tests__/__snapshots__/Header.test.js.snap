@@ -20,7 +20,7 @@ exports[`Render Header render Header correctly 1`] = `
     <h6
       className="MuiTypography-root Header-title-2 MuiTypography-h6 MuiTypography-colorInherit"
     >
-      SampleReceiving V2
+      IGO SampleSubmission
     </h6>
     <button
       className="MuiButtonBase-root MuiButton-root MuiButton-text"
