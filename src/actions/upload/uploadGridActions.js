@@ -273,8 +273,6 @@ export function addGridToBankedSample(ownProps) {
   }
 }
 
-
-
 export const EDIT_SUBMISSION = 'EDIT_SUBMISSION'
 export const EDIT_SUBMISSION_FAIL = 'EDIT_SUBMISSION_FAIL'
 export const EDIT_SUBMISSION_SUCCESS = 'EDIT_SUBMISSION_SUCCESS'

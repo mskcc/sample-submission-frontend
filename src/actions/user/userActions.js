@@ -25,17 +25,6 @@ axios.interceptors.request.use(
     return Promise.reject(error)
   }
 )
-// // Add a response interceptor
-// axios.interceptors.response.use(
-//   function(response) {
-//     // Do something with response data
-//     return response
-//   },
-//   function(error) {
-//     // Do something with response error
-//     return Promise.reject(error)
-//   }
-// )
 
 export const REFRESH_TOKEN_VALID = 'REFRESH_TOKEN_VALID'
 export const REFRESH_TOKEN_REQUEST = 'REFRESH_TOKEN_REQUEST'
@@ -396,56 +385,6 @@ export function downloadReceipt(id, username) {
       })
   }
 }
-
-// export const EDIT_SUBMISSION = 'EDIT_SUBMISSION'
-// export const EDIT_SUBMISSION_FAIL = 'EDIT_SUBMISSION_FAIL'
-// export const EDIT_SUBMISSION_SUCCESS = 'EDIT_SUBMISSION_SUCCESS'
-// export function editSubmission(id) {
-//   return (dispatch, getState) => {
-//     dispatch({ type: 'EDIT_SUBMISSION' })
-//     let submission = findSubmission(getState().user.submissions, id)
-//     if (submission) {
-//       return dispatch({
-//         type: 'EDIT_SUBMISSION_SUCCESS',
-//         payload: 'submission',
-//       })
-//     } else {
-//       return dispatch({
-//         type: 'EDIT_SUBMISSION_FAIL',
-//       })
-//     }
-//   }
-// }
-
-// export const GET_SUBMISSIONS_EXISTS = 'GET_SUBMISSIONS_EXISTS'
-// export const GET_SUBMISSIONS_EXISTS_FAIL = 'GET_SUBMISSIONS_EXISTS_FAIL'
-// export const GET_SUBMISSIONS_EXISTS_SUCCESS = 'GET_SUBMISSIONS_EXISTS_SUCCESS'
-// export function submissionExists(username, request_id) {
-//   return dispatch => {
-//     dispatch({ type: GET_SUBMISSIONS_EXISTS })
-//     return axios
-//       .post(Config.API_ROOT + '/submissionExists', {
-//         data: {
-//           username: username,
-//           request_id: request_id,
-//         },
-//       })
-//       .then(response => {
-//         console.log(response.data)
-//         dispatch({
-//           type: GET_SUBMISSIONS_EXISTS_SUCCESS,
-//           payload: response.data,
-//         })
-//       })
-//       .catch(error => {
-//         dispatch({
-//           type: GET_SUBMISSIONS_EXISTS_FAIL,
-//           error: error,
-//         })
-//         return error
-//       })
-//   }
-// }
 
 export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE'
 

@@ -5,10 +5,9 @@ import { Config } from '../../config.js'
 
 import { generateSubmissionsGrid } from '../helpers'
 
-// materials that be combined with a Blocks/Slides/Tubes container
-const BSTMaterials = ['tissue', 'cells', 'blood', 'buffy coat', 'other']
+// species that trigger patient id field
 const PatientIDSpecies = ['human']
-// const PatientIDSpecies = ['human', 'mouse', 'mouse_geneticallymodified']
+
 
 export const MESSAGE = 'MESSAGE'
 
@@ -58,7 +57,6 @@ export function getInitialState() {
 }
 
 // get materials that can be combined with application
-
 export const REQUEST_MATERIALS_FOR_APPLICATION =
   'REQUEST_MATERIALS_FOR_APPLICATION'
 
