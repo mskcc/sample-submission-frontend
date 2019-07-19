@@ -2,7 +2,7 @@
 
 exports[`Render Dropdown render Dropdown correctly 1`] = `
 <div
-  className="Dropdown-textField-1"
+  className="Dropdown-textField-2"
 >
   <div
     aria-expanded={false}
@@ -27,7 +27,7 @@ exports[`Render Dropdown render Dropdown correctly 1`] = `
         aria-autocomplete="list"
         aria-controls={null}
         aria-labelledby="downshift-0-label"
-        className="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl MuiInputBase-adornedEnd"
+        className="MuiInputBase-root MuiInput-root MuiInput-underline Dropdown-input-1 MuiInputBase-formControl MuiInput-formControl MuiInputBase-adornedEnd"
         onClick={[Function]}
       >
         <input

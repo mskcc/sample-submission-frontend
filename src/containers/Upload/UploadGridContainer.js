@@ -15,6 +15,14 @@ class UploadGridContainer extends React.Component {
     super(props)
   }
 
+  // while grid is open, refresh token every ten minutes
+  // not too risky since refresh token is set to expire after few hours
+  componentDidMount() {
+    setInterval(async () => {
+      this.props.refreshToken()
+    }, 600000)
+  }
+
   // componentDidMount(prevProps, prevState) {
   // console.log('prevState')
   // console.log(prevState)
@@ -31,11 +39,11 @@ class UploadGridContainer extends React.Component {
   handleIndex = (colIndex, rowIndex, newValue) => {
     this.props.handleIndex(colIndex, rowIndex, newValue)
   }
-  handleAssay = (rowIndex, oldValue, newValue) => {
-    this.props.handleAssay(rowIndex, oldValue, newValue)
+  handleAssay = (rowIndex, colIndex, oldValue, newValue) => {
+    this.props.handleAssay(rowIndex, colIndex, oldValue, newValue)
   }
 
-   handleTumorType = (rowIndex, colIndex, oldValue, newValue) => {
+  handleTumorType = (rowIndex, colIndex, oldValue, newValue) => {
     this.props.handleTumorType(rowIndex, colIndex, oldValue, newValue)
   }
 
@@ -63,28 +71,12 @@ class UploadGridContainer extends React.Component {
   }
 
   handleSave = () => {
-    if (
-      this.submissionExists(
-        this.props.grid.form.service_id,
-        this.props.user.submissions
-      )
-    ) {
-      swal(
-        'A request with this IGO ID and your username already exists. Do you want to overwrite?',
-        { buttons: ['Cancel', true] }
-      ).then(value => {
-        if (value) {
-          this.props.savePartialSubmission(this.props.grid)
-        }
-      })
-    } else {
-      this.props.savePartialSubmission(this.props.grid)
-    }
+    this.props.savePartialSubmission(this.props.grid)
   }
 
-  submissionExists = (service_id, submissions) => {
-    return submissions.some(e => e.service_id === service_id)
-  }
+  // if submission submitted and user role:
+  //  ask to unsubmit
+  // unsubmit
 
   render() {
     const { grid, user, handleSubmit } = this.props

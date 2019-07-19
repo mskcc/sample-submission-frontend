@@ -22,6 +22,8 @@ import Login from './Login'
 import Logout from './Logout'
 import ErrorPage from './ErrorPage'
 
+import { Config } from '../config.js'
+
 const isIE = /*@cc_on!@*/ false || !!document.documentMode
 
 function PrivateRoute({ component: Component, loggedIn, ...rest }) {
@@ -78,14 +80,13 @@ class Root extends Component {
   }
 
   render() {
-    console.log(isIE)
     return (
       <MuiThemeProvider theme={theme}>
-        <Router basename="sample-receiving">
+        <Router basename={Config.BASENAME}>
           <div>
             <div className="app">
               <Header loggedIn={this.props.loggedIn} />
-              {process.env.NODE_ENV !== 'production' ? <DevTools /> : <div />}
+              {Config.ENV !== 'production' ? <DevTools /> : <div />}
 
               {this.props.common.serverError ? (
                 <ErrorPage />

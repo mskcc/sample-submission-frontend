@@ -12,7 +12,7 @@ exports[`Render Input render Input correctly 1`] = `
     Missing translationId: upload.form.test_me_label for language: \${ languageCode }
   </label>
   <div
-    className="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
+    className="MuiInputBase-root MuiInput-root MuiInput-underline Input-input-2 MuiInputBase-formControl MuiInput-formControl"
     onClick={[Function]}
   >
     <input

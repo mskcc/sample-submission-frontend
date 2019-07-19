@@ -135,6 +135,8 @@ export default function uploadGridReducer(state = initialGridState, action) {
         columnFeatures: action.columnFeatures,
       }
 
+   
+
     case ActionTypes.EDIT_SUBMISSION_SUCCESS:
       return {
         ...state,

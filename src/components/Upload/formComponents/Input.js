@@ -43,7 +43,7 @@ Input.defaultProps = {
 const styles = theme => ({
   textField: {
     margin: 2 * theme.spacing(1),
-    minWidth: 350,
+    minWidth: 310,
   },
   input: {
     fontSize: '1em',

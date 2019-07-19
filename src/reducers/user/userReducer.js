@@ -11,7 +11,7 @@ const initialState = {
   saved: false,
   submissionsTable: {},
   isSaving: false,
-  role: ''
+  role: '',
 }
 
 function userReducer(state = initialState, action) {
@@ -101,6 +101,7 @@ function userReducer(state = initialState, action) {
         submissions: action.payload.submissions,
         loading: false,
       }
+
     case ActionTypes.SAVE_PARTIAL_SUBMISSION:
       return {
         ...state,

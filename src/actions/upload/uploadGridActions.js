@@ -20,6 +20,7 @@ import {
   findIndexSeq,
   validateGrid,
   checkGridAndForm,
+  submissionExists,
 } from '../helpers'
 
 import { Config } from '../../config.js'
@@ -317,8 +318,8 @@ export function handlePatientId(rowIndex) {
     let rows = getState().upload.grid.rows
     dispatch({ type: 'HANDLE_PATIENT_ID' })
     // handle as MRN whenever 8 digit id is entered
-    if (/^[0-9]{8}$/.test(rows[rowIndex].patientId)) {
-      return dispatch(handleMRN(rowIndex, rows[rowIndex].patientId))
+    if (/^[0-9]{8}$/.test(rows[rowIndex].patientId.trim())) {
+      return dispatch(handleMRN(rowIndex, rows[rowIndex].patientId.trim()))
     }
     let normalizedPatientID = ''
     let regex = new RegExp(patientIdType.pattern)
@@ -425,7 +426,7 @@ export function handleMRN(rowIndex, patientId) {
 export const HANDLE_ASSAY = 'HANDLE_ASSAY'
 // export const HANDLE_ASSAY_FAIL = 'HANDLE_ASSAY_FAIL'
 // export const HANDLE_ASSAY_SUCCESS = 'HANDLE_ASSAY_SUCCESS'
-export function handleAssay(rowIndex, oldValue, newValue) {
+export function handleAssay(rowIndex, colIndex, oldValue, newValue) {
   return (dispatch, getState) => {
     return dispatch({
       type: 'HANDLE_ASSAY_SUCCESS',
@@ -433,7 +434,8 @@ export function handleAssay(rowIndex, oldValue, newValue) {
         getState().upload.grid.rows,
         rowIndex,
         oldValue,
-        newValue
+        newValue,
+        getState().upload.grid.columnFeatures[colIndex].source
       ),
     })
   }
