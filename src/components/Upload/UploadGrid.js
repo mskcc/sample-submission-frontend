@@ -116,7 +116,7 @@ class UploadGrid extends React.Component {
               onClick={this.handleSave}
               isLoading={user.isSaving}
               done={user.saved}
-              msg={'Saved!'}
+              // msg={'Saved!'}
               color="primary"
             />{' '}
             <GridButton

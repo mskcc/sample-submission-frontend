@@ -109,6 +109,8 @@ function userReducer(state = initialState, action) {
       }
     case ActionTypes.SAVE_PARTIAL_SUBMISSION_FAIL:
       return { ...state, isSaving: false }
+    case ActionTypes.SAVE_PARTIAL_SUBMISSION_CANCEL:
+      return { ...state, isSaving: false }
     case ActionTypes.SAVE_PARTIAL_SUBMISSION_SUCCESS:
       return {
         ...state,
