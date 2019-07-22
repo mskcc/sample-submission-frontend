@@ -121,12 +121,12 @@ export function select(id, value) {
     }
 
     if (id == 'number_of_samples') {
-      if (value > 999) {
+      if (value > 199) {
         return dispatch({
           type: SELECT,
           payload: { id: id, value: value },
           message:
-            'A sample set this large might lead to performance issues. We recommend keeping it below 1000 and submitting mutliple requests if necessary.',
+            'A sample set this large might lead to performance issues. We recommend keeping it below 200 and submitting mutliple requests if necessary.',
         })
       }
     }

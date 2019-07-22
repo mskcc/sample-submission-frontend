@@ -29,7 +29,7 @@
     "form_clear_label": "Clear Form",
     "grid_submit_label": "Submit",
     "grid_save_label": "Save Table",
-    "grid_save_msg": "Saved!",
+    "grid_save_msg": "Save Table",
     "grid_clear_label": "Clear Table"
   }
 }

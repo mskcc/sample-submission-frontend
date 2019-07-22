@@ -226,8 +226,8 @@ export function savePartialSubmission(grid) {
           cancelButtonColor: '#007cba',
           confirmButtonText: 'Overwrite',
           cancelButtonText: 'Cancel',
-        }).then(value => {
-          if (value) {
+        }).then(result => {
+          if (result.value) {
             return axios
               .post(Config.API_ROOT + '/saveSubmission', {
                 data: {
@@ -257,9 +257,10 @@ export function savePartialSubmission(grid) {
                 })
                 return error
               })
-          } else {
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
             return dispatch({
               type: SAVE_PARTIAL_SUBMISSION_CANCEL,
+              message: 'Canceled!',
             })
           }
         })
