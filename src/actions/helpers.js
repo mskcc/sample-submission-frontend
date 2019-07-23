@@ -92,6 +92,24 @@ function generateColumnFeatures(responseColumns, formValues) {
     }
   }
 
+  // add well position to plate requests that came without well position
+  if (
+    formValues.container == 'Plates' &&
+    columnFeatures[0].data == 'plateId' &&
+    columnFeatures[1].data != 'wellPosition'
+  ) {
+    columnFeatures.unshift({
+      name: 'Well Position',
+      columnHeader: 'Well Position',
+      data: 'wellPosition',
+      readOnly: true,
+      pattern: '[A-Za-z]+d+|^$',
+      tooltip:
+        'Fill Plate by Column. It must have at least one letter followed by a number',
+      error: 'Well Position must have at least one letter followed by a number',
+    })
+  }
+
   return columnFeatures
 }
 
