@@ -109,6 +109,13 @@ function generateColumnFeatures(responseColumns, formValues) {
       error: 'Well Position must have at least one letter followed by a number',
     })
   }
+  if (
+    formValues.container != 'Plates' &&
+    columnFeatures[1].data == 'wellPosition'
+  ) {
+    columnFeatures[1] = columnFeatures[0]
+    columnFeatures.shift()
+  }
 
   return columnFeatures
 }
