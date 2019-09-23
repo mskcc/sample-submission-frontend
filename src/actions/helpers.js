@@ -625,6 +625,16 @@ export const validateGrid = (changes, grid) => {
             grid.columnFeatures[columnIndex].uniqueError
         )
         grid.rows[rowIndex][columnName] = ''
+        continue
+      }
+      if (newValue.toLowerCase().includes('sample')) {
+        errors.add(
+          grid.columnFeatures[columnIndex].name +
+            ': ' +
+            grid.columnFeatures[columnIndex].containsSampleError
+        )
+        grid.rows[rowIndex][columnName] = ''
+        continue
       }
     }
 
