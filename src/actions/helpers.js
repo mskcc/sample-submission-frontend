@@ -613,7 +613,7 @@ export const validateGrid = (changes, grid) => {
     if (columnName == 'userId') {
       let count = 0
       for (let j = 0; j < grid.rows.length; j++) {
-        if (grid.rows[j].userId == newValue) {
+        if (grid.rows[j].userId.toLowerCase() == newValue.toLowerCase()) {
           count++
         }
       }
