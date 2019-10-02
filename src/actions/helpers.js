@@ -613,7 +613,7 @@ export const validateGrid = (changes, grid) => {
     if (columnName == 'userId') {
       let count = 0
       for (let j = 0; j < grid.rows.length; j++) {
-        if (grid.rows[j].userId == newValue) {
+        if (grid.rows[j].userId.toLowerCase() == newValue.toLowerCase()) {
           count++
         }
       }
@@ -625,6 +625,16 @@ export const validateGrid = (changes, grid) => {
             grid.columnFeatures[columnIndex].uniqueError
         )
         grid.rows[rowIndex][columnName] = ''
+        continue
+      }
+      if (newValue.toLowerCase().includes('sample')) {
+        errors.add(
+          grid.columnFeatures[columnIndex].name +
+            ': ' +
+            grid.columnFeatures[columnIndex].containsSampleError
+        )
+        grid.rows[rowIndex][columnName] = ''
+        continue
       }
     }
 

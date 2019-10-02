@@ -30,6 +30,7 @@ class SubmissionsTable extends React.Component {
             ref={this.hotTableComponent}
             data={this.props.user.submissionsTable.data}
             colHeaders={this.props.user.submissionsTable.columnHeaders}
+            rowHeaders={true}
             readOnly
             className="htCenter"
             columns={this.props.user.submissionsTable.columnFeatures}
