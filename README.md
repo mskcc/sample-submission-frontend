@@ -1,4 +1,6 @@
 ### IGO Sample Submission Frontend
+Website used by IGO customer's to register samples for drop-off. 
+
  
 * react ^16.8
 * redux ^4.0.1
@@ -15,5 +17,5 @@
 ### Commit and PR Strategy
 * create feature branch
 * make sure `npm test` and `npm build` succeed
-* create PR with *development* branch (Travis build will fail due to missing config file)
+* create PR with *development* branch 
 * wait for review before merge
