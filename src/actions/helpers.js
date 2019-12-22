@@ -376,9 +376,9 @@ export const generateSubmissionsGrid = response => {
 }
 
 // find submission in user (or all if current user is member/super) submission
-export const findSubmission = (submissions, id) => {
+export const findSubmission = (submissions, submissionId) => {
   for (let i = 0; i < submissions.length; i++) {
-    if (submissions[i].service_id == id) {
+    if (submissions[i].id == submissionId) {
       return submissions[i]
     }
   }

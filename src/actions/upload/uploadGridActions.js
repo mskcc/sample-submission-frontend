@@ -276,10 +276,10 @@ export function addGridToBankedSample(ownProps) {
 export const EDIT_SUBMISSION = 'EDIT_SUBMISSION'
 export const EDIT_SUBMISSION_FAIL = 'EDIT_SUBMISSION_FAIL'
 export const EDIT_SUBMISSION_SUCCESS = 'EDIT_SUBMISSION_SUCCESS'
-export function editSubmission(id, ownProps) {
+export function editSubmission(submissionId, ownProps) {
   return (dispatch, getState) => {
     dispatch({ type: 'EDIT_SUBMISSION', message: 'Loading...' })
-    let submission = findSubmission(getState().user.submissions, id)
+    let submission = findSubmission(getState().user.submissions, submissionId)
     if (submission) {
       //  decided to rebuild grid instead of saving colFeatues and headers to avoid version
       let formValues = JSON.parse(submission.form_values)

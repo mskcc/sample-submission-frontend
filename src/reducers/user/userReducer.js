@@ -94,6 +94,7 @@ function userReducer(state = initialState, action) {
       }
     case ActionTypes.GET_SUBMISSIONS_FAIL:
       return { ...state, loading: false, error: action.error }
+   
     case ActionTypes.GET_SUBMISSIONS_SUCCESS:
       return {
         ...state,

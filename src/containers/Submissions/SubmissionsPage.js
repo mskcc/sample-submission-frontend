@@ -15,13 +15,14 @@ export class SubmissionsPage extends Component {
     this.props.getSubmissions()
   }
 
-  handleClick = (type, id, username) => {
+  handleClick = (type, submissionId, serviceId) => {
     switch (type) {
       case 'edit': {
-        return this.props.editSubmission(id, this.props)
+        console.log('edit')
+        return this.props.editSubmission(submissionId, this.props)
       }
       case 'receipt': {
-        return this.props.downloadReceipt(id, username)
+        return this.props.downloadReceipt(submissionId, serviceId)
       }
       case 'delete': {
         Swal.fire({
@@ -35,7 +36,7 @@ export class SubmissionsPage extends Component {
           confirmButtonText: 'Delete',
         }).then(result => {
           if (result.value) {
-            this.props.deleteSubmission(id, username)
+            this.props.deleteSubmission(submissionId, serviceId)
             return this.props.history.push('submissions')
           }
         })
