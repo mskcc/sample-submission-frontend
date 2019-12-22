@@ -382,7 +382,6 @@ export const findSubmission = (submissions, submissionId) => {
       return submissions[i]
     }
   }
-  return null
 }
 
 export const submissionExists = (
