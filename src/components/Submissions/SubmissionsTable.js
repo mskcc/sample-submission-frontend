@@ -40,20 +40,38 @@ class SubmissionsTable extends React.Component {
             dropdownMenu={['filter_by_value', 'filter_action_bar']}
             afterOnCellMouseDown={(event, coords, TD) => {
               if (coords.row != -1) {
-                let id = this.props.user.submissionsTable.data[coords.row]
-                  .service_id
-                let submitted =
-                  this.props.user.submissionsTable.data[coords.row].submitted ==
-                  'yes'
+                let service_id = 'test'
+                if (coords.col == '9') {
+                  let submitted = TD.firstElementChild.getAttribute('submitted')
 
-                let username = this.props.user.submissionsTable.data[coords.row]
-                  .username
-                if (coords.col == '9' && !submitted) {
-                  handleClick('edit', id, username)
-                } else if (coords.col == '10' && submitted) {
-                  handleClick('receipt', id, username)
-                } else if (coords.col == '11' && !submitted) {
-                  handleClick('delete', id, username)
+                  if (submitted == 'false') {
+                    let service_id = TD.firstElementChild.getAttribute(
+                      'service-id'
+                    )
+                    let id = TD.firstElementChild.getAttribute('submission-id')
+                    handleClick('edit', id, service_id)
+                  }
+                } else if (coords.col == '10') {
+                  let submitted = TD.firstElementChild.getAttribute('submitted')
+
+                  if (submitted == 'true') {
+                    let service_id = TD.firstElementChild.getAttribute(
+                      'service-id'
+                    )
+                    let id = TD.firstElementChild.getAttribute('submission-id')
+
+                    handleClick('receipt', id, service_id)
+                  }
+                } else if (coords.col == '11') {
+                  let submitted = TD.firstElementChild.getAttribute('submitted')
+
+                  if (submitted == 'false') {
+                    let service_id = TD.firstElementChild.getAttribute(
+                      'service-id'
+                    )
+                    let id = TD.firstElementChild.getAttribute('submission-id')
+                    handleClick('delete', id, service_id)
+                  }
                 }
               }
             }}

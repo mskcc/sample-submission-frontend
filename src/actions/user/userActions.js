@@ -359,19 +359,19 @@ export function deleteSubmission(id, username) {
 export const DOWNLOAD_RECEIPT = 'DOWNLOAD_RECEIPT'
 export const DOWNLOAD_RECEIPT_FAIL = 'DOWNLOAD_RECEIPT_FAIL'
 export const DOWNLOAD_RECEIPT_SUCCESS = 'DOWNLOAD_RECEIPT_SUCCESS'
-export function downloadReceipt(id, username) {
+export function downloadReceipt(submissionId, serviceId, username) {
   return dispatch => {
     dispatch({ type: DOWNLOAD_RECEIPT })
     return axios
-      .get(Config.API_ROOT + '/download', {
-        params: { service_id: id, username: username },
+      .get(Config.API_ROOT + '/downloadById', {
+        params: { submissionId: submissionId },
         responseType: 'blob',
       })
       .then(response => {
         dispatch({
           type: DOWNLOAD_RECEIPT_SUCCESS,
           file: response.data,
-          filename: 'Receipt-' + id + '-' + username, // payload: {
+          filename: 'Receipt-' + serviceId, // payload: {
           //   submissions: response.data.submissions,
           //   table: generateSubmissionsGrid(response.data),
           // },
