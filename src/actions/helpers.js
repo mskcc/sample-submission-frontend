@@ -177,16 +177,16 @@ function choosePatientIdValidator(patientIDType, species, groupingChecked) {
         }
       case 'Non-MSK Patients':
         return {
-          pattern: '[A-Za-z0-9\\,_-]{4,}',
+          pattern: '^[A-Za-z0-9_-]{4,}$',
           columnHeader: 'Patient ID',
           error:
-            'Invalid format. Please use at least four alpha-numeric characters. Dashes and underscores are allowed. Every 8 digit ID is considered a MRN.',
+            'Invalid format. Please use at least four alpha-numeric characters and no spaces. Dashes and underscores are allowed. Every 8 digit ID is considered a MRN.',
         }
       case 'Cell Lines, not from Patients':
         return { columnHeader: 'Cell Line Name' }
       case 'Both MSK-Patients and Non-MSK Patients':
         return {
-          pattern: '[A-Za-z0-9\\,_-]{4,}|^[0-9]{8}$',
+          pattern: '^[A-Za-z0-9\\,_-]{4,}$|^[0-9]{8}$',
           columnHeader: 'Patient ID',
           error:
             'Invalid format. Please use at least four alpha-numeric characters. Dashes and underscores are allowed. Every 8 digit ID is considered a MRN.',
