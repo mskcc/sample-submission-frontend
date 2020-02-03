@@ -45,6 +45,7 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
               className="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd"
               disabled={false}
               id="material"
+              onAnimationStart={[Function]}
               onBlur={[Function]}
               onChange={[Function]}
               onFocus={[Function]}
@@ -62,6 +63,7 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
                 disabled={false}
                 onBlur={[Function]}
                 onClick={[Function]}
+                onDragLeave={[Function]}
                 onFocus={[Function]}
                 onKeyDown={[Function]}
                 onKeyUp={[Function]}
@@ -100,6 +102,7 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
                 disabled={false}
                 onBlur={[Function]}
                 onClick={[Function]}
+                onDragLeave={[Function]}
                 onFocus={[Function]}
                 onKeyDown={[Function]}
                 onKeyUp={[Function]}
@@ -177,6 +180,7 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
               className="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd"
               disabled={false}
               id="application"
+              onAnimationStart={[Function]}
               onBlur={[Function]}
               onChange={[Function]}
               onFocus={[Function]}
@@ -194,6 +198,7 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
                 disabled={false}
                 onBlur={[Function]}
                 onClick={[Function]}
+                onDragLeave={[Function]}
                 onFocus={[Function]}
                 onKeyDown={[Function]}
                 onKeyUp={[Function]}
@@ -232,6 +237,7 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
                 disabled={false}
                 onBlur={[Function]}
                 onClick={[Function]}
+                onDragLeave={[Function]}
                 onFocus={[Function]}
                 onKeyDown={[Function]}
                 onKeyUp={[Function]}
@@ -312,6 +318,7 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
                 className="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd"
                 disabled={false}
                 id="species"
+                onAnimationStart={[Function]}
                 onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
@@ -329,6 +336,7 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
                   disabled={false}
                   onBlur={[Function]}
                   onClick={[Function]}
+                  onDragLeave={[Function]}
                   onFocus={[Function]}
                   onKeyDown={[Function]}
                   onKeyUp={[Function]}
@@ -367,6 +375,7 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
                   disabled={false}
                   onBlur={[Function]}
                   onClick={[Function]}
+                  onDragLeave={[Function]}
                   onFocus={[Function]}
                   onKeyDown={[Function]}
                   onKeyUp={[Function]}
@@ -445,6 +454,7 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
               className="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd"
               disabled={false}
               id="container"
+              onAnimationStart={[Function]}
               onBlur={[Function]}
               onChange={[Function]}
               onFocus={[Function]}
@@ -462,6 +472,7 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
                 disabled={false}
                 onBlur={[Function]}
                 onClick={[Function]}
+                onDragLeave={[Function]}
                 onFocus={[Function]}
                 onKeyDown={[Function]}
                 onKeyUp={[Function]}
@@ -500,6 +511,7 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
                 disabled={false}
                 onBlur={[Function]}
                 onClick={[Function]}
+                onDragLeave={[Function]}
                 onFocus={[Function]}
                 onKeyDown={[Function]}
                 onKeyUp={[Function]}
@@ -543,26 +555,29 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
       </div>
     </div>
     <div
-      className="MuiFormControl-root MuiTextField-root Input-textField-122"
+      className="MuiFormControl-root MuiTextField-root Input-textField-131"
     >
       <label
         className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated"
         data-shrink={false}
         htmlFor="number_of_samples"
+        id="number_of_samples-label"
       >
         Missing translationId: upload.form.number_of_samples_label for language: \${ languageCode }
       </label>
       <div
-        className="MuiInputBase-root MuiInput-root MuiInput-underline Input-input-123 MuiInputBase-formControl MuiInput-formControl"
+        className="MuiInputBase-root MuiInput-root MuiInput-underline Input-input-132 MuiInputBase-formControl MuiInput-formControl"
         onClick={[Function]}
       >
         <input
           aria-describedby="number_of_samples-helper-text"
           aria-invalid={false}
+          autoFocus={false}
           className="MuiInputBase-input MuiInput-input"
           disabled={false}
           id="number_of_samples"
           min={0}
+          onAnimationStart={[Function]}
           onBlur={[Function]}
           onChange={[Function]}
           onFocus={[Function]}
@@ -582,17 +597,18 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
       className="MuiFormControl-root"
     >
       <div
-        className="MuiFormControl-root MuiTextField-root Input-textField-122"
+        className="MuiFormControl-root MuiTextField-root Input-textField-131"
       >
         <label
           className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink"
           data-shrink={true}
           htmlFor="service_id"
+          id="service_id-label"
         >
           Missing translationId: upload.form.service_id_label for language: \${ languageCode }
         </label>
         <div
-          className="MuiInputBase-root MuiInput-root MuiInput-underline Input-input-123 MuiInputBase-formControl MuiInput-formControl MuiInputBase-adornedStart"
+          className="MuiInputBase-root MuiInput-root MuiInput-underline Input-input-132 MuiInputBase-formControl MuiInput-formControl MuiInputBase-adornedStart"
           onClick={[Function]}
         >
           <div
@@ -607,9 +623,11 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
           <input
             aria-describedby="service_id-helper-text"
             aria-invalid={false}
+            autoFocus={false}
             className="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedStart"
             disabled={false}
             id="service_id"
+            onAnimationStart={[Function]}
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
@@ -626,16 +644,17 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
         </p>
       </div>
       <div
-        className="CheckboxComponent-container-155"
+        className="CheckboxComponent-container-164"
       >
         <label
           className="MuiFormControlLabel-root"
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-171 MuiCheckbox-root MuiCheckbox-colorSecondary MuiIconButton-colorSecondary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-180 MuiCheckbox-root MuiCheckbox-colorSecondary MuiIconButton-colorSecondary"
             fontSize="small"
             onBlur={[Function]}
+            onDragLeave={[Function]}
             onFocus={[Function]}
             onKeyDown={[Function]}
             onKeyUp={[Function]}
@@ -650,9 +669,18 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
             <span
               className="MuiIconButton-label"
             >
+              <input
+                checked={false}
+                className="PrivateSwitchBase-input-183"
+                data-indeterminate={false}
+                disabled={false}
+                onChange={[Function]}
+                type="checkbox"
+                value="alt_service_id"
+              />
               <svg
                 aria-hidden="true"
-                className="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                className="MuiSvgIcon-root"
                 focusable="false"
                 role="presentation"
                 viewBox="0 0 24 24"
@@ -665,26 +693,17 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
                   fill="none"
                 />
               </svg>
-              <input
-                checked={false}
-                className="PrivateSwitchBase-input-174"
-                data-indeterminate={false}
-                disabled={false}
-                onChange={[Function]}
-                type="checkbox"
-                value="alt_service_id"
-              />
             </span>
           </span>
           <span
-            className="MuiTypography-root MuiFormControlLabel-label CheckboxComponent-label-156 MuiTypography-body1"
+            className="MuiTypography-root MuiFormControlLabel-label CheckboxComponent-label-165 MuiTypography-body1"
           >
             Missing translationId: upload.form.alt_service_id_label for language: \${ languageCode }
           </span>
         </label>
         <div>
           <div
-            className="MuiPaper-root MuiPaper-elevation1 MuiCard-root CheckboxComponent-card-157 MuiPaper-rounded"
+            className="MuiPaper-root MuiPaper-elevation1 MuiCard-root CheckboxComponent-card-166 MuiPaper-rounded"
             style={
               Object {
                 "opacity": 0,
@@ -693,7 +712,7 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
             }
           >
             <div
-              className="MuiCardContent-root CheckboxComponent-content-158"
+              className="MuiCardContent-root CheckboxComponent-content-167"
             >
               <p
                 className="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
@@ -709,10 +728,11 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
   </form>
   <div>
     <button
-      className="MuiButtonBase-root MuiButton-root Button-button-177 MuiButton-contained MuiButton-containedPrimary"
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained Button-button-186 MuiButton-containedPrimary"
       disabled={false}
       form="upload-form"
       onBlur={[Function]}
+      onDragLeave={[Function]}
       onFocus={[Function]}
       onKeyDown={[Function]}
       onKeyUp={[Function]}
@@ -732,7 +752,7 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
       </span>
     </button>
     <div
-      className="Button-nothingToSubmit-180"
+      className="Button-nothingToSubmit-189"
       style={
         Object {
           "opacity": 0,
@@ -743,9 +763,10 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
       Missing translationId: upload.form.nothing_to_change for language: \${ languageCode }
     </div>
     <button
-      className="MuiButtonBase-root MuiButton-root Button-button-177 MuiButton-contained MuiButton-containedSecondary"
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained Button-button-186 MuiButton-containedSecondary"
       disabled={false}
       onBlur={[Function]}
+      onDragLeave={[Function]}
       onFocus={[Function]}
       onKeyDown={[Function]}
       onKeyUp={[Function]}
@@ -765,7 +786,7 @@ exports[`Render UploadForm render UploadForm correctly 1`] = `
       </span>
     </button>
     <div
-      className="Button-nothingToSubmit-180"
+      className="Button-nothingToSubmit-189"
       style={
         Object {
           "opacity": 0,

@@ -80,12 +80,12 @@ function userReducer(state = initialState, action) {
         // message: action.message,
       }
 
-    case FormActionTypes.RECEIVE_INITIAL_STATE_SUCCESS:
-      return {
-        ...state,
-        submissionsTable: action.user_data.table,
-        submissions: action.user_data.submissions,
-      }
+    // case FormActionTypes.RECEIVE_INITIAL_STATE_SUCCESS:
+    //   return {
+    //     ...state,
+    //     submissionsTable: action.user_data.table,
+    //     submissions: action.user_data.submissions,
+    //   }
 
     case ActionTypes.GET_SUBMISSIONS:
       return {

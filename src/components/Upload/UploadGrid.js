@@ -105,14 +105,14 @@ class UploadGrid extends React.Component {
         <div className={classes.container}>
           <div className={classes.buttons}>
             <GridButton
-              id="grid_submit"
+              id="gridSubmit"
               onClick={this.handleSubmit}
               isLoading={false}
               nothingToSubmit={false}
               color="primary"
             />
             <GridButton
-              id="grid_save"
+              id="gridSave"
               onClick={this.handleSave}
               isLoading={user.isSaving}
               done={user.saved}
@@ -120,7 +120,7 @@ class UploadGrid extends React.Component {
               color="primary"
             />{' '}
             <GridButton
-              id="grid_clear"
+              id="gridClear"
               onClick={this.handleClear}
               isLoading={false}
               nothingToSubmit={false}
@@ -131,7 +131,7 @@ class UploadGrid extends React.Component {
             licenseKey="non-commercial-and-evaluation"
             id="hot"
             data={grid.rows}
-            colHeaders={grid.columns}
+            colHeaders={grid.columnHeaders}
             columns={grid.columnFeatures}
             rowHeaders={true}
             hiddenColumns={grid.hiddenColumns}

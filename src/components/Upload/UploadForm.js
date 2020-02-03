@@ -23,19 +23,15 @@ class UploadForm extends React.Component {
       formValid: {
         material: true,
         application: true,
-        service_id: true,
-        number_of_samples: true,
+        serviceId: true,
+        numberOfSamples: true,
         species: true,
         container: true,
-        patient_id_type: true,
+        patientIdType: true,
       },
     }
   }
   componentDidUpdate(prevProps, prevState) {
-    // console.log('prevState')
-    // console.log(prevState)
-    // console.log('state')
-    // console.log(this.state)
   }
 
   handleDropdownChange = event => {
@@ -67,26 +63,26 @@ class UploadForm extends React.Component {
     this.setState({
       values: {
         ...this.state.values,
-        service_id: timestamp,
+        serviceId: timestamp,
         [name]: event.target.checked,
       },
 
-      formValid: { ...this.state.formValid, service_id: true },
+      formValid: { ...this.state.formValid, serviceId: true },
     })
     if (event.target.checked) {
-      this.props.handleInputChange('service_id', timestamp)
-      this.props.handleInputChange('alt_service_id', true)
+      this.props.handleInputChange('serviceId', timestamp)
+      this.props.handleInputChange('altServiceId', true)
     } else {
-      this.props.handleInputChange('service_id', '')
-      this.props.handleInputChange('alt_service_id', false)
+      this.props.handleInputChange('serviceId', '')
+      this.props.handleInputChange('altServiceId', false)
     }
   }
 
   handleGroupingCheck = name => () => {
     this.setState({
-      values: { ...this.state.values, grouping_checked: event.target.checked },
+      values: { ...this.state.values, groupingChecked: event.target.checked },
     })
-    this.props.handleInputChange('grouping_checked', event.target.checked)
+    this.props.handleInputChange('groupingChecked', event.target.checked)
   }
 
   handleSubmit = (e, handleParentSubmit) => {
@@ -96,7 +92,7 @@ class UploadForm extends React.Component {
       handleParentSubmit({
         ...this.state.values,
 
-        service_id: 'IGO-' + this.state.values.service_id.toString(),
+        serviceId: 'IGO-' + this.state.values.serviceId.toString(),
       })
     }
   }
@@ -109,8 +105,8 @@ class UploadForm extends React.Component {
     let values = this.props.form.selected
     for (let value in values) {
       switch (value) {
-        case 'service_id':
-          if (values.alt_service_id) {
+        case 'serviceId':
+          if (values.altServiceId) {
             formValid[value] = true
           } else {
             formValid[value] =
@@ -122,7 +118,7 @@ class UploadForm extends React.Component {
           // (could fail if user was extremely quick to select
           // invalid material/app combination)
           isValidOption = this.props.form.filteredMaterials.some(function(el) {
-            return el.value === values[value]
+            return el === values[value]
           })
 
           formValid[value] = isValidOption && values[value].length > 0
@@ -132,7 +128,7 @@ class UploadForm extends React.Component {
           isValidOption = this.props.form.filteredApplications.some(function(
             el
           ) {
-            return el.value === values[value]
+            return el === values[value]
           })
 
           formValid[value] = isValidOption && values[value].length > 0
@@ -140,24 +136,24 @@ class UploadForm extends React.Component {
 
         case 'container':
           isValidOption = this.props.form.filteredContainers.some(function(el) {
-            return el.value === values[value]
+            return el === values[value]
           })
           formValid[value] = isValidOption && values[value].length > 0
           break
 
         case 'species':
           isValidOption = this.props.form.filteredSpecies.some(function(el) {
-            return el.value === values[value]
+            return el === values[value]
           })
           formValid[value] = isValidOption && values[value].length > 0
           break
 
-        case 'patient_id_type':
+        case 'patientIdType':
           // only validate if species mandates a format, else value will be disregarded anyway
           if (values.species == 'Human') {
             isValidOption = this.props.form.picklists.PatientIDTypes.some(
               function(el) {
-                return el.value === values[value]
+                return el === values[value]
               }
             )
             formValid[value] = isValidOption && values[value].length > 0
@@ -167,7 +163,7 @@ class UploadForm extends React.Component {
             break
           }
 
-        case 'number_of_samples':
+        case 'numberOfSamples':
           formValid[value] = values[value] > 0
           break
         default:
@@ -186,14 +182,14 @@ class UploadForm extends React.Component {
 
   validateForm() {
     return (
-      this.state.formValid.service_id &&
+      this.state.formValid.serviceId &&
       this.state.formValid.material &&
       this.state.formValid.application &&
-      this.state.formValid.service_id &&
-      this.state.formValid.number_of_samples &&
+      this.state.formValid.serviceId &&
+      this.state.formValid.numberOfSamples &&
       this.state.formValid.species &&
       this.state.formValid.container &&
-      this.state.formValid.patient_id_type
+      this.state.formValid.patientIdType
     )
   }
 
@@ -228,8 +224,8 @@ class UploadForm extends React.Component {
                 onChange={this.handleDropdownChange}
                 autofocus={true}
                 items={form.filteredMaterials.map(option => ({
-                  value: option.id,
-                  label: option.value,
+                  value: option,
+                  label: option,
                 }))}
                 loading={form.formIsLoading}
                 dynamic
@@ -245,8 +241,8 @@ class UploadForm extends React.Component {
                 onSelect={handleApplicationChange}
                 onChange={this.handleDropdownChange}
                 items={form.filteredApplications.map(option => ({
-                  value: option.value,
-                  label: option.value,
+                  value: option,
+                  label: option,
                 }))}
                 loading={form.formIsLoading}
                 dynamic
@@ -263,8 +259,8 @@ class UploadForm extends React.Component {
                   onChange={this.handleDropdownChange}
                   loading={form.formIsLoading}
                   items={form.filteredSpecies.map(option => ({
-                    value: option.value,
-                    label: option.value,
+                    value: option,
+                    label: option,
                   }))}
                   value={{
                     value: form.selected.species,
@@ -275,8 +271,8 @@ class UploadForm extends React.Component {
                 {values.species == 'Mouse' ||
                 values.species == 'Mouse_GeneticallyModified' ? (
                   <Checkbox
-                    id="grouping_checkbox"
-                    checked={form.selected.grouping_checked}
+                    id="groupingCheckbox"
+                    checked={form.selected.groupingChecked}
                     onChange={this.handleGroupingCheck}
                   />
                 ) : null}
@@ -285,23 +281,23 @@ class UploadForm extends React.Component {
               {// PatientID is needed when Human is selected or when Mouse* is selected and combined with species checkbox value
               this.props.form.patientIDTypeNeedsFormatting &&
               form.picklists.PatientIDTypes &&
-              (values.species == 'Human' && !this.state.grouping_checked) ? (
+              (values.species == 'Human' && !this.state.groupingChecked) ? (
                 <Dropdown
                   id={
-                    this.state.grouping_checked
-                      ? 'group_id_type'
-                      : 'patient_id_type'
+                    this.state.groupingChecked
+                      ? 'groupIdType'
+                      : 'patientIdType'
                   }
                   value={this.props.form.patientIDType}
-                  error={!formValid.patient_id_type}
+                  error={!formValid.patientIdType}
                   onChange={this.handleDropdownChange}
                   items={form.picklists.PatientIDTypes.map(option => ({
-                    value: option.id,
-                    label: option.value,
+                    value: option,
+                    label: option,
                   }))}
                   value={{
-                    value: form.selected.patient_id_type,
-                    label: form.selected.patient_id_type,
+                    value: form.selected.patientIdType,
+                    label: form.selected.patientIdType,
                   }}
                 />
               ) : null}
@@ -311,8 +307,8 @@ class UploadForm extends React.Component {
                 error={!formValid.container}
                 onChange={this.handleDropdownChange}
                 items={form.filteredContainers.map(option => ({
-                  value: option.id,
-                  label: option.value,
+                  value: option,
+                  label: option,
                 }))}
                 loading={form.formIsLoading}
                 value={{
@@ -322,30 +318,30 @@ class UploadForm extends React.Component {
               />
 
               <Input
-                id="number_of_samples"
-                error={!formValid.number_of_samples}
+                id="numberOfSamples"
+                error={!formValid.numberOfSamples}
                 onChange={this.handleChange}
                 inputProps={{
                   inputProps: { min: 0 },
                 }}
-                value={form.selected.number_of_samples}
+                value={form.selected.numberOfSamples}
               />
               <FormControl component="fieldset">
                 <Input
-                  id="service_id"
-                  value={form.selected.service_id}
-                  error={!formValid.service_id}
+                  id="serviceId"
+                  value={form.selected.serviceId}
+                  error={!formValid.serviceId}
                   onChange={this.handleChange}
                   inputProps={{
-                    disabled: form.selected.alt_service_id,
+                    disabled: form.selected.altServiceId,
                     startAdornment: (
                       <InputAdornment position="start">IGO-</InputAdornment>
                     ),
                   }}
                 />
                 <Checkbox
-                  id="alt_service_id"
-                  checked={form.selected.alt_service_id}
+                  id="altServiceId"
+                  checked={form.selected.altServiceId}
                   onChange={this.handleServiceIdCheck}
                   hasHelptext
                 />
@@ -354,7 +350,7 @@ class UploadForm extends React.Component {
             <div>
               <Button
                 color="primary"
-                id="form_submit"
+                id="formSubmit"
                 formId="upload-form"
                 isLoading={gridIsLoading}
                 nothingToSubmit={nothingToChange}
@@ -362,7 +358,7 @@ class UploadForm extends React.Component {
 
               <Button
                 color="secondary"
-                id="form_clear"
+                id="formClear"
                 onClick={this.props.handleClear}
                 isLoading={false}
                 nothingToSubmit={false}
@@ -396,13 +392,13 @@ UploadForm.defaultProps = {
     selected: {
       application: '',
       material: '',
-      service_id: '',
-      number_of_samples: '',
+      serviceId: '',
+      numberOfSamples: '',
       species: '',
       container: '',
-      patient_id_type: '',
-      grouping_checked: false,
-      alt_service_id: false,
+      patientIdType: '',
+      groupingChecked: false,
+      altServiceId: false,
     },
 
     handleSubmit: () => {},

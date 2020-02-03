@@ -19,7 +19,7 @@ export class UploadPage extends Component {
   }
 
   componentDidMount() {
-    this.props.refreshToken()
+    // this.props.refreshToken()
   }
 
   render() {

@@ -198,6 +198,7 @@ function choosePatientIdValidator(patientIDType, species, groupingChecked) {
 }
 
 // generate rows depending on whether we need to add or substract rows, prefill some
+// SERVERSIDE, add trim or add clientside!
 export const generateRows = (columns, formValues, numberToAdd) => {
   let rows = []
   for (let i = 0; i < numberToAdd; i++) {

@@ -41,13 +41,13 @@ describe('upload form actions', () => {
   it('creates actions for Species selection with formatter', () => {
     const store = mockStore(formTestStore)
     const species = 'human'
-    const data = { listname: {} }
+    const data = { listname: {}, picklist: {} }
 
     moxios.wait(() => {
       const request = moxios.requests.mostRecent()
       request.respondWith({
         status: 200,
-        response: data,
+        response: { data: { data: data } },
       })
     })
 
@@ -62,7 +62,8 @@ describe('upload form actions', () => {
 
       {
         type: 'RECEIVE_PICKLIST_SUCCESS',
-        picklist: data,
+        picklist: undefined,
+        listname: undefined,
       },
     ]
     return store
@@ -122,16 +123,16 @@ describe('upload form actions', () => {
 
   it('creates GET_APPLICATIONS_FOR_MATERIALS_SUCCESS when getApplicationsForMaterial returns choices', () => {
     const store = mockStore(formTestStore)
-    const data = [
-      { id: 'HemePACT_v4', value: 'HemePACT_v4' },
-      { id: 'M-IMPACT_v1', value: 'M-IMPACT_v1' },
-    ]
+    const data = ['HemePACT_v4', 'M-IMPACT_v1']
     moxios.wait(() => {
       const request = moxios.requests.mostRecent()
       request.respondWith({
         status: 200,
         response: {
-          choices: data,
+          data: {
+            applications: data,
+            containers: [],
+          },
         },
       })
     })
@@ -149,6 +150,7 @@ describe('upload form actions', () => {
       {
         type: 'RECEIVE_APPLICATIONS_FOR_MATERIAL_SUCCESS',
         applications: data,
+        containers: [],
       },
     ]
     return store
@@ -190,7 +192,7 @@ describe('upload form actions', () => {
   //       expect(actions).toEqual(expectedActions)
   //     })
   // })
-  // it('creates GET_MATERIALS_FOR_APPLICATION_FAIL when getMaterialsForApplication fails', () => {
+  // it('creates GET_DATA_FOR_APPLICATION_FAIL when getMaterialsForApplication fails', () => {
   //   const store = mockStore(formTestStore)
   //   moxios.wait(() => {
   //     const request = moxios.requests.mostRecent()
@@ -207,10 +209,10 @@ describe('upload form actions', () => {
   //       selectedApplication: application,
   //     },
   //     {
-  //       type: 'REQUEST_MATERIALS_FOR_APPLICATION',
+  //       type: 'REQUEST_DATA_FOR_APPLICATION',
   //     },
   //     {
-  //       type: 'RECEIVE_MATERIALS_FOR_APPLICATION_FAIL',
+  //       type: 'RECEIVE_DATA_FOR_APPLICATION_FAIL',
   //       error: 'Request failed with status code 404',
   //     },
   //   ]

@@ -89,24 +89,22 @@ export function login(username, password) {
   return dispatch => {
     dispatch({ type: LOGIN_REQUEST })
     return axios
-      .post(Config.API_ROOT + '/login', {
-        data: {
-          username: username,
-          password: password,
-        },
+      .post(Config.NODE_API_ROOT + '/auth/login', {
+        username: username,
+        password: password,
       })
       .then(response => {
-        sessionStorage.setItem('access_token', response.data.access_token)
-        sessionStorage.setItem('refresh_token', response.data.refresh_token)
-
+        sessionStorage.setItem('access_token', response.data.token)
+        // sessionStorage.setItem('refresh_token', response.data.refresh_token)
+        
         return dispatch({
           type: LOGIN_SUCCESS,
-          message: response.data.message,
+          message: "Successfully logged in.",
           payload: response.data,
-          table: generateSubmissionsGrid({
-            submissions: response.data.submissions,
-            submission_columns: response.data.submission_columns,
-          }),
+          // table: generateSubmissionsGrid({
+          //   submissions: response.data.submissions,
+          //   submission_columns: response.data.submission_columns,
+          // }),
         })
       })
 

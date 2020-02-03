@@ -17,7 +17,7 @@ describe('upload form reducers', () => {
       { id: 'Tissue', value: 'Tissue' },
     ]
     const action = {
-      type: 'RECEIVE_MATERIALS_FOR_APPLICATION_SUCCESS',
+      type: 'RECEIVE_DATA_FOR_APPLICATION_SUCCESS',
       materials: expectedMaterials,
       species: [],
     }

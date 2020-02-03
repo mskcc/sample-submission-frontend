@@ -103,19 +103,3 @@ export default withStyles(styles)(
     mapDispatchToProps
   )(Login)
 )
-
-// const withForm = reduxForm({ form: FORM_NAME })
-
-// const withConnect = connect((state, props) => ({
-//   initialValues: {
-//     redirect: parse(props.location.search).next || '/',
-//   },
-// }))
-
-// const withSagas = injectSagas(require('security/sagas/login'))
-
-// export default compose(
-//   withConnect,
-//   withForm,
-//   withSagas
-// )(Login)

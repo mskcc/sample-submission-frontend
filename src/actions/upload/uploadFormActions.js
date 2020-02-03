@@ -8,7 +8,6 @@ import { generateSubmissionsGrid } from '../helpers'
 // species that trigger patient id field
 const PatientIDSpecies = ['human']
 
-
 export const MESSAGE = 'MESSAGE'
 
 export const REQUEST_MATERIALS_AND_APPLICATIONS =
@@ -34,15 +33,11 @@ export function getInitialState() {
     else {
       dispatch({ type: REQUEST_INITIAL_STATE })
       return axios
-        .get(Config.API_ROOT + '/upload/initialState')
+        .get(Config.NODE_API_ROOT + '/upload/headerValues')
         .then(response => {
           dispatch({
             type: RECEIVE_INITIAL_STATE_SUCCESS,
-            form_data: response.data,
-            user_data: {
-              submissions: response.data.submissions,
-              table: generateSubmissionsGrid(response.data),
-            },
+            form_data: response.data.data,
           })
           return response
         })
@@ -57,40 +52,40 @@ export function getInitialState() {
 }
 
 // get materials that can be combined with application
-export const REQUEST_MATERIALS_FOR_APPLICATION =
-  'REQUEST_MATERIALS_FOR_APPLICATION'
+export const REQUEST_DATA_FOR_APPLICATION =
+  'REQUEST_DATA_FOR_APPLICATION'
 
 export const SELECT_APPLICATION = 'SELECT_APPLICATION'
 
-export const RECEIVE_MATERIALS_FOR_APPLICATION_SUCCESS =
-  'RECEIVE_MATERIALS_FOR_APPLICATION_SUCCESS'
+export const RECEIVE_DATA_FOR_APPLICATION_SUCCESS =
+  'RECEIVE_DATA_FOR_APPLICATION_SUCCESS'
 
-export const RECEIVE_MATERIALS_FOR_APPLICATION_FAIL =
-  'RECEIVE_MATERIALS_FOR_APPLICATION_FAIL'
+export const RECEIVE_DATA_FOR_APPLICATION_FAIL =
+  'RECEIVE_DATA_FOR_APPLICATION_FAIL'
 
 export function getMaterialsForApplication(selectedApplication) {
   return dispatch => {
     dispatch({ type: SELECT_APPLICATION, selectedApplication })
-    dispatch({ type: REQUEST_MATERIALS_FOR_APPLICATION })
+    dispatch({ type: REQUEST_DATA_FOR_APPLICATION })
     dispatch(checkForChange('application', selectedApplication))
-    return axios
-      .get(Config.API_ROOT + '/columnDefinition', {
+    axios
+      .get(Config.NODE_API_ROOT + '/upload/materialsAndSpecies', {
         params: {
           // weird, legacy slash workaround, has to be changed in /LimsRest/getIntakeTerms
-          recipe: selectedApplication.replace('/', '_PIPI_SLASH_'),
+          recipe: selectedApplication,
         },
       })
       .then(response => {
         dispatch({
-          type: RECEIVE_MATERIALS_FOR_APPLICATION_SUCCESS,
-          materials: response.data.choices,
-          species: response.data.species,
+          type: RECEIVE_DATA_FOR_APPLICATION_SUCCESS,
+          materials: response.data.data.materials,
+          species: response.data.data.species,
         })
         return response
       })
       .catch(error => {
         dispatch({
-          type: RECEIVE_MATERIALS_FOR_APPLICATION_FAIL,
+          type: RECEIVE_DATA_FOR_APPLICATION_FAIL,
           error: error,
         })
         return error
@@ -177,16 +172,16 @@ export function getApplicationsForMaterial(selectedMaterial) {
     dispatch({ type: REQUEST_APPLICATIONS_FOR_MATERIAL })
     dispatch(checkForChange('material', selectedMaterial))
     return axios
-      .get(Config.API_ROOT + '/columnDefinition', {
+      .get(Config.NODE_API_ROOT + '/upload/applicationsAndContainers', {
         params: {
-          type: selectedMaterial.replace('/', '_PIPI_SLASH_'),
+          material: selectedMaterial,
         },
       })
       .then(response => {
         dispatch({
           type: RECEIVE_APPLICATIONS_FOR_MATERIAL_SUCCESS,
-          applications: response.data.choices,
-          containers: response.data.containers,
+          applications: response.data.data.applications,
+          containers: response.data.data.containers,
         })
         //   response.data.choices.includes({
         //     id: getState().upload.form.selected.application,
@@ -244,12 +239,13 @@ export function getPicklist(picklist) {
   return dispatch => {
     dispatch({ type: REQUEST_PICKLIST, picklist })
     return axios
-      .get(Config.API_ROOT + '/listValues/' + picklist)
+      .get(Config.NODE_API_ROOT + '/upload/picklist?picklist=' + picklist)
 
       .then(response => {
         return dispatch({
           type: RECEIVE_PICKLIST_SUCCESS,
-          picklist: response.data,
+          picklist: response.data.data.picklist,
+          listname: response.data.data.listname,
         })
       })
       .catch(error => {

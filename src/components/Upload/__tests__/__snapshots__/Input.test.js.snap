@@ -8,6 +8,7 @@ exports[`Render Input render Input correctly 1`] = `
     className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated"
     data-shrink={false}
     htmlFor="test_me"
+    id="test_me-label"
   >
     Missing translationId: upload.form.test_me_label for language: \${ languageCode }
   </label>
@@ -18,9 +19,11 @@ exports[`Render Input render Input correctly 1`] = `
     <input
       aria-describedby="test_me-helper-text"
       aria-invalid={false}
+      autoFocus={false}
       className="MuiInputBase-input MuiInput-input"
       disabled={false}
       id="test_me"
+      onAnimationStart={[Function]}
       onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}

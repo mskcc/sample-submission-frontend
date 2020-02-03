@@ -164,30 +164,31 @@ export function getColumns(formValues) {
 }
 
 export function getInitialColumns(formValues, userRole) {
-  let material = formValues.material
-  let application = formValues.application
   return dispatch => {
     dispatch({ type: GET_INITIAL_COLUMNS })
-    material = material.replace('/', '_PIPI_SLASH_')
-    application = application.replace('/', '_PIPI_SLASH_')
+    let material = formValues.material
+    let application = formValues.application
+    console.log(formValues)
     return axios
-      .get(Config.API_ROOT + '/columnDefinition?', {
-        params: {
-          type: material,
-          recipe: application,
-        },
+      .post(Config.NODE_API_ROOT + '/upload/grid', {
+        ...formValues,
       })
       .then(response => {
+        console.log(response.data.data)
+        let data = response.data.data.columns
         // Handsontable binds to your data source (list of arrays or list of objects) by reference. Therefore, all the data entered in the grid will alter the original data source.
-        let grid = generateGridData(
-          response.data.columnDefs,
-          formValues,
-          userRole
-        )
-
+        // let grid = generateGridData(
+        //   response.data.columnDefs,
+        //   formValues,
+        //   userRole
+        // )
+  
         return dispatch({
           type: GET_COLUMNS_SUCCESS,
-          grid: grid,
+          columnHeaders: data.columnHeaders,
+          columnFeatures: data.columnFeatures,
+          hiddenColumns: [],
+          rows: data.rowData,
           form: formValues,
           message:
             'Grid generated for ' +

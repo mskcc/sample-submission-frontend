@@ -13,7 +13,8 @@ import { commonActions } from '../actions'
 const persistConfig = {
   key: 'root',
   storage: sessionStorage,
-  whitelist: ['upload', 'user'],
+  // whitelist: ['upload', 'user'],
+  whitelist: [ 'user'],
 }
 
 const appReducer = combineReducers({

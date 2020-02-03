@@ -9,7 +9,7 @@ exports[`Render Header render Header correctly 1`] = `
     className="MuiToolbar-root MuiToolbar-regular MuiToolbar-gutters"
   >
     <div
-      className="MuiAvatar-root"
+      className="MuiAvatar-root MuiAvatar-circle"
     >
       <img
         alt="mskcc logo"
@@ -26,6 +26,7 @@ exports[`Render Header render Header correctly 1`] = `
       className="MuiButtonBase-root MuiButton-root MuiButton-text"
       disabled={false}
       onBlur={[Function]}
+      onDragLeave={[Function]}
       onFocus={[Function]}
       onKeyDown={[Function]}
       onKeyUp={[Function]}

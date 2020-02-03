@@ -12,6 +12,15 @@ const middleware = [thunk, multi]
 if (process.env.NODE_ENV === 'production') {
 }
 
+
+// const messageMiddleware = store => next => action => {
+//   if(action.message) {
+//     console.log(action.message);
+//   }
+//   next(action);
+// }
+
+
 const store = createStore(
   rootReducer,
   compose(
