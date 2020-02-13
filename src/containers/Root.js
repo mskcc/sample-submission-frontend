@@ -85,7 +85,7 @@ class Root extends Component {
         <Router basename={Config.BASENAME}>
           <div>
             <div className="app">
-              <Header loggedIn={this.props.loggedIn} />
+              <Header loggedIn={this.props.loggedIn} role={this.props.role} />
               {Config.ENV !== 'production' ? <DevTools /> : <div />}
 
               {this.props.common.serverError ? (
@@ -101,15 +101,16 @@ class Root extends Component {
                       path="/(upload|)"
                       component={UploadPage}
                     />
-                    <PrivateRoute
-                      loggedIn={this.props.loggedIn}
-                      path="/promote"
-                      component={Promote}
-                    />
+
                     <PrivateRoute
                       loggedIn={this.props.loggedIn}
                       path="/submissions"
                       component={SubmissionsPage}
+                    />
+                    <PrivateRoute
+                      loggedIn={this.props.loggedIn}
+                      path="/promote"
+                      component={Promote}
                     />
                     <PrivateRoute
                       loggedIn={this.props.loggedIn}

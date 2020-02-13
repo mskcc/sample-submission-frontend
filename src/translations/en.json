@@ -22,12 +22,15 @@
     "nothing_to_change": "Nothing to change.",
     "fill_me": "Please fill out this field.",
     "test_me_label": "test me label",
-    "test_me_helptext": "test me helptext"
+    "test_me_helptext": "test me helptext",
+    "investigator_label": "Investigator",
+    "investigator_helptext": "Investigator"
   },
   "upload": {
     "form_submit_label": "Generate Table",
     "form_clear_label": "Clear Form",
     "grid_submit_label": "Submit",
+    "load_banked_label": "Load Banked Samples",
     "grid_save_label": "Save Table",
     "grid_save_msg": "Save Table",
     "grid_clear_label": "Clear Table"
