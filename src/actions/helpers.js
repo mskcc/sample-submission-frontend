@@ -123,16 +123,7 @@ function generateColumnFeatures(responseColumns, formValues) {
 export const generatePromoteGridData = responseColumns => {
   let grid = { columnFeatures: [], columnHeaders: [], rows: [] }
   grid.columnFeatures = generatePromoteColumnFeatures(responseColumns)
-  grid.columnHeaders = grid.columnFeatures.map(
-    a =>
-      '<span class="' +
-      a.className +
-      '" title="' +
-      a.tooltip +
-      '">' +
-      a.columnHeader +
-      '</span>'
-  )
+  grid.columnHeaders = grid.columnFeatures.map(a => a.columnHeader)
 
   grid.rows = generatePromoteRows(grid.columnFeatures, 10)
 
@@ -285,7 +276,7 @@ export const generatePromoteRows = (columns, numberToAdd) => {
       rows[i] = { ...rows[i], [columns[j].data]: '' }
     }
   }
-  
+
   return rows
 }
 
@@ -390,6 +381,22 @@ export const generateSubmitData = state => {
   data.version = Config.VERSION
   data.grid_values = rowsWithRowIndex(state.upload.grid.rows)
   data.form_values = state.upload.grid.form
+
+  let now = Date.now()
+  let date = Math.floor(now / 1000)
+
+  data.transaction_id = date
+
+  return data
+}
+
+// generate data object to send to sample-rec-backend for
+// partial submission save or banked sample
+export const generateSubmitDataPromote = state => {
+  let data = {}
+
+  data.version = Config.VERSION
+  data.grid_values = rowsWithRowIndex(state.upload.promote.rows)
 
   let now = Date.now()
   let date = Math.floor(now / 1000)

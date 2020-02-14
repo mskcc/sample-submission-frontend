@@ -24,7 +24,11 @@
     "test_me_label": "test me label",
     "test_me_helptext": "test me helptext",
     "investigator_label": "Investigator",
-    "investigator_helptext": "Investigator"
+    "investigator_helptext": "Investigator",
+    "lims_project_id_label": "LIMS Project ID",
+    "lims_request_id_label": "LIMS Request ID",
+    "lims_project_id_helptext": "e.g.: 12345 -> 12345_H",
+    "lims_request_id_helptext": "e.g.: Adds samples to 12345_H"
   },
   "upload": {
     "form_submit_label": "Generate Table",
@@ -33,6 +37,8 @@
     "load_banked_label": "Load Banked Samples",
     "grid_save_label": "Save Table",
     "grid_save_msg": "Save Table",
-    "grid_clear_label": "Clear Table"
+    "grid_clear_label": "Clear Table",
+    "promote_all_label": "Promote All",
+    "promote_selected_label": "Promote Selected"
   }
 }

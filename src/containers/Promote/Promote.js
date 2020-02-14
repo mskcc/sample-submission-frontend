@@ -18,6 +18,7 @@ import {
   InputAdornment,
   Paper,
 } from '@material-ui/core'
+import Swal from 'sweetalert2'
 
 import { connect } from 'react-redux'
 import { promoteActions } from '../../actions'
@@ -30,6 +31,7 @@ class Promote extends Component {
       service_id: '',
       // investigator: '',
     }
+    this.hotTableComponent = React.createRef()
   }
   componentDidMount() {
     // todo wait for token refresh!
@@ -46,6 +48,40 @@ class Promote extends Component {
     })
   }
 
+  promoteSelected = () => {
+    var selected = this.hotTableComponent.current.hotInstance.getSelected()
+    if (selected) {
+      var data = []
+
+      for (var i = 0; i < selected.length; i += 1) {
+        var item = selected[i]
+
+        data.push(
+          this.hotTableComponent.current.hotInstance.getData.apply(
+            this.hotTableComponent.current.hotInstance,
+            item
+          )
+        )
+      }
+
+      console.log(data)
+    }
+  }
+
+  promoteAll = () => {
+    // if (!this.state.limsProjectId || this.state.limsRequestId) {
+    //   Swal.fire({
+    //     title: 'Required Fields',
+    //     html: 'Please add a project or request id',
+    //     // footer: 'To avoid mistakes, invalid cells are cleared immediately.',
+    //     type: 'error',
+    //     animation: false,
+    //     confirmButtonText: 'Dismiss',
+    //     // customClass: { content: 'alert' },
+    //   })
+    // }
+    this.props.promoteAll(this.state.limsProjectId, this.state.limsRequestId)
+  }
   handleSubmit = () => {
     if (this.state.service_id) {
       this.props.loadBankedSamples(this.state.service_id)
@@ -90,9 +126,45 @@ class Promote extends Component {
               ref={this.hotTableComponent}
               width="95%"
               stretchH="all"
+              selectionMode="multiple"
+              outsideClickDeselects={false}
               // height="10%"
               height="500"
             />
+            <div className={classes.buttons}>
+              <FormControl component="fieldset">
+                <Input
+                  id="lims_project_id"
+                  value={this.state.limsProjectId}
+                  // error={!formValid.service_id}
+                  onChange={this.handleChange}
+                  type="text"
+                />{' '}
+              </FormControl>
+              <FormControl component="fieldset">
+                <Input
+                  id="lims_request_id"
+                  value={this.state.limsRequestId}
+                  // error={!formValid.service_id}
+                  onChange={this.handleChange}
+                  type="text"
+                />{' '}
+              </FormControl>
+              <GridButton
+                id="promote_all"
+                onClick={this.promoteAll}
+                isLoading={this.props.promote.promoteIsLoading}
+                nothingToSubmit={false}
+                color="primary"
+              />
+              <GridButton
+                id="promote_selected"
+                onClick={e => alert('Im not ready!')}
+                isLoading={false}
+                nothingToSubmit={false}
+                color="secondary"
+              />
+            </div>
           </div>
         )}
       </React.Fragment>
