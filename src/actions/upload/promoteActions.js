@@ -211,6 +211,7 @@ export function promoteForReal(projectId, requestId) {
                 if (
                   error.response &&
                   error.response.data &&
+                  error.response.data.message &&
                   error.response.data.message.includes('Invalid characters')
                 ) {
                   dispatch({ type: RECEIVE_PROMOTE_FORREAL_SUCCESS })
