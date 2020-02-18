@@ -37,7 +37,7 @@ export default function uploadFormReducer(state = initialPromoteState, action) {
       return { ...state, promoteIsLoading: false }
  case ActionTypes.REQUEST_PROMOTE_FORREAL:
       return { ...state, promoteIsLoading: true }
-    case ActionTypes.REQUEST_PROMOTE_FORREAL_SUCCESS:
+    case ActionTypes.RECEIVE_PROMOTE_FORREAL_SUCCESS:
       return { ...state, promoteIsLoading: false }
     case ActionTypes.RECEIVE_PROMOTE_FORREAL_FAIL:
       return { ...state, promoteIsLoading: false }

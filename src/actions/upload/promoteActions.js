@@ -208,17 +208,34 @@ export function promoteForReal(projectId, requestId) {
                 })
               })
               .catch(error => {
-                dispatch({ type: RECEIVE_PROMOTE_FORREAL_FAIL })
-                console.log(error)
-                Swal.fire({
-                  title: 'Error',
-                  html: error.response.data,
-                  // footer: 'To avoid mistakes, invalid cells are cleared immediately.',
-                  type: 'error',
-                  animation: false,
-                  confirmButtonText: 'Dismiss',
-                  // customClass: { content: 'alert' },
-                })
+                if (
+                  error.response &&
+                  error.response.data &&
+                  error.response.data.message.includes('Invalid characters')
+                ) {
+                  dispatch({ type: RECEIVE_PROMOTE_FORREAL_SUCCESS })
+                  Swal.fire({
+                    title: 'Promoted!',
+                    // html: response.data,
+                    // footer: 'To avoid mistakes, invalid cells are cleared immediately.',
+                    type: 'success',
+                    animation: false,
+                    confirmButtonText: 'Dismiss',
+                    // customClass: { content: 'alert' },
+                  })
+                } else {
+                  dispatch({ type: RECEIVE_PROMOTE_FORREAL_FAIL })
+                  console.log(error)
+                  Swal.fire({
+                    title: 'Error',
+                    html: error.response.data,
+                    // footer: 'To avoid mistakes, invalid cells are cleared immediately.',
+                    type: 'error',
+                    animation: false,
+                    confirmButtonText: 'Dismiss',
+                    // customClass: { content: 'alert' },
+                  })
+                }
               })
           }
         })
@@ -230,7 +247,8 @@ export function promoteForReal(projectId, requestId) {
         console.log(error)
         Swal.fire({
           title: 'Error',
-          html: error.response.data,
+          html:
+            'Something went wrong. Please tell Lisa or Anna to check the logs.',
           // footer: 'To avoid mistakes, invalid cells are cleared immediately.',
           type: 'error',
           animation: false,
@@ -241,7 +259,6 @@ export function promoteForReal(projectId, requestId) {
           type: RECEIVE_PROMOTE_DRYRUN_FAIL,
         })
       })
-    console.log(bankedId)
   }
 }
 
