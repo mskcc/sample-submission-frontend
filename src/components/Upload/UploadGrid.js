@@ -106,7 +106,9 @@ class UploadGrid extends React.Component {
           <div className={classes.buttons}>
             <GridButton
               id="grid_submit"
-              onClick={this.handleSubmit}
+              // onClick={this.handleSubmit}
+              onClick={e => alert("No submissions at this point.")}
+              disabled={true}
               isLoading={false}
               nothingToSubmit={false}
               color="primary"

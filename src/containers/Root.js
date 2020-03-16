@@ -87,7 +87,7 @@ class Root extends Component {
             <div className="app">
               <Header loggedIn={this.props.loggedIn} role={this.props.role} />
               {Config.ENV !== 'production' ? <DevTools /> : <div />}
-
+              <Message />
               {this.props.common.serverError ? (
                 <ErrorPage />
               ) : (
@@ -150,12 +150,7 @@ const mapDispatchToProps = {
   ...userActions,
 }
 
-export default withLocalize(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Root)
-)
+export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(Root))
 
 const theme = createMuiTheme({
   typography: {
