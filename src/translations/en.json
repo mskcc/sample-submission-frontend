@@ -34,6 +34,7 @@
     "form_submit_label": "Generate Table",
     "form_clear_label": "Clear Form",
     "grid_submit_label": "Submit",
+    "grid_submit_admin_label": "Admin Submit",
     "load_banked_label": "Load Banked Samples",
     "grid_save_label": "Save Table",
     "grid_save_msg": "Save Table",
