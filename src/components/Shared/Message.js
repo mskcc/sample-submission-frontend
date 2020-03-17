@@ -28,7 +28,7 @@ const Message = ({ type, msg, classes }) => (
         ) : (
           <React.Fragment>
             <span>
-              IGO is accepting new samples until Thursday, 03/17, at 5pm.
+              IGO is accepting new samples until Thursday, 03/19, at 5pm.
             </span>
           </React.Fragment>
         )}
