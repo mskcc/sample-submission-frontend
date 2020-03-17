@@ -28,16 +28,7 @@ const Message = ({ type, msg, classes }) => (
         ) : (
           <React.Fragment>
             <span>
-              Due to the evolving situation, IGO is not accepting or processing
-              new samples at this time. If you would like to save submission
-              data for a future project, you are welcome to do so. You can soon
-              find a list of our ongoing projects
-            </span>
-
-            <a href="http://genomics.mskcc.org/"> genomics.mskcc.org</a>
-            <span>
-              . We hope to be back up and running your experiments as soon as
-              possible.
+              IGO is accepting new samples until Thursday, 03/17, at 5pm.
             </span>
           </React.Fragment>
         )}
