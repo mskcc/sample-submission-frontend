@@ -28,8 +28,12 @@ const Message = ({ type, msg, classes }) => (
         ) : (
           <React.Fragment>
             <span>
-              IGO is accepting new samples until Thursday, 03/19, at 5pm.
+              IGO is accepting new samples until Thursday, 03/19, at 5pm. Please
+              continue to check our website for information about your
+              in-process projects and other updates: 
             </span>
+            <br/>
+            <a href="http://genomics.mskcc.org/">genomics.mskcc.org</a>
           </React.Fragment>
         )}
       </Typography>
