@@ -9,7 +9,7 @@ const styles = theme => ({
     ...theme.mixins.gutters(),
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2),
-    maxWidth: 500,
+    maxWidth: "70vw",
     margin: '0 auto',
   },
 })
@@ -26,21 +26,20 @@ const Message = ({ type, msg, classes }) => (
         {msg ? (
           msg
         ) : (
-          <React.Fragment>
-            <span>
-              Due to the evolving situation, IGO is not accepting or processing
-              new samples at this time. If you would like to save submission
-              data for a future project, you are welcome to do so. You can soon
-              find a list of our ongoing projects
+            <React.Fragment>
+              <span>
+                IGO plans to resume “new-normal” activities the week of May 18th.
+                Please refer to  <a href="http://genomics.mskcc.org/"> genomics.mskcc.org</a> for the most up-to-date information,
+                including current sample submission guidelines and which platforms IGO is offering.
+                <br />
+                Saved submissions can now be submitted.
+                When you’ve completed your iLabs request and submitted your
+                Sample Submission, please email zzPDL_SKI_IGO_SampleReceiving@mskcc.org to schedule a sample drop off time.
+
             </span>
 
-            <a href="http://genomics.mskcc.org/"> genomics.mskcc.org</a>
-            <span>
-              . We hope to be back up and running your experiments as soon as
-              possible.
-            </span>
-          </React.Fragment>
-        )}
+            </React.Fragment>
+          )}
       </Typography>
     </Paper>
   </div>

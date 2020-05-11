@@ -104,7 +104,7 @@ class UploadGrid extends React.Component {
       <div>
         <div className={classes.container}>
           <div className={classes.buttons}>
-            {user.role !== 'user' ? (
+            {/* {user.role !== 'user' ? (
               <GridButton
                 id="grid_submit_admin"
                 onClick={this.handleSubmit}
@@ -112,12 +112,12 @@ class UploadGrid extends React.Component {
                 nothingToSubmit={false}
                 color="primary"
               />
-            ) : null}
+            ) : null} */}
             <GridButton
               id="grid_submit"
-              // onClick={this.handleSubmit}
-              onClick={e => alert('No submissions at this point.')}
-              disabled={true}
+              onClick={this.handleSubmit}
+              // onClick={e => alert('No submissions at this point.')}
+              // disabled={true}
               isLoading={false}
               nothingToSubmit={false}
               color="primary"
