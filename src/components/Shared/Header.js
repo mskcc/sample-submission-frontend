@@ -12,7 +12,7 @@ import {
 import classNames from 'classnames'
 import image from './msk.png'
 
-const Header = ({ classes, loggedIn }) => (
+const Header = ({ classes, loggedIn, role }) => (
   // <div className={classes.mskccHeader}>
   <AppBar position="static" title={image} className={classes.header}>
     <Toolbar>
@@ -34,7 +34,7 @@ const Header = ({ classes, loggedIn }) => (
               </Typography>
             </NavLink>
           </Button>
-          
+
           <Button>
             <NavLink
               to="/submissions"
@@ -46,7 +46,19 @@ const Header = ({ classes, loggedIn }) => (
               </Typography>
             </NavLink>
           </Button>
-
+          {role === 'super' && (
+            <Button>
+              <NavLink
+                to="/promote"
+                activeClassName={classes.active}
+                className={classes.navlink}
+              >
+                <Typography color="inherit" variant="h6">
+                  Promote
+                </Typography>
+              </NavLink>
+            </Button>
+          )}
           <Button>
             <NavLink
               to="/logout"

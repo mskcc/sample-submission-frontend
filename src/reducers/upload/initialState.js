@@ -25,17 +25,17 @@ export const initialFormState = {
   //   grouping_checked: false,
   //   alt_service_id: false,
   // },
-  // selected: {
-  //   application: 'AmpliSeq',
-  //   material: 'DNA',
-  //   service_id: '898989',
-  //   number_of_samples: '10',
-  //   species: 'Mouse',
-  //   container: 'Plates',
-  //   patient_id_type: '',
-  //   grouping_checked: false,
-  //   alt_service_id: false,
-  // },
+//   selected: {
+//     application: 'AmpliSeq',
+//     material: 'DNA',
+//     service_id: '898989',
+//     number_of_samples: '10',
+//     species: 'Mouse',
+//     container: 'Plates',
+//     patient_id_type: '',
+//     grouping_checked: false,
+//     alt_service_id: false,
+//   },
   selected: {
     application: '',
     material: '',
@@ -57,4 +57,11 @@ export const initialGridState = {
   gridIsLoading: false,
   isSaving: false,
   nothingToChange: false,
+}
+
+export const initialPromoteState = {
+  columnHeaders: [],
+  rows: [],
+
+  initialFetched: false,
 }

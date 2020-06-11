@@ -179,6 +179,7 @@ export function getInitialColumns(formValues, userRole) {
       })
       .then(response => {
         // Handsontable binds to your data source (list of arrays or list of objects) by reference. Therefore, all the data entered in the grid will alter the original data source.
+        console.log(response)
         let grid = generateGridData(
           response.data.columnDefs,
           formValues,
@@ -246,7 +247,7 @@ export function addGridToBankedSample(ownProps) {
 
           Swal.fire({
             title: 'Submitted!',
-            text: 'Download your Receipt under My Submissions.',
+            text: 'When the samples are ready to be delivered to IGO, please email zzPDL_SKI_IGO_Sample_and_Project_Management@mskcc.org to coordinate a sample drop-off. Download your Receipt under My Submissions.',
             type: 'success',
             showCancelButton: true,
             animation: false,
