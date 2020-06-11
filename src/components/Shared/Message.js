@@ -34,7 +34,7 @@ const Message = ({ type, msg, classes }) => (
                 <br />
                 Saved submissions can now be submitted.
                 When you’ve completed your iLabs request and submitted your
-                Sample Submission, please email zzPDL_SKI_IGO_SampleReceiving@mskcc.org to schedule a sample drop off time.
+                Sample Submission, please email zzPDL_SKI_IGO_Sample_and_Project_Management@mskcc.org to schedule a sample drop off time.
 
             </span>
 

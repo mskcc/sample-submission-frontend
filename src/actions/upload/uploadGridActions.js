@@ -247,7 +247,7 @@ export function addGridToBankedSample(ownProps) {
 
           Swal.fire({
             title: 'Submitted!',
-            text: 'When the samples are ready to be delivered to IGO, please email zzPDL_SKI_IGO_SampleReceiving@mskcc.org to coordinate a sample drop-off. Download your Receipt under My Submissions.',
+            text: 'When the samples are ready to be delivered to IGO, please email zzPDL_SKI_IGO_Sample_and_Project_Management@mskcc.org to coordinate a sample drop-off. Download your Receipt under My Submissions.',
             type: 'success',
             showCancelButton: true,
             animation: false,
