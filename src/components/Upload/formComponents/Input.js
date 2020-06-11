@@ -20,7 +20,7 @@ const Input = ({ id, classes, type, value, onChange, inputProps, error }) => (
         }
         helperText={translate('upload.form.' + id + '_helptext')}
         InputProps={{ ...inputProps, className: classes.input }}
-        type="number"
+        type={type ? type : 'number'}
       />
     )}
   </Translate>

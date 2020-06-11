@@ -85,9 +85,9 @@ class Root extends Component {
         <Router basename={Config.BASENAME}>
           <div>
             <div className="app">
-              <Header loggedIn={this.props.loggedIn} />
+              <Header loggedIn={this.props.loggedIn} role={this.props.role} />
               {Config.ENV !== 'production' ? <DevTools /> : <div />}
-
+              <Message />
               {this.props.common.serverError ? (
                 <ErrorPage />
               ) : (
@@ -101,15 +101,16 @@ class Root extends Component {
                       path="/(upload|)"
                       component={UploadPage}
                     />
-                    <PrivateRoute
-                      loggedIn={this.props.loggedIn}
-                      path="/promote"
-                      component={Promote}
-                    />
+
                     <PrivateRoute
                       loggedIn={this.props.loggedIn}
                       path="/submissions"
                       component={SubmissionsPage}
+                    />
+                    <PrivateRoute
+                      loggedIn={this.props.loggedIn}
+                      path="/promote"
+                      component={Promote}
                     />
                     <PrivateRoute
                       loggedIn={this.props.loggedIn}
@@ -149,12 +150,7 @@ const mapDispatchToProps = {
   ...userActions,
 }
 
-export default withLocalize(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Root)
-)
+export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(Root))
 
 const theme = createMuiTheme({
   typography: {

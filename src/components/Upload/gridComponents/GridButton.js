@@ -9,7 +9,16 @@ import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
 import { Translate } from 'react-localize-redux'
 
-const Button = ({ id, onClick, isLoading, done, title, classes, color }) => (
+const Button = ({
+  id,
+  onClick,
+  isLoading,
+  disabled,
+  done,
+  title,
+  classes,
+  color,
+}) => (
   <Translate>
     {({ translate }) => (
       <React.Fragment>
@@ -17,9 +26,9 @@ const Button = ({ id, onClick, isLoading, done, title, classes, color }) => (
           variant="contained"
           type="submit"
           onClick={onClick}
-          className={classes.button}
+          className={disabled ? classes.disButton : classes.button}
           color={color}
-          disabled={isLoading}
+          // disabled={isLoading || disabled}
         >
           {done
             ? translate('upload.' + id + '_msg')
@@ -32,8 +41,6 @@ const Button = ({ id, onClick, isLoading, done, title, classes, color }) => (
             className={classes.buttonProgress}
           />
         )}
-
-        
       </React.Fragment>
     )}
   </Translate>
@@ -45,6 +52,15 @@ const styles = theme => ({
     // height: 50,
     // display: 'inline-block',
     width: 150,
+  },
+  disButton: {
+    margin: theme.spacing(1),
+    width: 150,
+    backgroundColor: "gray",
+    cursor: 'not-allowed !important',
+    "&:hover": {
+      backgroundColor: "gray",
+    }
   },
   wrapper: {
     margin: theme.spacing(1),

@@ -120,6 +120,51 @@ function generateColumnFeatures(responseColumns, formValues) {
   return columnFeatures
 }
 
+export const generatePromoteGridData = responseColumns => {
+  let grid = { columnFeatures: [], columnHeaders: [], rows: [] }
+  grid.columnFeatures = generatePromoteColumnFeatures(responseColumns)
+  grid.columnHeaders = grid.columnFeatures.map(a => a.columnHeader)
+
+  grid.rows = generatePromoteRows(grid.columnFeatures, 10)
+
+  // grid.hiddenColumns = hideColumns(grid.columnFeatures, userRole)
+
+  return grid
+}
+function generatePromoteColumnFeatures(responseColumns) {
+  let columnFeatures = []
+
+  for (let i = 0; i < responseColumns.length; i++) {
+    columnFeatures[i] = responseColumns[i]
+
+    // dropdown in column?
+    if ('source' in responseColumns[i]) {
+      // TODO map backwards on submit or find way to keep tumorType id
+
+      columnFeatures[i].source = extractValues(responseColumns[i].source)
+      columnFeatures[i].trimDropdown = false
+    }
+
+    //  assay dropdown needs invalids to allow for concatenation of selects
+
+    columnFeatures[i].error = columnFeatures[i].error
+      ? columnFeatures[i].error
+      : 'Invalid format.'
+
+    if ('optional' in responseColumns[i]) {
+      columnFeatures[i].allowEmpty = responseColumns[i].optional
+      columnFeatures[i].className = responseColumns[i].optional
+        ? 'optional'
+        : 'required'
+      if (columnFeatures[i].optional) {
+      }
+    }
+  }
+
+  // add well position to plate requests that came without well position
+  return columnFeatures
+}
+
 function extractValues(mappings) {
   let result = mappings.map(a => a.value)
   return result
@@ -218,6 +263,17 @@ export const generateRows = (columns, formValues, numberToAdd) => {
     if (columns[j].data == 'wellPosition') {
       return setWellPos(rows)
       // break
+    }
+  }
+
+  return rows
+}
+// generate rows depending on whether we need to add or substract rows, prefill some
+export const generatePromoteRows = (columns, numberToAdd) => {
+  let rows = []
+  for (let i = 0; i < numberToAdd; i++) {
+    for (let j = 0; j < columns.length; j++) {
+      rows[i] = { ...rows[i], [columns[j].data]: '' }
     }
   }
 
@@ -325,6 +381,22 @@ export const generateSubmitData = state => {
   data.version = Config.VERSION
   data.grid_values = rowsWithRowIndex(state.upload.grid.rows)
   data.form_values = state.upload.grid.form
+
+  let now = Date.now()
+  let date = Math.floor(now / 1000)
+
+  data.transaction_id = date
+
+  return data
+}
+
+// generate data object to send to sample-rec-backend for
+// partial submission save or banked sample
+export const generateSubmitDataPromote = state => {
+  let data = {}
+
+  data.version = Config.VERSION
+  data.grid_values = rowsWithRowIndex(state.upload.promote.rows)
 
   let now = Date.now()
   let date = Math.floor(now / 1000)
