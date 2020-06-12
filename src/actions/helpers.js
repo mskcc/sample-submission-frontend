@@ -434,27 +434,26 @@ export const generateSubmissionsGrid = response => {
       submitted_on: submission.submitted_on,
       // available actions depend on submitted status
       edit: submission.submitted
-        ? '<span class="grid-action-disabled">edit</span>'
-        : '<span class="grid-action">edit</span>',
+        ? '<span  submitted="'+submission.submitted+'" service-id="'+submission.service_id+'" submission-id="'+submission.id+'" class="grid-action-disabled">edit</span>'
+        : '<span submitted="'+submission.submitted+'" service-id="'+submission.service_id+'" submission-id="'+submission.id+'" class="grid-action">edit</span>',
       receipt: submission.submitted
-        ? '<span class="grid-action grid-action">download</span>'
-        : '<span class="grid-action-disabled">download</span>',
+        ? '<span submitted="'+submission.submitted+'" service-id="'+submission.service_id+'" submission-id="'+submission.id+'" class="grid-action grid-action">download</span>'
+        : '<span submitted="'+submission.submitted+'" service-id="'+submission.service_id+'" submission-id="'+submission.id+'" class="grid-action-disabled">download</span>',
       delete: submission.submitted
-        ? '<span class="grid-action-disabled">delete</span>'
-        : '<span class="grid-action">delete</span>',
+        ? '<span submitted="'+submission.submitted+'" service-id="'+submission.service_id+'" submission-id="'+submission.id+'" class="grid-action-disabled">delete</span>'
+        : '<span submitted="'+submission.submitted+'" service-id="'+submission.service_id+'" submission-id="'+submission.id+'" class="grid-action">delete</span>',
     }
   }
   return grid
 }
 
 // find submission in user (or all if current user is member/super) submission
-export const findSubmission = (submissions, id) => {
+export const findSubmission = (submissions, submissionId) => {
   for (let i = 0; i < submissions.length; i++) {
-    if (submissions[i].service_id == id) {
+    if (submissions[i].id == submissionId) {
       return submissions[i]
     }
   }
-  return null
 }
 
 export const submissionExists = (

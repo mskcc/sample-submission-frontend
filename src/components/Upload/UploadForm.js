@@ -343,12 +343,14 @@ class UploadForm extends React.Component {
                     ),
                   }}
                 />
-                <Checkbox
-                  id="alt_service_id"
-                  checked={form.selected.alt_service_id}
-                  onChange={this.handleServiceIdCheck}
-                  hasHelptext
-                />
+                {!form.selected.application.includes('COVID') && (
+                  <Checkbox
+                    id="alt_service_id"
+                    checked={form.selected.alt_service_id}
+                    onChange={this.handleServiceIdCheck}
+                    hasHelptext
+                  />
+                )}
               </FormControl>
             </form>
             <div>
