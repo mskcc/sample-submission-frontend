@@ -46,19 +46,7 @@ const Header = ({ classes, loggedIn, role }) => (
               </Typography>
             </NavLink>
           </Button>
-          {role === 'super' && (
-            <Button>
-              <NavLink
-                to="/promote"
-                activeClassName={classes.active}
-                className={classes.navlink}
-              >
-                <Typography color="inherit" variant="h6">
-                  Promote
-                </Typography>
-              </NavLink>
-            </Button>
-          )}
+
           <Button>
             <NavLink
               to="/logout"

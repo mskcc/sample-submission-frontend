@@ -196,14 +196,14 @@ function choosePatientIdValidator(patientIDType, species, groupingChecked) {
   if (species == 'Mouse' || species == 'Mouse_GeneticallyModified') {
     if (groupingChecked) {
       return {
-        pattern: '[A-Za-z0-9\\,_-]{4,}',
+        pattern: '^[A-Za-z0-9](?!.*__)[A-Za-z0-9\\,_-]{2}[A-Za-z0-9\\,_-]*$',
         columnHeader: 'Grouping ID',
         error:
           'Invalid format. Please use at least four alpha-numeric characters. Every 8 digit ID is considered a MRN.',
       }
     } else {
       return {
-        pattern: '[0-9a-zA-Z]{4,}',
+        pattern: '^[A-Za-z0-9](?!.*__)[A-Za-z0-9\\,_-]{2}[A-Za-z0-9\\,_-]*$',
         columnHeader: 'Strain or Line Name',
         error:
           'Invalid format. Please use at least four alpha-numeric characters. Every 8 digit ID is considered a MRN.',
