@@ -405,7 +405,7 @@ export function handleMRN(rowIndex, patientId) {
             getState().upload.grid.rows,
             rowIndex,
             response.data.patient_id,
-            'MRN REDACTED',
+            'MRN_REDACTED',
             response.data.sex
           ),
         })
