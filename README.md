@@ -1,3 +1,5 @@
+# Deprecated - see https://github.com/mskcc/igo-sample-submission-node
+
 ### IGO Sample Submission Frontend
 Website used by IGO customer's to register samples for drop-off. 
 
